@@ -163,9 +163,11 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## 📬 Contact
 
-Your Name - [@yourusername](https://twitter.com/yourusername)
+Hugo Marta - [@SirAlabar](https://github.com/SirAlabar)
 
-Project Link: [https://github.com/yourusername/cub3d](https://github.com/yourusername/cub3d)
+Markos Santos - [@MarkosComK](https://github.com/MarkosComK)
+
+Project Link: [https://github.com/SirAlabar/cub3D](https://github.com/SirAlabar/cub3D)
 
 ---
 <div align="center">
