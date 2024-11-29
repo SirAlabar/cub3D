@@ -42,12 +42,12 @@ init: init_libft init_mlx
 init_libft:
 	@echo "$(YELLOW)Initializing Libft...$(RESET)"
 	@git submodule update --init --recursive $(LIBFT_DIR)
-	@$(MAKE) -C $(LIBFT_DIR)/src
+	@$(MAKE) --silent -C $(LIBFT_DIR)/src
 
 init_mlx:
 	@echo "$(YELLOW)Initializing MinilibX...$(RESET)"
 	@git submodule update --init --recursive $(MLX_DIR)
-	@$(MAKE) -C $(MLX_DIR)
+	@$(MAKE) --silent -C $(MLX_DIR)
 
 ${NAME}: ${OBJS}
 	@${CC} ${FLAGS} ${OBJS} ${INCLUDE} -o ${NAME}
@@ -79,8 +79,8 @@ clean:
 	@echo
 
 fclean: clean
-	rm -rf ${LIBFTDIR}
-	rm -f ${NAME}
+	@rm -rf ${LIBFTDIR}
+	@rm -f ${NAME}
 	@clear
 	@echo
 	@echo "$(RED)┏┓┓ ┏┓┏┓┳┓┏┓┳┓"
