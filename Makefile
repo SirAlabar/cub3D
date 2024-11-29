@@ -8,25 +8,49 @@ BLUE   = $(shell printf "\33[34m")
 PURPLE = $(shell printf "\33[35m")
 TITLE  = $(shell printf "\33[32;40m")
 
-LIBFTDIR = libs/42-Libft
-MINILIBXDIR = libs/
+LIBFT_DIR = libs/42-Libft
+MLX_DIR  = libs/minilibx-linux/
 NAME     = cube3d
 FLAGS    = -Wall -Wextra -Werror -g -Iincludes
 IFLAGS   = -Iincludes/ -I${LIBFTDIR}/src
+MLXFLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit -lbsd
+LIBFT    = $(LIBFT_DIR)/libft.a
+MLX      = $(MLX_DIR)/libmlx.a
 CC       = cc
 SRCS     = $(wildcard srcs/*.c) $(wildcard srcs/*/*.c)
 OBJS     = ${SRCS:.c=.o}
-INCLUDE  = -L${LIBFTDIR}/src -lft
+INCLUDE  = -I$(INC_DIR) -I$(LIBFT_DIR)/includes -I$(MLX_DIR) $(MLXINC)
 VALGRIND = valgrind  --track-fds=yes --leak-check=full --show-leak-kinds=all
 
-all: submodule ${LIBFTDIR} ${NAME} ${OBJS}
+# Detect operating system
+UNAME_S := $(shell uname -s)
 
-submodule:
-	@git submodule update --init --recursive
+# Set MLX flags based on OS
+ifeq ($(UNAME_S),Linux)
+	MLXFLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
+	MLXINC = -I/usr/include
+else ifeq ($(UNAME_S),Darwin)
+	MLXFLAGS = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
+	MLXINC = 
+endif
+
+all: init $(NAME)
+
+# Initialize by updating and compiling submodules
+init: init_libft init_mlx
+
+init_libft:
+	@echo "$(YELLOW)Initializing Libft...$(RESET)"
+	@git submodule update --init --recursive $(LIBFT_DIR)
+	@$(MAKE) -C $(LIBFT_DIR)/src
+
+init_mlx:
+	@echo "$(YELLOW)Initializing MinilibX...$(RESET)"
+	@git submodule update --init --recursive $(MLX_DIR)
+	@$(MAKE) -C $(MLX_DIR)
 
 ${NAME}: ${OBJS}
-	@make --silent -C ${LIBFTDIR}/src
-	@${CC} ${FLAGS} ${READLINE} ${OBJS} ${INCLUDE} -o ${NAME}
+	@${CC} ${FLAGS} ${OBJS} ${INCLUDE} -o ${NAME}
 	@echo "$(TITLE)━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 	@echo "$(PURPLE)  ███╗   ███╗██╗███╗   ██╗██╗██╗  ██╗███████╗██╗     ██╗       "
 	@echo "  ████╗ ████║██║████╗  ██║██║██║  ██║██╔════╝██║     ██║       "

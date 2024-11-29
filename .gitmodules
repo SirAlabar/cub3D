@@ -1,0 +1,7 @@
+[submodule "libs/42-Libft"]
+    path = libs/42-Libft
+	url = https://github.com/MarkosComK/42-Libft
+
+[submodule "libs/minilibx-linux"]
+    path = libs/minilibx-linux
+    url = https://github.com/42Paris/minilibx-linux
