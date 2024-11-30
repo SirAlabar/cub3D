@@ -12,7 +12,7 @@ LIBFT_DIR = libs/42-Libft
 MLX_DIR  = libs/minilibx-linux/
 NAME     = cube3d
 FLAGS    = -Wall -Wextra -Werror -g -Iincludes
-IFLAGS   = -Iincludes/ -I${LIBFT_DIR}/src
+IFLAGS   = -Iincludes/ -I${LIBFT_DIR}/src -I${MLX_DIR}
 MLXFLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit -lbsd
 LIBFT    = ${LIBFT_DIR}/src/libft.a
 MLX      = ${MLX_DIR}/libmlx.a
@@ -50,7 +50,7 @@ init_mlx:
 	@$(MAKE) --silent -C $(MLX_DIR)
 
 ${NAME}: ${OBJS}
-	@${CC} ${FLAGS} ${OBJS} ${INCLUDE} ${LIBFT} ${MLX} -o ${NAME}
+	@${CC} ${FLAGS} ${OBJS} ${INCLUDE} ${LIBFT} ${MLX} ${MLXFLAGS} -o ${NAME}
 	@echo "$(TITLE)━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 	@echo "$(PURPLE)       ██████╗██╗   ██╗██████╗ ███████╗██████╗ ██████╗         "
 	@echo "      ██╔════╝██║   ██║██╔══██╗██╔════╝╚════██╗██╔══██╗        "

@@ -16,5 +16,6 @@
 #include <stdio.h>
 #include <math.h>
 #include <libft.h>
+#include <mlx.h>
 
 #endif
