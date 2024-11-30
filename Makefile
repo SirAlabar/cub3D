@@ -14,12 +14,12 @@ NAME     = cube3d
 FLAGS    = -Wall -Wextra -Werror -g -Iincludes
 IFLAGS   = -Iincludes/ -I${LIBFT_DIR}/src
 MLXFLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit -lbsd
-LIBFT    = ${LIBFT_DIR}/libft.a
+LIBFT    = ${LIBFT_DIR}/src/libft.a
 MLX      = ${MLX_DIR}/libmlx.a
 CC       = cc
 SRCS     = $(wildcard srcs/*.c) $(wildcard srcs/*/*.c)
 OBJS     = ${SRCS:.c=.o}
-INCLUDE  = -I${INC_DIR} -L${LIBFT_DIR}/src -I${MLX_DIR} ${MLXINC}
+INCLUDE  = -Iincludes/ -I${LIBFT_DIR}/src -L${LIBFT_DIR}/src -I${MLX_DIR} ${MLXINC}
 VALGRIND = valgrind  --track-fds=yes --leak-check=full --show-leak-kinds=all
 
 # Detect operating system
@@ -50,7 +50,7 @@ init_mlx:
 	@$(MAKE) --silent -C $(MLX_DIR)
 
 ${NAME}: ${OBJS}
-	@${CC} ${FLAGS} ${OBJS} ${INCLUDE} -o ${NAME}
+	@${CC} ${FLAGS} ${OBJS} ${INCLUDE} ${LIBFT} ${MLX} -o ${NAME}
 	@echo "$(TITLE)━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 	@echo "$(PURPLE)       ██████╗██╗   ██╗██████╗ ███████╗██████╗ ██████╗         "
 	@echo "      ██╔════╝██║   ██║██╔══██╗██╔════╝╚════██╗██╔══██╗        "
@@ -64,13 +64,13 @@ ${NAME}: ${OBJS}
 	@echo
 
 .c.o:
-	@${CC} ${FLAGS} ${READLINE} ${IFLAGS} -c $< -o ${<:.c=.o}
+	@${CC} ${FLAGS} ${IFLAGS} -c $< -o ${<:.c=.o}
 	@clear
 	@echo "$(RESET)[$(GREEN)OK$(RESET)]$(BLUE) Compiling $<$(YELLOW)"
 
 clean:
 	@${RM} ${OBJS} ${NAME}
-	@cd ${LIBFTDIR}/src && $(MAKE) --silent clean
+	@cd ${LIBFT_DIR}/src && $(MAKE) --silent clean
 	@clear
 	@echo
 	@echo "$(RED)┏┓┓ ┏┓┏┓┳┓┏┓┳┓"
@@ -79,7 +79,7 @@ clean:
 	@echo
 
 fclean: clean
-	@rm -rf ${LIBFTDIR}
+	@rm -rf ${LIBFT_DIR}
 	@rm -f ${NAME}
 	@clear
 	@echo

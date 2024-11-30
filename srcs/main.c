@@ -17,5 +17,6 @@ int	main(int ac, char **av)
 	(void) ac;
 	(void) av;
 	printf("Setup\n");
+	ft_putendl_fd("setup?\n", 1);
 	return (0);
 }
