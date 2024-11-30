@@ -12,14 +12,14 @@ LIBFT_DIR = libs/42-Libft
 MLX_DIR  = libs/minilibx-linux/
 NAME     = cube3d
 FLAGS    = -Wall -Wextra -Werror -g -Iincludes
-IFLAGS   = -Iincludes/ -I${LIBFTDIR}/src
+IFLAGS   = -Iincludes/ -I${LIBFT_DIR}/src
 MLXFLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit -lbsd
-LIBFT    = $(LIBFT_DIR)/libft.a
-MLX      = $(MLX_DIR)/libmlx.a
+LIBFT    = ${LIBFT_DIR}/libft.a
+MLX      = ${MLX_DIR}/libmlx.a
 CC       = cc
 SRCS     = $(wildcard srcs/*.c) $(wildcard srcs/*/*.c)
 OBJS     = ${SRCS:.c=.o}
-INCLUDE  = -I$(INC_DIR) -I$(LIBFT_DIR)/includes -I$(MLX_DIR) $(MLXINC)
+INCLUDE  = -I${INC_DIR} -L${LIBFT_DIR}/src -I${MLX_DIR} ${MLXINC}
 VALGRIND = valgrind  --track-fds=yes --leak-check=full --show-leak-kinds=all
 
 # Detect operating system
