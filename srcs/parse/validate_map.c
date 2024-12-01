@@ -6,15 +6,17 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 17:15:56 by marsoare          #+#    #+#             */
-/*   Updated: 2024/12/01 17:26:56 by marsoare         ###   ########.fr       */
+/*   Updated: 2024/12/01 17:28:02 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-bool	validate_map(t_game *game, char **argv)
+bool	validate_map(t_game *game, int argc, char **argv)
 {
 	(void) game;
+	if (argc != 2)
+		return (printf("Provide a map\n"), 1);// <- add custom message later
 	if (!valid_extension(argv[1]))
 		return (printf("invalid extension\n"), false);
 	return (true);

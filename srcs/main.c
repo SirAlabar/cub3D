@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2024/12/01 17:21:26 by marsoare         ###   ########.fr       */
+/*   Updated: 2024/12/01 17:28:36 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ int	main(int argc, char **argv)
 
 	game = NULL;
 	ft_bzero(&game, sizeof(t_game *));
-	if (argc != 2)
-		return (printf("Provide a map\n"), 1);// <- add custom message later
-	if (!validate_map(game, argv))
+	if (!validate_map(game, argc, argv))
 		return (1);
 	return (0);
 }
