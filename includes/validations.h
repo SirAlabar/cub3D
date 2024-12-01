@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 16:32:52 by marsoare          #+#    #+#             */
-/*   Updated: 2024/12/01 17:36:53 by marsoare         ###   ########.fr       */
+/*   Updated: 2024/12/01 17:50:17 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	open_map_file(const char *file);
 int	check_file_ext(const char *file);
 
 //parse/validate_map.c
-bool	validate_map(t_game *game, int argc, char **argv);
+bool	validate_map_extension(int argc, char **argv);
 bool	valid_extension(char *argv);
 
 #endif

@@ -6,15 +6,14 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 17:15:56 by marsoare          #+#    #+#             */
-/*   Updated: 2024/12/01 17:41:38 by marsoare         ###   ########.fr       */
+/*   Updated: 2024/12/01 17:50:33 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-bool	validate_map(t_game *game, int argc, char **argv)
+bool	validate_map_extension(int argc, char **argv)
 {
-	(void) game;
 	if (argc != 2)
 		return (printf(ERROR_USAGE), false);
 	if (!valid_extension(argv[1]))
