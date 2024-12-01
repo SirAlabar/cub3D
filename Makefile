@@ -50,7 +50,7 @@ init_mlx:
 	@$(MAKE) --silent -C $(MLX_DIR)
 
 ${NAME}: ${OBJS}
-	@${CC} ${FLAGS} ${OBJS} ${INCLUDE} ${LIBFT} ${MLX} ${MLXFLAGS} -o ${NAME}
+	@${CC} ${FLAGS} ${IFLAGS} ${OBJS} ${INCLUDE} ${LIBFT} ${MLX} ${MLXFLAGS} -o ${NAME}
 	@echo "$(TITLE)━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 	@echo "$(PURPLE)       ██████╗██╗   ██╗██████╗ ███████╗██████╗ ██████╗         "
 	@echo "      ██╔════╝██║   ██║██╔══██╗██╔════╝╚════██╗██╔══██╗        "
@@ -64,7 +64,7 @@ ${NAME}: ${OBJS}
 	@echo
 
 .c.o:
-	@${CC} ${FLAGS} ${IFLAGS} -c $< -o ${<:.c=.o}
+	@${CC} ${FLAGS} ${IFLAGS}  -c $< -o ${<:.c=.o}
 	@clear
 	@echo "$(RESET)[$(GREEN)OK$(RESET)]$(BLUE) Compiling $<$(YELLOW)"
 
