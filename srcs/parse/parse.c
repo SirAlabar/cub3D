@@ -27,6 +27,8 @@ void	parse_map(t_game *game, char *map_path)
 
 void	set_map(t_game *game, int map_fd)
 {
+	(void) game;
+	(void) map_fd;
 }
 
 int	open_map_file(const char *file)
