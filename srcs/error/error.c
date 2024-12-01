@@ -14,6 +14,7 @@
 
 void	map_file_error(int fd, t_game *game)
 {
+	(void) game;
 	if (fd)
 		close(fd);
 	ft_printf("The map file is not valid.");
