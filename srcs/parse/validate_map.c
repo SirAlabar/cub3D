@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 17:15:56 by marsoare          #+#    #+#             */
-/*   Updated: 2024/12/01 17:16:21 by marsoare         ###   ########.fr       */
+/*   Updated: 2024/12/01 17:26:56 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,18 @@
 bool	validate_map(t_game *game, char **argv)
 {
 	(void) game;
-	printf("checking map: %s\n", argv[1]);
-	if (!check_extension(argv[1]))
-		return (printf("message\n"), false);
+	if (!valid_extension(argv[1]))
+		return (printf("invalid extension\n"), false);
 	return (true);
+}
+
+bool	valid_extension(char *map)
+{
+	const char	*dot = ft_strchr(map, '.');
+
+	if (!dot)
+		return (false);
+	if (ft_strcmp((char *)dot, ".cub") == 0)
+		return (true);
+	return (false);
 }

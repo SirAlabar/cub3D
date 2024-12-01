@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2024/12/01 16:50:09 by marsoare         ###   ########.fr       */
+/*   Updated: 2024/12/01 17:21:26 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int	main(int argc, char **argv)
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
 	t_game	*game;
 
 	game = NULL;
