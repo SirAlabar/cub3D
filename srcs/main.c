@@ -24,9 +24,5 @@ int	main(int argc, char **argv)
 		return (printf("Provide a map\n"), 1);// <- add custom message later
 	else
 		validate_map(game, argv);
-	printf("Setup\n");
-	mlx_ptr = mlx_init(); // Inicializa a conexão com a MLX
-	win_ptr = mlx_new_window(mlx_ptr, 300, 300, "Simple Screen");
-	mlx_loop(mlx_ptr);
 	return (0);
 }
