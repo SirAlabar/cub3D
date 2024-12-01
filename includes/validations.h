@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 16:32:52 by marsoare          #+#    #+#             */
-/*   Updated: 2024/12/01 17:36:07 by marsoare         ###   ########.fr       */
+/*   Updated: 2024/12/01 17:36:53 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define VALIDATIONS_H
 
 #define ERROR_USAGE RED "Game usage: " GREEN "./cub3d maps/valid_map.cub\n"
-#define ERROR_MAPTYPE B_RED "Invalid map extension"
+#define ERROR_MAPTYPE B_RED "Invalid map extension\n"
 
 typedef struct s_game t_game;// <- struct in cub3d.h
 typedef struct s_map t_map;// <- struct in cub3d.h
