@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 16:32:52 by marsoare          #+#    #+#             */
-/*   Updated: 2024/12/01 17:55:43 by marsoare         ###   ########.fr       */
+/*   Updated: 2024/12/01 18:11:29 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ int		check_wall(t_map map);
 int		map_caracter(t_game *game);
 
 //parse/parse.c
-void	game_parse(t_game *game, char **argv);
+void	game_parse(t_game *game, char *map_path);
+void	parse_map(t_game *game, char *map_path);
+void	set_map(t_game *game, int map_fd);
 int	open_map_file(const char *file);
 
 //parse/validate_map.c

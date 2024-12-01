@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2024/12/01 17:54:02 by marsoare         ###   ########.fr       */
+/*   Updated: 2024/12/01 18:00:39 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ int	main(int argc, char **argv)
 	ft_bzero(&game, sizeof(t_game *));
 	if (!validate_map_extension(argc, argv))
 		return (1);
-	game_parse(game, argv);
+	game_parse(game, argv[1]);
 	return (0);
 }
