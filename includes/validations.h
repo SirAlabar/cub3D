@@ -14,7 +14,8 @@
 #define VALIDATIONS_H
 
 //parse/map_checks.c
-int	check_wall(t_map map);
-int	map_caracter(t_game *game);
+bool	validate_map(t_game *game, char **argv);
+int		check_wall(t_map map);
+int		map_caracter(t_game *game);
 
 #endif
