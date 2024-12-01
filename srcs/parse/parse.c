@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:22:02 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2024/11/30 21:23:37 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2024/12/01 17:54:42 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,4 @@ int	open_map_file(const char *file)
 		return (-1);
 	}
 	return (fd);
-}
-
-int	check_file_ext(const char *file)
-{
-	size_t		len;
-	const char	*exten;
-
-	len = ft_strlen(file);
-	if (len < 4)
-		return (0);
-	exten = file + (len - 4);
-	return (!ft_strncmp(".cub", exten, 4));
 }
