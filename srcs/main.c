@@ -19,9 +19,9 @@ int	main(int argc, char **argv)
 	t_game	*game;
 
 	game = NULL;
-	ft_bzero(&game, sizeof(t_game));
+	ft_bzero(&game, sizeof(t_game *));
 	if (argc != 2)
-		printf("Error\n");
+		return (printf("Provide a map\n"), 1);// <- add custom message later
 	else
 		validate_map(game, argv);
 	printf("Setup\n");
