@@ -12,14 +12,6 @@
 
 #include <cub3d.h>
 
-bool	validate_map(t_game *game, char **argv)
-{
-	(void) game;
-	printf("checking map: %s\n", argv[0]);
-	printf("checking map: %s\n", argv[1]);
-	return (true);
-}
-
 int	check_wall(t_map map)
 {
 	int	x;
