@@ -16,11 +16,14 @@ int	main(int argc, char **argv)
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
+	t_game	*game;
 
+	game = NULL;
+	ft_bzero(&game, sizeof(t_game));
 	if (argc != 2)
 		printf("Error\n");
 	else
-		validate_map(argv);
+		validate_map(game, argv);
 	printf("Setup\n");
 	mlx_ptr = mlx_init(); // Inicializa a conexão com a MLX
 	win_ptr = mlx_new_window(mlx_ptr, 300, 300, "Simple Screen");

@@ -14,6 +14,8 @@
 
 bool	validate_map(t_game *game, char **argv)
 {
+	(void) game;
+	printf("checking map: %s\n", argv[1]);
 	return (true);
 }
 
