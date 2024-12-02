@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2024/12/01 18:00:39 by marsoare         ###   ########.fr       */
+/*   Created: 2024/12/01 17:15:56 by marsoare          #+#    #+#             */
+/*   Updated: 2024/12/01 17:50:59 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-int	main(int argc, char **argv)
+bool	validate_map_extension(int argc, char **argv)
 {
-	t_game	*game;
+	if (argc != 2)
+		return (printf(ERROR_USAGE), false);
+	if (!valid_extension(argv[1]))
+		return (printf(ERROR_USAGE ERROR_MAPTYPE), false);
+	return (true);
+}
 
-	game = NULL;
-	ft_bzero(&game, sizeof(t_game *));
-	if (!validate_map_extension(argc, argv))
-		return (1);
-	game_parse(game, argv[1]);
-	return (0);
+bool	valid_extension(char *map)
+{
+	const char	*dot = ft_strchr(map, '.');
+
+	if (!dot)
+		return (false);
+	if (ft_strcmp((char *)dot, ".cub") == 0)
+		return (true);
+	return (false);
 }

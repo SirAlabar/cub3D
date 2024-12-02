@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2024/11/30 21:33:18 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2024/12/01 18:06:26 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <colors.h>
+# include <stdbool.h>
 # include <unistd.h>
+# include <validations.h>
 
 /* Window settings */
 # define WINDOW_WIDTH 1280

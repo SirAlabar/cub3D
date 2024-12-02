@@ -40,9 +40,9 @@ int	map_caracter(t_game *game)
 	char	current_char;
 
 	i = -1;
-	while (game->map.grid[++i] != '\0')
+	while (game->map.grid[++i] != NULL)
 	{
-		current_char = game->map.grid[i];
+		current_char = *game->map.grid[i];
 		if (!ft_strchr(VALID_MAP_CHARS, current_char) && current_char != '\n')
 			return (0);
 	}
