@@ -10,7 +10,7 @@ TITLE  = $(shell printf "\33[32;40m")
 
 LIBFT_DIR = libs/42-Libft
 MLX_DIR  = libs/minilibx-linux/
-NAME     = cube3d
+NAME     = cub3d
 FLAGS    = -Wall -Wextra -Werror -g -Iincludes
 IFLAGS   = -Iincludes/ -I${LIBFT_DIR}/src -I${MLX_DIR}
 MLXFLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit -lbsd
@@ -37,14 +37,14 @@ endif
 all: init $(NAME)
 
 # Initialize by updating and compiling submodules
-init: init_libft init_mlx
+init: $(LIBFT) $(MLX)
 
-init_libft:
+$(LIBFT):
 	@echo "$(YELLOW)Initializing Libft...$(RESET)"
 	@git submodule update --init --recursive $(LIBFT_DIR)
 	@$(MAKE) --silent -C $(LIBFT_DIR)/src
 
-init_mlx:
+$(MLX):
 	@echo "$(YELLOW)Initializing MinilibX...$(RESET)"
 	@git submodule update --init --recursive $(MLX_DIR)
 	@$(MAKE) --silent -C $(MLX_DIR)
@@ -52,12 +52,12 @@ init_mlx:
 ${NAME}: ${OBJS}
 	@${CC} ${FLAGS} ${IFLAGS} ${OBJS} ${INCLUDE} ${LIBFT} ${MLX} ${MLXFLAGS} -o ${NAME}
 	@echo "$(TITLE)━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-	@echo "$(PURPLE)       ██████╗██╗   ██╗██████╗ ███████╗██████╗ ██████╗         "
-	@echo "      ██╔════╝██║   ██║██╔══██╗██╔════╝╚════██╗██╔══██╗        "
-	@echo "      ██║     ██║   ██║██████╔╝█████╗   █████╔╝██║  ██║        "
-	@echo "      ██║     ██║   ██║██╔══██╗██╔══╝   ╚═══██╗██║  ██║        "
-	@echo "      ╚██████╗╚██████╔╝██████╔╝███████╗██████╔╝██████╔╝        "
-	@echo "       ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═════╝ ╚═════╝         "
+	@echo "$(PURPLE) ██████╗ ██╗   ██╗██████╗ ██████╗ ██████╗ "
+	@echo " ██║     ██║   ██║██╔══██╗╚════██╗██╔══██╗"
+	@echo " ██║     ██║   ██║██████╔╝ █████╔╝██║  ██║"
+	@echo " ██║     ██║   ██║██╔══██╗ ╚═══██╗██║  ██║"
+	@echo " ██████╔╝╚██████╔╝██████╔╝██████╔╝██████╔╝"
+	@echo " ╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝ ╚═════╝ "
 	@echo "$(GREEN)━━━━━━━━━━━━━━━━━[$(RESET)Made with $(RED)♥ $(RESET)by $(PURPLE)@marsoare$(RESET) and $(PURPLE)@hluiz-ma$(TITLE)]━━━━━━"
 	@echo
 	@echo "$(GREEN) Successfully compiled minishell.$(RESET)"
