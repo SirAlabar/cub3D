@@ -106,4 +106,7 @@ unsigned int	get_color_in_pixel(t_texture *tex, int x, int y);
 t_texture		*create_texture(t_game *game, char *texture_path);
 void			destroy_texture(t_texture **texture, void *mlx);
 
+
+void    init_game(t_game *game);
+
 #endif
