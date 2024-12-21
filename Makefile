@@ -11,7 +11,7 @@ TITLE  = $(shell printf "\33[32;40m")
 LIBFT_DIR = libs/42-Libft
 MLX_DIR  = libs/minilibx-linux/
 NAME     = cub3d
-FLAGS    = -Wall -Wextra -Werror -g -Iincludes
+FLAGS    = -Wall -Wextra -Werror -g -Iincludes -fsanitize=address
 IFLAGS   = -Iincludes/ -I${LIBFT_DIR}/src -I${MLX_DIR}
 MLXFLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit -lbsd
 LIBFT    = ${LIBFT_DIR}/src/libft.a
