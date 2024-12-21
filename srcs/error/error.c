@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:26:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2024/11/30 21:28:44 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2024/12/21 12:35:58 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,13 @@ void	free_mlx(t_game *game)
 	{
 		mlx_clear_window(game->mlx, game->win);
 		mlx_destroy_window(game->mlx, game->win);
+		#ifndef MAC_OS
+		mlx_destroy_display(game->mlx);
+		#endif
 		game->win = NULL;
 	}
 	if (game->mlx)
 	{
-		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 		game->mlx = NULL;
 	}
