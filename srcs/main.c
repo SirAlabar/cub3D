@@ -16,10 +16,13 @@ int	main(int argc, char **argv)
 {
 	t_game	*game;
 
-	game = NULL;
-	ft_bzero(&game, sizeof(t_game *));
+	game = malloc(sizeof(t_game));
+	ft_bzero(game, sizeof(t_game));
 	if (!validate_map_extension(argc, argv))
 		return (1);
+	game->mlx = mlx_init();
+	game->win = mlx_new_window(game->mlx, 800, 600, "My new cube omg");
+	mlx_loop(game->mlx);
 	game_parse(game, argv[1]);
 	return (0);
 }
