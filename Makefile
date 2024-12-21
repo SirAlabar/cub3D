@@ -25,13 +25,15 @@ VALGRIND = valgrind  --track-fds=yes --leak-check=full --show-leak-kinds=all
 # Detect operating system
 UNAME_S := $(shell uname -s)
 
-# Set MLX flags based on OS
+# Set MLX directories and flags based on OS
 ifeq ($(UNAME_S),Linux)
-	MLXFLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
-	MLXINC = -I/usr/include
+    MLX_DIR = libs/minilibx-linux/
+    MLXFLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
+    MLXINC = -I/usr/include
 else ifeq ($(UNAME_S),Darwin)
-	MLXFLAGS = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
-	MLXINC = 
+    MLX_DIR = libs/minilibx-mac-osx/
+    MLXFLAGS = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
+    FLAGS    = -Wall -Wextra -Werror -g -Iincludes -D MAC_OS
 endif
 
 all: init $(NAME)
@@ -44,8 +46,14 @@ $(LIBFT):
 	@git submodule update --init --recursive $(LIBFT_DIR)
 	@$(MAKE) --silent -C $(LIBFT_DIR)/src
 
+# Update the MLX initialization rule
 $(MLX):
 	@echo "$(YELLOW)Initializing MinilibX...$(RESET)"
+	@if [ "$(UNAME_S)" = "Darwin" ]; then \
+		git submodule add -f https://github.com/dannywillems/minilibx-mac-osx.git $(MLX_DIR) 2>/dev/null || true; \
+	else \
+		git submodule add -f https://github.com/42Paris/minilibx-linux.git $(MLX_DIR) 2>/dev/null || true; \
+	fi
 	@git submodule update --init --recursive $(MLX_DIR)
 	@$(MAKE) --silent -C $(MLX_DIR)
 
