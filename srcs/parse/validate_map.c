@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 17:15:56 by marsoare          #+#    #+#             */
-/*   Updated: 2024/12/01 17:50:59 by marsoare         ###   ########.fr       */
+/*   Updated: 2024/12/22 13:57:31 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	validate_map_extension(int argc, char **argv)
 
 bool	valid_extension(char *map)
 {
-	const char	*dot = ft_strchr(map, '.');
+	const char	*dot = ft_strrchr(map, '.');
 
 	if (!dot)
 		return (false);
