@@ -33,7 +33,7 @@ ifeq ($(UNAME_S),Linux)
 else ifeq ($(UNAME_S),Darwin)
     MLX_DIR = libs/minilibx-mac-osx/
     MLXFLAGS = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
-    FLAGS    = -Wall -Wextra -Werror -g -Iincludes -D MAC_OS
+    FLAGS    = -Wall -Wextra -Werror -g -Iincludes -D MAC_OS -fsanitize=address
 endif
 
 all: init $(NAME)
@@ -96,8 +96,15 @@ fclean: clean
 	@echo "┗┛┗┛┗┛┛┗┛┗┗┛┻┛"
 	@echo
 
-test: ${NAME} readline.supp
-	${VALGRIND} ./${NAME}
+#Leaks check for macos and linux
+leak: ${NAME}
+ifeq ($(UNAME_S),Linux)
+	@echo "$(YELLOW)Running Valgrind for leak check...$(RESET)"
+	@$(VALGRIND) ./${NAME} maps/valid/valid1.cub
+else ifeq ($(UNAME_S),Darwin)
+	@echo "$(YELLOW)Running leak check for macOS...$(RESET)"
+	@leaks --atExit -- ./${NAME} maps/valid/valid1.cub
+endif
 
 re: fclean all
 
