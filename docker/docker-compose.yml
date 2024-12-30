@@ -1,0 +1,10 @@
+services:
+  cub3d:
+    build:
+      context: .
+      args:
+        USER_ID: ${UID:-1000}
+        GROUP_ID: ${GID:-1000}
+    volumes:
+      - ..:/app
+    command: sleep infinity

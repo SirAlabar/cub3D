@@ -11,7 +11,7 @@ TITLE  = $(shell printf "\33[32;40m")
 LIBFT_DIR = libs/42-Libft
 MLX_DIR  = libs/minilibx-linux/
 NAME     = cub3d
-FLAGS    = -Wall -Wextra -Werror -g -Iincludes
+FLAGS    = -Wall -Wextra -Werror -g -Iincludes -fsanitize=address
 IFLAGS   = -Iincludes/ -I${LIBFT_DIR}/src -I${MLX_DIR}
 MLXFLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit -lbsd
 LIBFT    = ${LIBFT_DIR}/src/libft.a
@@ -25,13 +25,15 @@ VALGRIND = valgrind  --track-fds=yes --leak-check=full --show-leak-kinds=all
 # Detect operating system
 UNAME_S := $(shell uname -s)
 
-# Set MLX flags based on OS
+# Set MLX directories and flags based on OS
 ifeq ($(UNAME_S),Linux)
-	MLXFLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
-	MLXINC = -I/usr/include
+    MLX_DIR = libs/minilibx-linux/
+    MLXFLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
+    MLXINC = -I/usr/include
 else ifeq ($(UNAME_S),Darwin)
-	MLXFLAGS = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
-	MLXINC = 
+    MLX_DIR = libs/minilibx-mac-osx/
+    MLXFLAGS = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
+    FLAGS    = -Wall -Wextra -Werror -g -Iincludes -D MAC_OS -fsanitize=address
 endif
 
 all: init $(NAME)
@@ -44,8 +46,14 @@ $(LIBFT):
 	@git submodule update --init --recursive $(LIBFT_DIR)
 	@$(MAKE) --silent -C $(LIBFT_DIR)/src
 
+# Update the MLX initialization rule
 $(MLX):
 	@echo "$(YELLOW)Initializing MinilibX...$(RESET)"
+	@if [ "$(UNAME_S)" = "Darwin" ]; then \
+		git submodule add -f https://github.com/dannywillems/minilibx-mac-osx.git $(MLX_DIR) 2>/dev/null || true; \
+	else \
+		git submodule add -f https://github.com/42Paris/minilibx-linux.git $(MLX_DIR) 2>/dev/null || true; \
+	fi
 	@git submodule update --init --recursive $(MLX_DIR)
 	@$(MAKE) --silent -C $(MLX_DIR)
 
@@ -88,8 +96,15 @@ fclean: clean
 	@echo "┗┛┗┛┗┛┛┗┛┗┗┛┻┛"
 	@echo
 
-test: ${NAME} readline.supp
-	${VALGRIND} ./${NAME}
+#Leaks check for macos and linux
+leak: ${NAME}
+ifeq ($(UNAME_S),Linux)
+	@echo "$(YELLOW)Running Valgrind for leak check...$(RESET)"
+	@$(VALGRIND) ./${NAME} maps/valid/valid1.cub
+else ifeq ($(UNAME_S),Darwin)
+	@echo "$(YELLOW)Running leak check for macOS...$(RESET)"
+	@leaks --atExit -- ./${NAME} maps/valid/valid1.cub
+endif
 
 re: fclean all
 

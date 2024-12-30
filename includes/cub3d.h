@@ -6,18 +6,15 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2024/12/01 18:06:26 by marsoare         ###   ########.fr       */
+/*   Updated: 2024/12/21 12:24:54 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <X11/keysym.h>
 # include <fcntl.h>
 # include <libft.h>
 # include <math.h>
-# include <mlx.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -25,6 +22,32 @@
 # include <stdbool.h>
 # include <unistd.h>
 # include <validations.h>
+
+# ifdef MAC_OS
+#  include <mlx.h>
+#  define KEY_ESC 53
+#  define KEY_W 13
+#  define KEY_A 0
+#  define KEY_S 1
+#  define KEY_D 2
+#  define KEY_LEFT 123
+#  define KEY_RIGHT 124
+#  define KEY_UP 126
+#  define KEY_DOWN 125
+# else
+#  include <mlx.h>
+#  include <X11/keysym.h>
+#  include <X11/X.h>
+#  define KEY_ESC XK_Escape
+#  define KEY_W XK_w
+#  define KEY_A XK_a
+#  define KEY_S XK_s
+#  define KEY_D XK_d
+#  define KEY_LEFT XK_Left
+#  define KEY_RIGHT XK_Right
+#  define KEY_UP XK_Up
+#  define KEY_DOWN XK_Down
+# endif
 
 /* Window settings */
 # define WINDOW_WIDTH 1280
@@ -48,62 +71,62 @@
 /* Structs */
 typedef struct s_point
 {
-	double		x;
-	double		y;
-}				t_point;
+    double      x;
+    double      y;
+}               t_point;
 
 typedef struct s_player
 {
-	t_point		pos;
-	t_point		dir;
-	t_point		plane;
-	double		move_speed;
-	double		rot_speed;
-}				t_player;
+    t_point     pos;
+    t_point     dir;
+    t_point     plane;
+    double      move_speed;
+    double      rot_speed;
+}               t_player;
 
 typedef struct s_texture
 {
-	void		*img;
-	char		*addr;
-	int			width;
-	int			height;
-	int			bpp;
-	int			line_len;
-	int			endian;
-	char		*path;
-}				t_texture;
+    void        *img;
+    char        *addr;
+    int         width;
+    int         height;
+    int         bpp;
+    int         line_len;
+    int         endian;
+    char        *path;
+}               t_texture;
 
 typedef struct s_map
 {
-	char		**grid;
-	int			width;
-	int			height;
-	int			floor_color;
-	int			ceiling_color;
-	char		player_start;
-	t_point		player_pos;
-}				t_map;
+    char        **grid;
+    int         width;
+    int         height;
+    int         floor_color;
+    int         ceiling_color;
+    char        player_start;
+    t_point     player_pos;
+}               t_map;
 
 typedef struct s_game
 {
-	void *mlx;  // point to mlx
-	void *win;  // point to windown
-	void *img;  // to main img
-	char *addr; // point to data of main img
-	t_map		map;
-	t_player	player;
-	t_texture	north;
-	t_texture	south;
-	t_texture	east;
-	t_texture	west;
-}				t_game;
+    void        *mlx;  // point to mlx
+    void        *win;  // point to window
+    void        *img;  // to main img
+    char        *addr; // point to data of main img
+    t_map       map;
+    t_player    player;
+    t_texture   north;
+    t_texture   south;
+    t_texture   east;
+    t_texture   west;
+}               t_game;
 
 // put_pixel.c
-void			put_pixel(t_texture *tex, int x, int y, int color);
-unsigned int	get_color_in_pixel(t_texture *tex, int x, int y);
+void            put_pixel(t_texture *tex, int x, int y, int color);
+unsigned int    get_color_in_pixel(t_texture *tex, int x, int y);
 
 // texture.c
-t_texture		*create_texture(t_game *game, char *texture_path);
-void			destroy_texture(t_texture **texture, void *mlx);
+t_texture       *create_texture(t_game *game, char *texture_path);
+void            destroy_texture(t_texture **texture, void *mlx);
 
 #endif
