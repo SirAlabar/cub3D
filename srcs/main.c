@@ -39,7 +39,6 @@ int main(int argc, char **argv)
 	game = malloc(sizeof(t_game));
 	if (!game)
 		return (1);
-	ft_bzero(game, sizeof(t_game));
 	if (!validate_map_extension(argc, argv))
 		return (free(game), 1);
 	game->mlx = mlx_init();
