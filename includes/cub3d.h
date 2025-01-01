@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/01 16:36:24 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/01 17:51:53 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,17 @@
 # define ERR_MALLOC "Error\nMemory allocation failed\n"
 
 /* Structs */
-typedef struct s_point
+typedef struct s_vector
 {
     double      x;
     double      y;
-}               t_point;
+}               t_vector;
 
 typedef struct s_player
 {
-    t_point     pos;
-    t_point     dir;
-    t_point     plane;
+    t_vector     pos;
+    t_vector     dir;
+    t_vector     plane;
     double      move_speed;
     double      rot_speed;
 }               t_player;
@@ -105,7 +105,7 @@ typedef struct s_map
     int         floor_color;
     int         ceiling_color;
     char        player_start;
-    t_point     player_pos;
+    t_vector     player_pos;
 }               t_map;
 
 typedef struct s_game
