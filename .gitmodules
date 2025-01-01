@@ -4,7 +4,7 @@
 
 [submodule "libs/minilibx-linux"]
 	path = libs/minilibx-linux
-	url = https://github.com/dannywillems/minilibx-mac-osx.git
+	url = https://github.com/42Paris/minilibx-linux.git
 [submodule "libs/minilibx-mac-osx"]
 	path = libs/minilibx-mac-osx
 	url = https://github.com/dannywillems/minilibx-mac-osx.git
