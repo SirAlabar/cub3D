@@ -68,14 +68,15 @@ $(LIBFT):
 
 # MLX initialization with OS detection
 $(MLX):
+$(MLX):
 	@echo "$(YELLOW)Initializing MinilibX...$(RESET)"
+	@rm -rf $(MLX_DIR)
 	@if [ "$(UNAME_S)" = "Darwin" ]; then \
-		git submodule add -f https://github.com/dannywillems/minilibx-mac-osx.git $(MLX_DIR) 2>/dev/null || true; \
+		git clone https://github.com/dannywillems/minilibx-mac-osx.git $(MLX_DIR); \
 	else \
-		git submodule add -f https://github.com/42Paris/minilibx-linux.git $(MLX_DIR) 2>/dev/null || true; \
+		git clone https://github.com/42paris/minilibx-linux.git $(MLX_DIR); \
 	fi
-	@git submodule update --init --recursive $(MLX_DIR)
-	@$(MAKE) --silent -C $(MLX_DIR)
+	@$(MAKE) -C $(MLX_DIR)
 
 # Compilation rule
 ${NAME}: ${OBJS}
