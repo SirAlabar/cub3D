@@ -1,21 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   mlx_utils_mac.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/01 18:21:45 by hluiz-ma         ###   ########.fr       */
+/*   Created: 2025/01/01 18:30:01 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/01/01 18:30:17 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	init_game(t_game *game)
+void	cleanup_mlx(void *mlx)
 {
-	ft_memset(game, 0, sizeof(t_game));
-	game->map.floor_color = 0x808080;
-	game->map.ceiling_color = 0x87CEEB;
-	init_player(game);
+	free(mlx);
+}
+
+void	destroy_window(void *mlx, void *win)
+{
+	mlx_clear_window(mlx, win);
+	mlx_destroy_window(mlx, win);
+}
+
+void	*init_window(void *mlx, int width, int height, char *title)
+{
+	void	*win;
+
+	win = mlx_new_window(mlx, width, height, title);
+	return (win);
 }
