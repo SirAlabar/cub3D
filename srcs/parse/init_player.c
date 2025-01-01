@@ -1,39 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   init_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/30 21:26:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/01 18:05:51 by hluiz-ma         ###   ########.fr       */
+/*   Created: 2025/01/01 17:55:26 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/01/01 18:20:33 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	map_file_error(int fd, t_game *game)
+void	init_player(t_game *game)
 {
-	(void)game;
-	if (fd)
-		close(fd);
-	ft_printf("The map file is not valid.");
-	/*
-	gameover(game);todo 
-	*/
-}
-
-void	free_mlx(t_game *game)
-{
-	if (game->win)
-	{
-		mlx_clear_window(game->mlx, game->win);
-		mlx_destroy_window(game->mlx, game->win);
-		game->win = NULL;
-	}
-	if (game->mlx)
-	{
-		free(game->mlx);
-		game->mlx = NULL;
-	}
+	game->p1.pos = (t_vector){0, 0};
+	game->p1.dir = (t_vector){0, 0};
+	game->p1.plane = (t_vector){0, 0};
+	game->p1.move_speed = MOVE_SPEED;
+	game->p1.rot_speed = ROTATION_SPEED;
 }

@@ -1,39 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   mlx_utils.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/30 21:26:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/01 18:05:51 by hluiz-ma         ###   ########.fr       */
+/*   Created: 2025/01/01 18:27:55 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/01/01 18:35:30 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#ifndef MLX_UTILS_H
+# define MLX_UTILS_H
 
-void	map_file_error(int fd, t_game *game)
-{
-	(void)game;
-	if (fd)
-		close(fd);
-	ft_printf("The map file is not valid.");
-	/*
-	gameover(game);todo 
-	*/
-}
+void	cleanup_mlx(void *mlx);
+void	destroy_window(void *mlx, void *win);
+void	*init_window(void *mlx, int width, int height, char *title);
 
-void	free_mlx(t_game *game)
-{
-	if (game->win)
-	{
-		mlx_clear_window(game->mlx, game->win);
-		mlx_destroy_window(game->mlx, game->win);
-		game->win = NULL;
-	}
-	if (game->mlx)
-	{
-		free(game->mlx);
-		game->mlx = NULL;
-	}
-}
+#endif

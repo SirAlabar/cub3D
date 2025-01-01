@@ -37,17 +37,18 @@ VALGRIND = valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all
 # **************************************************************************** #
 #                                OS DETECTION                                    #
 # **************************************************************************** #
+# OS Detection
 UNAME_S := $(shell uname -s)
-
-# Set MLX directories and flags based on OS
 ifeq ($(UNAME_S),Linux)
-    MLX_DIR   = libs/minilibx-linux/
-    MLXFLAGS  = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
-    MLXINC    = -I/usr/include
+	MLX_DIR = libs/minilibx-linux/
+	MLXFLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
+	MLXINC = -I/usr/include
+	SRCS := $(filter-out srcs/mlx/mlx_utils_mac.c, $(SRCS))
 else ifeq ($(UNAME_S),Darwin)
-    MLX_DIR   = libs/minilibx-mac-osx/
-    MLXFLAGS  = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
-    FLAGS    += -D MAC_OS -fsanitize=address
+	MLX_DIR = libs/minilibx-mac-osx/
+	MLXFLAGS = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
+	FLAGS += -D MAC_OS -fsanitize=address
+	SRCS := $(filter-out srcs/mlx/mlx_utils_linux.c, $(SRCS))
 endif
 
 # **************************************************************************** #
