@@ -6,10 +6,11 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2024/12/21 12:24:54 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/01 15:32:26 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef CUB3D_H
+
+# ifndef CUB3D_H
 # define CUB3D_H
 
 # include <fcntl.h>
@@ -50,8 +51,8 @@
 # endif
 
 /* Window settings */
-# define WINDOW_WIDTH 1280
-# define WINDOW_HEIGHT 720
+# define WINDOW_WIDTH 800
+# define WINDOW_HEIGHT 600
 # define FOV 60
 # define MOVE_SPEED 0.1
 # define ROTATION_SPEED 0.05
@@ -113,6 +114,9 @@ typedef struct s_game
     void        *win;  // point to window
     void        *img;  // to main img
     char        *addr; // point to data of main img
+    int         bits_per_pixel;
+    int         line_length;
+    int         endian;
     t_map       map;
     t_player    player;
     t_texture   north;
@@ -128,5 +132,9 @@ unsigned int    get_color_in_pixel(t_texture *tex, int x, int y);
 // texture.c
 t_texture       *create_texture(t_game *game, char *texture_path);
 void            destroy_texture(t_texture **texture, void *mlx);
+
+//render.c
+void draw_floor_ceiling(t_game *game);
+void render_frame(t_game *game);
 
 #endif
