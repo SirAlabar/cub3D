@@ -13,8 +13,8 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <engine.h>
 # include <colors.h>
+# include <engine.h>
 # include <fcntl.h>
 # include <libft.h>
 # include <math.h>

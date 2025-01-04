@@ -10,29 +10,29 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <cub3d.h>
+#include <cub3d.h>
 
-double vector_dot(t_vector v1, t_vector v2)
+double	vector_dot(t_vector v1, t_vector v2)
 {
-    return (v1.x * v2.x + v1.y * v2.y);
+	return (v1.x * v2.x + v1.y * v2.y);
 }
 
-double vector_mag_sq(t_vector v)
+double	vector_mag_sq(t_vector v)
 {
-    return (v.x * v.x + v.y * v.y);
+	return (v.x * v.x + v.y * v.y);
 }
 
-double vector_mag(t_vector v)
+double	vector_mag(t_vector v)
 {
-    return (sqrt(vector_mag_sq(v)));
+	return (sqrt(vector_mag_sq(v)));
 }
 
-t_vector vector_normalize(t_vector v)
+t_vector	vector_normalize(t_vector v)
 {
-    double mag;
+	double	mag;
 
-    mag = vector_mag(v);
-    if (mag != 0)
-        return (vector_div(v, mag));
-    return (v);
+	mag = vector_mag(v);
+	if (mag != 0)
+		return (vector_div(v, mag));
+	return (v);
 }
