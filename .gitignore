@@ -1,5 +1,74 @@
-*.o
-*/*.o
-**/*.o
-compile_flags.txt
-cube3d
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Build output
+/dist
+/build
+/.sass-cache
+/css/*.css.map
+
+# Compiled CSS (if you want to version only SCSS)
+/css/*.css
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor directories and files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.settings
+.classpath
+*.sublime-workspace
+*.sublime-project
+
+# Operating System
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional temp files
+temp/
+tmp/
+
+# Optional coverage directory
+coverage/
+
+# Optional next.js build output
+.next/
+
+# Optional nuxt.js build output
+.nuxt/
+
+# Optional vuepress build output
+.vuepress/dist/
