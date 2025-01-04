@@ -6,13 +6,14 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/01 18:36:00 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/04 19:03:05 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include <engine.h>
 # include <colors.h>
 # include <fcntl.h>
 # include <libft.h>
@@ -71,11 +72,6 @@
 # define ERR_MALLOC "Error\nMemory allocation failed\n"
 
 /* Structs */
-typedef struct s_vector
-{
-	double		x;
-	double		y;
-}				t_vector;
 
 typedef struct s_player
 {
