@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:22:02 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2024/12/01 18:12:07 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/01 16:48:52 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	set_map(t_game *game, int map_fd)
 {
 	(void) game;
 	(void) map_fd;
+	close(map_fd);
 }
 
 int	open_map_file(const char *file)

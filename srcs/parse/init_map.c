@@ -1,39 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   init_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/30 21:26:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/01 18:05:51 by hluiz-ma         ###   ########.fr       */
+/*   Created: 2025/01/01 17:55:36 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/01/01 18:04:08 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	map_file_error(int fd, t_game *game)
+void	init_map(t_map *map)
 {
-	(void)game;
-	if (fd)
-		close(fd);
-	ft_printf("The map file is not valid.");
-	/*
-	gameover(game);todo 
-	*/
-}
-
-void	free_mlx(t_game *game)
-{
-	if (game->win)
-	{
-		mlx_clear_window(game->mlx, game->win);
-		mlx_destroy_window(game->mlx, game->win);
-		game->win = NULL;
-	}
-	if (game->mlx)
-	{
-		free(game->mlx);
-		game->mlx = NULL;
-	}
+	map->grid = NULL;
+	map->width = 0;
+	map->height = 0;
+	map->floor_color = -1;
+	map->ceiling_color = -1;
+	map->player_start = '\0';
+	map->player_pos = (t_vector){0, 0};
 }

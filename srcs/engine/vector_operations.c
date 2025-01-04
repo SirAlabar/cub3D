@@ -1,39 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   vector_operations.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/30 21:26:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/01 18:05:51 by hluiz-ma         ###   ########.fr       */
+/*   Created: 2025/01/04 18:31:05 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/01/04 20:00:38 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	map_file_error(int fd, t_game *game)
+double	vector_dot(t_vector v1, t_vector v2)
 {
-	(void)game;
-	if (fd)
-		close(fd);
-	ft_printf("The map file is not valid.");
-	/*
-	gameover(game);todo 
-	*/
+	return (v1.x * v2.x + v1.y * v2.y);
 }
 
-void	free_mlx(t_game *game)
+double	vector_mag_sq(t_vector v)
 {
-	if (game->win)
-	{
-		mlx_clear_window(game->mlx, game->win);
-		mlx_destroy_window(game->mlx, game->win);
-		game->win = NULL;
-	}
-	if (game->mlx)
-	{
-		free(game->mlx);
-		game->mlx = NULL;
-	}
+	return (v.x * v.x + v.y * v.y);
+}
+
+double	vector_mag(t_vector v)
+{
+	return (sqrt(vector_mag_sq(v)));
+}
+
+t_vector	vector_normalize(t_vector v)
+{
+	double	mag;
+
+	mag = vector_mag(v);
+	if (mag != 0)
+		return (vector_div(v, mag));
+	return (v);
 }
