@@ -1,0 +1,33 @@
+@use 'variables' as *;
+
+// Get theme color
+@function theme-color($theme, $color-name) {
+  @return map-get(map-get($themes, $theme), $color-name);
+}
+
+// Theme mixin
+@mixin themed() {
+  @each $theme, $map in $themes {
+    .theme-#{$theme} & {
+      $theme-map: () !global;
+      @each $key, $value in $map {
+        $theme-map: map-merge($theme-map, ($key: $value)) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+
+// Get current theme color
+@function t($color-name) {
+  @return map-get($theme-map, $color-name);
+}
+
+// Usage example mixin
+@mixin themed-styles {
+  @include themed() {
+    color: t('primary-a0');
+    background-color: t('surface-a0');
+  }
+}
