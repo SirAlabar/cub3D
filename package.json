@@ -7,7 +7,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "sass": "sass scss/main.scss css/main.css --watch"
+    "sass": "sass scss/main.scss css/main.css --watch",
+	"serve": "browser-sync start --server --files 'css/*.css, *.html, *.js, docs/*.md'",
+    "dev": "concurrently \"npm run sass\" \"npm run serve\""
   },
   "repository": {
     "type": "git",
@@ -22,6 +24,8 @@
   "homepage": "https://github.com/SirAlabar/cub3D#readme",
   "description": "",
   "devDependencies": {
+    "browser-sync": "^3.0.3",
+    "concurrently": "^9.1.2",
     "sass": "^1.83.1"
   }
 }

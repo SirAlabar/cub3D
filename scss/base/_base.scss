@@ -1,0 +1,36 @@
+// Reset
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+// Remove default button styles
+button {
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	font: inherit;
+}
+
+// Reset links
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+// Remove list styles
+ul,
+ol {
+	list-style: none;
+}
+
+// Make images behave better
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
