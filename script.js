@@ -9,13 +9,13 @@ const docs = {
 
 // Initialize the documentation site
 function initDocs() {
-    createNavigation();
-    loadContent(window.location.hash || '#getting-started');
+	createNavigation();
+	loadContent(window.location.hash || '#getting-started');
 
-    // Handle navigation
-    window.addEventListener('hashchange', () => {
-        loadContent(window.location.hash);
-    });
+	// Handle navigation
+	window.addEventListener('hashchange', () => {
+		loadContent(window.location.hash);
+	});
 }
 
 // Create navigation menu

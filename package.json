@@ -1,0 +1,27 @@
+{
+  "name": "cub3d",
+  "version": "1.0.0",
+  "main": "script.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass": "sass scss/main.scss css/main.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SirAlabar/cub3D.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SirAlabar/cub3D/issues"
+  },
+  "homepage": "https://github.com/SirAlabar/cub3D#readme",
+  "description": "",
+  "devDependencies": {
+    "sass": "^1.83.1"
+  }
+}
