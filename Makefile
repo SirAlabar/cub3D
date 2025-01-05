@@ -27,7 +27,7 @@ LIBFT   = ${LIBFT_DIR}/src/libft.a
 MLX     = ${MLX_DIR}/libmlx.a
 
 # Source files using wildcards
-SRCS    = $(wildcard srcs/*.c) $(wildcard srcs/*/*.c)
+SRCS    = $(wildcard srcs/*.c) $(wildcard srcs/*/*.c) $(wildcard srcs/*/*/*.c)
 OBJS    = ${SRCS:.c=.o}
 INCLUDE = -Iincludes/ -I${LIBFT_DIR}/src -L${LIBFT_DIR}/src -I${MLX_DIR} ${MLXINC}
 
@@ -73,11 +73,12 @@ $(MLX):
 	@echo "$(YELLOW)Initializing MinilibX...$(RESET)"
 	@rm -rf $(MLX_DIR)
 	@if [ "$(UNAME_S)" = "Darwin" ]; then \
-		git clone https://github.com/dannywillems/minilibx-mac-osx.git $(MLX_DIR); \
+		git clone --quiet https://github.com/dannywillems/minilibx-mac-osx.git $(MLX_DIR); \
 	else \
-		git clone https://github.com/42paris/minilibx-linux.git $(MLX_DIR); \
+		git clone --quiet https://github.com/42paris/minilibx-linux.git $(MLX_DIR); \
 	fi
-	@$(MAKE) -C $(MLX_DIR)
+	@cd $(MLX_DIR) && ./configure > /dev/null 2>&1
+	@$(MAKE) --silent -C $(MLX_DIR) > /dev/null 2>&1
 
 # Compilation rule
 ${NAME}: ${OBJS}
@@ -103,7 +104,9 @@ ${NAME}: ${OBJS}
 # Clean rules
 clean:
 	@${RM} ${OBJS}
-	@cd ${LIBFT_DIR}/src && $(MAKE) --silent clean
+	@if [ -d "${LIBFT_DIR}/src" ]; then \
+		${MAKE} --silent -C ${LIBFT_DIR}/src clean; \
+	fi
 	@clear
 	@echo
 	@echo "$(RED)┏┓┓ ┏┓┏┓┳┓┏┓┳┓"
@@ -115,7 +118,7 @@ fclean: clean
 	@rm -rf ${LIBFT_DIR}
 	@rm -rf ${MLX_DIR}
 	@rm -f ${NAME}
-	@git submodule deinit -f --all
+	@git submodule deinit -f --all 2>/dev/null || true
 	@clear
 	@echo
 	@echo "$(RED)┏┓┓ ┏┓┏┓┳┓┏┓┳┓"
