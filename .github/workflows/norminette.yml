@@ -23,19 +23,22 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9'  # Specifying exact version
+        python-version: '3.9'
         
     - name: Install Norminette
       run: |
-        python -m pip install --upgrade pip setuptools wheel
-        python -m pip install --user norminette
+        python -m pip install --upgrade pip
+        python -m pip install norminette
+        python -m pip list | grep norminette
+        which norminette || true
+        
+    - name: Verify Norminette Installation
+      run: |
+        norminette --version
         
     - name: Run Norminette
       run: |
-        python -m norminette $(find . -type f \( -name "*.c" -o -name "*.h" \))
-        
-    - name: Check Norminette Result
-      if: failure()
-      run: |
-        echo "Norminette check failed. Please review the style errors above."
-        exit 1
+        for file in $(find . -type f \( -name "*.c" -o -name "*.h" \)); do
+          echo "Checking $file..."
+          norminette "$file" || exit 1
+        done
