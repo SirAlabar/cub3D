@@ -10,34 +10,50 @@ jobs:
   norminette:
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       pull-requests: write
+      issues: write
     steps:
       - uses: actions/checkout@v3
       
       - name: Install norminette
         run: python3 -m pip install norminette
         
-      - name: Run norminette and save output
+      - name: Run norminette
         id: norm
         run: |
           OUTPUT=$(norminette 2>&1) || true
-          echo "NORM_OUTPUT<<EOF" >> $GITHUB_ENV
-          echo "$OUTPUT" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-          
-      - name: Comment PR
+          echo "$OUTPUT" > norm_output.txt
+          if echo "$OUTPUT" | grep -q "Error!"; then
+            echo "::set-output name=norm_status::failure"
+          else
+            echo "::set-output name=norm_status::success"
+          fi
+      
+      - name: Create Status Check
+        if: always()
         uses: actions/github-script@v6
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = process.env.NORM_OUTPUT;
-            const hasFailed = output.includes('Error!');
+            const fs = require('fs');
+            const output = fs.readFileSync('norm_output.txt', 'utf8');
+            const status = '${{ steps.norm.outputs.norm_status }}';
             
-            let comment = '## Norminette Check\n\n```\n' + output + '\n```\n\n';
-            comment += hasFailed ? '❌ Norminette found style errors' : '✅ Norminette passed all checks';
-            
-            await github.rest.issues.createComment({
-              issue_number: context.issue.number,
+            const summary = status === 'success' 
+              ? '✅ Norminette passed all checks'
+              : '❌ Norminette found style errors';
+              
+            await github.rest.checks.create({
               owner: context.repo.owner,
               repo: context.repo.name,
-              body: comment
+              name: 'Norminette Check',
+              head_sha: context.payload.pull_request.head.sha,
+              status: 'completed',
+              conclusion: status,
+              output: {
+                title: 'Norminette Results',
+                summary: summary,
+                text: '```\n' + output + '\n```'
+              }
             });
