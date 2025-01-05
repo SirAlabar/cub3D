@@ -6,15 +6,15 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/05 16:18:11 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/05 17:31:43 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <engine.h>
 # include <colors.h>
+# include <engine.h>
 # include <fcntl.h>
 # include <libft.h>
 # include <math.h>
@@ -82,7 +82,6 @@ typedef struct s_player
 	double		rot_speed;
 }				t_player;
 
-
 typedef struct s_map
 {
 	char		**grid;
@@ -111,11 +110,9 @@ typedef struct s_game
 	t_texture	west;
 }				t_game;
 
-
 // parse
 void			init_player(t_game *game);
 void			init_game(t_game *game);
-
-
+void			init_map(t_map *map);
 
 #endif

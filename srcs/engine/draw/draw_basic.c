@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 21:00:00 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/05 16:34:37 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/05 18:28:40 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	draw_pixel(t_game *game, int x, int y, int color)
 {
 	char	*dst;
 
+	if (!game || !game->addr)
+		return ;
 	if (x < 0 || x >= WINDOW_WIDTH || y < 0 || y >= WINDOW_HEIGHT)
 		return ;
 	dst = game->addr + (y * game->line_length + x * (game->bits_per_pixel / 8));

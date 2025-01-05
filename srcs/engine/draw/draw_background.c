@@ -6,13 +6,13 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 21:00:00 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/05 16:32:52 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/05 18:28:06 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	draw_background(t_game *game)
+int	draw_background(t_game *game)
 {
 	int	x;
 	int	y;
@@ -20,7 +20,7 @@ void	draw_background(t_game *game)
 	if (!game || !game->img)
 	{
 		ft_printf("Error: Game or image pointer is NULL\n");
-		return ;
+		return (0);
 	}
 	y = -1;
 	while (++y < WINDOW_HEIGHT)
@@ -34,4 +34,5 @@ void	draw_background(t_game *game)
 				draw_pixel(game, x, y, game->map.floor_color);
 		}
 	}
+	return (1);
 }

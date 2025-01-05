@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/05 16:10:52 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/05 18:27:25 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,17 @@ int	main(int argc, char **argv)
 		return (1);
 	if (!validate_map_extension(argc, argv))
 		return (free(game), 1);
-	game->img = NULL;
+	init_game(game);
+	game_parse(game, argv[1]);
 	game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx, 800, 600, "My new cube omg");
-	engine_render_frame(game);
+	if (!game->mlx)
+		return (cleanup_game(game), 1);
+	game->win = mlx_new_window(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "cub3D");
+	if (!game->win)
+		return (cleanup_game(game), 1);
 	mlx_hook(game->win, 2, 1L << 0, key_handler, game);
 	mlx_hook(game->win, 17, 0, close_window, game);
-	game_parse(game, argv[1]);
+	engine_render_frame(game);
 	mlx_loop(game->mlx);
 	cleanup_game(game);
 	return (0);
