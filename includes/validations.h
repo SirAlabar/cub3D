@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef VALIDATIONS_H
+#ifndef VALIDATIONS_H
 # define VALIDATIONS_H
 
 # include <colors.h>
 
-# define ERROR_USAGE RED "Game usage: " GREEN "./cub3d maps/valid_map.cub\n"
-# define ERROR_MAPTYPE B_RED "Invalid map extension\n"
+# define ERROR_USAGE "Game usage: ./cub3d maps/valid_map.cub\n"
+# define ERROR_MAPTYPE "Invalid map extension\n"
 
 typedef struct s_game	t_game;
 typedef struct s_map	t_map;

@@ -32,6 +32,5 @@ void	engine_render_frame(t_game *game)
 {
 	engine_prepare_frame(game);
 	draw_background(game);
-	// TODO: Adicionar chamadas para raycast e draw_walls
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 }
