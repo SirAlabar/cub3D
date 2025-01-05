@@ -1,7 +1,7 @@
 name: Norminette
 
 on:
-  pull_request:
+  push:
     paths:
       - '**.c'
       - '**.h'
@@ -9,51 +9,9 @@ on:
 jobs:
   norminette:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-      issues: write
     steps:
       - uses: actions/checkout@v3
-      
       - name: Install norminette
         run: python3 -m pip install norminette
-        
       - name: Run norminette
-        id: norm
-        run: |
-          OUTPUT=$(norminette 2>&1) || true
-          echo "$OUTPUT" > norm_output.txt
-          if echo "$OUTPUT" | grep -q "Error!"; then
-            echo "::set-output name=norm_status::failure"
-          else
-            echo "::set-output name=norm_status::success"
-          fi
-      
-      - name: Create Status Check
-        if: always()
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const fs = require('fs');
-            const output = fs.readFileSync('norm_output.txt', 'utf8');
-            const status = '${{ steps.norm.outputs.norm_status }}';
-            
-            const summary = status === 'success' 
-              ? '✅ Norminette passed all checks'
-              : '❌ Norminette found style errors';
-              
-            await github.rest.checks.create({
-              owner: context.repo.owner,
-              repo: context.repo.name,
-              name: 'Norminette Check',
-              head_sha: context.payload.pull_request.head.sha,
-              status: 'completed',
-              conclusion: status,
-              output: {
-                title: 'Norminette Results',
-                summary: summary,
-                text: '```\n' + output + '\n```'
-              }
-            });
+        run: norminette
