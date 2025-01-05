@@ -6,15 +6,15 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/04 19:03:05 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/05 16:18:11 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <colors.h>
 # include <engine.h>
+# include <colors.h>
 # include <fcntl.h>
 # include <libft.h>
 # include <math.h>
@@ -82,17 +82,6 @@ typedef struct s_player
 	double		rot_speed;
 }				t_player;
 
-typedef struct s_texture
-{
-	void		*img;
-	char		*addr;
-	int			width;
-	int			height;
-	int			bpp;
-	int			line_len;
-	int			endian;
-	char		*path;
-}				t_texture;
 
 typedef struct s_map
 {
@@ -122,20 +111,11 @@ typedef struct s_game
 	t_texture	west;
 }				t_game;
 
-// put_pixel.c
-void			put_pixel(t_texture *tex, int x, int y, int color);
-unsigned int	get_color_in_pixel(t_texture *tex, int x, int y);
-
-// texture.c
-t_texture		*create_texture(t_game *game, char *texture_path);
-void			destroy_texture(t_texture **texture, void *mlx);
 
 // parse
 void			init_player(t_game *game);
 void			init_game(t_game *game);
 
-// render.c
-void			draw_floor_ceiling(t_game *game);
-void			render_frame(t_game *game);
+
 
 #endif

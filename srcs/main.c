@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/01 18:31:21 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/05 16:10:52 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(int argc, char **argv)
 	game->img = NULL;
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, 800, 600, "My new cube omg");
-	render_frame(game);
+	engine_render_frame(game);
 	mlx_hook(game->win, 2, 1L << 0, key_handler, game);
 	mlx_hook(game->win, 17, 0, close_window, game);
 	game_parse(game, argv[1]);
