@@ -1,0 +1,41 @@
+name: Norminette Check
+
+on:
+  push:
+    branches:
+      - main
+      - github-actions-setup
+    paths:
+      - '**.c'
+      - '**.h'
+  pull_request:
+    paths:
+      - '**.c'
+      - '**.h'
+
+jobs:
+  norminette:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'  # Specifying exact version
+        
+    - name: Install Norminette
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+        python -m pip install --user norminette
+        
+    - name: Run Norminette
+      run: |
+        python -m norminette $(find . -type f \( -name "*.c" -o -name "*.h" \))
+        
+    - name: Check Norminette Result
+      if: failure()
+      run: |
+        echo "Norminette check failed. Please review the style errors above."
+        exit 1
