@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 18:28:20 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/06 18:15:22 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/06 18:54:43 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_texture
  */
 // engine_render.c
 void					engine_prepare_frame(t_game *game);
-void					engine_render_frame(t_game *game);
+int						engine_render_frame(t_game *game);
 
 /*
  * Drawing Functions

@@ -136,6 +136,9 @@ else ifeq ($(UNAME_S),Darwin)
 	@leaks --atExit -- ./${NAME} maps/valid/valid1.cub
 endif
 
+test: all
+	@./$(NAME) maps/valid/valid1.cub
+
 # Rebuild rule
 re: fclean all
 
