@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/06 18:56:27 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/06 20:00:40 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ int	main(int argc, char **argv)
 		return (1);
 	if (!validate_map_extension(argc, argv))
 		return (free(game), 1);
+	if (!checker(game, argv[1]))
+		return (1);
 	init_game(game);
-	init_test_map(game);	
-	game_parse(game, argv[1]);
+	init_test_map(game);
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		return (cleanup_game(game), 1);

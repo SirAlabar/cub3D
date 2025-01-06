@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_player.c                                      :+:      :+:    :+:   */
+/*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/01 17:55:26 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/05 15:47:56 by hluiz-ma         ###   ########.fr       */
+/*   Created: 2025/01/06 19:45:38 by marsoare          #+#    #+#             */
+/*   Updated: 2025/01/06 20:42:31 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	init_player(t_game *game)
+bool	checker(t_game *game, char *path)
 {
-	game->p1.pos = vector_create(5, 5);
-	game->p1.dir = vector_create(0, 1);
-	game->p1.plane = vector_create(0.66, 0);
-	game->p1.move_speed = MOVE_SPEED;
-	game->p1.rot_speed = ROTATION_SPEED;
+	(void) path;
+	game->fd_map = open(path, O_RDWR);
+	return (true);
 }

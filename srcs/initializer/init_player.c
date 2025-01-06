@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_map.c                                         :+:      :+:    :+:   */
+/*   init_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/01 17:55:36 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/05 17:30:54 by hluiz-ma         ###   ########.fr       */
+/*   Created: 2025/01/01 17:55:26 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/01/06 19:29:47 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	init_map(t_map *map)
+void	init_player(t_game *game)
 {
-	map->grid = NULL;
-	map->width = 0;
-	map->height = 0;
-	map->floor_color = 0x87CEEB;
-	map->ceiling_color = 0x8B4513;
-	map->player_start = '\0';
-	map->player_pos = vector_create(0, 0);
+	game->p1.pos = vector_create(5, 5);
+	game->p1.dir = vector_create(0, 1);
+	game->p1.plane = vector_create(0.66, 0);
+	game->p1.move_speed = MOVE_SPEED;
+	game->p1.rot_speed = ROTATION_SPEED;
 }

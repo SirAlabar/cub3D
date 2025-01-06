@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/06 19:14:36 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/06 20:43:26 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 void	init_game(t_game *game)
 {
-	ft_memset(game, 0, sizeof(t_game));
-	game->map.floor_color = 0x404040;
-	game->map.ceiling_color = 0xA0A0A0;
+	init_map(game);
 	init_player(game);
 }
+
 void init_test_map(t_game *game)
 {
     const int map_width = 8;
