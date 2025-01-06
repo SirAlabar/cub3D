@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/06 19:14:36 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/06 20:16:41 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void init_test_map(t_game *game)
     const char *map_data[] = {
         "11111111",
         "10000001",
+        "10100001",
+        "10000101",
         "10000001",
-        "10000101",
-        "10000101",
         "10100001",
         "10000001",
         "11111111"
@@ -59,10 +59,10 @@ void init_test_map(t_game *game)
 
     // Set player initial position (center of the map)
     game->p1.pos = vector_create(3.5, 3.5);
-    //game->p1.dir = vector_create(-1, 0);  // Facing west
- 	game->p1.dir = vector_create(-0.7071, -0.7071);
+    game->p1.dir = vector_create(-1, 0);  // Facing west
+ 	//game->p1.dir = vector_create(-0.7071, -0.7071);
 	//game->p1.dir = vector_create(0.3371, 0.3371);	
-    game->p1.plane = vector_create(0, 0.66);
+    game->p1.plane = vector_create(0, tan(FOV * M_PI / 360.0));
 }
 
 void move_player(t_game *game, double dir_x, double dir_y)
