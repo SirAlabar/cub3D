@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 18:28:20 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/05 18:28:24 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/06 18:54:43 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define ENGINE_H
 
 # include <cub3d.h>
+# include <stdbool.h>
 # include <math.h>
 
 typedef struct s_game	t_game;
@@ -23,6 +24,23 @@ typedef struct s_vector
 	double				x;
 	double				y;
 }						t_vector;
+
+typedef struct s_ray 
+{
+	t_vector dir;
+	t_vector side_dist;
+	t_vector delta_dist;
+	double perp_wall_dist;
+	int line_height;
+	int map_x;
+	int map_y;
+	int step_x;
+	int step_y;
+	bool hit;
+	int side;
+	int draw_start;
+	int draw_end;
+}	t_ray;
 
 typedef struct s_texture
 {
@@ -41,7 +59,7 @@ typedef struct s_texture
  */
 // engine_render.c
 void					engine_prepare_frame(t_game *game);
-void					engine_render_frame(t_game *game);
+int						engine_render_frame(t_game *game);
 
 /*
  * Drawing Functions
@@ -54,6 +72,7 @@ unsigned int			get_texture_pixel(t_texture *tex, int x, int y);
 
 // draw_background.c
 int						draw_background(t_game *game);
+void draw_wall(t_game *game, t_ray *ray, int x);
 
 /*
  * Texture Management
@@ -90,17 +109,16 @@ t_vector				vector_limit(t_vector v, double max);
 /*
  * Raycasting
  */
-/*
 // raycast_dda.c
-void					raycast_init(t_game *game);
-void					raycast_calculate(t_game *game, int x);
-void					raycast_perform_dda(t_game *game);
+void init_ray(t_ray *ray, t_game *game, int x);
+void step_side_dist(t_ray *ray, t_game *game);
+void perform_dda(t_ray *ray, t_game *game);
+void wall_height(t_ray *ray);
+void cast_rays(t_game *game);
+
 
 // raycast_walls.c
-void					raycast_wall_height(t_game *game);
-void					raycast_texture_coords(t_game *game);
-void					raycast_draw_walls(t_game *game);
-*/
+
 
 /*
 // draw_basic.c

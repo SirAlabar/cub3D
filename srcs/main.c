@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/05 18:27:25 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/06 18:56:27 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,6 @@ int	close_window(t_game *game)
 	return (0);
 }
 
-int	key_handler(int keycode, t_game *game)
-{
-	if (keycode == KEY_ESC)
-		close_window(game);
-	return (0);
-}
-
 int	main(int argc, char **argv)
 {
 	t_game	*game;
@@ -48,6 +41,7 @@ int	main(int argc, char **argv)
 	if (!validate_map_extension(argc, argv))
 		return (free(game), 1);
 	init_game(game);
+	init_test_map(game);	
 	game_parse(game, argv[1]);
 	game->mlx = mlx_init();
 	if (!game->mlx)
@@ -57,7 +51,7 @@ int	main(int argc, char **argv)
 		return (cleanup_game(game), 1);
 	mlx_hook(game->win, 2, 1L << 0, key_handler, game);
 	mlx_hook(game->win, 17, 0, close_window, game);
-	engine_render_frame(game);
+	mlx_loop_hook(game->mlx, engine_render_frame, game);
 	mlx_loop(game->mlx);
 	cleanup_game(game);
 	return (0);

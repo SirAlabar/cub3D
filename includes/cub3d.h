@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/05 17:31:43 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/06 18:56:36 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,8 @@ typedef struct s_game
 void			init_player(t_game *game);
 void			init_game(t_game *game);
 void			init_map(t_map *map);
+void init_test_map(t_game *game);
+int     close_window(t_game *game);
+int key_handler(int keycode, t_game *game);
 
 #endif
