@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:29:11 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/07 12:19:11 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/07 12:22:34 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,9 @@ void	init_map(t_game *game)
 
 char	**read_map(t_game *game)
 {
-	char	*line;
-	
 	game->map.height = count_lines(game);
-	game->fd_map = open(game->map_path, O_RDONLY);
-	line = get_next_line(game->fd_map);
 	game->map.grid = ft_calloc(sizeof(char **), game->map.height + 1);
 	set_grid(game);
-	close(game->fd_map);
 	game->map.width = 8;
 	return (NULL);
 }
