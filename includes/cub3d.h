@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/05 17:31:43 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/07 12:24:37 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <string.h>
 # include <unistd.h>
 # include <validations.h>
+# include <checker.h>
 
 # ifdef MAC_OS
 #  include <mlx.h>
@@ -102,6 +103,8 @@ typedef struct s_game
 	int			bits_per_pixel;
 	int			line_length;
 	int			endian;
+	int			fd_map;
+	char		*map_path;
 	t_map		map;
 	t_player	p1;
 	t_texture	north;
@@ -113,6 +116,16 @@ typedef struct s_game
 // parse
 void			init_player(t_game *game);
 void			init_game(t_game *game);
-void			init_map(t_map *map);
+//initialize/init_map.c
+void			init_map(t_game *game);
+char			**read_map(t_game *game);
+int				count_lines(t_game *game);
+void			set_grid(t_game *game);
+//initialize/printers.c
+void			print_map(t_game *game);
+//
+void			init_test_map(t_game *game);
+int				close_window(t_game *game);
+int				key_handler(int keycode, t_game *game);
 
 #endif

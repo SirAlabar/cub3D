@@ -1,5 +1,6 @@
 *.o
 */*.o
 **/*.o
+libs/
 compile_flags.txt
 cube3d

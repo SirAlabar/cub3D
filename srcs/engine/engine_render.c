@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 21:00:00 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/05 18:27:42 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/06 18:54:25 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,11 @@ void	engine_prepare_frame(t_game *game)
 			&game->line_length, &game->endian);
 }
 
-void	engine_render_frame(t_game *game)
+int	engine_render_frame(t_game *game)
 {
 	engine_prepare_frame(game);
 	draw_background(game);
+	cast_rays(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
+	return (0);
 }

@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_game.c                                        :+:      :+:    :+:   */
+/*   printers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/05 17:32:27 by hluiz-ma         ###   ########.fr       */
+/*   Created: 2025/01/07 11:21:10 by marsoare          #+#    #+#             */
+/*   Updated: 2025/01/07 11:51:29 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	init_game(t_game *game)
+void	print_map(t_game *game)
 {
-	ft_memset(game, 0, sizeof(t_game));
-	game->map.floor_color = 0x808080;
-	game->map.ceiling_color = 0x87CEEB;
-	init_player(game);
+	int	i;
+
+	i = 0;
+	while (game->map.grid[i])
+	{
+		printf("%s\n", game->map.grid[i]);
+		i++;
+	}
+	printf("---------------------\n");
+	printf("Map height: %i\n", game->map.height);
+	printf("Map width: %i\n", game->map.width);
 }
