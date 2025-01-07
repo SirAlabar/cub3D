@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:29:11 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/07 12:22:34 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/07 12:33:15 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	set_grid(t_game *game)
 	game->fd_map = open(game->map_path, O_RDONLY);
 	line = get_next_line(game->fd_map);
 	i = 0;
-	while(line)
+	while (line)
 	{
-		while(line[0] != ' ' && line[0] != '1')
+		while (line[0] != ' ' && line[0] != '1')
 		{
 			free(line);
 			line = get_next_line(game->fd_map);
@@ -68,9 +68,9 @@ int	count_lines(t_game *game)
 	game->fd_map = open(game->map_path, O_RDWR);
 	line = get_next_line(game->fd_map);
 	height = 0;
-	while(line)
+	while (line)
 	{
-		while(line[0] != ' ' && line[0] != '1')
+		while (line[0] != ' ' && line[0] != '1')
 		{
 			free(line);
 			line = get_next_line(game->fd_map);
