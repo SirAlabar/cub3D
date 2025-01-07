@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 11:21:10 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/07 11:26:25 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/07 11:51:29 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_map(t_game *game)
 	i = 0;
 	while (game->map.grid[i])
 	{
-		printf("%s", game->map.grid[i]);
+		printf("%s\n", game->map.grid[i]);
 		i++;
 	}
 	printf("---------------------\n");

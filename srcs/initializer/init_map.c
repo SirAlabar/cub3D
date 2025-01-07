@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:29:11 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/07 11:46:42 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/07 11:51:05 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,14 @@ void	init_map(t_game *game)
 	game->map.player_pos = vector_create(0, 0);
 	read_map(game);
 }
-#include <errno.h>
+
 char	**read_map(t_game *game)
 {
 	char	*line;
 	int		i;
 	
 	game->map.height = count_lines(game);
-	printf("path: %s\n", game->map_path);
 	game->fd_map = open(game->map_path, O_RDONLY);
-	printf("fd: %i\n", game->fd_map);
-	printf("errno: %d\n", errno);
 	line = get_next_line(game->fd_map);
 	game->map.grid = ft_calloc(sizeof(char **), game->map.height + 1);
 	i = 0;
@@ -66,7 +63,6 @@ int	count_lines(t_game *game)
 
 	game->fd_map = open(game->map_path, O_RDWR);
 	line = get_next_line(game->fd_map);
-	printf(RED"captured line: %s\n", line);
 	height = 0;
 	while(line)
 	{
@@ -74,15 +70,12 @@ int	count_lines(t_game *game)
 		{
 			free(line);
 			line = get_next_line(game->fd_map);
-			printf("line: %s", line);
 		}
 		free(line);
 		line = get_next_line(game->fd_map);
-		printf("line: %s", line);
 		height++;
 	}
 	close(game->fd_map);
-	printf("captured height: %i\n", height);
 	return (height);
 }
 
