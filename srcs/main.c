@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/06 20:00:40 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/07 12:00:06 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ void	cleanup_game(t_game *game)
 		mlx_destroy_image(game->mlx, game->img);
 	if (game->mlx)
 		cleanup_mlx(game->mlx);
+	if (game->map.grid)
+	{
+		for (int i = 0; game->map.grid[i]; i++)
+				free(game->map.grid[i]);
+		free(game->map.grid);
+	}
 	free(game);
 }
 
@@ -43,7 +49,7 @@ int	main(int argc, char **argv)
 	if (!checker(game, argv[1]))
 		return (1);
 	init_game(game);
-	init_test_map(game);
+	//init_test_map(game);
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		return (cleanup_game(game), 1);
