@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/06 20:29:22 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/07 11:23:45 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_game
 	int			line_length;
 	int			endian;
 	int			fd_map;
+	char		*map_path;
 	t_map		map;
 	t_player	p1;
 	t_texture	north;
@@ -117,6 +118,8 @@ void			init_player(t_game *game);
 void			init_game(t_game *game);
 //initialize/
 void			init_map(t_game *game);
+int				count_lines(t_game *game);
+void			print_map(t_game *game);
 void init_test_map(t_game *game);
 int     close_window(t_game *game);
 int key_handler(int keycode, t_game *game);

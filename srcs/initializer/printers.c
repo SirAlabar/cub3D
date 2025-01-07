@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checker.c                                          :+:      :+:    :+:   */
+/*   printers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/06 19:45:38 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/06 20:42:31 by marsoare         ###   ########.fr       */
+/*   Created: 2025/01/07 11:21:10 by marsoare          #+#    #+#             */
+/*   Updated: 2025/01/07 11:26:25 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-bool	checker(t_game *game, char *path)
+void	print_map(t_game *game)
 {
-	(void) path;
-	game->fd_map = open(path, O_RDWR);
-	game->map_path = path;
-	return (true);
+	int	i;
+
+	i = 0;
+	while (game->map.grid[i])
+	{
+		printf("%s", game->map.grid[i]);
+		i++;
+	}
+	printf("---------------------\n");
+	printf("Map height: %i\n", game->map.height);
+	printf("Map width: %i\n", game->map.width);
 }

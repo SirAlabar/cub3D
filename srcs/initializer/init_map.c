@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:29:11 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/06 20:50:14 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/07 11:46:42 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,79 @@
 
 void	init_map(t_game *game)
 {
-	game->map.grid = read_map(game);
+	game->map.grid = NULL;
 	game->map.width = 0;
 	game->map.height = 0;
 	game->map.floor_color = 0x87CEEB;
 	game->map.ceiling_color = 0x8B4513;
 	game->map.player_start = '\0';
 	game->map.player_pos = vector_create(0, 0);
+	read_map(game);
 }
-
+#include <errno.h>
 char	**read_map(t_game *game)
 {
 	char	*line;
-	char	**grid;
+	int		i;
 	
-	game->map.width = 
-	game->map.height = 
-	while((line = get_next_line(game->fd_map)))
+	game->map.height = count_lines(game);
+	printf("path: %s\n", game->map_path);
+	game->fd_map = open(game->map_path, O_RDONLY);
+	printf("fd: %i\n", game->fd_map);
+	printf("errno: %d\n", errno);
+	line = get_next_line(game->fd_map);
+	game->map.grid = ft_calloc(sizeof(char **), game->map.height + 1);
+	i = 0;
+	while(line)
 	{
-		printf("%s", line);
+		while(line[0] != ' ' && line[0] != '1')
+		{
+			free(line);
+			line = get_next_line(game->fd_map);
+		}
+		game->map.grid[i] = ft_calloc(sizeof(char *), ft_strlen(line) + 1);
+		if (i == game->map.height - 1)
+			ft_strlcpy(game->map.grid[i], line, ft_strlen(line) + 1);
+		else
+			ft_strlcpy(game->map.grid[i], line, ft_strlen(line));
+		free(line);
+		i++;
+		line = get_next_line(game->fd_map);
 	}
+	close(game->fd_map);
+	game->map.width = 8;
+	print_map(game);
 	return (NULL);
 }
 
+int	count_lines(t_game *game)
+{
+	char	*line;
+	int		height;
+
+	game->fd_map = open(game->map_path, O_RDWR);
+	line = get_next_line(game->fd_map);
+	printf(RED"captured line: %s\n", line);
+	height = 0;
+	while(line)
+	{
+		while(line[0] != ' ' && line[0] != '1')
+		{
+			free(line);
+			line = get_next_line(game->fd_map);
+			printf("line: %s", line);
+		}
+		free(line);
+		line = get_next_line(game->fd_map);
+		printf("line: %s", line);
+		height++;
+	}
+	close(game->fd_map);
+	printf("captured height: %i\n", height);
+	return (height);
+}
+
+/*
 void	set_map(t_game *game, char *map_path)
 {
 	int		fd;
@@ -44,17 +94,17 @@ void	set_map(t_game *game, char *map_path)
 	char	*str;
 
 	fd = open(map_path, O_RDONLY);
-	game->map.rows = count_lines(map_path);
-	game->map.data = ft_calloc(sizeof(char **), game->map.rows + 1);
+	game->map.height = count_lines(map_path);
+	game->map.grid = ft_calloc(sizeof(char **), game->map.rows + 1);
 	i = 0;
 	str = get_next_line(fd);
 	while (str)
 	{
-		game->map.data[i] = ft_calloc(sizeof(char *), ft_strlen(str) + 1);
-		if (i == game->map.rows - 1)
-			ft_strlcpy(game->map.data[i], str, ft_strlen(str) + 1);
+		game->map.grid[i] = ft_calloc(sizeof(char *), ft_strlen(str) + 1);
+		if (i == game->map.height - 1)
+			ft_strlcpy(game->map.grid[i], str, ft_strlen(str) + 1);
 		else
-			ft_strlcpy(game->map.data[i], str, ft_strlen(str));
+			ft_strlcpy(game->map.grid[i], str, ft_strlen(str));
 		free(str);
 		i++;
 		str = get_next_line(fd);
@@ -62,3 +112,4 @@ void	set_map(t_game *game, char *map_path)
 	close(fd);
 	set_map_tiles(game);
 }
+*/
