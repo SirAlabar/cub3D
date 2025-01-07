@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/07 12:18:02 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/07 12:24:37 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,8 @@ void			set_grid(t_game *game);
 //initialize/printers.c
 void			print_map(t_game *game);
 //
-void init_test_map(t_game *game);
-int     close_window(t_game *game);
-int key_handler(int keycode, t_game *game);
+void			init_test_map(t_game *game);
+int				close_window(t_game *game);
+int				key_handler(int keycode, t_game *game);
 
 #endif
