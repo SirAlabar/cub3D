@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/07 12:08:30 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/07 12:38:34 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	cleanup_game(t_game *game)
 {
+	int	i;
+
 	if (!game)
 		return ;
 	if (game->win && game->mlx)
@@ -24,8 +26,9 @@ void	cleanup_game(t_game *game)
 		cleanup_mlx(game->mlx);
 	if (game->map.grid)
 	{
-		for (int i = 0; game->map.grid[i]; i++)
-				free(game->map.grid[i]);
+		i = 0;
+		while (game->map.grid[i])
+			free(game->map.grid[i++]);
 		free(game->map.grid);
 	}
 	free(game);

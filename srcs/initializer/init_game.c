@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/07 12:11:00 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/07 12:36:57 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,17 @@ void	move_player(t_game *game, double dir_x, double dir_y)
 		game->p1.pos.y = new_y;
 }
 
-void	rotate_player(t_game *game, double angle)
+void	rotate_player(t_game *g, double angle)
 {
 	double	old_dir_x;
 	double	old_plane_x;
 
-	old_dir_x = game->p1.dir.x;
-	old_plane_x = game->p1.plane.x;
-	game->p1.dir.x = game->p1.dir.x * cos(angle) - game->p1.dir.y * sin(angle);
-	game->p1.dir.y = old_dir_x * sin(angle) + game->p1.dir.y * cos(angle);
-	game->p1.plane.x = game->p1.plane.x * cos(angle) - game->p1.plane.y * sin(angle);
-	game->p1.plane.y = old_plane_x * sin(angle) + game->p1.plane.y * cos(angle);
+	old_dir_x = g->p1.dir.x;
+	old_plane_x = g->p1.plane.x;
+	g->p1.dir.x = g->p1.dir.x * cos(angle) - g->p1.dir.y * sin(angle);
+	g->p1.dir.y = old_dir_x * sin(angle) + g->p1.dir.y * cos(angle);
+	g->p1.plane.x = g->p1.plane.x * cos(angle) - g->p1.plane.y * sin(angle);
+	g->p1.plane.y = old_plane_x * sin(angle) + g->p1.plane.y * cos(angle);
 }
 
 int	key_handler(int keycode, t_game *game)
