@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 21:00:00 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/05 16:11:39 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/08 20:14:03 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_texture	*texture_create(t_game *game, char *texture_path)
 		return (NULL);
 	}
 	texture->addr = mlx_get_data_addr(texture->img, &texture->bpp,
-			&texture->line_len, &texture->endian);
+			&texture->line_len, &texture->endian);	 
 	return (texture);
 }
 

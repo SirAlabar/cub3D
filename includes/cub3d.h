@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/07 12:24:37 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/08 20:07:57 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,10 @@ typedef struct s_game
 	char		*map_path;
 	t_map		map;
 	t_player	p1;
-	t_texture	north;
-	t_texture	south;
-	t_texture	east;
-	t_texture	west;
+	t_texture	NO;
+	t_texture	SO;
+	t_texture	EA;
+	t_texture	WE;
 }				t_game;
 
 // parse
