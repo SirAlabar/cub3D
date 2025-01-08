@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/08 18:12:17 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/08 18:23:13 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ void			init_player(t_game *game);
 void			init_game(t_game *game);
 //initialize/init_colors.c
 void	init_colors(t_game *game);
+int		rgb_to_hex(char *color);
 //initialize/init_map.c
 void			init_map(t_game *game);
 char			**read_map(t_game *game);
