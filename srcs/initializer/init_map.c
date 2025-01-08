@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:29:11 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/07 12:33:15 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/08 18:13:27 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ void	init_map(t_game *game)
 	game->map.grid = NULL;
 	game->map.width = 0;
 	game->map.height = 0;
-	game->map.floor_color = 0x87CEEB;
-	game->map.ceiling_color = 0x8B4513;
+	game->map.floor_color = 9134906;
+	game->map.ceiling_color = 11272191;
+	init_colors(game);
 	game->map.player_start = '\0';
 	game->map.player_pos = vector_create(0, 0);
 	read_map(game);
