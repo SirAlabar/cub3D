@@ -117,8 +117,8 @@ typedef struct s_game
 void			init_player(t_game *game);
 void			init_game(t_game *game);
 //initialize/init_colors.c
-void	init_colors(t_game *game);
-int		rgb_to_hex(char *color);
+void			init_colors(t_game *game);
+int				rgb_to_hex(char *color);
 //initialize/init_map.c
 void			init_map(t_game *game);
 char			**read_map(t_game *game);
