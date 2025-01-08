@@ -27,13 +27,11 @@ void	init_colors(t_game *game)
 		}
 		if (line && line[0] == 'F')
 		{
-			printf("found: %s\n", line);
-			rgb_to_hex(line);
+			game->map.floor_color = rgb_to_hex(line);
 		}
 		else if (line && line[0] == 'C')
 		{
-			printf("found: %s\n", line);
-			rgb_to_hex(line);
+			game->map.ceiling_color = rgb_to_hex(line);
 		}
 		free(line);
 		line = get_next_line(game->fd_map);
@@ -41,25 +39,51 @@ void	init_colors(t_game *game)
 	close(game->fd_map);
 }
 
-//Double index approach
+unsigned int	create_rgb(int r, int g, int b)
+{
+	if (r < 0)
+		r = 0;
+	else if (r > 255)
+		r = 255;
+	if (g < 0)
+		g = 0;
+	else if (g > 255)
+		g = 255;
+	if (b < 0)
+		b = 0;
+	else if (b > 255)
+		b = 255;
+	return (((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff));
+}
+
+int	parse_color_component(char *color, int *start)
+{
+	int		j;
+	char	*subs;
+	int		value;
+
+	j = *start;
+	while (color[j] && color[j] != ',' && color[j] != '\n' && color[j] != ' ')
+		j++;
+	subs = ft_substr(color, *start, j - *start);
+	value = ft_atoi(subs);
+	free(subs);
+	*start = j + 1;
+	return (value);
+}
+
 int	rgb_to_hex(char *color)
 {
 	int	i;
-	int	j;
-	char	*subs;
+	int	r;
+	int	g;
+	int	b;
 
 	i = 0;
-	while (!ft_isdigit(color[i])) //jump til a number start
+	while (!ft_isdigit(color[i]))
 		i++;
-	printf("start: %c\n", color[i]);
-	j = i;
-	while (color[j + 1] != ',') //jump til a number end
-	{
-		printf("%c\n", color[j]);
-		j++;
-	}
-	printf("end: %c\n", color[i]);
-	subs = ft_substr(color, i, j - i + 1);
-	printf("subs: %s\n", subs);
-	return (i);
+	r = parse_color_component(color, &i);
+	g = parse_color_component(color, &i);
+	b = parse_color_component(color, &i);
+	return (create_rgb(r, g, b));
 }
