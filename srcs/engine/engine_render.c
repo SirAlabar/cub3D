@@ -30,9 +30,16 @@ void	engine_prepare_frame(t_game *game)
 
 int	engine_render_frame(t_game *game)
 {
+	int i;
+
 	engine_prepare_frame(game);
 	draw_background(game);
 	cast_rays(game);
+	i = -1;
+	while (++i < WINDOW_WIDTH)
+	{
+		draw_wall(game, &ray, i);
+	}			
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }

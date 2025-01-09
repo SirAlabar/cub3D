@@ -98,6 +98,5 @@ void	cast_rays(t_game *game)
 		step_side_dist(&ray, game);
 		perform_dda(&ray, game);
 		wall_height(&ray);
-		draw_wall(game, &ray, i);
 	}
 }
