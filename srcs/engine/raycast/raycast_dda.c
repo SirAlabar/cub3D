@@ -86,17 +86,16 @@ void	wall_height(t_ray *ray)
 		ray->draw_end = WINDOW_HEIGHT - 1;
 }
 
-void	cast_rays(t_game *game)
+void	cast_rays(t_game *game, t_ray *rays)
 {
 	int		i;
-	t_ray	ray;
 
 	i = -1;
 	while (++i < WINDOW_WIDTH)
 	{
-		init_ray(&ray, game, i);
-		step_side_dist(&ray, game);
-		perform_dda(&ray, game);
-		wall_height(&ray);
+		init_ray(&rays[i], game, i);
+		step_side_dist(&rays[i], game);
+		perform_dda(&rays[i], game);
+		wall_height(&rays[i]);
 	}
 }

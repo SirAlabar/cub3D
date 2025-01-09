@@ -16,22 +16,30 @@ void	cleanup_game(t_game *game)
 {
 	int	i;
 
-	if (!game)
-		return ;
-	if (game->win && game->mlx)
-		destroy_window(game->mlx, game->win);
-	if (game->img && game->mlx)
-		mlx_destroy_image(game->mlx, game->img);
-	if (game->mlx)
-		cleanup_mlx(game->mlx);
-	if (game->map.grid)
-	{
-		i = 0;
-		while (game->map.grid[i])
-			free(game->map.grid[i++]);
-		free(game->map.grid);
-	}
-	free(game);
+    if (!game)
+        return ;
+    if (game->NO.img)
+        mlx_destroy_image(game->mlx, game->NO.img);
+    if (game->SO.img)
+        mlx_destroy_image(game->mlx, game->SO.img);
+    if (game->EA.img)
+        mlx_destroy_image(game->mlx, game->EA.img);
+    if (game->WE.img)
+        mlx_destroy_image(game->mlx, game->WE.img);
+    if (game->win && game->mlx)
+        destroy_window(game->mlx, game->win);
+    if (game->img && game->mlx)
+        mlx_destroy_image(game->mlx, game->img);
+    if (game->mlx)
+        cleanup_mlx(game->mlx);
+    if (game->map.grid)
+    {
+        i = 0;
+        while (game->map.grid[i])
+            free(game->map.grid[i++]);
+        free(game->map.grid);
+    }
+    free(game);
 }
 
 int	close_window(t_game *game)
@@ -52,10 +60,10 @@ int	main(int argc, char **argv)
 		return (free(game), 1);
 	if (!checker(game, argv[1]))
 		return (1);
-	init_game(game);
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		return (cleanup_game(game), 1);
+	init_game(game);
 	game->win = mlx_new_window(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "cub3D");
 	if (!game->win)
 		return (cleanup_game(game), 1);

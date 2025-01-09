@@ -79,6 +79,7 @@ void					draw_wall(t_game *game, t_ray *ray, int x);
  */
 // texture_manager.c
 t_texture				*texture_create(t_game *game, char *texture_path);
+t_texture				*get_wall_texture(t_ray *ray, t_game *game);
 void					texture_destroy(t_texture **texture, void *mlx);
 
 /*
@@ -114,7 +115,7 @@ void					init_ray(t_ray *ray, t_game *game, int x);
 void					step_side_dist(t_ray *ray, t_game *game);
 void					perform_dda(t_ray *ray, t_game *game);
 void					wall_height(t_ray *ray);
-void					cast_rays(t_game *game);
+void					cast_rays(t_game *game, t_ray *rays);
 
 // raycast_walls.c
 
