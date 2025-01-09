@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:20:50 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/09 20:12:29 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/09 20:13:54 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@ void	rotate_player(t_game *g, double angle)
 
 void	handle_movement(t_game *game)
 {
-	double	dir_x = 0;
-	double	dir_y = 0;
+	double	dir_x;
+	double	dir_y;
 
+	dir_x = 0;
+	dir_y = 0;
 	if (game->p1.keys.w)
 	{
 		dir_x += game->p1.dir.x;
