@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:08:26 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/09 19:04:21 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:06:32 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 bool	ft_istexture(char c)
 {
-	int	i = 0;
-	char	*arr = "NSWE";
+	int		i;
+	char	*arr;
+
+	i = 0;
+	arr = "NSWE";
 	while (arr[i])
 	{
 		if (c == arr[i])
@@ -33,7 +36,7 @@ void	*set_texture(t_texture *texture, char *path)
 	while (path && path[i] && ft_isspace(path[i]))
 		i++;
 	texture->path = &path[i];
-	printf("Norht inside path: %s\n", texture->path);
+	printf("Norht inside path:%s\n", texture->path);
 	return (NULL);
 }
 
@@ -74,7 +77,6 @@ void	init_textures(t_game *game)
 			free(line);
 			line = get_next_line(game->fd_map);
 		}
-		printf("hit: %s\n", line);
 		split_textures(game, line);
 		free(line);
 		line = get_next_line(game->fd_map);
