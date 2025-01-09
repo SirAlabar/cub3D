@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/09 18:21:09 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:29:23 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ void			set_grid(t_game *game);
 void			init_textures(t_game *game);
 //initialize/printers.c
 void			print_map(t_game *game);
+//
+void			read_error(t_game *game);
 //
 void			init_test_map(t_game *game);
 int				close_window(t_game *game);
