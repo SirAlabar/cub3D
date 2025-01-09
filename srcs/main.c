@@ -59,7 +59,8 @@ int	main(int argc, char **argv)
 	game->win = mlx_new_window(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "cub3D");
 	if (!game->win)
 		return (cleanup_game(game), 1);
-	mlx_hook(game->win, 2, 1L << 0, key_handler, game);
+	mlx_hook(game->win, 2, 1L << 0, key_press, game);
+	mlx_hook(game->win, 3, 1L << 1, key_release, game);
 	mlx_hook(game->win, 17, 0, close_window, game);
 	mlx_loop_hook(game->mlx, engine_render_frame, game);
 	mlx_loop(game->mlx);

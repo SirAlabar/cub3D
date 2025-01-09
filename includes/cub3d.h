@@ -57,8 +57,8 @@
 # define WINDOW_WIDTH 800
 # define WINDOW_HEIGHT 600
 # define FOV 60
-# define MOVE_SPEED 0.1
-# define ROTATION_SPEED 0.05
+# define MOVE_SPEED 0.02
+# define ROTATION_SPEED 0.02
 
 /* Map characters */
 # define VALID_MAP_CHARS "01NSEW "
@@ -74,6 +74,16 @@
 
 /* Structs */
 
+typedef struct s_keys
+{
+	int	w;
+	int	a;
+	int	s;
+	int	d;
+	int	left;
+	int	right;
+}	t_keys;
+
 typedef struct s_player
 {
 	t_vector	pos;
@@ -81,6 +91,7 @@ typedef struct s_player
 	t_vector	plane;
 	double		move_speed;
 	double		rot_speed;
+	t_keys		keys;
 }				t_player;
 
 typedef struct s_map
@@ -129,6 +140,9 @@ void			print_map(t_game *game);
 //
 void			init_test_map(t_game *game);
 int				close_window(t_game *game);
+void			handle_movement(t_game *game);
+int				key_release(int keycode, t_game *game);
+int				key_press(int keycode, t_game *game);
 int				key_handler(int keycode, t_game *game);
 
 #endif

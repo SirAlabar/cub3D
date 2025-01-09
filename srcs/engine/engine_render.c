@@ -33,6 +33,7 @@ int	engine_render_frame(t_game *game)
 	engine_prepare_frame(game);
 	draw_background(game);
 	cast_rays(game);
+	handle_movement(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }
