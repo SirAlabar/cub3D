@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/08 20:28:49 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:29:23 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,13 @@ typedef struct s_game
 	char		*map_path;
 	t_map		map;
 	t_player	p1;
-	t_texture	NO;
-	t_texture	SO;
-	t_texture	EA;
-	t_texture	WE;
+	t_texture	north;
+	t_texture	south;
+	t_texture	east;
+	t_texture	west;
 }				t_game;
 
+void			cleanup_game(t_game *game);
 // parse
 void			init_player(t_game *game);
 void			init_game(t_game *game);
@@ -124,8 +125,12 @@ void			init_map(t_game *game);
 char			**read_map(t_game *game);
 int				count_lines(t_game *game);
 void			set_grid(t_game *game);
+//initialize/textures.c
+void			init_textures(t_game *game);
 //initialize/printers.c
 void			print_map(t_game *game);
+//
+void			read_error(t_game *game);
 //
 void			init_test_map(t_game *game);
 int				close_window(t_game *game);

@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/07 12:36:57 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:48:26 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,11 @@
 
 void    init_game(t_game *game)
 {
-    t_texture *north;
-    t_texture *south;
-    t_texture *east;
-    t_texture *west;
-
-    init_map(game);
-    init_player(game);
-    
-    north = texture_create(game, "./texture/north.xpm");
-    south = texture_create(game, "./texture/south.xpm");
-    east = texture_create(game, "./texture/east.xpm");
-    west = texture_create(game, "./texture/west.xpm");
-
-    if (!north || !south || !east || !west)
-    {
-        ft_printf("Error\nFailed to load textures\n");
-        if (north) free(north);
-        if (south) free(south);
-        if (east) free(east);
-        if (west) free(west);
-        exit(1);
-    }
-    game->NO = *north;
-    game->SO = *south;
-    game->EA = *east;
-    game->WE = *west;
-    free(north);
-    free(south);
-    free(east);
-    free(west);
+	init_map(game);
+	init_textures(game);
+	init_player(game);
 }
+
 void	move_player(t_game *game, double dir_x, double dir_y)
 {
 	double	new_x;
