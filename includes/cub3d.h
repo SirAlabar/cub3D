@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/08 18:23:13 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:21:09 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct s_game
 	t_texture	west;
 }				t_game;
 
+void			cleanup_game(t_game *game);
 // parse
 void			init_player(t_game *game);
 void			init_game(t_game *game);
@@ -124,6 +125,8 @@ void			init_map(t_game *game);
 char			**read_map(t_game *game);
 int				count_lines(t_game *game);
 void			set_grid(t_game *game);
+//initialize/textures.c
+void			init_textures(t_game *game);
 //initialize/printers.c
 void			print_map(t_game *game);
 //
