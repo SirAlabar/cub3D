@@ -35,6 +35,25 @@ t_texture	*texture_create(t_game *game, char *texture_path)
 	return (texture);
 }
 
+t_texture get_wall_texture(t_ray ray, t_game *game)
+
+{
+	if (ray->side == 0)
+	{
+		if (ray->dir.x > 0)
+			return (&game->WE);
+		else
+		return (&game->EA);
+	}
+	else
+	{
+		if (ray->dir.y > 0)
+			return (&game->NO);
+		else			
+			return (&game->SO);
+	}
+}
+
 void	texture_destroy(t_texture **texture, void *mlx)
 {
 	if (*texture)
