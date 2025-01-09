@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 16:32:52 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/01 18:19:28 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:23:20 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # define ERROR_USAGE "Game usage: ./cub3d maps/valid_map.cub\n"
 # define ERROR_MAPTYPE "Invalid map extension\n"
+# define ERROR_OPEN "Error\nOpen"
 
 typedef struct s_game	t_game;
 typedef struct s_map	t_map;
