@@ -37,23 +37,28 @@ int	draw_background(t_game *game)
 	return (1);
 }
 
-void	draw_wall(t_game *game, t_ray *ray, int x)
+void    draw_wall(t_game *game, t_ray *ray, int x)
 {
-	int	y;
-	int	color;
+   t_texture   *tex;
+   t_vector    tex_pos;
+   double      wallX;
+   int         y;
+   int         color;
 
-	if (ray->side == 0)
-	{
-		color = 0x606060;
-	}
-	else
-	{
-		color = 0x808080;
-	}
-	y = ray->draw_start;
-	while (y < ray->draw_end)
-	{
-		draw_pixel(game, x, y, color);
-		y++;
-	}
+   tex = get_wall_texture(ray, game);
+   if (ray->side == 0)
+       wallX = game->p1.pos.y + ray->perp_wall_dist * ray->dir.y;
+   else
+       wallX = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
+   wallX -= floor(wallX);
+   tex_pos.x = (int)(wallX * tex->width);
+   y = ray->draw_start;
+   while (y < ray->draw_end)
+   {
+       tex_pos.y = (y - ray->draw_start) * tex->height
+           / (ray->draw_end - ray->draw_start);
+       color = get_texture_pixel(tex, tex_pos.x, tex_pos.y);
+       draw_pixel(game, x, y, color);
+       y++;
+   }
 }
