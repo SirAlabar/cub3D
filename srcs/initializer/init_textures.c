@@ -31,10 +31,15 @@ bool	ft_istexture(char c)
 void	*set_texture(t_texture *texture, char *path)
 {
 	int	i;
+	char *tex_path;
 
 	i = 2;
 	while (path && path[i] && ft_isspace(path[i]))
 		i++;
+
+	tex_path = ft_strdup(&path[i]);
+	if (!tex_path)
+		return	
 	texture->path = &path[i];
 	printf("Norht inside path:%s\n", texture->path);
 	return (NULL);

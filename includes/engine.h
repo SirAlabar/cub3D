@@ -117,28 +117,4 @@ void					perform_dda(t_ray *ray, t_game *game);
 void					wall_height(t_ray *ray);
 void					cast_rays(t_game *game, t_ray *rays);
 
-// raycast_walls.c
-
-/*
-// draw_basic.c
-void					draw_pixel(t_game *game, int x, int y, int color);
-void	draw_line(t_game *game, t_vector start, t_vector end,
-							int color);
-void	draw_rect(t_game *game, t_vector pos, t_vector size,
-							int color);
-
-// draw_background.c
-void					draw_floor(t_game *game);
-void					draw_ceiling(t_game *game);
-void					draw_background(t_game *game);
-*/
-// draw_player.c
-// void        draw_player(t_game *game);
-// void        draw_player_direction(t_game *game);
-
-// draw_minimap.c
-// void        draw_minimap(t_game *game);
-// void        draw_minimap_walls(t_game *game);
-// void        draw_minimap_player(t_game *game);
-
 #endif

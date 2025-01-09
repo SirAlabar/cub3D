@@ -18,14 +18,14 @@ void	cleanup_game(t_game *game)
 
     if (!game)
         return ;
-    if (game->NO.img)
-        mlx_destroy_image(game->mlx, game->NO.img);
-    if (game->SO.img)
-        mlx_destroy_image(game->mlx, game->SO.img);
-    if (game->EA.img)
-        mlx_destroy_image(game->mlx, game->EA.img);
-    if (game->WE.img)
-        mlx_destroy_image(game->mlx, game->WE.img);
+    if (game->north.img)
+        mlx_destroy_image(game->mlx, game->north.img);
+    if (game->south.img)
+        mlx_destroy_image(game->mlx, game->south.img);
+    if (game->east.img)
+        mlx_destroy_image(game->mlx, game->east.img);
+    if (game->west.img)
+        mlx_destroy_image(game->mlx, game->west.img);
     if (game->win && game->mlx)
         destroy_window(game->mlx, game->win);
     if (game->img && game->mlx)
