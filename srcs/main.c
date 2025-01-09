@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/07 12:38:34 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/09 18:23:49 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	cleanup_game(t_game *game)
 		free(game->map.grid);
 	}
 	free(game);
+	exit(1);
 }
 
 int	close_window(t_game *game)

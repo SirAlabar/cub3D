@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 18:10:02 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/08 18:39:23 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/09 19:07:04 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	init_colors(t_game *game)
 	char	*line;
 
 	game->fd_map = open(game->map_path, O_RDONLY);
+	if (game->fd_map == -1)
+		read_error(game);
 	line = get_next_line(game->fd_map);
 	while (line)
 	{
