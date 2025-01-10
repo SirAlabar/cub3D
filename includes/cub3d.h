@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/09 20:11:39 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/10 20:46:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <colors.h>
 # include <engine.h>
+# include <events.h>
 # include <fcntl.h>
 # include <libft.h>
 # include <math.h>
@@ -54,11 +55,11 @@
 # endif
 
 /* Window settings */
-# define WINDOW_WIDTH 800
-# define WINDOW_HEIGHT 600
+# define WINDOW_WIDTH 1000
+# define WINDOW_HEIGHT 800
 # define FOV 60
 # define MOVE_SPEED 0.02
-# define ROTATION_SPEED 0.02
+# define ROTATION_SPEED 0.015
 
 /* Map characters */
 # define VALID_MAP_CHARS "01NSEW "
@@ -73,16 +74,6 @@
 # define ERR_MALLOC "Error\nMemory allocation failed\n"
 
 /* Structs */
-
-typedef struct s_keys
-{
-	int	w;
-	int	a;
-	int	s;
-	int	d;
-	int	left;
-	int	right;
-}	t_keys;
 
 typedef struct s_player
 {
