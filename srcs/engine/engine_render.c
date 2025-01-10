@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 21:00:00 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/10 21:09:09 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/10 21:11:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	engine_prepare_frame(t_game *game)
 
 int	engine_render_frame(t_game *game)
 {
-	int i;
-	t_ray rays[WINDOW_WIDTH];
+	int		i;
+	t_ray	rays[WINDOW_WIDTH];
 
 	engine_prepare_frame(game);
 	draw_background(game);
@@ -40,7 +40,8 @@ int	engine_render_frame(t_game *game)
 	while (++i < WINDOW_WIDTH)
 	{
 		draw_wall(game, &rays[i], i);
-	}			
+	}
+	handle_movement(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }

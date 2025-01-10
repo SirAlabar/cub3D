@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   engine.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 18:28:20 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/08 20:04:04 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/10 21:24:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define ENGINE_H
 
 # include <cub3d.h>
-# include <stdbool.h>
 # include <math.h>
+# include <stdbool.h>
 
 typedef struct s_game	t_game;
 
@@ -27,20 +27,22 @@ typedef struct s_vector
 
 typedef struct s_ray
 {
-	t_vector	dir;
-	t_vector	side_dist;
-	t_vector	delta_dist;
-	double		perp_wall_dist;
-	int			line_height;
-	int			map_x;
-	int			map_y;
-	int			step_x;
-	int			step_y;
-	bool		hit;
-	int			side;
-	int			draw_start;
-	int			draw_end;
-}	t_ray;
+	t_vector			dir;
+	t_vector			side_dist;
+	t_vector			delta_dist;
+	double				perp_wall_dist;
+	double				step;
+	int					tex_x;
+	int					line_height;
+	int					map_x;
+	int					map_y;
+	int					step_x;
+	int					step_y;
+	bool				hit;
+	int					side;
+	int					draw_start;
+	int					draw_end;
+}						t_ray;
 
 typedef struct s_texture
 {
@@ -69,6 +71,7 @@ void					draw_pixel(t_game *game, int x, int y, int color);
 void					draw_texture_pixel(t_texture *tex, int x, int y,
 							int color);
 unsigned int			get_texture_pixel(t_texture *tex, int x, int y);
+unsigned int			apply_shade(unsigned int color, double shade);
 
 // draw_background.c
 int						draw_background(t_game *game);

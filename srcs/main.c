@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/09 18:23:49 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/10 21:31:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,34 @@ void	cleanup_game(t_game *game)
 {
 	int	i;
 
-    if (!game)
-        return ;
-    if (game->north.img)
-        mlx_destroy_image(game->mlx, game->north.img);
-    if (game->south.img)
-        mlx_destroy_image(game->mlx, game->south.img);
-    if (game->east.img)
-        mlx_destroy_image(game->mlx, game->east.img);
-    if (game->west.img)
-        mlx_destroy_image(game->mlx, game->west.img);
-    if (game->win && game->mlx)
-        destroy_window(game->mlx, game->win);
-    if (game->img && game->mlx)
-        mlx_destroy_image(game->mlx, game->img);
-    if (game->mlx)
-        cleanup_mlx(game->mlx);
-    if (game->map.grid)
-    {
-        i = 0;
-        while (game->map.grid[i])
-            free(game->map.grid[i++]);
-        free(game->map.grid);
-    }
-    free(game);
+	if (!game)
+		return ;
+	if (game->north.img)
+		mlx_destroy_image(game->mlx, game->north.img);
+	if (game->south.img)
+		mlx_destroy_image(game->mlx, game->south.img);
+	if (game->east.img)
+		mlx_destroy_image(game->mlx, game->east.img);
+	if (game->west.img)
+		mlx_destroy_image(game->mlx, game->west.img);
+	if (game->win && game->mlx)
+		destroy_window(game->mlx, game->win);
+	if (game->img && game->mlx)
+		mlx_destroy_image(game->mlx, game->img);
+	if (game->mlx)
+		cleanup_mlx(game->mlx);
+	if (game->map.grid)
+	{
+		i = 0;
+		while (i < game->map.height)
+		{
+			if (game->map.grid[i])
+				free(game->map.grid[i]);
+			i++;
+		}
+		free(game->map.grid);
+	}
+	free(game);
 }
 
 int	close_window(t_game *game)

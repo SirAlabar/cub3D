@@ -31,11 +31,11 @@ t_texture	*texture_create(t_game *game, char *texture_path)
 		return (NULL);
 	}
 	texture->addr = mlx_get_data_addr(texture->img, &texture->bpp,
-			&texture->line_len, &texture->endian);	 
+			&texture->line_len, &texture->endian);
 	return (texture);
 }
 
-t_texture *get_wall_texture(t_ray *ray, t_game *game)
+t_texture	*get_wall_texture(t_ray *ray, t_game *game)
 {
 	if (ray->side == 0)
 	{
@@ -48,7 +48,7 @@ t_texture *get_wall_texture(t_ray *ray, t_game *game)
 	{
 		if (ray->dir.y > 0)
 			return (&game->north);
-		else			
+		else
 			return (&game->south);
 	}
 }

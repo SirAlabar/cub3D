@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:29:11 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/09 18:30:13 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/10 21:33:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,35 @@ void	init_map(t_game *game)
 	read_map(game);
 }
 
+static size_t	get_map_width(char **grid, int height)
+{
+	size_t	max_width;
+	size_t	line_len;
+	int		i;
+
+	max_width = 0;
+	i = 0;
+	while (i < height)
+	{
+		line_len = ft_strlen(grid[i]);
+		if (line_len > max_width)
+			max_width = line_len;
+		i++;
+	}
+	return (max_width);
+}
+
 char	**read_map(t_game *game)
 {
 	game->map.height = count_lines(game);
-	game->map.grid = ft_calloc(sizeof(char **), game->map.height + 1);
+	if (game->map.height <= 0)
+		return (NULL);
+	game->map.grid = ft_calloc(sizeof(char *), game->map.height + 1);
+	if (!game->map.grid)
+		return (NULL);
 	set_grid(game);
-	game->map.width = 8;
-	return (NULL);
+	game->map.width = get_map_width(game->map.grid, game->map.height);
+	return (game->map.grid);
 }
 
 void	set_grid(t_game *game)
