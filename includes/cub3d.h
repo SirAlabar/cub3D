@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:39:31 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/09 18:29:23 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/10 21:09:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <colors.h>
 # include <engine.h>
+# include <events.h>
 # include <fcntl.h>
 # include <libft.h>
 # include <math.h>
@@ -54,11 +55,11 @@
 # endif
 
 /* Window settings */
-# define WINDOW_WIDTH 800
-# define WINDOW_HEIGHT 600
+# define WINDOW_WIDTH 1000
+# define WINDOW_HEIGHT 800
 # define FOV 60
-# define MOVE_SPEED 0.1
-# define ROTATION_SPEED 0.05
+# define MOVE_SPEED 0.02
+# define ROTATION_SPEED 0.015
 
 /* Map characters */
 # define VALID_MAP_CHARS "01NSEW "
@@ -81,6 +82,7 @@ typedef struct s_player
 	t_vector	plane;
 	double		move_speed;
 	double		rot_speed;
+	t_keys		keys;
 }				t_player;
 
 typedef struct s_map
@@ -117,6 +119,8 @@ void			cleanup_game(t_game *game);
 // parse
 void			init_player(t_game *game);
 void			init_game(t_game *game);
+//events/
+void			*keys_else(t_game *game, double *dir_x, double *dir_y);
 //initialize/init_colors.c
 void			init_colors(t_game *game);
 int				rgb_to_hex(char *color);
@@ -134,6 +138,9 @@ void			read_error(t_game *game);
 //
 void			init_test_map(t_game *game);
 int				close_window(t_game *game);
+void			handle_movement(t_game *game);
+int				key_release(int keycode, t_game *game);
+int				key_press(int keycode, t_game *game);
 int				key_handler(int keycode, t_game *game);
 
 #endif
