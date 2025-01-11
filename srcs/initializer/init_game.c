@@ -32,10 +32,14 @@ void	init_textures_game(t_game *game)
 	t_texture	*east;
 	t_texture	*west;
 
-	north = texture_create(game, "./assets/texture/metal.xpm");
-	south = texture_create(game, "./assets/texture/metal2.xpm");
-	east = texture_create(game, "./assets/texture/metal3.xpm");
-	west = texture_create(game, "./assets/texture/metal4.xpm");
+	north = texture_create(game, game->north.path);
+	free(game->north.path);
+	south = texture_create(game, game->south.path);
+	free(game->south.path);
+	east = texture_create(game, game->east.path);
+	free(game->east.path);
+	west = texture_create(game, game->west.path);
+	free(game->west.path);
 	if (!north || !south || !east || !west)
 	{
 		ft_printf("Error\nFailed to load textures\n");
