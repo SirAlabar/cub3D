@@ -36,37 +36,41 @@ int	count_color(int flag)
 	return (count);
 }
 
-bool	check_colors(t_game *game)
+void validate_color(char *line, int *i)
+{
+	while (line && line[*i] && ft_isspace(line[*i]))
+		(*i)++;
+	if (line && line[*i] && ft_iscolor(line[*i]))
+	{
+		count_color(1);
+	}
+	free(line);
+}
+
+bool check_colors(t_game *game)
 {
 	char	*line;
 	int		i;
 
+	i = 0;
 	game->fd_map = open(game->map_path, O_RDONLY);
 	if (game->fd_map == -1)
+	{
 		read_error(game);
+		return (false);
+	}
 	line = get_next_line(game->fd_map);
-	i = 0;
 	while (line)
 	{
-		while(line && line[i] && ft_isspace(line[i]))
-			i++;
-		while (line && line[i] && !ft_iscolor(line[i]))
-		{
-			free(line);
-			line = get_next_line(game->fd_map);
-		}
-		if (line && line[i] && ft_iscolor(line[i]))
-			count_color(1);
-		free(line);
-		line = get_next_line(game->fd_map);
+		validate_color(line, &i);
 		i = 0;
+		line = get_next_line(game->fd_map);
 	}
 	close(game->fd_map);
 	if (count_color(0) != 2)
 		return (ft_putendl_fd("Error\ncolors", 2), false);
 	return (true);
 }
-
 bool	checker(t_game *game, char *path)
 {
 	(void) path;
