@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:38 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/07 12:08:39 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/11 19:09:00 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,14 @@ bool	ft_iscolor(char c)
 
 int	count_color(int flag)
 {
-	static int count = 0;
+	static int	count = 0;
+
 	if (flag)
 		count++;
 	return (count);
 }
 
-void validate_color(char *line, int *i)
+void	validate_color(char *line, int *i)
 {
 	while (line && line[*i] && ft_isspace(line[*i]))
 		(*i)++;
@@ -47,7 +48,7 @@ void validate_color(char *line, int *i)
 	free(line);
 }
 
-bool check_colors(t_game *game)
+bool	check_colors(t_game *game)
 {
 	char	*line;
 	int		i;
@@ -73,7 +74,6 @@ bool check_colors(t_game *game)
 
 bool	checker(t_game *game, char *path)
 {
-	(void) path;
 	game->map_path = path;
 	if (!check_colors(game))
 		return (cleanup_game(game), false);
