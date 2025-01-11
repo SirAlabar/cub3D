@@ -3,21 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/10 21:31:33 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/11 13:48:06 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	cleanup_game(t_game *game)
+static void	cleanup_textures(t_game *game)
 {
-	int	i;
-
-	if (!game)
-		return ;
 	if (game->north.img)
 		mlx_destroy_image(game->mlx, game->north.img);
 	if (game->south.img)
@@ -26,15 +22,15 @@ void	cleanup_game(t_game *game)
 		mlx_destroy_image(game->mlx, game->east.img);
 	if (game->west.img)
 		mlx_destroy_image(game->mlx, game->west.img);
-	if (game->win && game->mlx)
-		destroy_window(game->mlx, game->win);
-	if (game->img && game->mlx)
-		mlx_destroy_image(game->mlx, game->img);
-	if (game->mlx)
-		cleanup_mlx(game->mlx);
+}
+
+static void	cleanup_map(t_game *game)
+{
+	int	i;
+
+	i = 0;
 	if (game->map.grid)
 	{
-		i = 0;
 		while (i < game->map.height)
 		{
 			if (game->map.grid[i])
@@ -43,6 +39,20 @@ void	cleanup_game(t_game *game)
 		}
 		free(game->map.grid);
 	}
+}
+
+void	cleanup_game(t_game *game)
+{
+	if (!game)
+		return ;
+	cleanup_textures(game);
+	if (game->win && game->mlx)
+		destroy_window(game->mlx, game->win);
+	if (game->img && game->mlx)
+		mlx_destroy_image(game->mlx, game->img);
+	if (game->mlx)
+		cleanup_mlx(game->mlx);
+	cleanup_map(game);
 	free(game);
 }
 
