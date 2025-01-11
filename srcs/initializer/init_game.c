@@ -33,9 +33,13 @@ void	init_textures_game(t_game *game)
 	t_texture	*west;
 
 	north = texture_create(game, game->north.path);
+	free(game->north.path);
 	south = texture_create(game, game->south.path);
+	free(game->south.path);
 	east = texture_create(game, game->east.path);
+	free(game->east.path);
 	west = texture_create(game, game->west.path);
+	free(game->west.path);
 	if (!north || !south || !east || !west)
 	{
 		ft_printf("Error\nFailed to load textures\n");
@@ -54,5 +58,6 @@ void	init_game(t_game *game)
 {
 	init_map(game);
 	init_player(game);
+	init_textures(game);
 	init_textures_game(game);
 }
