@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 13:47:41 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 14:00:33 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	init_textures_game(t_game *game)
 	t_texture	*east;
 	t_texture	*west;
 
-	north = texture_create(game, game->north.path);
-	south = texture_create(game, game->south.path);
-	east = texture_create(game, game->east.path);
-	west = texture_create(game, game->west.path);
+	north = texture_create(game, "./texture/north.xpm");
+	south = texture_create(game, "./texture/south.xpm");
+	east = texture_create(game, "./texture/east.xpm");
+	west = texture_create(game, "./texture/west.xpm");
 	if (!north || !south || !east || !west)
 	{
 		ft_printf("Error\nFailed to load textures\n");
