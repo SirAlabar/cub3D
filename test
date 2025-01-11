@@ -1,0 +1,32 @@
+==55557== Memcheck, a memory error detector
+==55557== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==55557== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==55557== Command: ./cub3d ./maps/valid/test.cub
+==55557== 
+Error
+Invalid floor color value (must be 0-255)
+==55557== 
+==55557== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==55557== 
+==55557== HEAP SUMMARY:
+==55557==     in use at exit: 31 bytes in 1 blocks
+==55557==   total heap usage: 350 allocs, 349 frees, 110,843 bytes allocated
+==55557== 
+==55557== 31 bytes in 1 blocks are still reachable in loss record 1 of 1
+==55557==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==55557==    by 0x408875: get_calloc (get_next_line_utils.c:71)
+==55557==    by 0x408568: get_rest (get_next_line.c:82)
+==55557==    by 0x408683: get_next_line (get_next_line.c:108)
+==55557==    by 0x403A7B: init_colors (init_colors.c:96)
+==55557==    by 0x403DEC: init_map (init_map.c:22)
+==55557==    by 0x403D74: init_game (init_game.c:59)
+==55557==    by 0x402893: main (main.c:80)
+==55557== 
+==55557== LEAK SUMMARY:
+==55557==    definitely lost: 0 bytes in 0 blocks
+==55557==    indirectly lost: 0 bytes in 0 blocks
+==55557==      possibly lost: 0 bytes in 0 blocks
+==55557==    still reachable: 31 bytes in 1 blocks
+==55557==         suppressed: 0 bytes in 0 blocks
+==55557== 
+==55557== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
