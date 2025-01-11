@@ -36,9 +36,9 @@ void	init_textures_game(t_game *game)
 	free(game->north.path);
 	south = texture_create(game, game->south.path);
 	free(game->south.path);
-	east = texture_create(game, game->east.path );
+	east = texture_create(game, game->east.path);
 	free(game->east.path);
-	west = texture_create(game, game->west.path );
+	west = texture_create(game, game->west.path);
 	free(game->west.path);
 	if (!north || !south || !east || !west)
 	{
