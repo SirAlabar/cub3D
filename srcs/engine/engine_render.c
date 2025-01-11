@@ -34,7 +34,7 @@ int	engine_render_frame(t_game *game)
 	t_ray	rays[WINDOW_WIDTH];
 
 	update_fps(game);
-    printf("FPS: %.2f\r", game->fps);	
+	printf("FPS: %.2f\r", game->fps);
 	engine_prepare_frame(game);
 	draw_background(game);
 	cast_rays(game, rays);

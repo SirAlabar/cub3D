@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 17:20:30 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 18:40:55 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,8 @@ void	init_game(t_game *game)
 {
 	init_map(game);
 	init_player(game);
-	//init_textures(game);
+	init_textures(game);
 	init_textures_game(game);
 	game->last_mouse = vector_create(-1, -1);
-    game->mouse_sensi = 0.003;
-	printf("Mouse sensitivity: %f\n", game->mouse_sensi);
-	printf("Initial mouse pos: %f, %f\n", game->last_mouse.x, game->last_mouse.y);	
+	game->mouse_sensi = 0.002;
 }

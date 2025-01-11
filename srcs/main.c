@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/11 17:17:46 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 18:56:20 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,24 @@ void	cleanup_game(t_game *game)
 		return ;
 	cleanup_textures(game);
 	if (game->win && game->mlx)
-		destroy_window(game->mlx, game->win);
+	{
+		mlx_mouse_show(game->mlx, game->win);
+		mlx_clear_window(game->mlx, game->win);
+		mlx_destroy_window(game->mlx, game->win);
+		game->win = NULL;
+	}
 	if (game->img && game->mlx)
+	{
 		mlx_destroy_image(game->mlx, game->img);
+		game->img = NULL;
+	}
 	if (game->mlx)
-		cleanup_mlx(game->mlx);
+	{
+		mlx_loop_end(game->mlx);
+		mlx_destroy_display(game->mlx);
+		free(game->mlx);
+		game->mlx = NULL;
+	}
 	cleanup_map(game);
 	free(game);
 }
@@ -60,13 +73,6 @@ int	close_window(t_game *game)
 {
 	mlx_loop_end(game->mlx);
 	return (0);
-}
-static int      mouse_wrapper(int x, int y, void *param)
-{
-    t_game *game;
-
-    game = (t_game *)param;
-    return (mouse_move(game, vector_create(x, y)));
 }
 
 int	main(int argc, char **argv)
@@ -88,7 +94,6 @@ int	main(int argc, char **argv)
 	game->win = mlx_new_window(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "cub3D");
 	if (!game->win)
 		return (cleanup_game(game), 1);
-    mlx_mouse_hide(game->mlx, game->win);	
 	mlx_hook(game->win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->win, 3, 1L << 1, key_release, game);
 	mlx_hook(game->win, 17, 0, close_window, game);

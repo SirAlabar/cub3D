@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_textures.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:08:26 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/09 19:06:32 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/11 18:54:00 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	init_textures(t_game *game)
 			free(line);
 			line = get_next_line(game->fd_map);
 		}
-		printf("%s\n", line);
 		split_textures(game, line);
 		free(line);
 		line = get_next_line(game->fd_map);

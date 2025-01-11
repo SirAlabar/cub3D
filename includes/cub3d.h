@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:34 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 16:24:05 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 18:48:48 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <unistd.h>
 # include <validations.h>
 # include <checker.h>
+//# include <X11/Xlib.h>
 
 # ifdef MAC_OS
 #  include <mlx.h>

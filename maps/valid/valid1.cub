@@ -1,10 +1,10 @@
 F 139,99,58
 C 171,154,137
 
-NO assets/texture/north.xpm
-SO assets/texture/south.xpm
-WE assets/texture/west.xpm
-EA assets/texture/east.xpm
+NO assets/texture/fire1.xpm
+SO assets/texture/fire2.xpm
+WE assets/texture/fire3.xpm
+EA assets/texture/fire4.xpm
 
 1111111111111111111
 1001001001001001001

@@ -12,33 +12,33 @@
 
 #include <cub3d.h>
 
-void draw_text_box(t_game *game, int x, int y, int color)
+void	draw_text_box(t_game *game, int x, int y, int color)
 {
-    int i;
-    int j;
+	int	i;
+	int	j;
 
-    i = -1;
-    while (++i < 40)
-    {
-        j = -1;
-        while (++j < 20)
-            draw_pixel(game, x + i, y + j, 0x000000);
-    }
-    i = -1;
-    while (++i < 38)
-    {
-        j = -1;
-        while (++j < 18)
-            draw_pixel(game, x + i + 1, y + j + 1, color);
-    }
+	i = -1;
+	while (++i < 40)
+	{
+		j = -1;
+		while (++j < 20)
+			draw_pixel(game, x + i, y + j, 0x000000);
+	}
+	i = -1;
+	while (++i < 38)
+	{
+		j = -1;
+		while (++j < 18)
+			draw_pixel(game, x + i + 1, y + j + 1, color);
+	}
 }
 
-void draw_hud(t_game *game)
+void	draw_hud(t_game *game)
 {
-    char *fps;
+	char	*fps;
 
-    fps = ft_itoa(game->fps);
-    draw_text_box(game, 10, 10, 0x333333);
-    mlx_string_put(game->mlx, game->win, 15, 25, 0xFFFFFF, fps);
-    free(fps);
+	fps = ft_itoa(game->fps);
+	draw_text_box(game, 10, 10, 0x333333);
+	mlx_string_put(game->mlx, game->win, 15, 25, 0xFFFFFF, fps);
+	free(fps);
 }
