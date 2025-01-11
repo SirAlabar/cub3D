@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 18:10:02 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/11 19:04:52 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/11 19:08:10 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	parse_color_component(char *color, int *start)
 	while (color[*start] && ft_isspace(color[*start]))
 		(*start)++;
 	j = *start;
-	while (color[j] && color[j] != ',' && color[j] != '\n' && !ft_isspace(color[j]))
+	while (color[j] && color[j] != ','
+		&& color[j] != '\n' && !ft_isspace(color[j]))
 		j++;
 	subs = ft_substr(color, *start, j - *start);
 	value = ft_atoi(subs);
@@ -59,7 +60,7 @@ void	assign_color(t_game *game, char *line)
 		color = rgb_to_hex(line);
 		if (color == -1)
 		{
-			ft_putendl_fd("Error\nInvalid floor color value (must be 0-255)", 2);
+			ft_putendl_fd("Error\nfloor)", 2);
 			get_number(42);
 		}
 		game->map.floor_color = color;
@@ -69,7 +70,7 @@ void	assign_color(t_game *game, char *line)
 		color = rgb_to_hex(line);
 		if (color == -1)
 		{
-			ft_putendl_fd("Error\nInvalid ceiling color value (must be 0-255)", 2);
+			ft_putendl_fd("Error\nceiling", 2);
 			get_number(42);
 		}
 		game->map.ceiling_color = color;
