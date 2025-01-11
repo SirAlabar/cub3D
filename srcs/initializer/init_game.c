@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 13:47:41 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 19:10:23 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	init_textures_game(t_game *game)
 	t_texture	*east;
 	t_texture	*west;
 
-	printf(RED"%s\n"DEFAULT, game->north.path);
 	north = texture_create(game, game->north.path);
 	free(game->north.path);
 	south = texture_create(game, game->south.path);
