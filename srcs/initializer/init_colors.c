@@ -50,6 +50,16 @@ int	rgb_to_hex(char *color)
 	return (((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff));
 }
 
+int	get_number(int flag)
+{
+	static int	a = 0;
+	if (flag == 42)
+		a = 1;
+	else if (flag == -1)
+		return (a);
+	return (0);
+}
+
 void	assign_color(t_game *game, char *line)
 {
 	int	color;
@@ -59,10 +69,8 @@ void	assign_color(t_game *game, char *line)
 		color = rgb_to_hex(line);
 		if (color == -1)
 		{
-			close(game->fd_map);
 			ft_putendl_fd("Error\nInvalid floor color value (must be 0-255)", 2);
-			cleanup_game(game); // Cleanup before exiting
-			exit(1);
+			get_number(42);
 		}
 		game->map.floor_color = color;
 	}
@@ -71,29 +79,39 @@ void	assign_color(t_game *game, char *line)
 		color = rgb_to_hex(line);
 		if (color == -1)
 		{
-			free(line);
-			close(game->fd_map);
 			ft_putendl_fd("Error\nInvalid ceiling color value (must be 0-255)", 2);
-			cleanup_game(game);
-			exit(1);
+			get_number(42);
 		}
 		game->map.ceiling_color = color;
+	}
+}
+
+void	norm_norm(t_game *game, char *line, char **c, char **f)
+{
+	if (line && line[0] == 'F')
+	{
+		free(*f);
+		*f = line;
+		assign_color(game, line);
+	}
+	else if (line && line[0] == 'C')
+	{
+		free(*c);
+		*c = line;
+		assign_color(game, line);
 	}
 }
 
 void	init_colors(t_game *game)
 {
 	char	*line;
+	char	*floor_line = NULL;
+	char	*ceiling_line = NULL;
 
 	game->fd_map = open(game->map_path, O_RDONLY);
 	if (game->fd_map == -1)
-	{
-		read_error(game);
-		cleanup_game(game);
-		exit(1);
-	}
+		return (read_error(game));
 	line = get_next_line(game->fd_map);
-	printf(RED"PTR:%x\n"DEFAULT, *line);
 	while (line)
 	{
 		while (line && line[0] != 'F' && line[0] != 'C')
@@ -101,10 +119,16 @@ void	init_colors(t_game *game)
 			free(line);
 			line = get_next_line(game->fd_map);
 		}
-		if (line && (line[0] == 'F' || line[0] == 'C'))
-			assign_color(game, line);
-		free(line); // Free the line after processing
+		norm_norm(game, line, &ceiling_line, &floor_line);
 		line = get_next_line(game->fd_map);
 	}
+	free(floor_line);
+	free(ceiling_line);
 	close(game->fd_map);
+	printf(RED"%i\n"DEFAULT, get_number(-1));
+	if (get_number(-1) > 0)
+	{
+		cleanup_game(game);
+		exit(1);
+	}
 }
