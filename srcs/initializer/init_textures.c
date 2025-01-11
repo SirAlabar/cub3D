@@ -30,19 +30,26 @@ bool	ft_istexture(char c)
 
 void	*set_texture(t_texture *texture, char *path)
 {
-	int	i;
+	int		i;
+	char	*tex_path;
 
+	if (!texture || !path)
+		return (NULL);
 	i = 2;
-	while (path && path[i] && ft_isspace(path[i]))
+	while (path[i] && ft_isspace(path[i]))
 		i++;
-	texture->path = &path[i];
-	printf("Norht inside path:%s\n", texture->path);
+	tex_path = ft_strtrim(&path[i], " \n\t\r");
+	if (!tex_path)
+		return (NULL);
+	if (texture->path)
+		free(texture->path);
+	texture->path = tex_path;
 	return (NULL);
 }
 
 void	*split_textures(t_game *game, char *line)
 {
-	(void) game;
+	(void)game;
 	if (line && ft_strncmp(line, "NO", 2) == 0)
 	{
 		set_texture(&game->north, line);
@@ -77,6 +84,7 @@ void	init_textures(t_game *game)
 			free(line);
 			line = get_next_line(game->fd_map);
 		}
+		printf("%s\n", line);
 		split_textures(game, line);
 		free(line);
 		line = get_next_line(game->fd_map);

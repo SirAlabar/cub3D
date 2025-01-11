@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/04 21:00:00 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/05 18:28:40 by hluiz-ma         ###   ########.fr       */
+/*   Created: 2025/01/11 13:54:39 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/01/11 13:54:41 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,16 @@ unsigned int	get_texture_pixel(t_texture *tex, int x, int y)
 {
 	return (*(unsigned int *)(tex->addr + (y * tex->line_len + x * (tex->bpp
 				/ 8))));
+}
+
+unsigned int	apply_shade(unsigned int color, double shade)
+{
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+
+	r = ((color >> 16) & 0xFF) * shade;
+	g = ((color >> 8) & 0xFF) * shade;
+	b = (color & 0xFF) * shade;
+	return ((0xFF << 24) | (r << 16) | (g << 8) | b);
 }

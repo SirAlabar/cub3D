@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/05 16:11:46 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/07 12:30:14 by marsoare         ###   ########.fr       */
+/*   Created: 2025/01/11 13:54:50 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/01/11 13:54:52 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,18 +86,16 @@ void	wall_height(t_ray *ray)
 		ray->draw_end = WINDOW_HEIGHT - 1;
 }
 
-void	cast_rays(t_game *game)
+void	cast_rays(t_game *game, t_ray *rays)
 {
 	int		i;
-	t_ray	ray;
 
 	i = -1;
 	while (++i < WINDOW_WIDTH)
 	{
-		init_ray(&ray, game, i);
-		step_side_dist(&ray, game);
-		perform_dda(&ray, game);
-		wall_height(&ray);
-		draw_wall(game, &ray, i);
+		init_ray(&rays[i], game, i);
+		step_side_dist(&rays[i], game);
+		perform_dda(&rays[i], game);
+		wall_height(&rays[i]);
 	}
 }

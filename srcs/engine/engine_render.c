@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/04 21:00:00 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/06 18:54:25 by hluiz-ma         ###   ########.fr       */
+/*   Created: 2025/01/11 13:55:14 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/01/11 13:55:16 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,18 @@ void	engine_prepare_frame(t_game *game)
 
 int	engine_render_frame(t_game *game)
 {
+	int		i;
+	t_ray	rays[WINDOW_WIDTH];
+
 	engine_prepare_frame(game);
 	draw_background(game);
-	cast_rays(game);
+	cast_rays(game, rays);
+	i = -1;
+	while (++i < WINDOW_WIDTH)
+	{
+		draw_wall(game, &rays[i], i);
+	}
+	handle_movement(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }

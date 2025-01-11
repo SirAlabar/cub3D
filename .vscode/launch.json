@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/hluiz-ma/cub3D/srcs/render",
-      "program": "/home/hluiz-ma/cub3D/srcs/render/build/Debug/outDebug",
+      "cwd": "/home/hluiz-ma/cub3D/srcs/initializer",
+      "program": "/home/hluiz-ma/cub3D/srcs/initializer/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

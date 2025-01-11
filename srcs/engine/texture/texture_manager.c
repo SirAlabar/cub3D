@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 21:00:00 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/05 16:11:39 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/08 20:14:03 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,24 @@ t_texture	*texture_create(t_game *game, char *texture_path)
 	texture->addr = mlx_get_data_addr(texture->img, &texture->bpp,
 			&texture->line_len, &texture->endian);
 	return (texture);
+}
+
+t_texture	*get_wall_texture(t_ray *ray, t_game *game)
+{
+	if (ray->side == 0)
+	{
+		if (ray->dir.x > 0)
+			return (&game->west);
+		else
+			return (&game->east);
+	}
+	else
+	{
+		if (ray->dir.y > 0)
+			return (&game->north);
+		else
+			return (&game->south);
+	}
 }
 
 void	texture_destroy(t_texture **texture, void *mlx)

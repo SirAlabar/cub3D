@@ -19,4 +19,5 @@ void	init_player(t_game *game)
 	game->p1.plane = vector_create(0.66, 0);
 	game->p1.move_speed = MOVE_SPEED;
 	game->p1.rot_speed = ROTATION_SPEED;
+	game->p1.keys = (t_keys){0, 0, 0, 0, 0, 0};
 }
