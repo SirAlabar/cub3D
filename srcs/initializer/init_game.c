@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 19:10:23 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/11 15:09:24 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	init_textures_game(t_game *game)
 	free(game->north.path);
 	south = texture_create(game, game->south.path);
 	free(game->south.path);
-	east = texture_create(game, game->east.path);
+	east = texture_create(game, game->east.path );
 	free(game->east.path);
-	west = texture_create(game, game->west.path);
+	west = texture_create(game, game->west.path );
 	free(game->west.path);
 	if (!north || !south || !east || !west)
 	{
