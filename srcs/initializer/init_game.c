@@ -3,52 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   init_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/10 21:08:31 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/11 13:47:41 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	init_game(t_game *game)
+static void	free_texture_ptrs(t_texture *n, t_texture *s, t_texture *e,
+		t_texture *w)
+{
+	if (n)
+		free(n);
+	if (s)
+		free(s);
+	if (e)
+		free(e);
+	if (w)
+		free(w);
+}
+
+void	init_textures_game(t_game *game)
 {
 	t_texture	*north;
 	t_texture	*south;
 	t_texture	*east;
 	t_texture	*west;
 
-	init_map(game);
-	// init_textures(game);
-	init_player(game);
-	// test
-	init_map(game);
-	init_player(game);
-	north = texture_create(game, "./texture/north.xpm");
-	south = texture_create(game, "./texture/south.xpm");
-	east = texture_create(game, "./texture/east.xpm");
-	west = texture_create(game, "./texture/west.xpm");
+	north = texture_create(game, game->north.path);
+	south = texture_create(game, game->south.path);
+	east = texture_create(game, game->east.path);
+	west = texture_create(game, game->west.path);
 	if (!north || !south || !east || !west)
 	{
 		ft_printf("Error\nFailed to load textures\n");
-		if (north)
-			free(north);
-		if (south)
-			free(south);
-		if (east)
-			free(east);
-		if (west)
-			free(west);
+		free_texture_ptrs(north, south, east, west);
+		cleanup_game(game);
 		exit(1);
 	}
 	game->north = *north;
 	game->south = *south;
 	game->east = *east;
 	game->west = *west;
-	free(north);
-	free(south);
-	free(east);
-	free(west);
-	// test
+	free_texture_ptrs(north, south, east, west);
+}
+
+void	init_game(t_game *game)
+{
+	init_map(game);
+	init_player(game);
+	init_textures_game(game);
 }
