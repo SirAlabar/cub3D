@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 15:07:36 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 15:09:24 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ void	init_game(t_game *game)
 {
 	init_map(game);
 	init_player(game);
+	init_textures(game);
 	init_textures_game(game);
 }

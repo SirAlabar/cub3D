@@ -25,22 +25,25 @@ void	init_map(t_game *game)
 	read_map(game);
 }
 
-static size_t	get_map_width(char **grid, int height)
+int	get_map_width(t_game *game)
 {
-	size_t	max_width;
-	size_t	line_len;
-	int		i;
+	int	width;
+	int	tmp;
+	int	height;
+	int	i;
 
-	max_width = 0;
+	width = 0;
+	height = game->map.height;
 	i = 0;
-	while (i < height)
+	tmp = 0;
+	while (height)
 	{
-		line_len = ft_strlen(grid[i]);
-		if (line_len > max_width)
-			max_width = line_len;
-		i++;
+		tmp = ft_strlen(game->map.grid[i]);
+		if (tmp > width)
+			width = tmp;
+		height--;
 	}
-	return (max_width);
+	return (width);
 }
 
 char	**read_map(t_game *game)
@@ -52,7 +55,7 @@ char	**read_map(t_game *game)
 	if (!game->map.grid)
 		return (NULL);
 	set_grid(game);
-	game->map.width = get_map_width(game->map.grid, game->map.height);
+	game->map.width = get_map_width(game);
 	return (game->map.grid);
 }
 
