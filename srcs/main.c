@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/11 13:48:06 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 16:52:40 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,13 @@ int	close_window(t_game *game)
 	mlx_loop_end(game->mlx);
 	return (0);
 }
+static int      mouse_wrapper(int x, int y, void *param)
+{
+    t_game *game;
+
+    game = (t_game *)param;
+    return (mouse_move(game, vector_create(x, y)));
+}
 
 int	main(int argc, char **argv)
 {
@@ -84,6 +91,7 @@ int	main(int argc, char **argv)
 	mlx_hook(game->win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->win, 3, 1L << 1, key_release, game);
 	mlx_hook(game->win, 17, 0, close_window, game);
+	mlx_hook(game->win, 6, 1L << 6, mouse_wrapper, game);
 	mlx_loop_hook(game->mlx, engine_render_frame, game);
 	mlx_loop(game->mlx);
 	cleanup_game(game);

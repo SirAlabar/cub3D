@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:55:14 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 13:55:16 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 16:07:29 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	engine_render_frame(t_game *game)
 	int		i;
 	t_ray	rays[WINDOW_WIDTH];
 
+	update_fps(game);
+    printf("FPS: %.2f\r", game->fps);	
 	engine_prepare_frame(game);
 	draw_background(game);
 	cast_rays(game, rays);
@@ -43,5 +45,6 @@ int	engine_render_frame(t_game *game)
 	}
 	handle_movement(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
+	draw_hud(game);
 	return (0);
 }

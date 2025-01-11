@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:34 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 13:49:36 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 16:24:05 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_game
 	int			line_length;
 	int			endian;
 	int			fd_map;
+	t_vector	last_mouse;
 	char		*map_path;
 	t_map		map;
 	t_player	p1;
@@ -113,6 +114,8 @@ typedef struct s_game
 	t_texture	south;
 	t_texture	east;
 	t_texture	west;
+	double		fps;
+	double		mouse_sensi;
 }				t_game;
 
 void			cleanup_game(t_game *game);

@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 13:49:55 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 15:22:41 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define ENGINE_H
 
 # include <cub3d.h>
+# include <sys/time.h>
 # include <math.h>
 # include <stdbool.h>
 
@@ -63,6 +64,10 @@ typedef struct s_texture
 void					engine_prepare_frame(t_game *game);
 int						engine_render_frame(t_game *game);
 
+//timer.c
+double					get_time_ms(void);
+void					update_fps(t_game *game);
+
 /*
  * Drawing Functions
  */
@@ -72,6 +77,10 @@ void					draw_texture_pixel(t_texture *tex, int x, int y,
 							int color);
 unsigned int			get_texture_pixel(t_texture *tex, int x, int y);
 unsigned int			apply_shade(unsigned int color, double shade);
+
+// draw_hud.c
+void					draw_text_box(t_game *game, int x, int y, int color);
+void					draw_hud(t_game *game);
 
 // draw_background.c
 int						draw_background(t_game *game);
