@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 15:22:41 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 20:37:02 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,30 @@ typedef struct s_vector
 	double				x;
 	double				y;
 }						t_vector;
+
+typedef struct s_scanline 
+{
+    int y_top[WINDOW_WIDTH];
+    int y_bottom[WINDOW_WIDTH];
+} t_scanline;
+
+typedef struct s_line
+{
+    int x;
+    int start; 
+    int end;
+} t_line;
+
+typedef struct s_wall
+{
+	double	x;
+	int		height;
+	int		start;
+	int		end;
+	int		tex_x;
+	int		tex_y;
+	int		color;
+}	t_wall;
 
 typedef struct s_ray
 {
@@ -85,6 +109,13 @@ void					draw_hud(t_game *game);
 // draw_background.c
 int						draw_background(t_game *game);
 void					draw_wall(t_game *game, t_ray *ray, int x);
+
+// scanline_rendering.c
+void					init_scanline_buffer(t_scanline *buffer);
+void					draw_vertical_line (t_game *g, t_line line, int color);
+void					set_wall_tex_coords (t_ray *ray, t_game *game, t_wall *wall);
+void					draw_wall_scanline (t_game *game, t_ray *ray, t_scanline *buffer);
+
 
 /*
  * Texture Management

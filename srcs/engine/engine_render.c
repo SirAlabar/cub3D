@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:55:14 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 16:07:29 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 20:13:33 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,18 @@ int	engine_render_frame(t_game *game)
 {
 	int		i;
 	t_ray	rays[WINDOW_WIDTH];
+	t_scanline	scanline_buffer;	
 
 	update_fps(game);
-	printf("FPS: %.2f\r", game->fps);
 	engine_prepare_frame(game);
 	draw_background(game);
+	init_scanline_buffer(&scanline_buffer); 	
 	cast_rays(game, rays);
 	i = -1;
 	while (++i < WINDOW_WIDTH)
 	{
-		draw_wall(game, &rays[i], i);
+		draw_wall_scanline(game, &rays[i], &scanline_buffer);
+		//draw_wall(game, &rays[i], i);
 	}
 	handle_movement(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);

@@ -6,12 +6,19 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:34 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 18:48:48 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 20:31:19 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
+/* Window settings */
+# define WINDOW_WIDTH 1000
+# define WINDOW_HEIGHT 800
+# define FOV 60
+# define MOVE_SPEED 0.02
+# define ROTATION_SPEED 0.015
 
 # include <colors.h>
 # include <engine.h>
@@ -54,13 +61,6 @@
 #  define KEY_UP XK_Up
 #  define KEY_DOWN XK_Down
 # endif
-
-/* Window settings */
-# define WINDOW_WIDTH 1000
-# define WINDOW_HEIGHT 800
-# define FOV 60
-# define MOVE_SPEED 0.02
-# define ROTATION_SPEED 0.015
 
 /* Map characters */
 # define VALID_MAP_CHARS "01NSEW "
