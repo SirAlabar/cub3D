@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 18:10:02 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/09 19:07:04 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/11 19:04:52 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,6 @@ int	rgb_to_hex(char *color)
 	return (((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff));
 }
 
-int	get_number(int flag)
-{
-	static int	a = 0;
-	if (flag == 42)
-		a = 1;
-	else if (flag == -1)
-		return (a);
-	return (0);
-}
-
 void	assign_color(t_game *game, char *line)
 {
 	int	color;
@@ -86,31 +76,15 @@ void	assign_color(t_game *game, char *line)
 	}
 }
 
-void	norm_norm(t_game *game, char *line, char **c, char **f)
+void	*init_colors(t_game *game)
 {
-	if (line && line[0] == 'F')
-	{
-		free(*f);
-		*f = line;
-		assign_color(game, line);
-	}
-	else if (line && line[0] == 'C')
-	{
-		free(*c);
-		*c = line;
-		assign_color(game, line);
-	}
-}
-
-void	init_colors(t_game *game)
-{
-	char	*line;
-	char	*floor_line = NULL;
-	char	*ceiling_line = NULL;
+	char		*line;
+	static char	*floor_line = NULL;
+	static char	*ceiling_line = NULL;
 
 	game->fd_map = open(game->map_path, O_RDONLY);
 	if (game->fd_map == -1)
-		return (read_error(game));
+		return (read_error(game), NULL);
 	line = get_next_line(game->fd_map);
 	while (line)
 	{
@@ -125,10 +99,7 @@ void	init_colors(t_game *game)
 	free(floor_line);
 	free(ceiling_line);
 	close(game->fd_map);
-	printf(RED"%i\n"DEFAULT, get_number(-1));
 	if (get_number(-1) > 0)
-	{
-		cleanup_game(game);
-		exit(1);
-	}
+		return (cleanup_game(game), exit(1), NULL);
+	return (NULL);
 }
