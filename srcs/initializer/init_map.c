@@ -25,7 +25,7 @@ void	init_map(t_game *game)
 	read_map(game);
 }
 
-int		get_map_width(t_game *game)
+int	get_map_width(t_game *game)
 {
 	int	width;
 	int	tmp;
