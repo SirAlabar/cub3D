@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:20:40 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 16:45:50 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 17:07:55 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ int mouse_move(t_game *game, t_vector pos)
 {
     t_vector center;
     double   rotation;
+
+    printf("Mouse move called: pos.x = %f, pos.y = %f\n", pos.x, pos.y);
+    printf("Last mouse: x = %f, y = %f\n", game->last_mouse.x, game->last_mouse.y);
 
     if (game->last_mouse.x == -1)
     {
