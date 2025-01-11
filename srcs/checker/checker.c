@@ -56,8 +56,7 @@ bool check_colors(t_game *game)
 	game->fd_map = open(game->map_path, O_RDONLY);
 	if (game->fd_map == -1)
 	{
-		read_error(game);
-		return (false);
+		return (read_error(game), false);
 	}
 	line = get_next_line(game->fd_map);
 	while (line)
@@ -71,6 +70,7 @@ bool check_colors(t_game *game)
 		return (ft_putendl_fd("Error\ncolors", 2), false);
 	return (true);
 }
+
 bool	checker(t_game *game, char *path)
 {
 	(void) path;

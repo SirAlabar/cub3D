@@ -47,15 +47,16 @@ void	cleanup_game(t_game *game)
 		return ;
 	cleanup_textures(game);
 	if (game->win && game->mlx)
-		destroy_window(game->mlx, game->win);
+		mlx_destroy_window(game->mlx, game->win);
 	if (game->img && game->mlx)
 		mlx_destroy_image(game->mlx, game->img);
 	if (game->mlx)
 		cleanup_mlx(game->mlx);
 	cleanup_map(game);
+	if (game->fd_map != -1)
+		close(game->fd_map);
 	free(game);
 }
-
 int	close_window(t_game *game)
 {
 	mlx_loop_end(game->mlx);

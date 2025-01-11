@@ -32,6 +32,7 @@ void	init_textures_game(t_game *game)
 	t_texture	*east;
 	t_texture	*west;
 
+	printf(RED"%s\n"DEFAULT, game->north.path);
 	north = texture_create(game, game->north.path);
 	free(game->north.path);
 	south = texture_create(game, game->south.path);
