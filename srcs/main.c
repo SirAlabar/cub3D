@@ -57,6 +57,7 @@ void	cleanup_game(t_game *game)
 		close(game->fd_map);
 	free(game);
 }
+
 int	close_window(t_game *game)
 {
 	mlx_loop_end(game->mlx);
