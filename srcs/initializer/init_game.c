@@ -58,7 +58,7 @@ void	init_game(t_game *game)
 {
 	init_map(game);
 	if (!is_map_valid(game))
-		(printf("bro im fucked\n"));
+		(printf(RED"Error\ninvalid map\n"DEFAULT));
 	init_player(game);
 	init_textures(game);
 	init_textures_game(game);
