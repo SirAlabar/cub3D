@@ -1,22 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checker.h                                          :+:      :+:    :+:   */
+/*   flood_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/07 12:40:44 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/12 17:36:19 by marsoare         ###   ########.fr       */
+/*   Created: 2025/01/12 17:34:50 by marsoare          #+#    #+#             */
+/*   Updated: 2025/01/12 17:35:06 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CHECKER_H
-# define CHECKER_H
+#include <cub3d.h>
 
-//checker.c
-bool	checker(t_game *game, char *path);
-char	**copy_map(char **original, int height);
-//flood_fill
-bool	is_map_valid(t_game *game);
+char	**copy_map(char **original, int height)
+{
+	char	**copy;
+	int		i;
 
-#endif
+	copy = (char **)malloc(sizeof(char *) * height);
+	if (!copy)
+		return (NULL);
+	i = -1;
+	while (++i < height)
+	{
+		copy[i] = ft_strdup(original[i]);
+		if (!copy[i])
+		{
+			while (--i >= 0)
+				free(copy[i]);
+			free(copy);
+			return (NULL);
+		}
+	}
+	return (copy);
+}

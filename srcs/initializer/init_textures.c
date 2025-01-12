@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 18:08:26 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/09 19:06:32 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/12 17:58:31 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	*set_texture(t_texture *texture, char *path)
 	if (texture->path)
 		free(texture->path);
 	texture->path = tex_path;
+	printf("[%s]\n", texture->path);
 	return (NULL);
 }
 
@@ -84,7 +85,6 @@ void	init_textures(t_game *game)
 			free(line);
 			line = get_next_line(game->fd_map);
 		}
-		printf("%s\n", line);
 		split_textures(game, line);
 		free(line);
 		line = get_next_line(game->fd_map);

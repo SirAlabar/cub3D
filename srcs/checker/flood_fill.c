@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:01:02 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/12 14:15:56 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/12 17:56:15 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,54 +14,58 @@
 
 #include "cub3d.h"
 
-static bool	recursive_flood_fill(t_game *game, int x, int y)
+static bool	recursive_flood_fill(char **grid, t_pos st, int height, int width)
 {
-	int	current_line_length;
+	int		current_line_length;
 
-	if (x < 0 || y < 0 || x >= game->map.height || y >= game->map.width
-		|| game->map.grid[x][y] == '1' || game->map.grid[x][y] == 'X')
+	if (st.x < 0 || st.y < 0 || st.x >= height || st.y >= width
+		|| grid[st.x][st.y] == '1' || grid[st.x][st.y] == 'X')
 		return (true);
 	current_line_length = 0;
-	while (game->map.grid[x][current_line_length] != '\0')
+	while (grid[st.x][current_line_length] != '\0')
 		current_line_length++;
-	if (y >= current_line_length)
+	if (st.y >= current_line_length)
 		return (false);
-	if (game->map.grid[x][y] == ' ')
+	if (grid[st.x][st.y] == ' ')
 		return (false);
-	if (game->map.grid[x][y] == '0' && (x == 0 || y == 0
-			|| x == game->map.height - 1 || y >= current_line_length - 1))
+	if (grid[st.x][st.y] == '0' && (st.x == 0 || st.y == 0
+			|| st.x == height - 1 || st.y >= current_line_length - 1))
 		return (false);
-	game->map.grid[x][y] = 'X';
-	if (!recursive_flood_fill(game, x - 1, y)
-		|| !recursive_flood_fill(game, x + 1, y)
-		|| !recursive_flood_fill(game, x, y - 1)
-		|| !recursive_flood_fill(game, x, y + 1))
+	grid[st.x][st.y] = 'X';
+	if (!recursive_flood_fill(grid, (t_pos){st.x - 1, st.y}, height, width))
+		return (false);
+	if (!recursive_flood_fill(grid, (t_pos){st.x + 1, st.y}, height, width))
+		return (false);
+	if (!recursive_flood_fill(grid, (t_pos){st.x, st.y - 1}, height, width))
+		return (false);
+	if (!recursive_flood_fill(grid, (t_pos){st.x, st.y + 1}, height, width))
 		return (false);
 	return (true);
 }
 
-static bool	find_start_position(t_game *game)
+static bool	find_start_position(char **grid, int height,
+		int width, t_pos *start)
 {
 	int	i;
 	int	j;
 	int	current_line_length;
 
 	i = -1;
-	while (++i < game->map.height)
+	while (++i < height)
 	{
 		j = -1;
-		while (++j < game->map.width)
+		while (++j < width)
 		{
 			current_line_length = 0;
-			while (game->map.grid[i][current_line_length] != '\0')
+			while (grid[i][current_line_length] != '\0')
 				current_line_length++;
 			if (j >= current_line_length)
-				continue;
-			if (game->map.grid[i][j] == 'N' || game->map.grid[i][j] == 'S'
-				|| game->map.grid[i][j] == 'E' || game->map.grid[i][j] == 'W')
+				continue ;
+			if (grid[i][j] == 'N' || grid[i][j] == 'S'
+				|| grid[i][j] == 'E' || grid[i][j] == 'W')
 			{
-				game->p1.pos.x = i;
-				game->p1.pos.y = j;
+				start->x = i;
+				start->y = j;
 				return (true);
 			}
 		}
@@ -69,14 +73,9 @@ static bool	find_start_position(t_game *game)
 	return (false);
 }
 
-bool	flood_fill(t_game *game)
+bool	flood_fill(char **grid, int height, int width, t_pos start)
 {
-	if (!find_start_position(game))
-	{
-		printf("Error: Player starting position not found.\n");
-		return (false);
-	}
-	if (!recursive_flood_fill(game, game->p1.pos.x, game->p1.pos.y))
+	if (!recursive_flood_fill(grid, start, height, width))
 	{
 		printf("Error: Map is not fully enclosed.\n");
 		return (false);
@@ -84,9 +83,40 @@ bool	flood_fill(t_game *game)
 	return (true);
 }
 
+static void	free_map_copy(char **copy, int height)
+{
+	int	i;
+
+	i = -1;
+	while (++i < height)
+		free(copy[i]);
+	free(copy);
+}
+
 bool	is_map_valid(t_game *game)
 {
-	if (!flood_fill(game))
-		return (false);
+	char	**map_copy;
+	t_pos	start;
+
+	map_copy = copy_map(game->map.grid, game->map.height);
+	if (!map_copy)
+	{
+		printf("Error:\n Failed to create map copy.\n");
+		return (cleanup_game(game), exit(1), false);
+	}
+	if (!find_start_position(map_copy,
+			game->map.height, game->map.width, &start))
+	{
+		printf("Error:\n Player starting position not found.\n");
+		free_map_copy(map_copy, game->map.height);
+		return (cleanup_game(game), exit(1), false);
+	}
+	if (!flood_fill(map_copy, game->map.height, game->map.width, start))
+	{
+		free_map_copy(map_copy, game->map.height);
+		return (cleanup_game(game), exit(1), false);
+	}
+	print_map(game);
+	free_map_copy(map_copy, game->map.height);
 	return (true);
 }
