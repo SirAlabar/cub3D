@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:55:14 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/12 16:12:02 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/12 19:49:10 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	engine_render_frame(t_game *game)
 	while (++x < WINDOW_WIDTH)
 	{
 		draw_wall_scanline(game, &rays[x], x, &scanline_buffer);
-		// draw_wall(game, &rays[x], x);
 	}
 	handle_movement(game);
 	handler_portal(game);	

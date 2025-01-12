@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_basic.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:54:39 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 23:04:27 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/12 19:48:57 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ unsigned int	get_texture_pixel(t_texture *tex, int x, int y)
 		return (0xFF000000);
 	}
 	return (*(unsigned int *)(tex->addr + (y * tex->line_len + x * (tex->bpp
-					/ 8))));
+				/ 8))));
 }
 
 unsigned int	apply_shade(unsigned int color, double shade)

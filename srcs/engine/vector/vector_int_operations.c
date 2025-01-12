@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:16:06 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/12 14:55:31 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/12 19:48:27 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@ t_vector_i	vector_i_create(int x, int y)
 	v.y = y;
 	return (v);
 }
-bool vector_i_equals(t_vector_i a, t_vector_i b) 
+
+bool	vector_i_equals(t_vector_i a, t_vector_i b)
 {
-    return (a.x == b.x && a.y == b.y);
+	return (a.x == b.x && a.y == b.y);
 }
 
 t_vector_i	vector_to_vector_i(t_vector v)
