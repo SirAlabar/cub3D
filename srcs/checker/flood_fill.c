@@ -116,7 +116,8 @@ bool	is_map_valid(t_game *game)
 		free_map_copy(map_copy, game->map.height);
 		return (cleanup_game(game), exit(1), false);
 	}
-	print_map(game);
+	game->p1.pos.x = (double) start.x;
+	game->p1.pos.y = (double) start.y;
 	free_map_copy(map_copy, game->map.height);
 	return (true);
 }
