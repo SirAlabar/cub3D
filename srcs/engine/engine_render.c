@@ -30,20 +30,20 @@ void	engine_prepare_frame(t_game *game)
 
 int	engine_render_frame(t_game *game)
 {
-	int		x;
-	t_ray	rays[WINDOW_WIDTH];
-	t_scanline	scanline_buffer;	
+	int			x;
+	t_ray		rays[WINDOW_WIDTH];
+	t_scanline	scanline_buffer;
 
 	update_fps(game);
 	engine_prepare_frame(game);
 	draw_background(game);
-	init_scanline_buffer(&scanline_buffer); 	
+	init_scanline_buffer(&scanline_buffer);
 	cast_rays(game, rays);
 	x = -1;
 	while (++x < WINDOW_WIDTH)
 	{
-		draw_wall_scanline(game, &rays[x], x,&scanline_buffer);
-		//draw_wall(game, &rays[x], x);
+		draw_wall_scanline(game, &rays[x], x, &scanline_buffer);
+		// draw_wall(game, &rays[x], x);
 	}
 	handle_movement(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);

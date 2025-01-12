@@ -12,17 +12,16 @@
 
 #include <cub3d.h>
 
-void init_scanline_buffer(t_scanline *buffer)
+void	init_scanline_buffer(t_scanline *buffer)
 {
-    int x;
-    
-    x = -1;
+	int	x;
 
-    while(++x < WINDOW_WIDTH)
-    {
-        buffer->y_top[x] = 0;
-        buffer->y_bottom[x] = WINDOW_HEIGHT - 1;
-    }
+	x = -1;
+	while (++x < WINDOW_WIDTH)
+	{
+		buffer->y_top[x] = 0;
+		buffer->y_bottom[x] = WINDOW_HEIGHT - 1;
+	}
 }
 
 void	init_wall_drawing(t_wall *wall)
@@ -37,20 +36,22 @@ void	init_wall_drawing(t_wall *wall)
 	wall->texture = get_wall_texture(wall->ray, wall->game);
 	set_wall_tex_coords(wall);
 	wall->step = 1.0 * wall->texture->height / wall->height;
-	wall->tex_pos = (wall->start - WINDOW_HEIGHT / 2
-			+ wall->height / 2) * wall->step;
+	wall->tex_pos = (wall->start - WINDOW_HEIGHT / 2 + wall->height / 2)
+		* wall->step;
 }
 
 void	set_wall_tex_coords(t_wall *wall)
 {
 	if (wall->ray->side == 0)
-		wall->pos.x = wall->game->p1.pos.y + wall->ray->perp_wall_dist * wall->ray->dir.y;
+		wall->pos.x = wall->game->p1.pos.y + wall->ray->perp_wall_dist
+			* wall->ray->dir.y;
 	else
-		wall->pos.x = wall->game->p1.pos.x + wall->ray->perp_wall_dist * wall->ray->dir.x;
+		wall->pos.x = wall->game->p1.pos.x + wall->ray->perp_wall_dist
+			* wall->ray->dir.x;
 	wall->pos.x -= floor(wall->pos.x);
 	wall->tex.x = (int)(wall->pos.x * wall->texture->width);
-	if ((wall->ray->side == 0 && wall->ray->dir.x > 0)
-		|| (wall->ray->side == 1 && wall->ray->dir.y < 0))
+	if ((wall->ray->side == 0 && wall->ray->dir.x > 0) || (wall->ray->side == 1
+			&& wall->ray->dir.y < 0))
 		wall->tex.x = wall->texture->width - wall->tex.x - 1;
 }
 
@@ -59,12 +60,11 @@ static void	put_wall_pixel(t_wall *wall, t_vector_i pos)
 	int	pixel_pos;
 
 	wall->tex.y = (int)wall->tex_pos & (wall->texture->height - 1);
-	wall->color = get_texture_pixel(wall->texture,
-			wall->tex.x, wall->tex.y);
-	wall->color = apply_shade(wall->color,
-			1.0 / (1.0 + wall->ray->perp_wall_dist * 0.05));
-	pixel_pos = (pos.y * wall->game->line_length) + 
-		(pos.x * (wall->game->bits_per_pixel / 8));
+	wall->color = get_texture_pixel(wall->texture, wall->tex.x, wall->tex.y);
+	wall->color = apply_shade(wall->color, 1.0 / (1.0
+				+ wall->ray->perp_wall_dist * 0.05));
+	pixel_pos = (pos.y * wall->game->line_length) + (pos.x
+			* (wall->game->bits_per_pixel / 8));
 	*(unsigned int *)(wall->game->addr + pixel_pos) = wall->color;
 	wall->tex_pos += wall->step;
 }

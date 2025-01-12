@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   engine.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/12 12:27:45 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/12 14:30:55 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENGINE_H
 # define ENGINE_H
 
-# include <cub3d.h>
 # include <X11/Xlib.h>
-# include <sys/time.h>
+# include <cub3d.h>
 # include <math.h>
 # include <stdbool.h>
+# include <sys/time.h>
 
 typedef struct s_game	t_game;
 
@@ -29,22 +29,22 @@ typedef struct s_vector
 
 typedef struct s_vector_i
 {
-	int	x;
-	int	y;
-}	t_vector_i;
+	int					x;
+	int					y;
+}						t_vector_i;
 
-typedef struct s_scanline 
+typedef struct s_scanline
 {
-    int y_top[WINDOW_WIDTH];
-    int y_bottom[WINDOW_WIDTH];
-} t_scanline;
+	int					y_top[WINDOW_WIDTH];
+	int					y_bottom[WINDOW_WIDTH];
+}						t_scanline;
 
 typedef struct s_line
 {
-    int x;
-    int start; 
-    int end;
-} t_line;
+	int					x;
+	int					start;
+	int					end;
+}						t_line;
 
 typedef struct s_ray
 {
@@ -79,23 +79,22 @@ typedef struct s_texture
 
 typedef struct s_wall
 {
-	t_vector	pos;
-	t_vector	tex;
-	t_vector_i	screen;
-	double		step;
-	double		tex_pos;
-	double		perp_wall_dist;
-	int		height;
-	int		start;
-	int		end;
-	int		color;
-	t_texture	*texture;
-	t_game		*game;
-	t_ray		*ray;
-	t_scanline	*buffer;
-	int		x;
-}	t_wall;
-
+	t_vector			pos;
+	t_vector			tex;
+	t_vector_i			screen;
+	double				step;
+	double				tex_pos;
+	double				perp_wall_dist;
+	int					height;
+	int					start;
+	int					end;
+	int					color;
+	t_texture			*texture;
+	t_game				*game;
+	t_ray				*ray;
+	t_scanline			*buffer;
+	int					x;
+}						t_wall;
 
 /*
  * Core Engine Functions
@@ -104,7 +103,7 @@ typedef struct s_wall
 void					engine_prepare_frame(t_game *game);
 int						engine_render_frame(t_game *game);
 
-//timer.c
+// timer.c
 double					get_time_ms(void);
 void					update_fps(t_game *game);
 
@@ -128,9 +127,10 @@ void					draw_wall(t_game *game, t_ray *ray, int x);
 
 // scanline_rendering.c
 void					init_scanline_buffer(t_scanline *buffer);
-void					draw_vertical_line (t_game *g, t_line line, int color);
+void					draw_vertical_line(t_game *g, t_line line, int color);
 void					set_wall_tex_coords(t_wall *wall);
-void					draw_wall_scanline (t_game *game, t_ray *ray, int x,t_scanline *buffer);
+void					draw_wall_scanline(t_game *game, t_ray *ray, int x,
+							t_scanline *buffer);
 void					init_wall_drawing(t_wall *wall);
 
 /*
@@ -170,10 +170,13 @@ t_vector				vector_limit(t_vector v, double max);
  * Raycasting
  */
 // raycast_dda.c
-void					init_ray(t_ray *ray, t_game *game, int x);
 void					step_side_dist(t_ray *ray, t_game *game);
+void					dda_loop(t_ray *ray, t_game *game);
 void					perform_dda(t_ray *ray, t_game *game);
-void					wall_height(t_ray *ray);
 void					cast_rays(t_game *game, t_ray *rays);
+
+//raycast_utils.c
+void					wall_height(t_ray *ray);
+void					init_ray(t_ray *ray, t_game *game, int x);
 
 #endif

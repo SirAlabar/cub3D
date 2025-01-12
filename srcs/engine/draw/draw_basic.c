@@ -40,14 +40,13 @@ void	draw_texture_pixel(t_texture *tex, int x, int y, int color)
 
 unsigned int	get_texture_pixel(t_texture *tex, int x, int y)
 {
-    if (!tex || !tex->addr || !tex->img ||
-        x < 0 || x >= tex->width ||
-        y < 0 || y >= tex->height)
-    {
-        return 0xFF000000;
-    }	
+	if (!tex || !tex->addr || !tex->img || x < 0 || x >= tex->width || y < 0
+		|| y >= tex->height)
+	{
+		return (0xFF000000);
+	}
 	return (*(unsigned int *)(tex->addr + (y * tex->line_len + x * (tex->bpp
-				/ 8))));
+					/ 8))));
 }
 
 unsigned int	apply_shade(unsigned int color, double shade)

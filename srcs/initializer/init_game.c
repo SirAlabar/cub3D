@@ -55,8 +55,8 @@ void	init_textures_game(t_game *game)
 }
 
 void	init_game(t_game *game)
-{	
-	validate_texture_paths(game);	
+{
+	validate_texture_paths(game);
 	init_map(game);
 	init_player(game);
 	init_textures(game);

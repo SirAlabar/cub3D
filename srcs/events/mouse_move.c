@@ -6,23 +6,24 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:20:40 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/12 14:04:19 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/12 14:14:33 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-int mouse_wrapper(int x, int y, void *param)
+int	mouse_wrapper(int x, int y, void *param)
 {
-    t_game  *game;
-    game = (t_game *)param;
-    return (mouse_move(game, vector_create(x, y)));
+	t_game	*game;
+
+	game = (t_game *)param;
+	return (mouse_move(game, vector_create(x, y)));
 }
 
-int mouse_move(t_game *game, t_vector pos)
+int	mouse_move(t_game *game, t_vector pos)
 {
-    t_vector    center;
-    double      rotation;
+	t_vector	center;
+	double		rotation;
 
 	if (game->last_mouse.x == -1)
 	{
