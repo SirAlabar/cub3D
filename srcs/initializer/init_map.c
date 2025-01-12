@@ -42,6 +42,7 @@ int	get_map_width(t_game *game)
 		if (tmp > width)
 			width = tmp;
 		height--;
+		i++;
 	}
 	return (width);
 }
