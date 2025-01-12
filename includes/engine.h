@@ -19,6 +19,12 @@
 
 typedef struct s_game	t_game;
 
+typedef struct s_pos
+{
+	int	x;
+	int	y;
+}						t_pos;
+
 typedef struct s_vector
 {
 	double				x;

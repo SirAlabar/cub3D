@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 15:09:24 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/12 14:26:00 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	init_textures_game(t_game *game)
 void	init_game(t_game *game)
 {
 	init_map(game);
+	if (!is_map_valid(game))
+		(printf(RED"Error\ninvalid map\n"DEFAULT));
 	init_player(game);
 	init_textures(game);
 	init_textures_game(game);
