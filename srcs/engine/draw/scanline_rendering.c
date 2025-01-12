@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scanline_rendering.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 19:10:01 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/12 13:10:44 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/12 14:08:24 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	put_wall_pixel(t_wall *wall, t_vector_i pos)
 	wall->color = get_texture_pixel(wall->texture,
 			wall->tex.x, wall->tex.y);
 	wall->color = apply_shade(wall->color,
-			1.0 / (1.0 + wall->ray->perp_wall_dist * 0.1));
+			1.0 / (1.0 + wall->ray->perp_wall_dist * 0.05));
 	pixel_pos = (pos.y * wall->game->line_length) + 
 		(pos.x * (wall->game->bits_per_pixel / 8));
 	*(unsigned int *)(wall->game->addr + pixel_pos) = wall->color;

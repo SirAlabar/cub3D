@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   engine_render.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:55:14 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/12 12:08:41 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/12 14:04:53 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	engine_render_frame(t_game *game)
 	while (++x < WINDOW_WIDTH)
 	{
 		draw_wall_scanline(game, &rays[x], x,&scanline_buffer);
-		//draw_wall(game, &rays[i], i);
+		//draw_wall(game, &rays[x], x);
 	}
 	handle_movement(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
