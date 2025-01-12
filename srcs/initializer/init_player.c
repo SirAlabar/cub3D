@@ -14,7 +14,7 @@
 
 void	init_player(t_game *game)
 {
-	game->p1.pos = vector_create(5, 5);
+	game->p1.pos = vector_create(game->p1.pos.x, game->p1.pos.y);
 	game->p1.dir = vector_create(0, 1);
 	game->p1.plane = vector_create(0.66, 0);
 	game->p1.move_speed = MOVE_SPEED;
