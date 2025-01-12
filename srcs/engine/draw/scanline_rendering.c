@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 19:10:01 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/12 12:43:40 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/12 13:10:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
 	t_wall		wall;
 	t_vector_i	pos;
 
-	ft_bzero(&wall, sizeof(t_wall));
 	wall.game = game;
 	wall.ray = ray;
 	wall.x = x;
