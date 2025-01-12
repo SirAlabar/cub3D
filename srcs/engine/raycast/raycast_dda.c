@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_dda.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:54:50 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 13:54:52 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 22:58:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ void	perform_dda(t_ray *ray, t_game *game)
 			ray->map_y += ray->step_y;
 			ray->side = 1;
 		}
+		if (ray->map_x < 0 || ray->map_x >= game->map.height || 
+            ray->map_y < 0 || ray->map_y >= game->map.width)
+        {
+            ray->hit = true;
+            break;
+        }
 		if (game->map.grid[ray->map_x][ray->map_y] == '1')
 			ray->hit = true;
 	}

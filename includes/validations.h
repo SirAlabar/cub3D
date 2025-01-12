@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validations.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 16:32:52 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/09 18:23:20 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/11 23:06:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ int						open_map_file(const char *file);
 // parse/validate_map.c
 bool					validate_map_extension(int argc, char **argv);
 bool					valid_extension(char *argv);
+bool                    validate_texture_paths(t_game *game);
 
 #endif

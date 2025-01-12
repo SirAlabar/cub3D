@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   scanline_rendering.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 19:10:01 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 20:45:29 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 22:51:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
+/*
 void init_scanline_buffer(t_scanline *buffer)
 {
     int x;
@@ -94,3 +94,4 @@ void draw_wall_scanline (t_game *game, t_ray *ray, t_scanline *buffer)
 	buffer->y_top[x] = wall.end + 1;
 	buffer->y_bottom[x] = wall.start - 1;    
 }
+*/

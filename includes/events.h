@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:11 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 13:49:11 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 23:58:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ bool	can_move_y(t_game *game, t_vector new, t_vector dir, double buff);
  */
 int		mouse_move(t_game *game, t_vector pos);
 int		mouse_wrapper(int x, int y, void *param);
+void grab_mouse(t_game *game);
+void release_mouse(t_game *game);
 
 /*
  * Utility Functions

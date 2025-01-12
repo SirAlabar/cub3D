@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:53:43 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 18:53:25 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 22:57:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,20 @@ void	init_map(t_game *game)
 	read_map(game);
 }
 
-int	get_map_width(t_game *game)
+int get_map_width(t_game *game)
 {
-	int	width;
-	int	tmp;
-	int	height;
-	int	i;
+    int width = 0;
+    int tmp;
+    int i = 0;
 
-	width = 0;
-	height = game->map.height;
-	i = 0;
-	tmp = 0;
-	while (height)
-	{
-		tmp = ft_strlen(game->map.grid[i]);
-		if (tmp > width)
-			width = tmp;
-		height--;
-	}
-	return (width);
+    while (i < game->map.height)
+    {
+        tmp = ft_strlen(game->map.grid[i]);
+        if (tmp > width)
+            width = tmp;
+        i++;
+    }
+    return (width);
 }
 
 char	**read_map(t_game *game)
@@ -59,33 +54,46 @@ char	**read_map(t_game *game)
 	return (game->map.grid);
 }
 
-void	set_grid(t_game *game)
+void set_grid(t_game *game)
 {
-	char	*line;
-	int		i;
+    char *line;
+    int i;
 
-	game->fd_map = open(game->map_path, O_RDONLY);
-	if (game->fd_map == -1)
-		read_error(game);
-	line = get_next_line(game->fd_map);
-	i = 0;
-	while (line)
-	{
-		while (line[0] != ' ' && line[0] != '1')
-		{
-			free(line);
-			line = get_next_line(game->fd_map);
-		}
-		game->map.grid[i] = ft_calloc(sizeof(char *), ft_strlen(line) + 1);
-		if (i == game->map.height - 1)
-			ft_strlcpy(game->map.grid[i], line, ft_strlen(line) + 1);
-		else
-			ft_strlcpy(game->map.grid[i], line, ft_strlen(line));
-		free(line);
-		i++;
-		line = get_next_line(game->fd_map);
-	}
-	close(game->fd_map);
+    game->fd_map = open(game->map_path, O_RDONLY);
+    if (game->fd_map == -1)
+        read_error(game);
+    line = get_next_line(game->fd_map);
+    i = 0;
+    while (line && i < game->map.height)
+    {
+        while (line && line[0] != ' ' && line[0] != '1')
+        {
+            free(line);
+            line = get_next_line(game->fd_map);
+            if (!line)
+                break;
+        }
+        if (!line)
+            break;
+        
+        size_t len = ft_strlen(line);
+        game->map.grid[i] = ft_calloc(len + 1, sizeof(char));
+        if (!game->map.grid[i])
+        {
+            free(line);
+            read_error(game);
+            return;
+        }
+
+        ft_strlcpy(game->map.grid[i], line, len + 1);
+        if (game->map.grid[i][len - 1] == '\n')
+            game->map.grid[i][len - 1] = '\0';
+            
+        free(line);
+        i++;
+        line = get_next_line(game->fd_map);
+    }
+    close(game->fd_map);
 }
 
 int	count_lines(t_game *game)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 18:40:55 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/11 23:48:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,12 @@ void	init_textures_game(t_game *game)
 }
 
 void	init_game(t_game *game)
-{
+{	
+	validate_texture_paths(game);	
 	init_map(game);
 	init_player(game);
 	init_textures(game);
 	init_textures_game(game);
-	game->last_mouse = vector_create(-1, -1);
+	game->last_mouse = vector_create(-1.0, -1.0);
 	game->mouse_sensi = 0.002;
 }
