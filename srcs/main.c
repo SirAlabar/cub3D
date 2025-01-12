@@ -6,11 +6,19 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/12 14:07:28 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/12 17:20:58 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
+
+static void cleanup_portal_system(t_game *game) {
+    if(game->map.portals) {
+        free(game->map.portals);
+        game->map.portals = NULL;
+    }
+    game->map.portal_count = 0;
+}
 
 static void	cleanup_textures(t_game *game)
 {
@@ -44,10 +52,12 @@ static void	cleanup_map(t_game *game)
 void	cleanup_game(t_game *game)
 {
 	if (!game)
-		return ;
-	cleanup_textures(game);
+		return ;	
 	if (game->win && game->mlx)
 	{
+		mlx_mouse_show(game->mlx, game->win);		
+		cleanup_textures(game);
+		cleanup_portal_system(game);
 		mlx_clear_window(game->mlx, game->win);
 		mlx_destroy_window(game->mlx, game->win);
 		game->win = NULL;
@@ -69,7 +79,7 @@ void	cleanup_game(t_game *game)
 }
 
 int	close_window(t_game *game)
-{
+{	
 	mlx_loop_end(game->mlx);
 	return (0);
 }

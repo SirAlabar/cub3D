@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:34 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/12 14:27:46 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/12 17:29:10 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,12 @@
 # define MOVE_SPEED 0.02
 # define ROTATION_SPEED 0.015
 # define MAX_ROTATION 0.0025
+# define MAX_PORTALS 16
+# define MAX_PORTAL_DEPTH 4
+# define PORTAL_OFFSET 0.1f
 
-# include <colors.h>
 # include <engine.h>
+# include <colors.h>
 # include <events.h>
 # include <fcntl.h>
 # include <libft.h>
@@ -96,6 +99,8 @@ typedef struct s_map
 	int			ceiling_color;
 	char		player_start;
 	t_vector	player_pos;
+    t_portal	*portals;
+    int			portal_count;  	
 }				t_map;
 
 typedef struct s_game

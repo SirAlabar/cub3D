@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:55:14 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/12 14:04:53 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/12 16:12:02 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	engine_render_frame(t_game *game)
 		// draw_wall(game, &rays[x], x);
 	}
 	handle_movement(game);
+	handler_portal(game);	
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	draw_hud(game);
 	return (0);

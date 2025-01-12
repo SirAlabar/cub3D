@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/12 14:30:55 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/12 18:19:14 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,33 @@ typedef struct s_wall
 	int					x;
 }						t_wall;
 
+typedef struct s_portal 
+{
+    t_vector_i pos;
+    t_vector_i dest;
+    t_vector_i rev_pos;
+    t_vector_i rev_dest;
+    int dest_sector;
+    float rot_offset;
+	int cooldown;
+} t_portal;
+
+typedef struct s_portal_view
+{
+	t_vector pos;
+	t_vector dir;
+	t_vector plane;
+	int depth;
+	float rot;
+	t_portal *portal;
+} t_portal_view;
+
+typedef struct s_portal_stack
+{
+	t_portal_view views[MAX_PORTAL_DEPTH];
+	int count;
+} t_portal_stack;
+
 /*
  * Core Engine Functions
  */
@@ -159,6 +186,12 @@ double					vector_mag(t_vector v);
 double					vector_mag_sq(t_vector v);
 t_vector				vector_normalize(t_vector v);
 
+// Vector I operations
+t_vector_i	vector_i_create(int x, int y);
+bool vector_i_equals(t_vector_i a, t_vector_i b);
+t_vector_i	vector_to_vector_i(t_vector v);
+t_vector	vector_i_to_vector(t_vector_i v);
+
 // Angular operations
 double					vector_heading(t_vector v);
 t_vector				vector_rotate(t_vector v, double angle);
@@ -178,5 +211,12 @@ void					cast_rays(t_game *game, t_ray *rays);
 //raycast_utils.c
 void					wall_height(t_ray *ray);
 void					init_ray(t_ray *ray, t_game *game, int x);
+
+//portals
+void handler_portal(t_game *game);
+t_portal *get_portal_pos(t_game *game, t_vector_i pos);
+void init_portal_system(t_game *game);
+void init_portal(t_game *game, t_vector_i pos, t_vector_i dest, float rot);
+
 
 #endif

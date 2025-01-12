@@ -6,9 +6,11 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:29:16 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/12 14:29:42 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/12 16:20:13 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <cub3d.h>
 
 void	init_ray(t_ray *ray, t_game *game, int x)
 {
