@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 23:54:19 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/12 12:27:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ typedef struct s_vector
 	double				y;
 }						t_vector;
 
+typedef struct s_vector_i
+{
+	int	x;
+	int	y;
+}	t_vector_i;
+
 typedef struct s_scanline 
 {
     int y_top[WINDOW_WIDTH];
@@ -39,17 +45,6 @@ typedef struct s_line
     int start; 
     int end;
 } t_line;
-
-typedef struct s_wall
-{
-	double	x;
-	int		height;
-	int		start;
-	int		end;
-	int		tex_x;
-	int		tex_y;
-	int		color;
-}	t_wall;
 
 typedef struct s_ray
 {
@@ -81,6 +76,26 @@ typedef struct s_texture
 	int					endian;
 	char				*path;
 }						t_texture;
+
+typedef struct s_wall
+{
+	t_vector	pos;
+	t_vector	tex;
+	t_vector_i	screen;
+	double		step;
+	double		tex_pos;
+	double		perp_wall_dist;
+	int		height;
+	int		start;
+	int		end;
+	int		color;
+	t_texture	*texture;
+	t_game		*game;
+	t_ray		*ray;
+	t_scanline	*buffer;
+	int		x;
+}	t_wall;
+
 
 /*
  * Core Engine Functions
@@ -114,9 +129,9 @@ void					draw_wall(t_game *game, t_ray *ray, int x);
 // scanline_rendering.c
 void					init_scanline_buffer(t_scanline *buffer);
 void					draw_vertical_line (t_game *g, t_line line, int color);
-void					set_wall_tex_coords (t_ray *ray, t_game *game, t_wall *wall);
-void					draw_wall_scanline (t_game *game, t_ray *ray, t_scanline *buffer);
-
+void					set_wall_tex_coords(t_wall *wall);
+void					draw_wall_scanline (t_game *game, t_ray *ray, int x,t_scanline *buffer);
+void					init_wall_drawing(t_wall *wall);
 
 /*
  * Texture Management
