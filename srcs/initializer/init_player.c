@@ -12,11 +12,37 @@
 
 #include <cub3d.h>
 
+void	set_player_orientation(t_game *game)
+{
+	const int	x = (int)game->p1.pos.x;
+	const int	y = (int)game->p1.pos.y;
+
+	if (game->map.grid[x][y] == 'N')
+	{
+		game->p1.dir = vector_create(-1, 0);
+		game->p1.plane = vector_create(0, 0.66);
+	}
+	else if (game->map.grid[x][y] == 'S')
+	{
+		game->p1.dir = vector_create(1, 0);
+		game->p1.plane = vector_create(0, -0.66);
+	}
+	else if (game->map.grid[x][y] == 'E')
+	{
+		game->p1.dir = vector_create(0, 1);
+		game->p1.plane = vector_create(0.66, 0);
+	}
+	else if (game->map.grid[x][y] == 'W')
+	{
+		game->p1.dir = vector_create(0, -1);
+		game->p1.plane = vector_create(-0.66, 0);
+	}
+}
+
 void	init_player(t_game *game)
 {
 	game->p1.pos = vector_create(game->p1.pos.x, game->p1.pos.y);
-	game->p1.dir = vector_create(0, 1);
-	game->p1.plane = vector_create(0.66, 0);
+	set_player_orientation(game);
 	game->p1.move_speed = MOVE_SPEED;
 	game->p1.rot_speed = ROTATION_SPEED;
 	game->p1.keys = (t_keys){0, 0, 0, 0, 0, 0};

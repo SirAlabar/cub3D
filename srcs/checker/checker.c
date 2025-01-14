@@ -56,9 +56,7 @@ bool	check_colors(t_game *game)
 	i = 0;
 	game->fd_map = open(game->map_path, O_RDONLY);
 	if (game->fd_map == -1)
-	{
-		return (read_error(game), false);
-	}
+		return (read_error(game), exit(1), false);
 	line = get_next_line(game->fd_map);
 	while (line)
 	{
