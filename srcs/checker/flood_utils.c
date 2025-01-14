@@ -17,7 +17,7 @@ char	**copy_map(char **original, int height)
 	char	**copy;
 	int		i;
 
-	copy = (char **)malloc(sizeof(char *) * height);
+	copy = (char **)ft_calloc(sizeof(char *), height);
 	if (!copy)
 		return (NULL);
 	i = -1;
