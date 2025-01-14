@@ -12,8 +12,6 @@
 
 #include <cub3d.h>
 
-#include "cub3d.h"
-
 static bool	recursive_flood_fill(char **grid, t_pos st, int height, int width)
 {
 	int		current_line_length;

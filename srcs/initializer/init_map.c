@@ -38,7 +38,8 @@ int	get_map_width(t_game *game)
 	tmp = 0;
 	while (height)
 	{
-		tmp = ft_strlen(game->map.grid[i]);
+		if (game->map.grid[i])
+			tmp = ft_strlen(game->map.grid[i]);
 		if (tmp > width)
 			width = tmp;
 		height--;
@@ -70,20 +71,18 @@ void	set_grid(t_game *game)
 		read_error(game);
 	line = get_next_line(game->fd_map);
 	i = 0;
-	while (line)
+	while (line && line[0] != '\0')
 	{
-		while (line[0] != ' ' && line[0] != '1')
-		{
-			free(line);
-			line = get_next_line(game->fd_map);
-		}
+		while (line && line[0] != ' ' && line[0] != '1')
+			(free(line), line = get_next_line(game->fd_map));
+		if (!line)
+			break ;
 		game->map.grid[i] = ft_calloc(sizeof(char *), ft_strlen(line) + 1);
 		if (i == game->map.height - 1)
-			ft_strlcpy(game->map.grid[i], line, ft_strlen(line) + 1);
+			ft_strlcpy(game->map.grid[i++], line, ft_strlen(line) + 1);
 		else
-			ft_strlcpy(game->map.grid[i], line, ft_strlen(line));
+			ft_strlcpy(game->map.grid[i++], line, ft_strlen(line));
 		free(line);
-		i++;
 		line = get_next_line(game->fd_map);
 	}
 	close(game->fd_map);
@@ -101,7 +100,7 @@ int	count_lines(t_game *game)
 	height = 0;
 	while (line)
 	{
-		while (line[0] != ' ' && line[0] != '1')
+		while (line && line[0] != ' ' && line[0] != '1')
 		{
 			free(line);
 			line = get_next_line(game->fd_map);
