@@ -73,6 +73,12 @@
 # define ERR_COLOR "Error\nInvalid color configuration\n"
 # define ERR_MALLOC "Error\nMemory allocation failed\n"
 
+#define P1_FRAMES 4
+#define P1_PATH_1 "assets/player/frame1.xpm"
+#define P1_PATH_2 "assets/player/frame2.xpm"
+#define P1_PATH_3 "assets/player/frame3.xpm"
+#define P1_PATH_4 "assets/player/frame4.xpm"
+
 /* Structs */
 
 typedef struct s_player
@@ -83,6 +89,9 @@ typedef struct s_player
 	double		move_speed;
 	double		rot_speed;
 	t_keys		keys;
+	t_texture	frames[P1_FRAMES];
+	int			curr_frame;
+	bool		is_shooting;
 }				t_player;
 
 typedef struct s_map
