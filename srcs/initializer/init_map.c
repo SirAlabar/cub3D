@@ -72,7 +72,7 @@ void	set_grid(t_game *game)
 	i = 0;
 	while (line)
 	{
-		while (line[0] != ' ' && line[0] != '1')
+		while (line && line[0] != ' ' && line[0] != '1')
 		{
 			free(line);
 			line = get_next_line(game->fd_map);
@@ -101,7 +101,7 @@ int	count_lines(t_game *game)
 	height = 0;
 	while (line)
 	{
-		while (line[0] != ' ' && line[0] != '1')
+		while (line && line[0] != ' ' && line[0] != '1')
 		{
 			free(line);
 			line = get_next_line(game->fd_map);
