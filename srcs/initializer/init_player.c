@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 17:55:26 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/06 19:29:47 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/14 21:55:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,23 @@ void	set_player_orientation(t_game *game)
 
 	if (game->map.grid[x][y] == 'N')
 	{
-		game->p1.dir = vector_create(-1, 0);
-		game->p1.plane = vector_create(0, 0.66);
+		game->p1.dir = vector_create(0, -1);
+		game->p1.plane = vector_create(0.66, 0);
 	}
 	else if (game->map.grid[x][y] == 'S')
+	{
+		game->p1.dir = vector_create(0, 1);
+		game->p1.plane = vector_create(-0.66, 0);
+	}
+	else if (game->map.grid[x][y] == 'E')
 	{
 		game->p1.dir = vector_create(1, 0);
 		game->p1.plane = vector_create(0, -0.66);
 	}
-	else if (game->map.grid[x][y] == 'E')
-	{
-		game->p1.dir = vector_create(0, 1);
-		game->p1.plane = vector_create(0.66, 0);
-	}
 	else if (game->map.grid[x][y] == 'W')
 	{
-		game->p1.dir = vector_create(0, -1);
-		game->p1.plane = vector_create(-0.66, 0);
+		game->p1.dir = vector_create(-1, 0);
+		game->p1.plane = vector_create(0, 0.66);
 	}
 }
 
