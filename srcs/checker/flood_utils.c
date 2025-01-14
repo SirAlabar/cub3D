@@ -23,7 +23,8 @@ char	**copy_map(char **original, int height)
 	i = -1;
 	while (++i < height)
 	{
-		copy[i] = ft_strdup(original[i]);
+		if (original[i])
+			copy[i] = ft_strdup(original[i]);
 		if (!copy[i])
 		{
 			while (--i >= 0)
