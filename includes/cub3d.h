@@ -52,6 +52,9 @@
 #  define KEY_RIGHT XK_Right
 #  define KEY_UP XK_Up
 #  define KEY_DOWN XK_Down
+#  define KEY_SPACE XK_Space
+#  define MOUSE_LEFT 1
+#  define MOUSE_RIGHT 3
 # endif
 
 /* Window settings */
@@ -77,6 +80,7 @@
 #define GUN_F1 "./assets/sprites/pistol/PIS0.xpm"
 #define GUN_F2 "./assets/sprites/pistol/PIS1.xpm"
 #define GUN_F3 "./assets/sprites/pistol/PIS2.xpm"
+#define GUN_F4 "./assets/sprites/pistol/PISFA0.xpm"
 
 /* Structs */
 
@@ -90,6 +94,11 @@ typedef struct s_player
 	t_keys		keys;
 	t_texture	*gun_anim;
 	int			current_frame;
+    int         is_firing;
+    double      last_step;
+    double      last_fire;
+    int         gun_width;
+    int         gun_height; 	
 }				t_player;
 
 typedef struct s_map

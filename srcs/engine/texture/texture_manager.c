@@ -53,6 +53,30 @@ t_texture	*get_wall_texture(t_ray *ray, t_game *game)
 	}
 }
 
+void resize_texture(t_game *game, t_texture *src, t_texture *dst)
+{
+    int x, y;
+    unsigned int color;
+    double src_x, src_y;
+    double scale_x = (double)src->width / dst->width;
+    double scale_y = (double)src->height / dst->height;
+    
+    y = -1;
+    while (++y < dst->height)
+    {
+        x = -1;
+        while (++x < dst->width)
+        {
+            src_x = x * scale_x;
+            src_y = y * scale_y;
+            color = get_texture_pixel(src, (int)src_x, (int)src_y);
+            if ((color & 0xFFC0CB) == 0)
+                continue;
+            draw_texture_pixel(dst, x, y, color);
+        }
+    }
+}
+
 void	texture_destroy(t_texture **texture, void *mlx)
 {
 	if (*texture)
