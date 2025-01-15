@@ -41,7 +41,7 @@ void	set_player_orientation(t_game *game)
 
 void	init_player(t_game *game)
 {
-	game->p1.pos = vector_create(game->p1.pos.x, game->p1.pos.y);
+	game->p1.pos = vector_create(game->p1.pos.x + 0.5f, game->p1.pos.y + 0.5f);
 	set_player_orientation(game);
 	game->p1.move_speed = MOVE_SPEED;
 	game->p1.rot_speed = ROTATION_SPEED;
