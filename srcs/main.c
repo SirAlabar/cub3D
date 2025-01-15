@@ -17,7 +17,7 @@ void	cleanup_gun(t_game *game)
 	int	i;
 
 	i = 0;
-	while (i < 3)
+	while (i < 4)
 	{
 		if (game->p1.gun_anim[i].img)
 		{

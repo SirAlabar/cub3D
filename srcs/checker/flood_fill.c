@@ -93,7 +93,7 @@ static void	free_map_copy(char **copy, int height)
 
 bool	is_map_valid(t_game *game)
 {
-	char	**map_copy;
+	char		**map_copy;
 	t_vector_i	start;
 
 	map_copy = copy_map(game->map.grid, game->map.height);

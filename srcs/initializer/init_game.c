@@ -62,4 +62,5 @@ void	init_game(t_game *game)
 	init_player(game);
 	init_textures(game);
 	init_textures_game(game);
+	game->fps = 0;
 }

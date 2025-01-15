@@ -87,7 +87,8 @@ unsigned int			apply_shade(unsigned int color, double shade);
 int						draw_background(t_game *game);
 void					draw_wall(t_game *game, t_ray *ray, int x);
 
-void draw_weapon(t_game *game);
+//draw_weapon
+void					draw_weapon(t_game *game);
 
 /*
  * Texture Management
@@ -96,9 +97,8 @@ void draw_weapon(t_game *game);
 t_texture				*texture_create(t_game *game, char *texture_path);
 t_texture				*get_wall_texture(t_ray *ray, t_game *game);
 void					texture_destroy(t_texture **texture, void *mlx);
-
-void update_weapon_animation(t_game *game);
-void resize_texture(t_texture *src, t_texture *dst);
+void					update_weapon_animation(t_game *game);
+void					resize_texture(t_texture *src, t_texture *dst);
 
 /*
  * Vector Operations
