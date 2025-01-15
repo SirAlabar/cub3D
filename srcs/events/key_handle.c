@@ -54,7 +54,7 @@ int	key_press(int keycode, t_game *game)
 	else if (keycode == KEY_RIGHT)
 		game->p1.keys.right = 1;
 	else if (keycode == KEY_SPACE || keycode == MOUSE_LEFT)
-    game->p1.is_firing = 1;		
+		game->p1.is_firing = 1;		
 	return (0);
 }
 

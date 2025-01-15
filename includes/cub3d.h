@@ -52,7 +52,7 @@
 #  define KEY_RIGHT XK_Right
 #  define KEY_UP XK_Up
 #  define KEY_DOWN XK_Down
-#  define KEY_SPACE XK_Space
+#  define KEY_SPACE XK_space
 #  define MOUSE_LEFT 1
 #  define MOUSE_RIGHT 3
 # endif
@@ -129,6 +129,7 @@ typedef struct s_game
 	t_texture	south;
 	t_texture	east;
 	t_texture	west;
+	double		fps;	
 }				t_game;
 
 void			cleanup_game(t_game *game);

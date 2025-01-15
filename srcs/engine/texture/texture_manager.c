@@ -53,7 +53,7 @@ t_texture	*get_wall_texture(t_ray *ray, t_game *game)
 	}
 }
 
-void resize_texture(t_game *game, t_texture *src, t_texture *dst)
+void resize_texture(t_texture *src, t_texture *dst)
 {
     int x, y;
     unsigned int color;

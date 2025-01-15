@@ -12,11 +12,11 @@
 
 #include <cub3d.h>
 
-static bool	recursive_flood_fill(char **grid, t_pos st, int height, int width)
+static bool	recursive_flood_fill(char **grid, t_vector_i st, int h, int w)
 {
 	int		current_line_length;
 
-	if (st.x < 0 || st.y < 0 || st.x >= height || st.y >= width
+	if (st.x < 0 || st.y < 0 || st.x >= h || st.y >= w
 		|| grid[st.x][st.y] == '1' || grid[st.x][st.y] == 'X')
 		return (true);
 	current_line_length = 0;
@@ -27,22 +27,22 @@ static bool	recursive_flood_fill(char **grid, t_pos st, int height, int width)
 	if (grid[st.x][st.y] == ' ')
 		return (false);
 	if (grid[st.x][st.y] == '0' && (st.x == 0 || st.y == 0
-			|| st.x == height - 1 || st.y >= current_line_length - 1))
+			|| st.x == h - 1 || st.y >= current_line_length - 1))
 		return (false);
 	grid[st.x][st.y] = 'X';
-	if (!recursive_flood_fill(grid, (t_pos){st.x - 1, st.y}, height, width))
+	if (!recursive_flood_fill(grid, (t_vector_i){st.x - 1, st.y}, h, w))
 		return (false);
-	if (!recursive_flood_fill(grid, (t_pos){st.x + 1, st.y}, height, width))
+	if (!recursive_flood_fill(grid, (t_vector_i){st.x + 1, st.y}, h, w))
 		return (false);
-	if (!recursive_flood_fill(grid, (t_pos){st.x, st.y - 1}, height, width))
+	if (!recursive_flood_fill(grid, (t_vector_i){st.x, st.y - 1}, h, w))
 		return (false);
-	if (!recursive_flood_fill(grid, (t_pos){st.x, st.y + 1}, height, width))
+	if (!recursive_flood_fill(grid, (t_vector_i){st.x, st.y + 1}, h, w))
 		return (false);
 	return (true);
 }
 
 static bool	find_start_position(char **grid, int height,
-		int width, t_pos *start)
+		int width, t_vector_i *start)
 {
 	int	i;
 	int	j;
@@ -71,7 +71,7 @@ static bool	find_start_position(char **grid, int height,
 	return (false);
 }
 
-bool	flood_fill(char **grid, int height, int width, t_pos start)
+bool	flood_fill(char **grid, int height, int width, t_vector_i start)
 {
 	if (!recursive_flood_fill(grid, start, height, width))
 	{
@@ -94,7 +94,7 @@ static void	free_map_copy(char **copy, int height)
 bool	is_map_valid(t_game *game)
 {
 	char	**map_copy;
-	t_pos	start;
+	t_vector_i	start;
 
 	map_copy = copy_map(game->map.grid, game->map.height);
 	if (!map_copy)

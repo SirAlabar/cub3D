@@ -17,7 +17,7 @@ void draw_weapon(t_game *game)
     resized.addr = mlx_get_data_addr(resized.img, &resized.bpp, 
                                     &resized.line_len, &resized.endian);
     
-    resize_texture(game, current_gun, &resized);
+    resize_texture(current_gun, &resized);
     mlx_put_image_to_window(game->mlx, game->win, resized.img, gun_x, gun_y);
     mlx_destroy_image(game->mlx, resized.img);
 }
