@@ -73,6 +73,11 @@
 # define ERR_COLOR "Error\nInvalid color configuration\n"
 # define ERR_MALLOC "Error\nMemory allocation failed\n"
 
+/* Gun Frames*/
+#define GUN_F1 "./assets/sprites/pistol/PIS0.xpm"
+#define GUN_F2 "./assets/sprites/pistol/PIS1.xpm"
+#define GUN_F3 "./assets/sprites/pistol/PIS2.xpm"
+
 /* Structs */
 
 typedef struct s_player
@@ -83,6 +88,8 @@ typedef struct s_player
 	double		move_speed;
 	double		rot_speed;
 	t_keys		keys;
+	t_texture	*gun_anim;
+	int			current_frame;
 }				t_player;
 
 typedef struct s_map

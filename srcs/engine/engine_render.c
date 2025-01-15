@@ -28,11 +28,25 @@ void	engine_prepare_frame(t_game *game)
 			&game->line_length, &game->endian);
 }
 
+void	animate_gun(t_game *game)
+{
+	int	center_x;
+	int	bottom_y;
+
+	center_x = (WINDOW_WIDTH / 2) - (game->p1.gun_anim[game->p1.current_frame].width / 2);
+	bottom_y = WINDOW_HEIGHT - game->p1.gun_anim[game->p1.current_frame].height;
+
+	game->p1.current_frame = (game->p1.current_frame + 1) % 3;
+	mlx_put_image_to_window(game->mlx, game->win,
+		game->p1.gun_anim[game->p1.current_frame].img, center_x, bottom_y);
+}
+
 int	engine_render_frame(t_game *game)
 {
 	int		i;
 	t_ray	rays[WINDOW_WIDTH];
 
+	animate_gun(game);
 	engine_prepare_frame(game);
 	draw_background(game);
 	cast_rays(game, rays);

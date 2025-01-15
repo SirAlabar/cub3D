@@ -12,6 +12,23 @@
 
 #include <cub3d.h>
 
+void	cleanup_gun(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		if (game->p1.gun_anim[i].img)
+		{
+			mlx_destroy_image(game->mlx, game->p1.gun_anim[i].img);
+		}
+		i++;
+	}
+	free(game->p1.gun_anim);
+	game->p1.gun_anim = NULL;
+}
+
 static void	cleanup_textures(t_game *game)
 {
 	if (game->north.img)
@@ -22,6 +39,7 @@ static void	cleanup_textures(t_game *game)
 		mlx_destroy_image(game->mlx, game->east.img);
 	if (game->west.img)
 		mlx_destroy_image(game->mlx, game->west.img);
+	cleanup_gun(game);
 }
 
 static void	cleanup_map(t_game *game)
