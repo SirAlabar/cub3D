@@ -15,6 +15,7 @@
 
 # include <colors.h>
 # include <engine.h>
+# include <objects.h>
 # include <events.h>
 # include <fcntl.h>
 # include <libft.h>
