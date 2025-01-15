@@ -18,12 +18,15 @@
 # include <stdbool.h>
 
 /* Configurações gerais */
-# define MAX_OBJECT_TEXTURES 8
-# define MAX_FRAMES 4
-# define ANIMATION_SPEED 0.15
+# define MIN_MAP_SIZE 5
+# define MIN_EMPTY_SPACES 10
+# define MIN_SPACE_BETWEEN_OBJECTS 2.0
+# define MIN_SPACE_FROM_WALL 0.5
+# define MAX_SPACE_FROM_WALL 1.5
+# define OBJECTS_PER_SPACE 9
 
 /* Base paths */
-# define ASSETS_PATH     "assets/textures/sprites"
+# define ASSETS_PATH     "assets/sprites"
 
 /* Object paths */
 # define PILLAR_PATH     ASSETS_PATH"/pillar.xpm"
@@ -40,6 +43,12 @@
 # define TORCH_FRAME2    ASSETS_PATH"/torch2.xpm"
 # define TORCH_FRAME3    ASSETS_PATH"/torch3.xpm"
 # define TORCH_FRAME4    ASSETS_PATH"/torch4.xpm"
+
+typedef enum e_placement_type {
+    PLACEMENT_WALL,
+    PLACEMENT_AWAY,
+    PLACEMENT_ANY
+} t_placement_type;
 
 typedef enum e_object_type {
     OBJ_PILLAR,
@@ -66,31 +75,38 @@ typedef struct s_sprite {
     t_vector        pos;
     t_vector_i      tex;
     double          distance;
-    int             texture_id;
+    t_object_type   type;
     bool            is_solid;
-    int             width;
-    int             height;
     bool            is_animated;
     int             current_frame;
-    int             num_frames;
     double          anim_time;
-    double          frame_duration;
-    t_texture       *frames[MAX_FRAMES];
+    t_texture       *frames[4];
 } t_sprite;
 
-/* Funções de gerenciamento de objetos */
-void            init_object_system(t_game *game);
-t_sprite        *create_sprite(t_game *game, t_object_type type, t_vector pos);
-void            update_sprite_animations(t_game *game, double delta_time);
-void            render_sprites(t_game *game);
-void            cleanup_sprites(t_game *game);
-bool            check_sprite_collision(t_game *game, t_vector pos);
-t_texture       *get_sprite_texture(t_sprite *sprite);
-void            destroy_sprite(t_game *game, t_sprite *sprite);
-
 /* Funções de validação */
-bool            verify_sprite_textures(t_object_type type);
-bool            can_place_sprite(t_game *game, t_vector pos, double radius);
-bool            is_valid_object_type(t_object_type type);
+bool    validate_map_for_objects(t_game *game, int *available_spaces);
+bool    validate_object_textures(t_object_type type);
+int     calculate_max_objects(int available_spaces);
+
+/* Funções de posicionamento */
+bool    is_valid_object_position(t_game *game, t_vector pos, 
+        t_placement_type placement);
+bool    is_near_door(t_game *game, t_vector pos);
+t_vector get_random_position(t_game *game, t_placement_type placement);
+bool    check_object_spacing(t_game *game, t_vector pos);
+
+/* Funções de inicialização */
+void    init_object_config(t_object_config *config, t_object_type type);
+bool    init_sprite(t_game *game, t_sprite *sprite, t_vector pos, 
+        t_object_type type);
+bool    load_sprite_textures(t_game *game, t_sprite *sprite);
+
+/* Funções de animação e renderização */
+void    update_sprite_animations(t_game *game, double delta_time);
+void    render_sprites(t_game *game);
+
+/* Funções de limpeza */
+void    cleanup_sprites(t_game *game);
+void    destroy_sprite(t_game *game, t_sprite *sprite);
 
 #endif
