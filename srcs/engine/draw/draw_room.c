@@ -72,6 +72,8 @@ void	draw_wall(t_game *game, t_ray *ray, int x)
 		wallx = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
 	wallx -= floor(wallx);
 	ray->tex_x = (int)(wallx * tex->width);
+    if (ray->side == 0 && ray->dir.x > 0)
+        ray->tex_x = tex->width - ray->tex_x - 1;	
 	ray->step = 1.0 * tex->height / ray->line_height;
 	tex_pos = (ray->draw_start - WINDOW_HEIGHT / 2
 			+ ray->line_height / 2) * ray->step;
