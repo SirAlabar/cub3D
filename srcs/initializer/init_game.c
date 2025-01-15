@@ -62,4 +62,6 @@ void	init_game(t_game *game)
 	init_player(game);
 	init_textures(game);
 	init_textures_game(game);
+	game->last_mouse = vector_create(-1.0, -1.0);
+	game->mouse_sensi = 0.003;
 }

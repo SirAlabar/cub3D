@@ -13,6 +13,14 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+/* Window settings */
+# define WINDOW_WIDTH 1000
+# define WINDOW_HEIGHT 800
+# define FOV 60
+# define MOVE_SPEED 0.02
+# define ROTATION_SPEED 0.015
+# define MAX_ROTATION 0.0025
+
 # include <colors.h>
 # include <engine.h>
 # include <events.h>
@@ -53,13 +61,6 @@
 #  define KEY_UP XK_Up
 #  define KEY_DOWN XK_Down
 # endif
-
-/* Window settings */
-# define WINDOW_WIDTH 1000
-# define WINDOW_HEIGHT 800
-# define FOV 60
-# define MOVE_SPEED 0.02
-# define ROTATION_SPEED 0.015
 
 /* Map characters */
 # define VALID_MAP_CHARS "01NSEW "
@@ -113,6 +114,9 @@ typedef struct s_game
 	t_texture	south;
 	t_texture	east;
 	t_texture	west;
+	t_vector	last_mouse;	
+	double		fps;
+	double		mouse_sensi;	
 }				t_game;
 
 void			cleanup_game(t_game *game);

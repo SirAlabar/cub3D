@@ -86,6 +86,7 @@ int	main(int argc, char **argv)
 	mlx_hook(game->win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->win, 3, 1L << 1, key_release, game);
 	mlx_hook(game->win, 17, 0, close_window, game);
+	mlx_hook(game->win, 6, 1L << 6, mouse_wrapper, game);
 	mlx_loop_hook(game->mlx, engine_render_frame, game);
 	mlx_loop(game->mlx);
 	cleanup_game(game);
