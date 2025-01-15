@@ -32,9 +32,9 @@ void	handle_movement(t_game *game)
 	keys_else(game, &dir_x, &dir_y);
 	move_player(game, dir_x, dir_y);
 	if (game->p1.keys.left)
-		rotate_player(game, game->p1.rot_speed);
-	if (game->p1.keys.right)
 		rotate_player(game, -game->p1.rot_speed);
+	if (game->p1.keys.right)
+		rotate_player(game, game->p1.rot_speed);
 }
 
 int	key_press(int keycode, t_game *game)

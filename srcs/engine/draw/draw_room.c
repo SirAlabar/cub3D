@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:54:33 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/14 22:04:39 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/15 20:27:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,16 @@ void	draw_wall(t_game *game, t_ray *ray, int x)
 		wallx = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
 	wallx -= floor(wallx);
 	ray->tex_x = (int)(wallx * tex->width);
+	if (ray->side == 0 && ray->dir.x < 0)
+	{
+		ray->tex_x = tex->width - ray->tex_x - 1;
+	}
+	if (ray->side == 1 && ray->dir.y > 0)
+	{
+		ray->tex_x = tex->width - ray->tex_x - 1;
+	}
 	ray->step = 1.0 * tex->height / ray->line_height;
-	tex_pos = (ray->draw_start - WINDOW_HEIGHT / 2
-			+ ray->line_height / 2) * ray->step;
+	tex_pos = (ray->draw_start - WINDOW_HEIGHT / 2 + ray->line_height / 2)
+		* ray->step;
 	draw_wall_segment(game, ray, tex_pos, x);
 }
