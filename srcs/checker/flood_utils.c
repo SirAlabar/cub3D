@@ -17,13 +17,14 @@ char	**copy_map(char **original, int height)
 	char	**copy;
 	int		i;
 
-	copy = (char **)malloc(sizeof(char *) * height);
+	copy = (char **)ft_calloc(sizeof(char *), height);
 	if (!copy)
 		return (NULL);
 	i = -1;
 	while (++i < height)
 	{
-		copy[i] = ft_strdup(original[i]);
+		if (original[i])
+			copy[i] = ft_strdup(original[i]);
 		if (!copy[i])
 		{
 			while (--i >= 0)
