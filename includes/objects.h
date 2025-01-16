@@ -14,8 +14,13 @@
 # define OBJECTS_H
 
 # include <cub3d.h>
-# include <engine.h>
 # include <stdbool.h>
+
+typedef struct s_vector t_vector;
+typedef struct s_vector_i t_vector_i;
+typedef struct s_ray t_ray;
+typedef struct s_texture t_texture;
+typedef struct s_game t_game;
 
 /* Configurações gerais */
 # define MIN_MAP_SIZE 5
@@ -74,6 +79,7 @@ typedef struct s_object_config {
     bool            is_animated;
     int             num_frames;
     char            *frame_paths[MAX_FRAMES];
+    t_placement_type placement;    
 } t_object_config;
 
 typedef struct s_sprite {
@@ -114,7 +120,7 @@ bool    load_sprite_animations(t_game *game, t_sprite *sprite,
 
 
 bool    validate_map_for_objects(t_game *game, int *available_spaces);
-bool    validate_object_textures(t_object_type type);
+bool validate_tex_obj(t_object_type type);
 int     calculate_max_objects(int available_spaces);
 bool    is_valid_object_position(t_game *game, t_vector pos, 
         t_placement_type placement);

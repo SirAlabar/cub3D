@@ -15,12 +15,12 @@
 
 # include <cub3d.h>
 # include <engine.h>
-# include <objects.h>
 # include <math.h>
 # include <stdbool.h>
 # include <sys/time.h>
 
-typedef struct s_game	t_game;
+typedef struct s_game t_game;
+typedef struct s_sprite t_sprite;
 
 typedef struct s_vector_i
 {

@@ -25,7 +25,23 @@ static bool verify_tex_file(const char *path)
     return (true);
 }
 
-bool validade_map_obj (t_game *game, int *avaliable_spaces)
+static bool	verify_anim_tex(t_object_config config)
+{
+	int	i;
+
+	i = 0;
+	while (i < config.num_frames)
+	{
+		if (!verify_tex_file(config.frame_paths[i]))
+		{
+			return (false);
+		}
+		i++;
+	}
+	return (true);
+}
+
+bool validade_map_obj(t_game *game, int *avaliable_spaces)
 {
     int spaces;
     t_vector_i pos;
@@ -34,12 +50,12 @@ bool validade_map_obj (t_game *game, int *avaliable_spaces)
         return (false);
     spaces = 0;
     pos.y = -1;
-    while (++y < game->map.height)
+    while (++pos.y < game->map.height)
     {
         pos.x = -1;
-        while (++x < game->map.width)
+        while (++pos.x < game->map.width)
         {
-            if (game->map.grid[y][x] == '0')
+            if (game->map.grid[pos.y][pos.x] == '0')
                 spaces++;     
         }
     }
@@ -49,7 +65,7 @@ bool validade_map_obj (t_game *game, int *avaliable_spaces)
     return (true);
 }
 
-bool validade_tex_obj(t_object_type type)
+bool validate_tex_obj(t_object_type type)
 {
     t_object_config config;
 

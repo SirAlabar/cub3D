@@ -27,7 +27,7 @@ static t_texture	*load_sprite_texture(t_game *game, char *path)
 	return (tex);
 }
 
-static bool	load_sprite_animations(t_game *game, t_sprite *sprite,
+bool	load_sprite_animations(t_game *game, t_sprite *sprite,
 		t_object_config *config)
 {
 	int	i;
