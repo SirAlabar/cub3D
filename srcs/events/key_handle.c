@@ -32,9 +32,9 @@ void	handle_movement(t_game *game)
 	keys_else(game, &dir_x, &dir_y);
 	move_player(game, dir_x, dir_y);
 	if (game->p1.keys.left)
-		rotate_player(game, game->p1.rot_speed);
-	if (game->p1.keys.right)
 		rotate_player(game, -game->p1.rot_speed);
+	if (game->p1.keys.right)
+		rotate_player(game, game->p1.rot_speed);
 }
 
 int	key_press(int keycode, t_game *game)
@@ -53,6 +53,8 @@ int	key_press(int keycode, t_game *game)
 		game->p1.keys.left = 1;
 	else if (keycode == KEY_RIGHT)
 		game->p1.keys.right = 1;
+	else if (keycode == KEY_SPACE || keycode == MOUSE_LEFT)
+		game->p1.is_firing = 1;
 	return (0);
 }
 

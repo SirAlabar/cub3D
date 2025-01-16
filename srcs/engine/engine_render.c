@@ -42,8 +42,8 @@ int	engine_render_frame(t_game *game)
 		draw_wall(game, &rays[i], i);
 	}
 	handle_movement(game);
-	//update_weapon_frame(game);
-    //draw_weapon(game);
+	update_weapon_animation(game);
+	draw_weapon(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }

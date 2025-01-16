@@ -41,6 +41,12 @@ bool	can_move_x(t_game *game, t_vector new, t_vector dir, double buff);
 bool	can_move_y(t_game *game, t_vector new, t_vector dir, double buff);
 
 /*
+ * Mouse Event Functions
+ */
+int		mouse_move(t_game *game, t_vector pos);
+int		mouse_wrapper(int x, int y, void *param);
+
+/*
  * Utility Functions
  */
 void	*keys_else(t_game *game, double *dir_x, double *dir_y);

@@ -39,26 +39,45 @@ void	set_player_orientation(t_game *game)
 	}
 }
 
-void	init_player(t_game *game)
+void	set_gun(t_game *game)
 {
-    game->p1.pos = vector_create(game->p1.pos.x, game->p1.pos.y);
-    game->p1.dir = vector_create(0, 1);
-    game->p1.plane = vector_create(0.66, 0);
-    game->p1.move_speed = MOVE_SPEED;
-    game->p1.rot_speed = ROTATION_SPEED;
-    game->p1.keys = (t_keys){0, 0, 0, 0, 0, 0};
-    game->p1.frames[0] = texture_create(game, P1_PATH1);
-    game->p1.frames[1] = texture_create(game, P1_PATH2);
-    game->p1.frames[2] = texture_create(game, P1_PATH3);
-    game->p1.frames[3] = texture_create(game, P1_PATH4);
-    if (!game->p1.frames[0] || !game->p1.frames[1] || 
-        !game->p1.frames[2] || !game->p1.frames[3])
-    {
-        ft_printf("Error\nFailed to load player textures\n");
-        cleanup_game(game);
-        exit(1);
-    }
-    game->p1.curr_frame = 0;
-    game->p1.is_shooting = false;
+	t_texture	*tex[4];
+	int			i;
+
+	game->p1.gun_anim = ft_calloc(4, sizeof(t_texture));
+	if (!game->p1.gun_anim)
+		return (cleanup_game(game), exit(1));
+	tex[0] = texture_create(game, GUN_F1);
+	tex[1] = texture_create(game, GUN_F2);
+	tex[2] = texture_create(game, GUN_F3);
+	tex[3] = texture_create(game, GUN_F4);
+	i = -1;
+	while (++i < 4)
+	{
+		if (!tex[i])
+		{
+			while (--i >= 0)
+				free(tex[i]);
+			free(game->p1.gun_anim);
+			ft_printf("Error\n: Failed to create gun textures\n");
+			cleanup_game(game);
+			exit(1);
+		}
+		game->p1.gun_anim[i] = *tex[i];
+		free(tex[i]);
+	}
 }
 
+void	init_player(t_game *game)
+{
+	game->p1.pos = vector_create(game->p1.pos.x + 0.5f, game->p1.pos.y + 0.5f);
+	set_player_orientation(game);
+	game->p1.move_speed = MOVE_SPEED;
+	game->p1.rot_speed = ROTATION_SPEED;
+	game->p1.keys = (t_keys){0, 0, 0, 0, 0, 0};
+	game->p1.current_frame = 0;
+	game->p1.is_firing = 0;
+	game->p1.last_step = get_time_ms();
+	game->p1.last_fire = 0;
+	set_gun(game);
+}
