@@ -156,6 +156,12 @@ void			init_textures(t_game *game);
 void			print_map(t_game *game);
 //
 void			read_error(t_game *game);
+//error/cleanup
+void			cleanup_gun(t_game *game);
+void			cleanup_textures(t_game *game);
+void			cleanup_map(t_game *game);
+void			cleanup_game(t_game *game);
+
 //
 void			init_test_map(t_game *game);
 int				close_window(t_game *game);
