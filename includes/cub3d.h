@@ -21,8 +21,8 @@
 # define ROTATION_SPEED 0.015
 # define MAX_ROTATION 0.0025
 
-# include <colors.h>
 # include <engine.h>
+# include <colors.h>
 # include <objects.h>
 # include <events.h>
 # include <fcntl.h>
@@ -131,7 +131,8 @@ typedef struct s_game
 	t_texture	south;
 	t_texture	east;
 	t_texture	west;
-	t_vector	last_mouse;	
+	t_vector	last_mouse;
+	t_object_system    objects;
 	double		mouse_sensi;
 	double		fps;		
 }				t_game;

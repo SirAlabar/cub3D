@@ -42,6 +42,24 @@ void	cleanup_textures(t_game *game)
 	cleanup_gun(game);
 }
 
+void	cleanup_object_system(t_game *game)
+{
+	int	i;
+
+	if (!game || !game->objects.sprites)
+		return ;
+	i = 0;
+	while (i < game->objects.num_sprites)
+	{
+		destroy_sprite(game, &game->objects.sprites[i]);
+		i++;
+	}
+	free(game->objects.sprites);
+	game->objects.sprites = NULL;
+	game->objects.num_sprites = 0;
+	game->objects.max_sprites = 0;
+}
+
 void	cleanup_map(t_game *game)
 {
 	int	i;

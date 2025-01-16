@@ -60,13 +60,17 @@ bool	check_object_spacing(t_game *game, t_vector pos)
 {
 	int		i;
 	double	dist;
+	double	min_dist;
 
+	if (!game || !game->objects.sprites)
+		return (true);
 	i = 0;
-	while (i < game->map.num_sprites)
+	min_dist = MIN_SPACE_BETWEEN_OBJECTS;
+	while (i < game->objects.num_sprites)
 	{
-		dist = sqrt(pow(pos.x - game->map.sprites[i].pos.x, 2)
-				+ pow(pos.y - game->map.sprites[i].pos.y, 2));
-		if (dist < MIN_SPACE_BETWEEN_OBJECTS)
+		dist = sqrt(pow(pos.x - game->objects.sprites[i].pos.x, 2)
+				+ pow(pos.y - game->objects.sprites[i].pos.y, 2));
+		if (dist < min_dist)
 			return (false);
 		i++;
 	}

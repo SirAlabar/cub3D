@@ -12,7 +12,7 @@
 
 #include <cub3d.h>
 
-static void draw_object_pixel(t_game *game, t_vector_i pos, t_texture *sprite,
+static void draw_object_pixel(t_game *game, t_vector_i pos, t_sprite *sprite,
         double transform_y)
 {
     t_texture   *tex;
@@ -34,7 +34,7 @@ static void draw_object_pixel(t_game *game, t_vector_i pos, t_texture *sprite,
     }
 }
 
-void    draw_object(t_game *game, t_texture *sprite, double transform_y)
+void    draw_object(t_game *game, t_sprite *sprite, double transform_y)
 {
     t_vector_i  pos;
     int         draw_start;

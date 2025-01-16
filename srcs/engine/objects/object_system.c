@@ -12,7 +12,7 @@
 
 #include <cub3d.h>
 
-static bool	try_place_object(t_game *game, t_object_type type)
+bool	try_place_object(t_game *game, t_object_type type)
 {
 	t_vector		pos;
 	t_object_config	config;
@@ -23,10 +23,8 @@ static bool	try_place_object(t_game *game, t_object_type type)
 	pos = get_random_position(game, placement);
 	if (pos.x == -1)
 		return (false);
-
-	if (game->map.num_sprites >= game->map.max_sprites)
+	if (game->objects.num_sprites >= game->objects.max_sprites)
 		return (false);
-
-	return (init_sprite(game, &game->map.sprites[game->map.num_sprites++],
+	return (init_sprite(game, &game->objects.sprites[game->objects.num_sprites++],
 			pos, type));
 }

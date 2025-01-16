@@ -14,6 +14,8 @@
 # define ENGINE_H
 
 # include <cub3d.h>
+# include <engine.h>
+# include <objects.h>
 # include <math.h>
 # include <stdbool.h>
 # include <sys/time.h>
@@ -90,7 +92,7 @@ void					draw_wall(t_game *game, t_ray *ray, int x);
 //draw_weapon
 void					draw_weapon(t_game *game);
 
-void    draw_object(t_game *game, t_texture *sprite, double transform_y);
+void    draw_object(t_game *game, t_sprite *sprite, double transform_y);
 
 /*
  * Texture Management

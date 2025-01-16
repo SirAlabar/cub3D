@@ -58,6 +58,7 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "makefile.configureOnOpen": false,
   "files.associations": {
-    "cub3d.h": "c"
+    "cub3d.h": "c",
+    "colors.h": "c"
   }
 }

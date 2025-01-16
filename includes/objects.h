@@ -88,6 +88,12 @@ typedef struct s_sprite {
     t_texture       *frames[4];
 } t_sprite;
 
+typedef struct s_object_system {
+    t_sprite    *sprites;
+    int         num_sprites;
+    int         max_sprites;
+} t_object_system;
+
 
 void    transform_sprite(t_game *game, t_sprite *sprite, double *transform_x,
         double *transform_y);
@@ -119,12 +125,9 @@ bool    check_object_spacing(t_game *game, t_vector pos);
 t_vector get_random_position(t_game *game, t_placement_type placement);
 
 
-void    draw_object_pixel(t_game *game, t_vector_i pos, t_sprite *sprite,
-        double transform_y);
-void    draw_object(t_game *game, t_sprite *sprite, double transform_y);
 void    render_sprites(t_game *game);
 
-
+bool	try_place_object(t_game *game, t_object_type type);
 void    update_objects_animations(t_game *game, double delta_time);
 
 
