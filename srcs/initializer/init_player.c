@@ -39,6 +39,35 @@ void	set_player_orientation(t_game *game)
 	}
 }
 
+void	set_gun(t_game *game)
+{
+	t_texture	*tex[4];
+	int			i;
+
+	game->p1.gun_anim = ft_calloc(4, sizeof(t_texture));
+	if (!game->p1.gun_anim)
+		return (cleanup_game(game), exit(1));
+	tex[0] = texture_create(game, GUN_F1);
+	tex[1] = texture_create(game, GUN_F2);
+	tex[2] = texture_create(game, GUN_F3);
+	tex[3] = texture_create(game, GUN_F4);
+	i = -1;
+	while (++i < 4)
+	{
+		if (!tex[i])
+		{
+			while (--i >= 0)
+				free(tex[i]);
+			free(game->p1.gun_anim);
+			ft_printf("Error\n: Failed to create gun textures\n");
+			cleanup_game(game);
+			exit(1);
+		}
+		game->p1.gun_anim[i] = *tex[i];
+		free(tex[i]);
+	}
+}
+
 void	init_player(t_game *game)
 {
 	game->p1.pos = vector_create(game->p1.pos.x + 0.5f, game->p1.pos.y + 0.5f);
@@ -46,4 +75,9 @@ void	init_player(t_game *game)
 	game->p1.move_speed = MOVE_SPEED;
 	game->p1.rot_speed = ROTATION_SPEED;
 	game->p1.keys = (t_keys){0, 0, 0, 0, 0, 0};
+	game->p1.current_frame = 0;
+	game->p1.is_firing = 0;
+	game->p1.last_step = get_time_ms();
+	game->p1.last_fire = 0;
+	set_gun(game);
 }

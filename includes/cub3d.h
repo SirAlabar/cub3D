@@ -60,6 +60,9 @@
 #  define KEY_RIGHT XK_Right
 #  define KEY_UP XK_Up
 #  define KEY_DOWN XK_Down
+#  define KEY_SPACE XK_space
+#  define MOUSE_LEFT 1
+#  define MOUSE_RIGHT 3
 # endif
 
 /* Map characters */
@@ -74,6 +77,12 @@
 # define ERR_COLOR "Error\nInvalid color configuration\n"
 # define ERR_MALLOC "Error\nMemory allocation failed\n"
 
+/* Gun Frames*/
+# define GUN_F1 "./assets/sprites/pistol/PIS0.xpm"
+# define GUN_F2 "./assets/sprites/pistol/PIS1.xpm"
+# define GUN_F3 "./assets/sprites/pistol/PIS2.xpm"
+# define GUN_F4 "./assets/sprites/pistol/PISFA0.xpm"
+
 /* Structs */
 
 typedef struct s_player
@@ -84,6 +93,13 @@ typedef struct s_player
 	double		move_speed;
 	double		rot_speed;
 	t_keys		keys;
+	t_texture	*gun_anim;
+	int			current_frame;
+	int			is_firing;
+	double		last_step;
+	double		last_fire;
+	int			gun_width;
+	int			gun_height;
 }				t_player;
 
 typedef struct s_map
@@ -144,6 +160,12 @@ void			init_textures(t_game *game);
 void			print_map(t_game *game);
 //
 void			read_error(t_game *game);
+//error/cleanup
+void			cleanup_gun(t_game *game);
+void			cleanup_textures(t_game *game);
+void			cleanup_map(t_game *game);
+void			cleanup_game(t_game *game);
+
 //
 void			init_test_map(t_game *game);
 int				close_window(t_game *game);

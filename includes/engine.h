@@ -16,14 +16,15 @@
 # include <cub3d.h>
 # include <math.h>
 # include <stdbool.h>
+# include <sys/time.h>
 
 typedef struct s_game	t_game;
 
-typedef struct s_pos
+typedef struct s_vector_i
 {
-	int	x;
-	int	y;
-}						t_pos;
+	int					x;
+	int					y;
+}						t_vector_i;
 
 typedef struct s_vector
 {
@@ -69,6 +70,9 @@ typedef struct s_texture
 void					engine_prepare_frame(t_game *game);
 int						engine_render_frame(t_game *game);
 
+double					get_time_ms(void);
+void					update_fps(t_game *game);
+
 /*
  * Drawing Functions
  */
@@ -83,6 +87,9 @@ unsigned int			apply_shade(unsigned int color, double shade);
 int						draw_background(t_game *game);
 void					draw_wall(t_game *game, t_ray *ray, int x);
 
+//draw_weapon
+void					draw_weapon(t_game *game);
+
 /*
  * Texture Management
  */
@@ -90,6 +97,8 @@ void					draw_wall(t_game *game, t_ray *ray, int x);
 t_texture				*texture_create(t_game *game, char *texture_path);
 t_texture				*get_wall_texture(t_ray *ray, t_game *game);
 void					texture_destroy(t_texture **texture, void *mlx);
+void					update_weapon_animation(t_game *game);
+void					resize_texture(t_texture *src, t_texture *dst);
 
 /*
  * Vector Operations

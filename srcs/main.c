@@ -12,52 +12,6 @@
 
 #include <cub3d.h>
 
-static void	cleanup_textures(t_game *game)
-{
-	if (game->north.img)
-		mlx_destroy_image(game->mlx, game->north.img);
-	if (game->south.img)
-		mlx_destroy_image(game->mlx, game->south.img);
-	if (game->east.img)
-		mlx_destroy_image(game->mlx, game->east.img);
-	if (game->west.img)
-		mlx_destroy_image(game->mlx, game->west.img);
-}
-
-static void	cleanup_map(t_game *game)
-{
-	int	i;
-
-	i = 0;
-	if (game->map.grid)
-	{
-		while (i < game->map.height)
-		{
-			if (game->map.grid[i])
-				free(game->map.grid[i]);
-			i++;
-		}
-		free(game->map.grid);
-	}
-}
-
-void	cleanup_game(t_game *game)
-{
-	if (!game)
-		return ;
-	cleanup_textures(game);
-	if (game->win && game->mlx)
-		mlx_destroy_window(game->mlx, game->win);
-	if (game->img && game->mlx)
-		mlx_destroy_image(game->mlx, game->img);
-	if (game->mlx)
-		cleanup_mlx(game->mlx);
-	cleanup_map(game);
-	if (game->fd_map != -1)
-		close(game->fd_map);
-	free(game);
-}
-
 int	close_window(t_game *game)
 {
 	mlx_loop_end(game->mlx);
