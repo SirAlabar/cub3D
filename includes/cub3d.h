@@ -116,7 +116,8 @@ typedef struct s_game
 	t_texture	west;
 	t_vector	last_mouse;	
 	double		fps;
-	double		mouse_sensi;	
+	double		mouse_sensi;
+	double		fps;		
 }				t_game;
 
 void			cleanup_game(t_game *game);
