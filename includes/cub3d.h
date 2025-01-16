@@ -131,7 +131,6 @@ typedef struct s_game
 	t_texture	east;
 	t_texture	west;
 	t_vector	last_mouse;	
-	double		fps;
 	double		mouse_sensi;
 	double		fps;		
 }				t_game;
