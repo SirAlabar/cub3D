@@ -25,3 +25,38 @@ void	texture_destroy(t_texture **texture, void *mlx)
 		*texture = NULL;
 	}
 }
+
+void	destroy_sprite(t_game *game, t_sprite *sprite)
+{
+	int	i;
+
+	if (!sprite)
+		return ;
+	i = 0;
+	while (i < MAX_FRAMES)
+	{
+		if (sprite->frames[i])
+		{
+			texture_destroy(&sprite->frames[i], game->mlx);
+			sprite->frames[i] = NULL;
+		}
+		i++;
+	}
+	sprite->current_frame = 0;
+	sprite->is_animated = false;
+	sprite->is_solid = false;
+}
+
+void	cleanup_sprites(t_game *game)
+{
+	int	i;
+
+	if (!game)
+		return ;
+	i = 0;
+	while (i < game->num_sprites)
+	{
+		destroy_sprite(game, &game->sprites[i]);
+		i++;
+	}
+}

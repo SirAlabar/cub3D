@@ -1,15 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw_room.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/11 13:54:33 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/01/15 20:27:19 by marvin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <objects.h>
+#include <cub3d.h>
 
 bool	is_near_wall(t_game *game, t_vector pos)
 {
 	int		x;
 	int		y;
-	double	dist;
+	//double	dist;
 
 	x = (int)pos.x;
 	y = (int)pos.y;
-	dist = MIN_SPACE_FROM_WALL;
+	//dist = MIN_SPACE_FROM_WALL;
 
 	return (game->map.grid[y][x + 1] == '1'
 		|| game->map.grid[y][x - 1] == '1'

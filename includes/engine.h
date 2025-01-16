@@ -90,6 +90,8 @@ void					draw_wall(t_game *game, t_ray *ray, int x);
 //draw_weapon
 void					draw_weapon(t_game *game);
 
+void    draw_object(t_game *game, t_texture *sprite, double transform_y);
+
 /*
  * Texture Management
  */
