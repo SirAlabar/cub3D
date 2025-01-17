@@ -91,6 +91,10 @@ typedef struct s_door_system {
     t_texture door_texture;
 } t_door_system;
 
+# define DOOR_SPEED 2.0
+# define DOOR_STAY_OPEN_TIME 3.0
+# define DOOR_INTERACTION_DISTANCE 1.5
+
 /*
  * Core Engine Functions
  */

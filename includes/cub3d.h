@@ -132,7 +132,8 @@ typedef struct s_game
 	t_texture	west;
 	t_vector	last_mouse;	
 	double		mouse_sensi;
-	double		fps;		
+	double		fps;
+    t_door_system *door_system;
 }				t_game;
 
 void			cleanup_game(t_game *game);
