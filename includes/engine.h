@@ -90,6 +90,11 @@ void					draw_wall(t_game *game, t_ray *ray, int x);
 //draw_weapon
 void					draw_weapon(t_game *game);
 
+void	draw_impact_circle(t_game *game, t_vector_i start,
+		t_vector_i end, int impact_size);
+void	draw_circle_pixel(t_game *game, t_vector_i pos,
+		t_vector_i center, int impact_size);
+
 /*
  * Texture Management
  */
