@@ -24,6 +24,7 @@
 # include <colors.h>
 # include <engine.h>
 # include <events.h>
+# include <minimap.h>
 # include <fcntl.h>
 # include <libft.h>
 # include <math.h>
@@ -172,6 +173,5 @@ void			handle_movement(t_game *game);
 int				key_release(int keycode, t_game *game);
 int				key_press(int keycode, t_game *game);
 int				key_handler(int keycode, t_game *game);
-void			draw_minimap(t_game *game);
 
 #endif
