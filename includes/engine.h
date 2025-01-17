@@ -63,6 +63,34 @@ typedef struct s_texture
 	char				*path;
 }						t_texture;
 
+typedef enum e_door_state {
+    DOOR_CLOSED,
+    DOOR_OPENING,
+    DOOR_OPEN,
+    DOOR_CLOSING
+} t_door_state;
+
+typedef enum e_door_orientation {
+    DOOR_VERTICAL
+    DOOR_HORIZONTAL
+} t_door_orientation;
+
+typedef struct s_door {
+    t_vector_i position;
+    t_door_state state;
+    t_door_orientation orient;
+    double animation;
+    double timer;
+    bool locked;
+    int key_type;
+} t_door;
+
+typedef struct s_door_system {
+    t_door *doors;
+    int door_count;
+    t_texture door_texture;
+} t_door_system;
+
 /*
  * Core Engine Functions
  */
