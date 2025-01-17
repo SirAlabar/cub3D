@@ -112,6 +112,12 @@ t_vector				vector_sub(t_vector v1, t_vector v2);
 t_vector				vector_mult(t_vector v, double n);
 t_vector				vector_div(t_vector v, double n);
 
+// Vector I operations
+t_vector_i				vector_i_create(int x, int y);
+bool					vector_i_equals(t_vector_i a, t_vector_i b);
+t_vector_i				vector_to_vector_i(t_vector v);
+t_vector				vector_i_to_vector(t_vector_i v);
+
 // Vector operations
 double					vector_dot(t_vector v1, t_vector v2);
 double					vector_mag(t_vector v);

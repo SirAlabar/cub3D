@@ -25,6 +25,22 @@ typedef struct s_keys
 	int	right;
 }	t_keys;
 
+typedef struct s_impact
+{
+	bool	active;
+	t_vector	pos;
+	double	time;
+	int		frame;
+	bool	is_enemy;
+}	t_impact;
+
+typedef struct s_shot
+{
+	bool		active;
+	t_ray		ray;
+	t_impact	impact;
+}	t_shot;
+
 /*
  * Key Event Functions
  */
@@ -45,6 +61,14 @@ bool	can_move_y(t_game *game, t_vector new, t_vector dir, double buff);
  */
 int		mouse_move(t_game *game, t_vector pos);
 int		mouse_wrapper(int x, int y, void *param);
+
+/*
+ * Shoot Mouse Event Functions
+ */
+void	init_shot(t_game *game);
+void	fire_shot(t_game *game);
+void	draw_impact(t_game *game);
+void	update_shot_system(t_game *game);
 
 /*
  * Utility Functions

@@ -54,6 +54,14 @@ void	init_textures_game(t_game *game)
 	free_texture_ptrs(north, south, east, west);
 }
 
+void init_shot(t_game *game)
+{
+	game->shot.active = false;
+	game->shot.impact.active = false;
+	game->shot.impact.frame = 0;
+	game->shot.impact.is_enemy 0 false;
+}
+
 void	init_game(t_game *game)
 {
 	init_map(game);
@@ -62,6 +70,7 @@ void	init_game(t_game *game)
 	init_player(game);
 	init_textures(game);
 	init_textures_game(game);
+	init_shot(game);
 	game->last_mouse = vector_create(-1.0, -1.0);
 	game->mouse_sensi = 0.003;
 	game->fps = 0;
