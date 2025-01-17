@@ -63,15 +63,17 @@ typedef struct s_texture
 	char				*path;
 }						t_texture;
 
-typedef enum e_door_state {
+typedef enum e_door_state 
+{
     DOOR_CLOSED,
     DOOR_OPENING,
     DOOR_OPEN,
     DOOR_CLOSING
 } t_door_state;
 
-typedef enum e_door_orientation {
-    DOOR_VERTICAL
+typedef enum e_door_orientation 
+{
+    DOOR_VERTICAL,
     DOOR_HORIZONTAL
 } t_door_orientation;
 

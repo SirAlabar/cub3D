@@ -42,6 +42,17 @@ void	cleanup_textures(t_game *game)
 	cleanup_gun(game);
 }
 
+void	cleanup_door_system(t_game *game)
+{
+	if (!game->door_system)
+		return ;
+	if (game->door_system->door_texture.img)
+		mlx_destroy_image(game->mlx, game->door_system->door_texture.img);
+	if (game->door_system->doors)
+		free(game->door_system->doors);
+	free(game->door_system);
+	game->door_system = NULL;
+}
 void	cleanup_map(t_game *game)
 {
 	int	i;

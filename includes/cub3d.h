@@ -66,7 +66,7 @@
 # endif
 
 /* Map characters */
-# define VALID_MAP_CHARS "01NSEW "
+# define VALID_MAP_CHARS "01NSEWD "
 # define PLAYER_CHARS "NSEW"
 
 /* Error messages */
@@ -82,6 +82,9 @@
 # define GUN_F2 "./assets/sprites/pistol/PIS1.xpm"
 # define GUN_F3 "./assets/sprites/pistol/PIS2.xpm"
 # define GUN_F4 "./assets/sprites/pistol/PISFA0.xpm"
+
+# define DOOR1 "./assets/sprites/pistol/PIS0.xpm"
+# define DOOR2 "./assets/sprites/pistol/PIS0.xpm"
 
 /* Structs */
 
@@ -165,6 +168,7 @@ void			cleanup_gun(t_game *game);
 void			cleanup_textures(t_game *game);
 void			cleanup_map(t_game *game);
 void			cleanup_game(t_game *game);
+void			cleanup_door_system(t_game *game);
 
 //
 void			init_test_map(t_game *game);
