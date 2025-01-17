@@ -12,7 +12,7 @@
 
 #include <cub3d.h>
 
-static void	transform_sprite(t_game *game, t_sprite *sprite,
+void	transform_sprite(t_game *game, t_sprite *sprite,
 				double *transform_x, double *transform_y)
 {
 	double	sprite_x;
@@ -30,7 +30,7 @@ static void	transform_sprite(t_game *game, t_sprite *sprite,
 	sprite->distance = *transform_y;
 }
 
-static void	set_sprite_limits(int *start, int *end, int sprite_size, int max)
+void	set_sprite_limits(int *start, int *end, int sprite_size, int max)
 {
 	*start = -sprite_size / 2 + max / 2;
 	if (*start < 0)
@@ -40,8 +40,7 @@ static void	set_sprite_limits(int *start, int *end, int sprite_size, int max)
 		*end = max - 1;
 }
 
-static void	calculate_dimensions(t_game *game, t_sprite *sprite,
-				double transform_x, double transform_y)
+void	calculate_dimensions(t_sprite *sprite, double transform_x, double transform_y)
 {
 	int	sprite_screen_x;
 	int	sprite_height;

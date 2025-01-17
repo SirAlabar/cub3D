@@ -73,6 +73,7 @@ void					engine_prepare_frame(t_game *game);
 int						engine_render_frame(t_game *game);
 
 double					get_time_ms(void);
+double					get_delta_time(void);
 void					update_fps(t_game *game);
 
 /*

@@ -46,17 +46,3 @@ void	destroy_sprite(t_game *game, t_sprite *sprite)
 	sprite->is_animated = false;
 	sprite->is_solid = false;
 }
-
-void	cleanup_sprites(t_game *game)
-{
-	int	i;
-
-	if (!game)
-		return ;
-	i = 0;
-	while (i < game->num_sprites)
-	{
-		destroy_sprite(game, &game->sprites[i]);
-		i++;
-	}
-}

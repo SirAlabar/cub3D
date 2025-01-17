@@ -20,6 +20,26 @@ double	get_time_ms(void)
 	return ((double)tv.tv_sec * 1000.0 + (double)tv.tv_usec / 1000.0);
 }
 
+double	get_delta_time(void)
+{
+	static double	last_time = 0;
+	double			current_time;
+	double			delta;
+
+	current_time = get_time_ms();
+	if (last_time == 0)
+	{
+		delta = 0;
+		last_time = current_time;
+	}
+	else
+	{
+		delta = (current_time - last_time) / 1000.0;
+		last_time = current_time;
+	}
+	return (delta);
+}
+
 void	update_fps(t_game *game)
 {
 	static double	last_time = 0;

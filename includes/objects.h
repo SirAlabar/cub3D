@@ -104,7 +104,7 @@ typedef struct s_object_system {
 void    transform_sprite(t_game *game, t_sprite *sprite, double *transform_x,
         double *transform_y);
 void    set_sprite_limits(int *start, int *end, int sprite_size, int max);
-void    calculate_dimensions(t_game *game, t_sprite *sprite, double transform_x,
+void    calculate_dimensions(t_sprite *sprite, double transform_x,
         double transform_y);
 
 
@@ -131,7 +131,8 @@ bool    check_object_spacing(t_game *game, t_vector pos);
 t_vector get_random_position(t_game *game, t_placement_type placement);
 
 
-void    render_sprites(t_game *game);
+void    render_sprites(t_game *game, t_ray *rays);
+void	render_sprite(t_game *game, t_sprite *sprite, t_ray *rays);
 
 bool	try_place_object(t_game *game, t_object_type type);
 void    update_objects_animations(t_game *game, double delta_time);
