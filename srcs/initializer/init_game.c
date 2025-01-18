@@ -54,20 +54,44 @@ void	init_textures_game(t_game *game)
 	free_texture_ptrs(north, south, east, west);
 }
 
-void init_shot(t_game *game)
+void	init_ray_start(t_ray *ray)
+{
+	ray->dir.x = 0.0;
+	ray->dir.y = 0.0;
+	ray->side_dist.x = 0.0;
+	ray->side_dist.y = 0.0;
+	ray->delta_dist.x = 0.0;
+	ray->delta_dist.y = 0.0;
+	ray->perp_wall_dist = 0.0;
+	ray->step = 0.0;
+	ray->tex_x = 0;
+	ray->line_height = 0;
+	ray->map_x = 0;
+	ray->map_y = 0;
+	ray->step_x = 0;
+	ray->step_y = 0;
+	ray->hit = false;
+	ray->side = -1;
+	ray->draw_start = 0;
+	ray->draw_end = 0;
+}
+
+void	init_shot(t_game *game)
 {
 	game->shot.active = false;
+	game->shot.aim_set = false;
 	game->shot.impact.active = false;
 	game->shot.impact.frame = 0;
-	game->shot.impact.is_enemy 0 false;
+	game->shot.impact.is_enemy = false;
 }
 
 void	init_game(t_game *game)
 {
 	init_map(game);
 	if (!is_map_valid(game))
-		(printf(RED"Error\ninvalid map\n"DEFAULT));
+		(printf(RED "Error\ninvalid map\n" DEFAULT));
 	init_player(game);
+	init_ray_start(game->rays);
 	init_textures(game);
 	init_textures_game(game);
 	init_shot(game);

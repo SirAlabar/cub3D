@@ -133,6 +133,7 @@ typedef struct s_game
 	t_vector	last_mouse;	
 	double		mouse_sensi;
 	double		fps;
+	t_ray		rays[WINDOW_WIDTH];	
 	t_shot      shot;		
 }				t_game;
 

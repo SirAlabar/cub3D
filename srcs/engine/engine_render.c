@@ -30,20 +30,20 @@ void	engine_prepare_frame(t_game *game)
 
 int	engine_render_frame(t_game *game)
 {
-	int		i;
-	t_ray	rays[WINDOW_WIDTH];
+	int	i;
 
 	engine_prepare_frame(game);
 	draw_background(game);
-	cast_rays(game, rays);
+	cast_rays(game, game->rays);
 	i = -1;
 	while (++i < WINDOW_WIDTH)
 	{
-		draw_wall(game, &rays[i], i);
+		draw_wall(game, &game->rays[i], i);
 	}
 	handle_movement(game);
 	update_weapon_animation(game);
 	draw_weapon(game);
+	update_shot_system(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }

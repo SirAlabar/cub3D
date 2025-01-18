@@ -39,6 +39,7 @@ typedef struct s_shot
 	bool		active;
 	t_ray		ray;
 	t_impact	impact;
+    bool        aim_set;	
 }	t_shot;
 
 /*
@@ -68,7 +69,11 @@ int		mouse_wrapper(int x, int y, void *param);
 void	init_shot(t_game *game);
 void	fire_shot(t_game *game);
 void	draw_impact(t_game *game);
+void	draw_impact_circle(t_game *game, t_vector_i start,
+		t_vector_i end, int impact_size);
 void	update_shot_system(t_game *game);
+void	get_impact_bounds(t_game *game, t_vector_i *start,
+		t_vector_i *end, int impact_size);
 
 /*
  * Utility Functions

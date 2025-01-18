@@ -39,8 +39,17 @@ t_vector	vector_i_to_vector(t_vector_i v)
 {
 	return (vector_create(v.x, v.y));
 }
-
+/*
 double	vector_i_dist(t_vector_i v1, t_vector_i v2)
 {
 	return (sqrt(pow(v1.x - v2.x, 2) + pow(v1.y - v2.y, 2)));
+}*/
+double	vector_i_dist(t_vector_i v1, t_vector_i v2)
+{
+	double	dx;
+	double	dy;
+	
+	dx = (double)(v1.x - v2.x);
+	dy = (double)(v1.y - v2.y) * 1.5;
+	return (sqrt(dx * dx + dy * dy));
 }

@@ -21,8 +21,14 @@ void	init_ray(t_ray *ray, t_game *game, int x)
 	ray->dir.y = game->p1.dir.y + game->p1.plane.y * camera_x;
 	ray->map_x = (int)game->p1.pos.x;
 	ray->map_y = (int)game->p1.pos.y;
-	ray->delta_dist.x = fabs(1 / ray->dir.x);
-	ray->delta_dist.y = fabs(1 / ray->dir.y);
+	if (ray->dir.x == 0)
+		ray->delta_dist.x = 1e30;
+	else
+		ray->delta_dist.x = fabs(1.0 / ray->dir.x);
+	if (ray->dir.y == 0)
+		ray->delta_dist.y = 1e30;
+	else
+		ray->delta_dist.y = fabs(1.0 / ray->dir.y);
 	ray->hit = false;
 }
 
@@ -65,7 +71,7 @@ void	perform_dda(t_ray *ray, t_game *game)
 			ray->side_dist.y += ray->delta_dist.y;
 			ray->map_y += ray->step_y;
 			ray->side = 1;
-		}
+		}	
 		if (game->map.grid[ray->map_x][ray->map_y] == '1')
 			ray->hit = true;
 	}

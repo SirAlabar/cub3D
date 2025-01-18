@@ -90,10 +90,10 @@ void					draw_wall(t_game *game, t_ray *ray, int x);
 //draw_weapon
 void					draw_weapon(t_game *game);
 
-void	draw_impact_circle(t_game *game, t_vector_i start,
-		t_vector_i end, int impact_size);
-void	draw_circle_pixel(t_game *game, t_vector_i pos,
-		t_vector_i center, int impact_size);
+//void draw_impact(t_game *game, t_vector_i impact_pos);
+//void    draw_impact(t_game *game);
+void    draw_impact_pattern(t_game *game, t_vector_i start,
+        t_vector_i end, int impact_size);
 
 /*
  * Texture Management
@@ -122,6 +122,7 @@ t_vector_i				vector_i_create(int x, int y);
 bool					vector_i_equals(t_vector_i a, t_vector_i b);
 t_vector_i				vector_to_vector_i(t_vector v);
 t_vector				vector_i_to_vector(t_vector_i v);
+double					vector_i_dist(t_vector_i v1, t_vector_i v2);
 
 // Vector operations
 double					vector_dot(t_vector v1, t_vector v2);
