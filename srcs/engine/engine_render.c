@@ -45,6 +45,7 @@ int	engine_render_frame(t_game *game)
 	handle_movement(game);
 	update_weapon_animation(game);
 	draw_weapon(game);
+	draw_minimap(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }
