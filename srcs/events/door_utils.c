@@ -12,6 +12,11 @@
 
 #include <cub3d.h>
 
+bool	is_door(char tile)
+{
+	return (tile == 'D');
+}
+
 t_door	*find_door(t_game *game, int x, int y)
 {
 	t_door_system	*ds;

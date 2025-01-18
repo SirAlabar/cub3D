@@ -75,6 +75,7 @@ void	cleanup_game(t_game *game)
 	if (!game)
 		return ;
 	cleanup_textures(game);
+    cleanup_door_system(game);	
 	if (game->win && game->mlx)
 		mlx_destroy_window(game->mlx, game->win);
 	if (game->img && game->mlx)

@@ -60,6 +60,7 @@ void	init_game(t_game *game)
 	if (!is_map_valid(game))
 		(printf(RED"Error\ninvalid map\n"DEFAULT));
 	init_player(game);
+	init_door_system(game);
 	init_textures(game);
 	init_textures_game(game);
 	game->last_mouse = vector_create(-1.0, -1.0);

@@ -65,6 +65,11 @@ void	draw_wall(t_game *game, t_ray *ray, int x)
 	double		tex_pos;
 	t_texture	*tex;
 
+    if (ray->is_door)
+    {
+        render_door(game, ray, x);
+        return;
+    }
 	tex = get_wall_texture(ray, game);
 	if (ray->side == 0)
 		wallx = game->p1.pos.y + ray->perp_wall_dist * ray->dir.y;

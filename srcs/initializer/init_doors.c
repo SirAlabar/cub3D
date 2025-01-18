@@ -49,7 +49,7 @@ static void	scan_map_for_doors(t_game *game)
 		x = 0;
 		while (x < game->map.width)
 		{
-			if (game->map.grid[y][x] == 'D')
+			if (is_door(game->map.grid[y][x]))
 				add_door(game, x, y);
 			x++;
 		}
@@ -84,7 +84,7 @@ void	add_door(t_game *game, int x, int y)
 	t_door			*door;
 
 	ds = game->door_system;
-	new_doors = realloc(ds->doors, (ds->door_count + 1) * sizeof(t_door));
+	new_doors = ft_calloc((ds->door_count + 1), sizeof(t_door));
 	if (!new_doors)
 	{
 		ft_printf("Error: Failed to allocate new door\n");

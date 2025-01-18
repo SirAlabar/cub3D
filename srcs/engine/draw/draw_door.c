@@ -12,6 +12,45 @@
 
 #include <cub3d.h>
 
+void    update_doors(t_game *game)
+{
+    t_door_system *ds;
+    int    i;
+
+    ds = game->door_system;
+    i = 0;
+    while (i < ds->door_count)
+    {
+        if (ds->doors[i].state == DOOR_OPENING)
+        {
+            ds->doors[i].animation += 0.1;
+            if (ds->doors[i].animation >= 1.0)
+            {
+                ds->doors[i].animation = 1.0;
+                ds->doors[i].state = DOOR_OPEN;
+                ds->doors[i].timer = DOOR_STAY_OPEN_TIME;
+            }
+        }
+        else if (ds->doors[i].state == DOOR_OPEN)
+        {
+            ds->doors[i].timer -= 0.1;
+            if (ds->doors[i].timer <= 0)
+                ds->doors[i].state = DOOR_CLOSING;
+        }
+        else if (ds->doors[i].state == DOOR_CLOSING)
+        {
+            ds->doors[i].animation -= 0.1;
+            if (ds->doors[i].animation <= 0.0)
+            {
+                ds->doors[i].animation = 0.0;
+                ds->doors[i].state = DOOR_CLOSED;
+            }
+        }
+        i++;
+    }
+}
+
+
 static int	get_line_height(double perp_wall_dist)
 {
 	return ((int)(WINDOW_HEIGHT / perp_wall_dist));

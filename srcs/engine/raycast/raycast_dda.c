@@ -66,8 +66,13 @@ void	perform_dda(t_ray *ray, t_game *game)
 			ray->map_y += ray->step_y;
 			ray->side = 1;
 		}
-		if (game->map.grid[ray->map_x][ray->map_y] == '1')
-			ray->hit = true;
+        if (game->map.grid[ray->map_x][ray->map_y] == '1' || 
+            (is_door(game->map.grid[ray->map_x][ray->map_y]) && 
+             find_door(game, ray->map_x, ray->map_y)->animation < 1.0))
+        {
+            ray->hit = true;
+            ray->is_door = is_door(game->map.grid[ray->map_x][ray->map_y]);
+        }
 	}
 	if (ray->side == 0)
 		ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;

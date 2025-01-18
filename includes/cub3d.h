@@ -56,6 +56,7 @@
 #  define KEY_A XK_a
 #  define KEY_S XK_s
 #  define KEY_D XK_d
+#  define KEY_E XK_e
 #  define KEY_LEFT XK_Left
 #  define KEY_RIGHT XK_Right
 #  define KEY_UP XK_Up
@@ -82,9 +83,6 @@
 # define GUN_F2 "./assets/sprites/pistol/PIS1.xpm"
 # define GUN_F3 "./assets/sprites/pistol/PIS2.xpm"
 # define GUN_F4 "./assets/sprites/pistol/PISFA0.xpm"
-
-# define DOOR1 "./assets/sprites/pistol/PIS0.xpm"
-# define DOOR2 "./assets/sprites/pistol/PIS0.xpm"
 
 /* Structs */
 

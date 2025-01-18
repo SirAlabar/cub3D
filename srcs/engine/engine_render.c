@@ -35,6 +35,7 @@ int	engine_render_frame(t_game *game)
 
 	engine_prepare_frame(game);
 	draw_background(game);
+	update_doors(game);
 	cast_rays(game, rays);
 	i = -1;
 	while (++i < WINDOW_WIDTH)
