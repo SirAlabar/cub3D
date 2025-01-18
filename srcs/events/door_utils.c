@@ -17,20 +17,19 @@ bool	is_door(char tile)
 	return (tile == 'D');
 }
 
-t_door	*find_door(t_game *game, int x, int y)
+t_door *find_door(t_game *game, int x, int y)
 {
-	t_door_system	*ds;
-	int				i;
+    int i;
 
-	ds = game->door_system;
-	i = 0;
-	while (i < ds->door_count)
-	{
-		if (ds->doors[i].position.x == x && ds->doors[i].position.y == y)
-			return (&ds->doors[i]);
-		i++;
-	}
-	return (NULL);
+    i = 0;
+    while (i < game->door_system->door_count)
+    {
+        if (game->door_system->doors[i].position.x == x && 
+            game->door_system->doors[i].position.y == y)
+            return &game->door_system->doors[i];
+        i++;
+    }
+    return NULL;
 }
 
 double	get_player_door_dist(t_door *door, t_vector player_pos)

@@ -32,6 +32,7 @@ typedef struct s_vector
 	double				y;
 }						t_vector;
 
+
 typedef struct s_ray
 {
 	t_vector			dir;
@@ -49,7 +50,7 @@ typedef struct s_ray
 	int					side;
 	int					draw_start;
 	int					draw_end;
-    bool				is_door;
+    bool is_door;
 }						t_ray;
 
 typedef struct s_texture
@@ -82,6 +83,8 @@ typedef struct s_door {
     t_vector_i position;
     t_door_state state;
     t_door_orientation orient;
+    double dist;
+    bool active;	
     double animation;
     double timer;
     bool locked;
