@@ -24,6 +24,7 @@
 # include <colors.h>
 # include <engine.h>
 # include <events.h>
+# include <minimap.h>
 # include <fcntl.h>
 # include <libft.h>
 # include <math.h>
