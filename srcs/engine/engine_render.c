@@ -30,17 +30,18 @@ void	engine_prepare_frame(t_game *game)
 
 int	engine_render_frame(t_game *game)
 {
-	int		i;
-	t_ray	rays[WINDOW_WIDTH];
+	int			x;
+	t_ray		rays[WINDOW_WIDTH];
+	t_scanline	scanline_buffer;
 
 	engine_prepare_frame(game);
 	draw_background(game);
-	update_doors(game);
+	init_scanline_buffer(&scanline_buffer);
 	cast_rays(game, rays);
-	i = -1;
-	while (++i < WINDOW_WIDTH)
+	x = -1;
+	while (++x < WINDOW_WIDTH)
 	{
-		draw_wall(game, &rays[i], i);
+		draw_wall_scanline(game, &rays[x], x, &scanline_buffer);
 	}
 	handle_movement(game);
 	update_weapon_animation(game);

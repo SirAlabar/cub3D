@@ -30,12 +30,12 @@ void	set_player_orientation(t_game *game)
 	else if (game->map.grid[x][y] == 'E')
 	{
 		game->p1.dir = vector_create(1, 0);
-		game->p1.plane = vector_create(0, -0.66);
+		game->p1.plane = vector_create(0, 0.66);
 	}
 	else if (game->map.grid[x][y] == 'W')
 	{
 		game->p1.dir = vector_create(-1, 0);
-		game->p1.plane = vector_create(0, 0.66);
+		game->p1.plane = vector_create(0, -0.66);
 	}
 }
 

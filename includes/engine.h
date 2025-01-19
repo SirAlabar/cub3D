@@ -32,6 +32,37 @@ typedef struct s_vector
 	double				y;
 }						t_vector;
 
+typedef struct s_scanline
+{
+	int					y_top[WINDOW_WIDTH];
+	int					y_bottom[WINDOW_WIDTH];
+}						t_scanline;
+
+typedef struct s_line
+{
+	int					x;
+	int					start;
+	int					end;
+}						t_line;
+
+typedef struct s_wall
+{
+	t_vector			pos;
+	t_vector			tex;
+	t_vector_i			screen;
+	double				step;
+	double				tex_pos;
+	double				perp_wall_dist;
+	int					height;
+	int					start;
+	int					end;
+	int					color;
+	t_texture			*texture;
+	t_game				*game;
+	t_ray				*ray;
+	t_scanline			*buffer;
+	int					x;
+}						t_wall;
 
 typedef struct s_ray
 {
@@ -103,6 +134,8 @@ typedef struct s_door_system {
 # define DOOR_STAY_OPEN_TIME 3.0
 # define DOOR_INTERACTION_DISTANCE 1.5
 
+
+
 /*
  * Core Engine Functions
  */
@@ -126,6 +159,14 @@ unsigned int			apply_shade(unsigned int color, double shade);
 // draw_background.c
 int						draw_background(t_game *game);
 void					draw_wall(t_game *game, t_ray *ray, int x);
+
+// scanline_rendering.c
+void					init_scanline_buffer(t_scanline *buffer);
+void					draw_vertical_line(t_game *g, t_line line, int color);
+void					set_wall_tex_coords(t_wall *wall);
+void					draw_wall_scanline(t_game *game, t_ray *ray, int x,
+							t_scanline *buffer);
+void					init_wall_drawing(t_wall *wall);
 
 //draw_weapon
 void					draw_weapon(t_game *game);
@@ -166,6 +207,13 @@ double					vector_dot(t_vector v1, t_vector v2);
 double					vector_mag(t_vector v);
 double					vector_mag_sq(t_vector v);
 t_vector				vector_normalize(t_vector v);
+
+// Vector I operations
+t_vector_i				vector_i_create(int x, int y);
+bool					vector_i_equals(t_vector_i a, t_vector_i b);
+t_vector_i				vector_to_vector_i(t_vector v);
+t_vector				vector_i_to_vector(t_vector_i v);
+double					vector_i_dist(t_vector_i v1, t_vector_i v2);
 
 // Angular operations
 double					vector_heading(t_vector v);
