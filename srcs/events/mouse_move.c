@@ -31,6 +31,10 @@ int	mouse_move(t_game *game, t_vector pos)
 		return (0);
 	}
 	rotation = (pos.x - game->last_mouse.x) * game->mouse_sensi;
+    if (rotation > MAX_ROTATION)
+	{
+        rotation = MAX_ROTATION;
+	}
 	rotate_player(game, rotation);
 	game->last_mouse = pos;
 	center = vector_create(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);

@@ -19,7 +19,7 @@
 # define FOV 60
 # define MOVE_SPEED 0.02
 # define ROTATION_SPEED 0.04
-# define MAX_ROTATION 0.06
+# define MAX_ROTATION 0.045
 
 # include <colors.h>
 # include <engine.h>
