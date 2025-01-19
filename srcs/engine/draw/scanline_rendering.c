@@ -82,21 +82,37 @@ void	draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
 	wall.buffer = buffer;
 	init_wall_drawing(&wall);
 
-	if (ray->is_door)
-	{
-		door = find_door(game, ray->map_x, ray->map_y);
-		if (door)
-		{
-			wall.texture = &game->door_system->door_texture;
-
-			// Calcula o deslocamento lateral da porta com base na animação
-			double door_offset = door->animation * wall.texture->width;
-
-			// Ajusta a posição X do mapeamento da textura
-			wall.tex.x = (int)((wall.pos.x * wall.texture->width) + door_offset)
-				% wall.texture->width;
-		}
-	}
+    if (ray->is_door)
+    {
+        door = find_door(game, ray->map_x, ray->map_y);
+        if (door)
+        {
+            wall.texture = &game->door_system->door_texture;
+            
+            // Calcula a largura visível da porta com base na animação
+            double visible_width = (1.0 - door->animation) * wall.texture->width;
+            
+            // Calcula o offset da textura com base na orientação da porta
+            double door_offset = door->animation * wall.texture->width;
+            if (door->orient == DOOR_VERTICAL)
+            {
+                if (ray->side == 1)  // Colisão vertical
+                    wall.tex.x = (int)(wall.pos.x * visible_width + door_offset);
+                else
+                    wall.tex.x = (int)(wall.pos.x * wall.texture->width);
+            }
+            else  // DOOR_HORIZONTAL
+            {
+                if (ray->side == 0)  // Colisão horizontal
+                    wall.tex.x = (int)(wall.pos.x * visible_width + door_offset);
+                else
+                    wall.tex.x = (int)(wall.pos.x * wall.texture->width);
+            }
+            
+            // Garante que o valor de tex.x está dentro dos limites da textura
+            wall.tex.x = (int)wall.tex.x % wall.texture->width;
+        }
+    }
 
 /*
 	if (ray->is_door)

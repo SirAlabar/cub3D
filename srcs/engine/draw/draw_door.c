@@ -12,45 +12,44 @@
 
 #include <cub3d.h>
 
-void	update_doors(t_game *game)
+void    update_doors(t_game *game)
 {
-	t_door_system	*ds = game->door_system;
-	const double	delta_time = 1.0 / 60.0; // Assume 60 FPS
-	int				i;
+    t_door_system    *ds = game->door_system;
+    const double     delta_time = 1.0 / 60.0;
+    int              i;
 
-	i = 0;
-	while (i < ds->door_count)
-	{
-		t_door	*door = &ds->doors[i];
-		if (door->state == DOOR_OPENING)
-		{
-			door->animation += DOOR_SPEED * delta_time;
-			if (door->animation >= 1.0)
-			{
-				door->animation = 1.0;
-				door->state = DOOR_OPEN;
-				door->timer = DOOR_STAY_OPEN_TIME;
-			}
-		}
-		else if (door->state == DOOR_OPEN)
-		{
-			door->timer -= delta_time;
-			if (door->timer <= 0)
-				door->state = DOOR_CLOSING;
-		}
-		else if (door->state == DOOR_CLOSING)
-		{
-			door->animation -= DOOR_SPEED * delta_time;
-			if (door->animation <= 0.0)
-			{
-				door->animation = 0.0;
-				door->state = DOOR_CLOSED;
-			}
-		}
-		i++;
-	}
+    i = 0;
+    while (i < ds->door_count)
+    {
+        t_door    *door = &ds->doors[i];
+        if (door->state == DOOR_OPENING)
+        {
+            door->animation += DOOR_SPEED * delta_time;
+            if (door->animation >= 1.0)
+            {
+                door->animation = 1.0;
+                door->state = DOOR_OPEN;
+                door->timer = DOOR_STAY_OPEN_TIME;
+            }
+        }
+        else if (door->state == DOOR_OPEN)
+        {
+            door->timer -= delta_time;
+            if (door->timer <= 0)
+                door->state = DOOR_CLOSING;
+        }
+        else if (door->state == DOOR_CLOSING)
+        {
+            door->animation -= DOOR_SPEED * delta_time;
+            if (door->animation <= 0.0)
+            {
+                door->animation = 0.0;
+                door->state = DOOR_CLOSED;
+            }
+        }
+        i++;
+    }
 }
-
 
 /*
 static int	get_line_height(double perp_wall_dist)

@@ -31,13 +31,12 @@ t_door *find_door(t_game *game, int x, int y)
         }
         i++;
     }
-    //printf("No door found at x:%d y:%d\n", x, y);
     return NULL;
 }
 
 bool	is_door_solid(t_game *game, int x, int y)
 {
-	t_door *door = find_door(game, y, x);  // Inverte x e y
+	t_door *door = find_door(game, y, x);
 	if (!door)
 	{
 		return (true);
@@ -48,116 +47,48 @@ bool	is_door_solid(t_game *game, int x, int y)
 	return (true);
 }
 
-
-double	get_player_door_dist(t_door *door, t_vector player_pos)
+double    get_player_door_dist(t_door *door, t_vector player_pos)
 {
-	t_vector	door_pos;
+    t_vector    door_pos;
+    double      dist;
 
-	door_pos = vector_create(door->position.x + 0.5, door->position.y + 0.5);
-	return (vector_dist(door_pos, player_pos));
+    door_pos = vector_create(door->position.x + 0.5, door->position.y + 0.5);
+    double dx = fabs(door_pos.x - player_pos.x);
+    double dy = fabs(door_pos.y - player_pos.y);
+    dist = fmin(dx, dy);
+    return (dist);
 }
 
-void	interact_with_door(t_game *game)
-{
-	t_door_system	*ds;
-	int				i;
-	double			distance;
-
-	ds = game->door_system;
-
-	i = -1;
-	while (++i < ds->door_count)
-	{
-		distance = get_player_door_dist(&ds->doors[i], game->p1.pos);
-		if (distance <= DOOR_INTERACTION_DISTANCE)
-		{
-			if (ds->doors[i].state == DOOR_CLOSED && !ds->doors[i].locked)
-				ds->doors[i].state = DOOR_OPENING;
-			else if (ds->doors[i].state == DOOR_OPEN)
-				ds->doors[i].state = DOOR_CLOSING;
-			break ;
-		}
-	}
-}
-/*
 void    interact_with_door(t_game *game)
 {
-    t_door_system   *ds;
-    int             i;
+    t_door_system    *ds;
+    int              i;
     double          distance;
 
     ds = game->door_system;
-    printf("Tentando interagir com porta. Total de portas: %d\n", ds->door_count);
-    
-    i = 0;
-    while (i < ds->door_count)
-    {
-        distance = get_player_door_dist(&ds->doors[i], game->p1.pos);
-        printf("Porta %d: pos(%d,%d), distancia: %f, estado: %d\n", 
-               i, 
-               ds->doors[i].position.x, 
-               ds->doors[i].position.y,
-               distance,
-               ds->doors[i].state);
-        
-        if (distance <= DOOR_INTERACTION_DISTANCE)
-        {
-            printf("Porta %d está ao alcance!\n", i);
-            if (ds->doors[i].state == DOOR_CLOSED && !ds->doors[i].locked)
-            {
-                printf("Abrindo porta %d\n", i);
-                ds->doors[i].state = DOOR_OPENING;
-                break;
-            }
-            else if (ds->doors[i].state == DOOR_OPEN)
-            {
-                printf("Fechando porta %d\n", i);
-                ds->doors[i].state = DOOR_CLOSING;
-                break;
-            }
-        }
-        i++;
-    }
-}*///
-/*
-void    update_doors(t_game *game)
-{
-    t_door_system   *ds;
-    int             i;
-    double          delta_time;
-
-    ds = game->door_system;
-    delta_time = 1.0 / 60.0;
-
     i = -1;
     while (++i < ds->door_count)
     {
-        if (ds->doors[i].state == DOOR_OPENING)
+        distance = get_player_door_dist(&ds->doors[i], game->p1.pos);
+        if (distance <= DOOR_INTERACTION_DISTANCE)
         {
-            printf("Atualizando porta %d: Abrindo (anim: %f)\n", 
-                   i, ds->doors[i].animation);
-            ds->doors[i].animation += DOOR_SPEED * delta_time;
-            if (ds->doors[i].animation >= 1.0)
+            t_door *door = &ds->doors[i];
+            if (door->state == DOOR_CLOSED && !door->locked)
             {
-                ds->doors[i].animation = 1.0;
-                ds->doors[i].state = DOOR_OPEN;
-                printf("Porta %d totalmente aberta\n", i);
+                door->state = DOOR_OPENING;
+                printf("Opening door %d\n", i);
+                return;
             }
-        }
-        else if (ds->doors[i].state == DOOR_CLOSING)
-        {
-            printf("Atualizando porta %d: Fechando (anim: %f)\n", 
-                   i, ds->doors[i].animation);
-            ds->doors[i].animation -= DOOR_SPEED * delta_time;
-            if (ds->doors[i].animation <= 0.0)
+            else if (door->state == DOOR_OPEN || 
+                    door->state == DOOR_OPENING ||
+                    (door->state == DOOR_CLOSING && door->animation > 0.2))
             {
-                ds->doors[i].animation = 0.0;
-                ds->doors[i].state = DOOR_CLOSED;
-                printf("Porta %d totalmente fechada\n", i);
+                door->state = DOOR_CLOSING;
+                return;
             }
         }
     }
-}*/
+}
 
 void	calculate_door_dimensions(t_ray *ray, int *height, int *start, int *end)
 {
