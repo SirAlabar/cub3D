@@ -18,8 +18,8 @@
 # define WINDOW_HEIGHT 800
 # define FOV 60
 # define MOVE_SPEED 0.02
-# define ROTATION_SPEED 0.015
-# define MAX_ROTATION 0.0025
+# define ROTATION_SPEED 0.04
+# define MAX_ROTATION 0.06
 
 # include <colors.h>
 # include <engine.h>
@@ -44,7 +44,7 @@
 #  define KEY_A 0
 #  define KEY_S 1
 #  define KEY_D 2
-#  define KEY_E 14
+#define KEY_E 14
 #  define KEY_LEFT 123
 #  define KEY_RIGHT 124
 #  define KEY_UP 126

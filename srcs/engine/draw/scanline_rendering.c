@@ -89,28 +89,26 @@ void	draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
         {
             wall.texture = &game->door_system->door_texture;
             
-            // Calcula a largura visível da porta com base na animação
-            double visible_width = (1.0 - door->animation) * wall.texture->width;
-            
-            // Calcula o offset da textura com base na orientação da porta
-            double door_offset = door->animation * wall.texture->width;
-            if (door->orient == DOOR_VERTICAL)
+            // Não renderiza se estiver totalmente aberta
+            if (door->state == DOOR_OPEN || 
+               (door->state == DOOR_OPENING && door->animation >= 0.8) ||
+               (door->state == DOOR_CLOSING && door->animation >= 0.8))
+                return;
+
+            // Para animação, corta a porta horizontalmente
+            double screen_ratio = (double)x / WINDOW_HEIGHT;
+            if (door->state == DOOR_OPENING)
             {
-                if (ray->side == 1)  // Colisão vertical
-                    wall.tex.x = (int)(wall.pos.x * visible_width + door_offset);
-                else
-                    wall.tex.x = (int)(wall.pos.x * wall.texture->width);
+                if (screen_ratio > (1.0 - door->animation))
+                    return;
             }
-            else  // DOOR_HORIZONTAL
+            else if (door->state == DOOR_CLOSING)
             {
-                if (ray->side == 0)  // Colisão horizontal
-                    wall.tex.x = (int)(wall.pos.x * visible_width + door_offset);
-                else
-                    wall.tex.x = (int)(wall.pos.x * wall.texture->width);
+                if (screen_ratio > door->animation)
+                    return;
             }
-            
-            // Garante que o valor de tex.x está dentro dos limites da textura
-            wall.tex.x = (int)wall.tex.x % wall.texture->width;
+
+            wall.tex.x = (int)(wall.pos.x * wall.texture->width) % wall.texture->width;
         }
     }
 
