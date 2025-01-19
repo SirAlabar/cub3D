@@ -42,7 +42,7 @@ int	key_press(int keycode, t_game *game)
 	if (keycode == KEY_ESC)
 		close_window(game);
     else if (keycode == KEY_E)
-        interact_with_door(game);		
+        interact_with_door(game);	
 	else if (keycode == KEY_W)
 		game->p1.keys.w = 1;
 	else if (keycode == KEY_S)

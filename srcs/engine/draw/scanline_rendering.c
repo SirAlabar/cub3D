@@ -74,12 +74,53 @@ void	draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
 {
 	t_wall		wall;
 	t_vector_i	pos;
+	t_door	*door;
 
 	wall.game = game;
 	wall.ray = ray;
 	wall.x = x;
 	wall.buffer = buffer;
 	init_wall_drawing(&wall);
+
+	if (ray->is_door)
+	{
+		door = find_door(game, ray->map_x, ray->map_y);
+		if (door)
+		{
+			wall.texture = &game->door_system->door_texture;
+
+			// Calcula o deslocamento lateral da porta com base na animação
+			double door_offset = door->animation * wall.texture->width;
+
+			// Ajusta a posição X do mapeamento da textura
+			wall.tex.x = (int)((wall.pos.x * wall.texture->width) + door_offset)
+				% wall.texture->width;
+		}
+	}
+
+/*
+	if (ray->is_door)
+	{
+		door = find_door(game, ray->map_x, ray->map_y);
+		if (door)
+		{
+			wall.texture = &game->door_system->door_texture;
+			// Calcula a posição da textura baseada na animação
+			int offset = (int)(door->animation * wall.texture->width);
+			wall.tex.x = ((int)(wall.pos.x * wall.texture->width) + offset) 
+                        % wall.texture->width;
+
+			wall.texture = &game->door_system->door_texture;
+			
+			// Calcula a posição da textura com base na animação progressiva
+			double animation_progress = door->animation; // Entre 0.0 (fechada) e 1.0 (aberta)
+			int offset = (int)(animation_progress * wall.texture->width);
+
+			// Aplica o deslocamento para a textura
+			wall.tex.x = ((int)(wall.pos.x * wall.texture->width) + offset) % wall.texture->width;
+		}
+	}
+	*/
 	pos.x = x;
 	pos.y = wall.start - 1;
 	while (++pos.y <= wall.end)

@@ -43,17 +43,13 @@ static void	scan_map_for_doors(t_game *game)
 	int	x;
 
 	y = 0;
-	printf("Iniciando scan do mapa para portas\n");
 	while (y < game->map.height)
 	{
 		x = 0;
 		while (x < game->map.width)
 		{
 			if (is_door(game->map.grid[y][x]))
-			{
-				printf("Porta encontrada em x:%d y:%d\n", x, y);
 				add_door(game, x, y);
-			}
 			x++;
 		}
 		y++;

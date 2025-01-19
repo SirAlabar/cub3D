@@ -32,6 +32,18 @@ typedef struct s_vector
 	double				y;
 }						t_vector;
 
+typedef struct s_texture
+{
+	void				*img;
+	char				*addr;
+	int					width;
+	int					height;
+	int					bpp;
+	int					line_len;
+	int					endian;
+	char				*path;
+}						t_texture;
+
 typedef struct s_scanline
 {
 	int					y_top[WINDOW_WIDTH];
@@ -44,6 +56,26 @@ typedef struct s_line
 	int					start;
 	int					end;
 }						t_line;
+
+typedef struct s_ray
+{
+	t_vector			dir;
+	t_vector			side_dist;
+	t_vector			delta_dist;
+	double				perp_wall_dist;
+	double				step;
+	int					tex_x;
+	int					line_height;
+	int					map_x;
+	int					map_y;
+	int					step_x;
+	int					step_y;
+	bool				hit;
+	int					side;
+	int					draw_start;
+	int					draw_end;
+    bool				is_door;
+}						t_ray;
 
 typedef struct s_wall
 {
@@ -64,44 +96,12 @@ typedef struct s_wall
 	int					x;
 }						t_wall;
 
-typedef struct s_ray
-{
-	t_vector			dir;
-	t_vector			side_dist;
-	t_vector			delta_dist;
-	double				perp_wall_dist;
-	double				step;
-	int					tex_x;
-	int					line_height;
-	int					map_x;
-	int					map_y;
-	int					step_x;
-	int					step_y;
-	bool				hit;
-	int					side;
-	int					draw_start;
-	int					draw_end;
-    bool is_door;
-}						t_ray;
-
-typedef struct s_texture
-{
-	void				*img;
-	char				*addr;
-	int					width;
-	int					height;
-	int					bpp;
-	int					line_len;
-	int					endian;
-	char				*path;
-}						t_texture;
-
 typedef enum e_door_state 
 {
-    DOOR_CLOSED,
-    DOOR_OPENING,
-    DOOR_OPEN,
-    DOOR_CLOSING
+    DOOR_CLOSED = 0,
+    DOOR_OPENING = 1,
+    DOOR_OPEN = 2,
+    DOOR_CLOSING = 3
 } t_door_state;
 
 typedef enum e_door_orientation 
@@ -130,9 +130,9 @@ typedef struct s_door_system {
 
 # define DOOR1 "assets/texture/doorlab.xpm"
 # define DOOR2 "./assets/sprites/pistol/PIS0.xpm"
-# define DOOR_SPEED 2.0
-# define DOOR_STAY_OPEN_TIME 3.0
-# define DOOR_INTERACTION_DISTANCE 1.5
+# define DOOR_SPEED 0.5
+# define DOOR_STAY_OPEN_TIME 4.0
+# define DOOR_INTERACTION_DISTANCE 4.0
 
 
 
@@ -179,6 +179,7 @@ void    interact_with_door(t_game *game);
 bool    is_door(char tile);
 t_door  *find_door(t_game *game, int x, int y);
 void    cleanup_door_system(t_game *game);
+bool is_door_solid(t_game *game, int x, int y);
 
 /*
  * Texture Management

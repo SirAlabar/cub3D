@@ -50,58 +50,37 @@ void	step_side_dist(t_ray *ray, t_game *g)
 	}
 }
 
-void perform_dda(t_ray *ray, t_game *game)
+void	perform_dda(t_ray *ray, t_game *game)
 {
     ray->hit = false;
     ray->is_door = false;
+    char tile;
     
-    while (!ray->hit)
-    {
-        // Lógica DDA existente para determinar próximo passo
-        if (ray->side_dist.x < ray->side_dist.y)
+	while (ray->hit == false)
+	{
+		if (ray->side_dist.x < ray->side_dist.y)
+		{
+			ray->side_dist.x += ray->delta_dist.x;
+			ray->map_x += ray->step_x;
+			ray->side = 0;
+		}
+		else
+		{
+			ray->side_dist.y += ray->delta_dist.y;
+			ray->map_y += ray->step_y;
+			ray->side = 1;
+		}
+        tile = game->map.grid[ray->map_x][ray->map_y];
+        if (tile == '1' || (tile == 'D' && is_door_solid(game, ray->map_x, ray->map_y)))
         {
-            ray->side_dist.x += ray->delta_dist.x;
-            ray->map_x += ray->step_x;
-            ray->side = 0;
-        }
-        else
-        {
-            ray->side_dist.y += ray->delta_dist.y;
-            ray->map_y += ray->step_y;
-            ray->side = 1;
-        }
-
-        // Verifica colisão com porta ou parede
-        char current_tile = game->map.grid[ray->map_x][ray->map_y];
-        
-        if (current_tile == '1')  // Hit em parede
-        {
-            if (ray->side == 0)
-                ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
-            else
-                ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
             ray->hit = true;
+            ray->is_door = (tile == 'D');
         }
-        else if (is_door(current_tile))  // Hit em porta
-        {
-            t_door *door = find_door(game, ray->map_x, ray->map_y);
-            if (door)
-            {
-                // Se a porta estiver totalmente aberta, continua o raycasting
-                if (door->animation >= 1.0)
-                    continue;
-                    
-                // Se a porta estiver parcialmente/totalmente fechada, registra o hit
-                if (ray->side == 0)
-                    ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
-                else
-                    ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
-                    
-                ray->hit = true;
-                ray->is_door = true;
-            }
-        }
-    }
+	}
+	if (ray->side == 0)
+		ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
+	else
+		ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
 }
 
 void	wall_height(t_ray *ray)

@@ -36,7 +36,7 @@ int	draw_background(t_game *game)
 	}
 	return (1);
 }
-
+/*
 static void	draw_wall_segment(t_game *game, t_ray *ray, double tex_pos, int x)
 {
 	int			y;
@@ -90,3 +90,4 @@ void	draw_wall(t_game *game, t_ray *ray, int x)
 		* ray->step;
 	draw_wall_segment(game, ray, tex_pos, x);
 }
+*/

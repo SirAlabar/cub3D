@@ -37,6 +37,8 @@ t_texture	*texture_create(t_game *game, char *texture_path)
 
 t_texture	*get_wall_texture(t_ray *ray, t_game *game)
 {
+	if (ray->is_door)
+		return (&game->door_system->door_texture);	
 	if (ray->side == 0)
 	{
 		if (ray->dir.x > 0)

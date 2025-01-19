@@ -12,47 +12,45 @@
 
 #include <cub3d.h>
 
-void update_doors(t_game *game)
+void	update_doors(t_game *game)
 {
-    t_door_system *ds = game->door_system;
-    const double delta_time = 1.0 / 60.0; // Assumindo 60 FPS
-    
-    for (int i = 0; i < ds->door_count; i++)
-    {
-        t_door *door = &ds->doors[i];
-        
-        switch (door->state)
-        {
-            case DOOR_OPENING:
-                door->animation += DOOR_SPEED * delta_time;
-                if (door->animation >= 1.0)
-                {
-                    door->animation = 1.0;
-                    door->state = DOOR_OPEN;
-                    door->timer = DOOR_STAY_OPEN_TIME;
-                }
-                break;
-                
-            case DOOR_OPEN:
-                door->timer -= delta_time;
-                if (door->timer <= 0)
-                    door->state = DOOR_CLOSING;
-                break;
-                
-            case DOOR_CLOSING:
-                door->animation -= DOOR_SPEED * delta_time;
-                if (door->animation <= 0.0)
-                {
-                    door->animation = 0.0;
-                    door->state = DOOR_CLOSED;
-                }
-                break;
-                
-            default:
-                break;
-        }
-    }
+	t_door_system	*ds = game->door_system;
+	const double	delta_time = 1.0 / 60.0; // Assume 60 FPS
+	int				i;
+
+	i = 0;
+	while (i < ds->door_count)
+	{
+		t_door	*door = &ds->doors[i];
+		if (door->state == DOOR_OPENING)
+		{
+			door->animation += DOOR_SPEED * delta_time;
+			if (door->animation >= 1.0)
+			{
+				door->animation = 1.0;
+				door->state = DOOR_OPEN;
+				door->timer = DOOR_STAY_OPEN_TIME;
+			}
+		}
+		else if (door->state == DOOR_OPEN)
+		{
+			door->timer -= delta_time;
+			if (door->timer <= 0)
+				door->state = DOOR_CLOSING;
+		}
+		else if (door->state == DOOR_CLOSING)
+		{
+			door->animation -= DOOR_SPEED * delta_time;
+			if (door->animation <= 0.0)
+			{
+				door->animation = 0.0;
+				door->state = DOOR_CLOSED;
+			}
+		}
+		i++;
+	}
 }
+
 
 /*
 static int	get_line_height(double perp_wall_dist)
@@ -107,29 +105,12 @@ static void	draw_vertical_line(t_game *game, t_door *door, int x, t_ray *ray)
 		draw_start++;
 	}
 }*/
-
+/*
 double get_door_distance(t_game *game, t_door *door)
 {
     t_vector door_pos = vector_create(door->position.x + 0.5, door->position.y + 0.5);
     t_vector player_pos = game->p1.pos;
     return vector_dist(door_pos, player_pos);
-}
-
-void interact_with_door(t_game *game)
-{
-    t_door_system *ds = game->door_system;
-    for (int i = 0; i < ds->door_count; i++)
-    {
-        if (get_door_distance(game, &ds->doors[i]) <= DOOR_INTERACTION_DISTANCE)
-        {
-            t_door *door = &ds->doors[i];
-            if (door->state == DOOR_CLOSED && !door->locked)
-                door->state = DOOR_OPENING;
-            else if (door->state == DOOR_OPEN)
-                door->state = DOOR_CLOSING;
-            return;
-        }
-    }
 }
 
 void render_door(t_game *game, t_ray *ray, int x)
@@ -183,3 +164,4 @@ void render_door(t_game *game, t_ray *ray, int x)
     }
 }
 
+*/
