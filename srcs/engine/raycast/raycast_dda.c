@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:54:50 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/12 17:55:56 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/20 21:34:51 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	init_ray(t_ray *ray, t_game *game, int x)
 	ray->delta_dist.x = fabs(1 / ray->dir.x);
 	ray->delta_dist.y = fabs(1 / ray->dir.y);
 	ray->hit = false;
+	ray->is_door = false;
 }
 
 void	step_side_dist(t_ray *ray, t_game *g)
@@ -82,6 +83,72 @@ void	perform_dda(t_ray *ray, t_game *game)
 	else
 		ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
 }
+/*
+// Adicione este debug no início da sua função perform_dda
+void perform_dda(t_ray *ray, t_game *game)
+{
+    static int debug_count = 0;
+    bool should_debug = (++debug_count % 1000 == 0);  // Debug a cada 1000 chamadas
+
+    ray->hit = false;
+    ray->is_door = false;
+    char tile;
+
+    while (ray->hit == false)
+    {
+        if (ray->side_dist.x < ray->side_dist.y)
+        {
+            ray->side_dist.x += ray->delta_dist.x;
+            ray->map_x += ray->step_x;
+            ray->side = 0;
+        }
+        else
+        {
+            ray->side_dist.y += ray->delta_dist.y;
+            ray->map_y += ray->step_y;
+            ray->side = 1;
+        }
+
+        // Verificação de limites
+        if (ray->map_x < 0 || ray->map_y < 0 || 
+            ray->map_x >= game->map.width || ray->map_y >= game->map.height)
+        {
+            if (should_debug)
+                printf("Error: Ray out of bounds at [%d,%d]\n", ray->map_x, ray->map_y);
+            return;
+        }
+
+        tile = game->map.grid[ray->map_x][ray->map_y];
+        
+        // Debug apenas quando encontrar uma porta ou quando should_debug for true
+        if ((tile == 'D' || should_debug) && debug_count > 0)
+        {
+            printf("\n=== Ray Debug (#%d) ===\n", debug_count);
+            printf("Position: [%d,%d]\n", ray->map_x, ray->map_y);
+            printf("Tile found: %c\n", tile);
+            if (tile == 'D')
+            {
+                printf("Door solid? %s\n", is_door_solid(game, ray->map_x, ray->map_y) ? "yes" : "no");
+            }
+        }
+
+        if (tile == '1' || (tile == 'D' && is_door_solid(game, ray->map_x, ray->map_y)))
+        {
+            ray->hit = true;
+            ray->is_door = (tile == 'D');
+            
+            if (ray->is_door && should_debug)
+            {
+                printf("Door hit confirmed! Position: [%d,%d]\n", ray->map_x, ray->map_y);
+            }
+        }
+    }
+
+    if (ray->side == 0)
+        ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
+    else
+        ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
+}*/
 
 void	wall_height(t_ray *ray)
 {

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_game.c                                        :+:      :+:    :+:   */
+/*   init_doors.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/14 22:08:37 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/20 21:36:34 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void init_door(t_door *door, int x, int y, t_door_orientation orient)
 {
-    door->position = (t_vector_i){x, y};
+    door->position = (t_vector_i){y, x};
     door->state = DOOR_CLOSED;
     door->orient = orient;
     door->animation = 0.0;
@@ -37,23 +37,28 @@ static t_door_orientation    get_door_orientation(t_game *game, int x, int y)
     return (DOOR_VERTICAL);
 }
 
-static void	scan_map_for_doors(t_game *game)
+static void scan_map_for_doors(t_game *game)
 {
-	int	y;
-	int	x;
+    int y;
+    int x;
 
-	y = 0;
-	while (y < game->map.height)
-	{
-		x = 0;
-		while (x < game->map.width)
-		{
-			if (is_door(game->map.grid[y][x]))
-				add_door(game, x, y);
-			x++;
-		}
-		y++;
-	}
+    printf("\nScanning map for doors...\n");
+    y = 0;
+    while (y < game->map.height)
+    {
+        x = 0;
+        while (x < game->map.width)
+        {
+            if (is_door(game->map.grid[y][x]))
+            {
+                printf("Found door at [%d,%d]\n", x, y);
+                add_door(game, x, y);
+            }
+            x++;
+        }
+        y++;
+    }
+    printf("Total doors found: %d\n", game->door_system->door_count);
 }
 
 void init_door_system(t_game *game)
@@ -91,6 +96,8 @@ void add_door(t_game *game, int x, int y)
     t_door_system *ds = game->door_system;
     t_door *new_doors;
     
+    printf("\nAdding door at [%d,%d]\n", x, y);
+    
     // Aloca novo array de portas com um elemento a mais
     new_doors = ft_calloc(ds->door_count + 1, sizeof(t_door));
     if (!new_doors)
@@ -111,4 +118,6 @@ void add_door(t_game *game, int x, int y)
     init_door(&ds->doors[ds->door_count], x, y, 
              get_door_orientation(game, x, y));
     ds->door_count++;
+    
+    printf("Door added successfully. Total doors: %d\n", ds->door_count);
 }
