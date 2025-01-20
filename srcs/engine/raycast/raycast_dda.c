@@ -74,15 +74,19 @@ void perform_dda(t_ray *ray, t_game *game)
         
         tile = game->map.grid[ray->map_x][ray->map_y];
         
-        if (tile == 'D')
+    if (tile == 'D')
+    {
+        t_door *door = find_door(game, ray->map_x, ray->map_y);
+        if (door && door->state != DOOR_OPEN)
         {
-            t_door *door = find_door(game, ray->map_x, ray->map_y);
-            if (door)
-            {
-                ray->hit = true;
-                ray->is_door = true;
-            }
+            // Ignora a porta se estiver quase totalmente aberta
+            if (door->state == DOOR_OPENING && door->animation > 0.95)
+                continue;
+                
+            ray->hit = true;
+            ray->is_door = true;
         }
+    }
         else if (tile == '1')
         {
             ray->hit = true;
