@@ -13,8 +13,7 @@
 #include <cub3d.h>
 
 bool	is_door(char tile)
-{
-    printf("Checking tile: %c\n", tile);    
+{ 
 	return (tile == 'D');
 }
 /*
@@ -37,20 +36,14 @@ t_door *find_door(t_game *game, int x, int y)
 
 t_door *find_door(t_game *game, int x, int y)
 {
-    printf("\nSearching for door at [%d,%d]\n", x, y);
-    printf("Door system count: %d\n", game->door_system->door_count);
     
     int i = 0;
     while (i < game->door_system->door_count)
     {
-        printf("Checking door %d: position [%d,%d]\n", i,
-               game->door_system->doors[i].position.x,
-               game->door_system->doors[i].position.y);
         
         if (game->door_system->doors[i].position.x == x &&
             game->door_system->doors[i].position.y == y)
         {
-            printf("Door found!\n");
             return &game->door_system->doors[i];
         }
         i++;
@@ -75,25 +68,16 @@ bool is_door_solid(t_game *game, int x, int y)
 {
     t_door *door = find_door(game, x, y);
     
-    // Debug para entender por que a porta não está sólida
-    printf("\nDoor check at [%d,%d]:\n", x, y);
     if (!door)
     {
-        printf("Door not found in door system!\n");
         return true;
     }
-    
-    printf("Door state: %d\n", door->state);
-    printf("Door animation: %f\n", door->animation);
     
     // Se a porta estiver aberta ou quase aberta, não é sólida
     if (door->state == DOOR_OPEN && door->animation >= 0.99)
     {
-        printf("Door is fully open\n");
         return false;
     }
-    
-    printf("Door is solid\n");
     return true;
 }
 

@@ -51,37 +51,49 @@ void	step_side_dist(t_ray *ray, t_game *g)
 	}
 }
 
-void	perform_dda(t_ray *ray, t_game *game)
+void perform_dda(t_ray *ray, t_game *game)
 {
     ray->hit = false;
     ray->is_door = false;
     char tile;
-    
-	while (ray->hit == false)
-	{
-		if (ray->side_dist.x < ray->side_dist.y)
-		{
-			ray->side_dist.x += ray->delta_dist.x;
-			ray->map_x += ray->step_x;
-			ray->side = 0;
-		}
-		else
-		{
-			ray->side_dist.y += ray->delta_dist.y;
-			ray->map_y += ray->step_y;
-			ray->side = 1;
-		}
+   
+    while (ray->hit == false)
+    {
+        if (ray->side_dist.x < ray->side_dist.y)
+        {
+            ray->side_dist.x += ray->delta_dist.x;
+            ray->map_x += ray->step_x;
+            ray->side = 0;
+        }
+        else
+        {
+            ray->side_dist.y += ray->delta_dist.y;
+            ray->map_y += ray->step_y;
+            ray->side = 1;
+        }
+        
         tile = game->map.grid[ray->map_x][ray->map_y];
-        if (tile == '1' || (tile == 'D' && is_door_solid(game, ray->map_x, ray->map_y)))
+        
+        if (tile == 'D')
+        {
+            t_door *door = find_door(game, ray->map_x, ray->map_y);
+            if (door)
+            {
+                ray->hit = true;
+                ray->is_door = true;
+            }
+        }
+        else if (tile == '1')
         {
             ray->hit = true;
-            ray->is_door = (tile == 'D');
+            ray->is_door = false;
         }
-	}
-	if (ray->side == 0)
-		ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
-	else
-		ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
+    }
+
+    if (ray->side == 0)
+        ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
+    else
+        ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
 }
 /*
 // Adicione este debug no início da sua função perform_dda

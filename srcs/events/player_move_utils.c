@@ -37,7 +37,7 @@ static bool check_wall_collision(t_game *g, int x, int y)
         return (true);
     if (tile == 'D')
     {
-        door = find_door(g, y, x);
+        door = find_door(g, x, y);
         if (door)
         {
             int player_x = (int)g->p1.pos.x;

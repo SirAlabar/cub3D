@@ -212,47 +212,79 @@ void draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
     wall.x = x;
     wall.buffer = buffer;
     init_wall_drawing(&wall);
+	/* 
+	if (ray->is_door)
+	{
+		door = find_door(game, ray->map_x, ray->map_y);
+		if (door)
+		{
+			wall.texture = &game->door_system->door_texture;
+			
+			// Calcula posição da textura
+			double wallx;
+			if (ray->side == 0)
+				wallx = game->p1.pos.y + ray->perp_wall_dist * ray->dir.y;
+			else
+				wallx = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
+			wallx -= floor(wallx);
 
-if (ray->is_door)
-{
-    door = find_door(game, ray->map_x, ray->map_y);
-    if (door)
-    {
-        wall.texture = &game->door_system->door_texture;
-        
-        // Calcula posição da textura
-        double wallx;
-        if (ray->side == 0)
-            wallx = game->p1.pos.y + ray->perp_wall_dist * ray->dir.y;
-        else
-            wallx = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
-        wallx -= floor(wallx);
+			// Inverte a coordenada X da textura se necessário
+			wall.tex.x = (int)(wallx * wall.texture->width);
+			if ((ray->side == 0 && ray->dir.x < 0) ||
+				(ray->side == 1 && ray->dir.y > 0))
+				wall.tex.x = wall.texture->width - wall.tex.x - 1;
 
-        // Inverte a coordenada X da textura se necessário
-        wall.tex.x = (int)(wallx * wall.texture->width);
-        if ((ray->side == 0 && ray->dir.x < 0) ||
-            (ray->side == 1 && ray->dir.y > 0))
-            wall.tex.x = wall.texture->width - wall.tex.x - 1;
+			// Para animação, corta a porta horizontalmente
+			if (door->state == DOOR_OPENING || door->state == DOOR_CLOSING)
+			{
+				double screen_ratio = (double)x / WINDOW_WIDTH;
+				double animation_progress = (door->state == DOOR_OPENING) ? 
+										door->animation : (1.0 - door->animation);
+				
+				if (screen_ratio > animation_progress)
+				{
+					// Em vez de retornar, renderiza a parede atrás
+					if (ray->side == 0)
+						wall.texture = ray->dir.x < 0 ? &game->east : &game->west;
+					else
+						wall.texture = ray->dir.y < 0 ? &game->south : &game->north;
+				}
+			}
+		}
+	}
+	*/
+	if (ray->is_door)
+	{
+		door = find_door(game, ray->map_x, ray->map_y);
+		if (door)
+		{
+			wall.texture = &game->door_system->door_texture;
+		
+			// Calcula posição da textura
+			double wallx;
+			if (ray->side == 0)
+				wallx = game->p1.pos.y + ray->perp_wall_dist * ray->dir.y;
+			else
+				wallx = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
+			wallx -= floor(wallx);
 
-        // Para animação, corta a porta horizontalmente
-        if (door->state == DOOR_OPENING || door->state == DOOR_CLOSING)
-        {
-            double screen_ratio = (double)x / WINDOW_WIDTH;
-            double animation_progress = (door->state == DOOR_OPENING) ? 
-                                     door->animation : (1.0 - door->animation);
-            
-            if (screen_ratio > animation_progress)
-            {
-                // Em vez de retornar, renderiza a parede atrás
-                if (ray->side == 0)
-                    wall.texture = ray->dir.x < 0 ? &game->east : &game->west;
-                else
-                    wall.texture = ray->dir.y < 0 ? &game->south : &game->north;
-            }
-        }
-    }
-}
+			// Inverte a coordenada X da textura se necessário
+			wall.tex.x = (int)(wallx * wall.texture->width);
+			if ((ray->side == 0 && ray->dir.x < 0) ||
+				(ray->side == 1 && ray->dir.y > 0))
+				wall.tex.x = wall.texture->width - wall.tex.x - 1;
 
+			// Adiciona o offset da animação similar ao código de referência
+	if (door->state == DOOR_OPENING || door->state == DOOR_CLOSING)
+	{
+		int anim_offset = (int)(door->animation * wall.texture->width);
+		if (door->state == DOOR_CLOSING)
+			anim_offset = (int)((1.0 - door->animation) * wall.texture->width);
+			
+		wall.tex.x = (int)(wall.tex.x + anim_offset) % wall.texture->width;
+	}
+		}
+	}
     // Renderização
     pos.x = x;
     pos.y = wall.start - 1;

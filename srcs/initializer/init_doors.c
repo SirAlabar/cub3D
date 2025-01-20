@@ -118,6 +118,4 @@ void add_door(t_game *game, int x, int y)
     init_door(&ds->doors[ds->door_count], x, y, 
              get_door_orientation(game, x, y));
     ds->door_count++;
-    
-    printf("Door added successfully. Total doors: %d\n", ds->door_count);
 }
