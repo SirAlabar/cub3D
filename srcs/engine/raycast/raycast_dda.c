@@ -80,7 +80,7 @@ void perform_dda(t_ray *ray, t_game *game)
             if (door)
             {
                 door_sliding(ray, game, door);
-                if (!ray->hit)  // Se o raio deve continuar, volta ao loop
+                if (!ray->hit)
                     continue;
             }
         }

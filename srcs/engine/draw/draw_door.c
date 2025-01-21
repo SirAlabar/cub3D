@@ -55,6 +55,59 @@ void door_sliding(t_ray *ray, t_game *game, t_door *door)
 {
     if (door->state == DOOR_OPEN)
         return;
+    
+    double orig_perp_dist = ray->side == 0 ?
+        (ray->side_dist.x - ray->delta_dist.x) :
+        (ray->side_dist.y - ray->delta_dist.y);
+    
+    double door_hit_pos;
+    if (ray->side == 0)
+        door_hit_pos = game->p1.pos.y + orig_perp_dist * ray->dir.y;
+    else
+        door_hit_pos = game->p1.pos.x + orig_perp_dist * ray->dir.x;
+    door_hit_pos -= floor(door_hit_pos);
+
+    if (door->state == DOOR_OPENING || door->state == DOOR_CLOSING)
+    {
+        // Invertemos aqui: agora é 1.0 - animation quando está abrindo
+        double animation_progress = door->state == DOOR_OPENING ?
+                                  (1.0 - door->animation) : door->animation;
+        
+        // Mantemos a comparação original
+        if (door_hit_pos <= animation_progress)
+        {
+            if (ray->side == 0)
+            {
+                ray->side_dist.x += ray->delta_dist.x;
+                ray->map_x += ray->step_x;
+            }
+            else
+            {
+                ray->side_dist.y += ray->delta_dist.y;
+                ray->map_y += ray->step_y;
+            }
+            ray->hit = false;
+            ray->is_door = false;
+        }
+        else
+        {
+            ray->hit = true;
+            ray->is_door = true;
+            ray->perp_wall_dist = orig_perp_dist;
+        }
+    }
+    else
+    {
+        ray->hit = true;
+        ray->is_door = true;
+        ray->perp_wall_dist = orig_perp_dist;
+    }
+}
+/*
+void door_sliding(t_ray *ray, t_game *game, t_door *door)
+{
+    if (door->state == DOOR_OPEN)
+        return;
 
     // Calcula a posição relativa do raio na porta
     double door_hit_pos;
@@ -98,6 +151,7 @@ void door_sliding(t_ray *ray, t_game *game, t_door *door)
         ray->is_door = true;
     }
 }
+*/
 
 /*
 static int	get_line_height(double perp_wall_dist)

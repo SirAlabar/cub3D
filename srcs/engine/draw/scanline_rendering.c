@@ -205,6 +205,35 @@ void draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
     wall.x = x;
     wall.buffer = buffer;
     init_wall_drawing(&wall);
+/*
+if (ray->is_door)
+{
+    door = find_door(game, ray->map_x, ray->map_y);
+    if (door && door->state != DOOR_OPEN)
+    {
+        wall.texture = &game->door_system->door_texture;
+        
+        double wallx;
+        if (ray->side == 0)
+            wallx = game->p1.pos.y + ray->perp_wall_dist * ray->dir.y;
+        else
+            wallx = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
+        wallx -= floor(wallx);
+        
+        wall.tex.x = (int)(wallx * wall.texture->width);
+        
+        if (door->state == DOOR_OPENING || door->state == DOOR_CLOSING)
+        {
+            // Invertemos a lógica do animation_progress aqui
+            double animation_progress = (door->state == DOOR_OPENING) ?
+                                     (1.0 - door->animation) : door->animation;
+            
+            // Voltamos com o offset negativo
+            int offset = -(int)(wall.texture->width * animation_progress);
+            wall.tex.x = (int)((wall.tex.x + offset + wall.texture->width)) % wall.texture->width;
+        }
+    }
+}*/
 
     if (ray->is_door)
     {
@@ -219,23 +248,21 @@ void draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
             else
                 wallx = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
             wallx -= floor(wallx);
-
+            
             wall.tex.x = (int)(wallx * wall.texture->width);
             
-            // Ajusta a animação da textura
             if (door->state == DOOR_OPENING || door->state == DOOR_CLOSING)
             {
+                // Não invertemos mais o animation_progress
                 double animation_progress = (door->state == DOOR_OPENING) ?
-                                         (1.0 - door->animation) : door->animation;
+                                        door->animation : (1.0 - door->animation);
                 
-                // Offset negativo para mover na direção correta
-                int offset = -(int)(wall.texture->width * animation_progress);
+                // Usamos offset positivo
+                int offset = (int)(wall.texture->width * animation_progress);
                 wall.tex.x = (int)((wall.tex.x + offset) + wall.texture->width) % wall.texture->width;
             }
         }
     }
-
-
     // Renderização comum para todos os tipos de parede/porta
     pos.x = x;
     pos.y = wall.start - 1;
