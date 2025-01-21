@@ -51,6 +51,54 @@ void    update_doors(t_game *game)
     }
 }
 
+void door_sliding(t_ray *ray, t_game *game, t_door *door)
+{
+    if (door->state == DOOR_OPEN)
+        return;
+
+    // Calcula a posição relativa do raio na porta
+    double door_hit_pos;
+    if (ray->side == 0)
+        door_hit_pos = game->p1.pos.y + ray->perp_wall_dist * ray->dir.y;
+    else
+        door_hit_pos = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
+    door_hit_pos -= floor(door_hit_pos);
+
+    if (door->state == DOOR_OPENING || door->state == DOOR_CLOSING)
+    {
+        double animation_threshold = (door->state == DOOR_OPENING) ?
+                                   (1.0 - door->animation) : door->animation;
+
+        // Adiciona uma pequena margem para evitar artefatos
+        double margin = 0.001;
+        if (door_hit_pos <= animation_threshold - margin)
+        {
+            ray->hit = true;
+            ray->is_door = true;
+        }
+        else
+        {
+            if (ray->side == 0)
+            {
+                ray->side_dist.x += ray->delta_dist.x;
+                ray->map_x += ray->step_x;
+            }
+            else
+            {
+                ray->side_dist.y += ray->delta_dist.y;
+                ray->map_y += ray->step_y;
+            }
+            ray->hit = false;
+            ray->is_door = false;
+        }
+    }
+    else
+    {
+        ray->hit = true;
+        ray->is_door = true;
+    }
+}
+
 /*
 static int	get_line_height(double perp_wall_dist)
 {

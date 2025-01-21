@@ -74,19 +74,16 @@ void perform_dda(t_ray *ray, t_game *game)
         
         tile = game->map.grid[ray->map_x][ray->map_y];
         
-    if (tile == 'D')
-    {
-        t_door *door = find_door(game, ray->map_x, ray->map_y);
-        if (door && door->state != DOOR_OPEN)
+        if (tile == 'D')
         {
-            // Ignora a porta se estiver quase totalmente aberta
-            if (door->state == DOOR_OPENING && door->animation > 0.95)
-                continue;
-                
-            ray->hit = true;
-            ray->is_door = true;
+            t_door *door = find_door(game, ray->map_x, ray->map_y);
+            if (door)
+            {
+                door_sliding(ray, game, door);
+                if (!ray->hit)  // Se o raio deve continuar, volta ao loop
+                    continue;
+            }
         }
-    }
         else if (tile == '1')
         {
             ray->hit = true;

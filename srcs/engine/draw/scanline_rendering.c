@@ -200,68 +200,19 @@ void draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
     t_vector_i  pos;
     t_door      *door;
 
-    // Debug: Inicialização
-    static int debug_frame = 0;
-    debug_frame++;
-
-    // Debug a cada 60 frames para não sobrecarregar o console
-    bool should_debug = (debug_frame % 60 == 0);
-
     wall.game = game;
     wall.ray = ray;
     wall.x = x;
     wall.buffer = buffer;
     init_wall_drawing(&wall);
-	/* 
-	if (ray->is_door)
-	{
-		door = find_door(game, ray->map_x, ray->map_y);
-		if (door)
-		{
-			wall.texture = &game->door_system->door_texture;
-			
-			// Calcula posição da textura
-			double wallx;
-			if (ray->side == 0)
-				wallx = game->p1.pos.y + ray->perp_wall_dist * ray->dir.y;
-			else
-				wallx = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
-			wallx -= floor(wallx);
 
-			// Inverte a coordenada X da textura se necessário
-			wall.tex.x = (int)(wallx * wall.texture->width);
-			if ((ray->side == 0 && ray->dir.x < 0) ||
-				(ray->side == 1 && ray->dir.y > 0))
-				wall.tex.x = wall.texture->width - wall.tex.x - 1;
-
-			// Para animação, corta a porta horizontalmente
-			if (door->state == DOOR_OPENING || door->state == DOOR_CLOSING)
-			{
-				double screen_ratio = (double)x / WINDOW_WIDTH;
-				double animation_progress = (door->state == DOOR_OPENING) ? 
-										door->animation : (1.0 - door->animation);
-				
-				if (screen_ratio > animation_progress)
-				{
-					// Em vez de retornar, renderiza a parede atrás
-					if (ray->side == 0)
-						wall.texture = ray->dir.x < 0 ? &game->east : &game->west;
-					else
-						wall.texture = ray->dir.y < 0 ? &game->south : &game->north;
-				}
-			}
-		}
-	}
-	*/
-if (ray->is_door)
-{
-    door = find_door(game, ray->map_x, ray->map_y);
-    if (door)
+    if (ray->is_door)
     {
-        wall.texture = &game->door_system->door_texture;
-        
-        if (door->state != DOOR_OPEN)  // Não renderiza se estiver totalmente aberta
+        door = find_door(game, ray->map_x, ray->map_y);
+        if (door && door->state != DOOR_OPEN)
         {
+            wall.texture = &game->door_system->door_texture;
+            
             double wallx;
             if (ray->side == 0)
                 wallx = game->p1.pos.y + ray->perp_wall_dist * ray->dir.y;
@@ -270,40 +221,26 @@ if (ray->is_door)
             wallx -= floor(wallx);
 
             wall.tex.x = (int)(wallx * wall.texture->width);
-            if ((ray->side == 0 && ray->dir.x < 0) ||
-                (ray->side == 1 && ray->dir.y > 0))
-                wall.tex.x = wall.texture->width - wall.tex.x - 1;
-
+            
+            // Ajusta a animação da textura
             if (door->state == DOOR_OPENING || door->state == DOOR_CLOSING)
             {
-                int anim_offset;
-                if (door->state == DOOR_OPENING)
-                    anim_offset = (int)(door->animation * wall.texture->width);
-                else
-                    anim_offset = (int)((1.0 - door->animation) * wall.texture->width);
+                double animation_progress = (door->state == DOOR_OPENING) ?
+                                         (1.0 - door->animation) : door->animation;
                 
-                anim_offset = -anim_offset;
-                
-                wall.tex.x = (int)(wall.tex.x + anim_offset) % wall.texture->width;
-                if (wall.tex.x < 0)
-                    wall.tex.x += wall.texture->width;
+                // Offset negativo para mover na direção correta
+                int offset = -(int)(wall.texture->width * animation_progress);
+                wall.tex.x = (int)((wall.tex.x + offset) + wall.texture->width) % wall.texture->width;
             }
         }
     }
-}
-    // Renderização
+
+
+    // Renderização comum para todos os tipos de parede/porta
     pos.x = x;
     pos.y = wall.start - 1;
     while (++pos.y <= wall.end)
-    {
         put_wall_pixel(&wall, pos);
-    }
     buffer->y_top[x] = wall.end + 1;
     buffer->y_bottom[x] = wall.start - 1;
-
-    // Debug final da renderização
-    if (should_debug && x == WINDOW_WIDTH/2 && ray->is_door)
-    {
-        printf("=== End of Door Debug ===\n\n");
-    }
 }

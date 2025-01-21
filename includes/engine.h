@@ -180,6 +180,7 @@ bool    is_door(char tile);
 t_door  *find_door(t_game *game, int x, int y);
 void    cleanup_door_system(t_game *game);
 bool is_door_solid(t_game *game, int x, int y);
+void door_sliding(t_ray *ray, t_game *game, t_door *door);
 
 /*
  * Texture Management
