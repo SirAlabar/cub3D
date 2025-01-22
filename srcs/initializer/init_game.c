@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/14 22:08:37 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/22 18:24:45 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	init_game(t_game *game)
 	init_player(game);
 	init_textures(game);
 	init_textures_game(game);
+	init_enemies(game);
 	game->last_mouse = vector_create(-1.0, -1.0);
 	game->mouse_sensi = 0.003;
 	game->fps = 0;
