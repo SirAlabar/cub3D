@@ -12,9 +12,9 @@
 
 #include <cub3d.h>
 
-static bool	recursive_flood_fill(char **grid, t_vector_i st, int h, int w)
+static bool recursive_flood_fill(char **grid, t_vector_i st, int h, int w)
 {
-	int		current_line_length;
+	int        current_line_length;
 
 	if (st.x < 0 || st.y < 0 || st.x >= h || st.y >= w
 		|| grid[st.x][st.y] == '1' || grid[st.x][st.y] == 'X')
@@ -26,8 +26,8 @@ static bool	recursive_flood_fill(char **grid, t_vector_i st, int h, int w)
 		return (false);
 	if (grid[st.x][st.y] == ' ')
 		return (false);
-	if (grid[st.x][st.y] == '0' && (st.x == 0 || st.y == 0
-			|| st.x == h - 1 || st.y >= current_line_length - 1))
+	if ((grid[st.x][st.y] == '0' || grid[st.x][st.y] == 'E') && 
+		(st.x == 0 || st.y == 0 || st.x == h - 1 || st.y >= current_line_length - 1))
 		return (false);
 	grid[st.x][st.y] = 'X';
 	if (!recursive_flood_fill(grid, (t_vector_i){st.x - 1, st.y}, h, w))
