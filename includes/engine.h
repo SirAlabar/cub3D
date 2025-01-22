@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 13:49:55 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/22 21:40:29 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_ray
 	int					side;
 	int					draw_start;
 	int					draw_end;
-    bool				is_door;
+	bool				is_door;
 }						t_ray;
 
 typedef struct s_wall
@@ -96,45 +96,45 @@ typedef struct s_wall
 	int					x;
 }						t_wall;
 
-typedef enum e_door_state 
+typedef enum e_door_state
 {
-    DOOR_CLOSED = 0,
-    DOOR_OPENING = 1,
-    DOOR_OPEN = 2,
-    DOOR_CLOSING = 3
-} t_door_state;
+	DOOR_CLOSED = 0,
+	DOOR_OPENING = 1,
+	DOOR_OPEN = 2,
+	DOOR_CLOSING = 3
+}						t_door_state;
 
-typedef enum e_door_orientation 
+typedef enum e_door_orientation
 {
-    DOOR_VERTICAL,
-    DOOR_HORIZONTAL
-} t_door_orientation;
+	DOOR_VERTICAL,
+	DOOR_HORIZONTAL
+}						t_door_orientation;
 
-typedef struct s_door {
-    t_vector_i position;
-    t_door_state state;
-    t_door_orientation orient;
-    double dist;
-    bool active;	
-    double animation;
-    double timer;
-    bool locked;
-    int key_type;
-} t_door;
+typedef struct s_door
+{
+	t_vector_i			position;
+	t_door_state		state;
+	t_door_orientation	orient;
+	double				dist;
+	bool				active;
+	double				animation;
+	double				timer;
+	bool				locked;
+	int					key_type;
+}						t_door;
 
-typedef struct s_door_system {
-    t_door *doors;
-    int door_count;
-    t_texture door_texture;
-} t_door_system;
+typedef struct s_door_system
+{
+	t_door				*doors;
+	int					door_count;
+	t_texture			door_texture;
+}						t_door_system;
 
 # define DOOR1 "assets/texture/doorlab.xpm"
 # define DOOR2 "./assets/sprites/pistol/PIS0.xpm"
 # define DOOR_SPEED 0.5
 # define DOOR_STAY_OPEN_TIME 4.0
-# define DOOR_INTERACTION_DISTANCE 4.0
-
-
+# define DOOR_INTERACTION_DISTANCE 1.9
 
 /*
  * Core Engine Functions
@@ -156,10 +156,12 @@ void					draw_texture_pixel(t_texture *tex, int x, int y,
 unsigned int			get_texture_pixel(t_texture *tex, int x, int y);
 unsigned int			apply_shade(unsigned int color, double shade);
 
-// draw_background.c
+// draw_room.c
 int						draw_background(t_game *game);
 void					draw_wall(t_game *game, t_ray *ray, int x);
-
+void					update_ray_position(t_ray *ray);
+void					get_hit_position(t_ray *ray, t_game *game,
+							double orig_dist, double *door_hit_pos);
 // scanline_rendering.c
 void					init_scanline_buffer(t_scanline *buffer);
 void					draw_vertical_line(t_game *g, t_line line, int color);
@@ -168,19 +170,19 @@ void					draw_wall_scanline(t_game *game, t_ray *ray, int x,
 							t_scanline *buffer);
 void					init_wall_drawing(t_wall *wall);
 
-//draw_weapon
+// draw_weapon
 void					draw_weapon(t_game *game);
 
 // Door functions
-void    init_door_system(t_game *game);
-void    update_doors(t_game *game);
-void    render_door(t_game *game, t_ray *ray, int x);
-void    interact_with_door(t_game *game);
-bool    is_door(char tile);
-t_door  *find_door(t_game *game, int x, int y);
-void    cleanup_door_system(t_game *game);
-bool is_door_solid(t_game *game, int x, int y);
-void door_sliding(t_ray *ray, t_game *game, t_door *door);
+void					init_door_system(t_game *game);
+void					update_doors(t_game *game);
+void					render_door(t_game *game, t_ray *ray, int x);
+void					interact_with_door(t_game *game);
+bool					is_door(char tile);
+t_door					*find_door(t_game *game, int x, int y);
+void					cleanup_door_system(t_game *game);
+bool					is_door_solid(t_game *game, int x, int y);
+void					door_sliding(t_ray *ray, t_game *game, t_door *door);
 
 /*
  * Texture Management
@@ -191,6 +193,10 @@ t_texture				*get_wall_texture(t_ray *ray, t_game *game);
 void					texture_destroy(t_texture **texture, void *mlx);
 void					update_weapon_animation(t_game *game);
 void					resize_texture(t_texture *src, t_texture *dst);
+
+// texture_animation.c
+void					process_door_texture(t_wall *wall, t_door *door,
+							t_game *game);
 
 /*
  * Vector Operations

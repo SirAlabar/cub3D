@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 19:10:01 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/20 21:43:21 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/22 21:44:40 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,216 +69,28 @@ static void	put_wall_pixel(t_wall *wall, t_vector_i pos)
 	*(unsigned int *)(wall->game->addr + pixel_pos) = wall->color;
 	wall->tex_pos += wall->step;
 }
-/*
+
 void	draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
 {
 	t_wall		wall;
 	t_vector_i	pos;
-	t_door	*door;
+	t_door		*door;
 
 	wall.game = game;
 	wall.ray = ray;
 	wall.x = x;
 	wall.buffer = buffer;
 	init_wall_drawing(&wall);
-
-  if (ray->is_door)
-    {
-        door = find_door(game, ray->map_x, ray->map_y);
-        if (door)
-        {
-            wall.texture = &game->door_system->door_texture;
-            
-            // Calcula a posição da textura
-            double wallx;
-            if (ray->side == 0)
-                wallx = game->p1.pos.y + ray->perp_wall_dist * ray->dir.y;
-            else
-                wallx = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
-            wallx -= floor(wallx);
-
-            // Calcula o offset da animação
-            int texture_offset = 0;
-            if (door->state == DOOR_OPENING || door->state == DOOR_CLOSING)
-            {
-                double anim_progress = (door->state == DOOR_OPENING) ? 
-                                     door->animation : (1.0 - door->animation);
-                texture_offset = (int)(wall.texture->width * anim_progress);
-            }
-
-            // Define a coordenada X da textura com o offset da animação
-            wall.tex.x = ((int)(wallx * wall.texture->width) + texture_offset) % wall.texture->width;
-    if (ray->is_door)
-    {
-        door = find_door(game, ray->map_x, ray->map_y);
-        if (door)
-        {
-            wall.texture = &game->door_system->door_texture;
-            
-            // Não renderiza se estiver totalmente aberta
-            if (door->state == DOOR_OPEN || 
-               (door->state == DOOR_OPENING && door->animation >= 0.8) ||
-               (door->state == DOOR_CLOSING && door->animation >= 0.8))
-                return;
-
-            // Para animação, corta a porta horizontalmente
-            double screen_ratio = (double)x / WINDOW_HEIGHT;
-            if (door->state == DOOR_OPENING)
-            {
-                if (screen_ratio > (1.0 - door->animation))
-                    return;
-            }
-            else if (door->state == DOOR_CLOSING)
-            {
-                if (screen_ratio > door->animation)
-                    return;
-            }
-
-            wall.tex.x = (int)(wall.pos.x * wall.texture->width) % wall.texture->width;
-        }
-    }
-            // Só renderiza se o pixel estiver na parte visível da porta
-            if (door->state == DOOR_OPENING || door->state == DOOR_CLOSING)
-            {
-                if ((door->state == DOOR_OPENING && wall.tex.x >= texture_offset) ||
-                    (door->state == DOOR_CLOSING && wall.tex.x < texture_offset))
-                {
-                    pos.x = x;
-                    pos.y = wall.start - 1;
-                    while (++pos.y <= wall.end)
-                        put_wall_pixel(&wall, pos);
-                    buffer->y_top[x] = wall.end + 1;
-                    buffer->y_bottom[x] = wall.start - 1;
-                }
-            }
-            else
-            {
-                pos.x = x;
-                pos.y = wall.start - 1;
-                while (++pos.y <= wall.end)
-                    put_wall_pixel(&wall, pos);
-                buffer->y_top[x] = wall.end + 1;
-                buffer->y_bottom[x] = wall.start - 1;
-            }
-            return;
-        }
-    }
-
-
 	if (ray->is_door)
 	{
 		door = find_door(game, ray->map_x, ray->map_y);
-		if (door)
-		{
-			wall.texture = &game->door_system->door_texture;
-			// Calcula a posição da textura baseada na animação
-			int offset = (int)(door->animation * wall.texture->width);
-			wall.tex.x = ((int)(wall.pos.x * wall.texture->width) + offset) 
-                        % wall.texture->width;
-
-			wall.texture = &game->door_system->door_texture;
-			
-			// Calcula a posição da textura com base na animação progressiva
-			double animation_progress = door->animation; // Entre 0.0 (fechada) e 1.0 (aberta)
-			int offset = (int)(animation_progress * wall.texture->width);
-
-			// Aplica o deslocamento para a textura
-			wall.tex.x = ((int)(wall.pos.x * wall.texture->width) + offset) % wall.texture->width;
-		}
+		if (door && door->state != DOOR_OPEN)
+			process_door_texture(&wall, door, game);
 	}
-
 	pos.x = x;
 	pos.y = wall.start - 1;
 	while (++pos.y <= wall.end)
 		put_wall_pixel(&wall, pos);
 	buffer->y_top[x] = wall.end + 1;
 	buffer->y_bottom[x] = wall.start - 1;
-}*/
-void draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
-{
-    t_wall      wall;
-    t_vector_i  pos;
-    t_door      *door;
-    int offset; 
-
-    wall.game = game;
-    wall.ray = ray;
-    wall.x = x;
-    wall.buffer = buffer;
-    init_wall_drawing(&wall);
-/*
-if (ray->is_door)
-{
-    door = find_door(game, ray->map_x, ray->map_y);
-    if (door && door->state != DOOR_OPEN)
-    {
-        wall.texture = &game->door_system->door_texture;
-        
-        double wallx;
-        if (ray->side == 0)
-            wallx = game->p1.pos.y + ray->perp_wall_dist * ray->dir.y;
-        else
-            wallx = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
-        wallx -= floor(wallx);
-        
-        wall.tex.x = (int)(wallx * wall.texture->width);
-        
-        if (door->state == DOOR_OPENING || door->state == DOOR_CLOSING)
-        {
-            // Invertemos a lógica do animation_progress aqui
-            double animation_progress = (door->state == DOOR_OPENING) ?
-                                     (1.0 - door->animation) : door->animation;
-            
-            // Voltamos com o offset negativo
-            int offset = -(int)(wall.texture->width * animation_progress);
-            wall.tex.x = (int)((wall.tex.x + offset + wall.texture->width)) % wall.texture->width;
-        }
-    }
-}*/
-
-    if (ray->is_door)
-    {
-        door = find_door(game, ray->map_x, ray->map_y);
-        if (door && door->state != DOOR_OPEN)
-        {
-            wall.texture = &game->door_system->door_texture;
-
-            double wallx;
-            if (ray->side == 0)
-                wallx = game->p1.pos.y + ray->perp_wall_dist * ray->dir.y;
-            else
-                wallx = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
-            wallx -= floor(wallx);
-
-            wall.tex.x = (int)(wallx * wall.texture->width);
-
-            if (door->state == DOOR_OPENING)
-            {
-                // Cálculo normal para a abertura
-                double animation_progress = door->animation;
-                offset = (int)(wall.texture->width * animation_progress);
-
-                // Movimenta a textura na direção da abertura
-                wall.tex.x = (int)((wall.tex.x - offset) + wall.texture->width) % wall.texture->width;
-            }
-            else if (door->state == DOOR_CLOSING)
-            {
-                // Cálculo inverso para o fechamento
-                double animation_progress = 1.0 - door->animation;
-                offset = (int)(wall.texture->width * animation_progress);
-
-                // Movimenta a textura na direção do fechamento
-                wall.tex.x = (int)((wall.tex.x + offset) + wall.texture->width) % wall.texture->width;
-            }
-        }
-    }
-
-    
-    // Renderização comum para todos os tipos de parede/porta
-    pos.x = x;
-    pos.y = wall.start - 1;
-    while (++pos.y <= wall.end)
-        put_wall_pixel(&wall, pos);
-    buffer->y_top[x] = wall.end + 1;
-    buffer->y_bottom[x] = wall.start - 1;
 }

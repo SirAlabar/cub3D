@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:34 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 19:06:50 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/22 21:49:07 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # include <unistd.h>
 # include <validations.h>
 # include <checker.h>
-
+/*
 # ifdef MAC_OS
 #  include <mlx.h>
 #  define KEY_ESC 53
@@ -44,29 +44,29 @@
 #  define KEY_A 0
 #  define KEY_S 1
 #  define KEY_D 2
-#define KEY_E 14
+#  define KEY_E 14
 #  define KEY_LEFT 123
 #  define KEY_RIGHT 124
 #  define KEY_UP 126
 #  define KEY_DOWN 125
-# else
-#  include <X11/X.h>
-#  include <X11/keysym.h>
-#  include <mlx.h>
-#  define KEY_ESC XK_Escape
-#  define KEY_W XK_w
-#  define KEY_A XK_a
-#  define KEY_S XK_s
-#  define KEY_D XK_d
-#  define KEY_E XK_e
-#  define KEY_LEFT XK_Left
-#  define KEY_RIGHT XK_Right
-#  define KEY_UP XK_Up
-#  define KEY_DOWN XK_Down
-#  define KEY_SPACE XK_space
-#  define MOUSE_LEFT 1
-#  define MOUSE_RIGHT 3
-# endif
+# else*/
+# include <X11/X.h>
+# include <X11/keysym.h>
+# include <mlx.h>
+# define KEY_ESC XK_Escape
+# define KEY_W XK_w
+# define KEY_A XK_a
+# define KEY_S XK_s
+# define KEY_D XK_d
+# define KEY_E XK_e
+# define KEY_LEFT XK_Left
+# define KEY_RIGHT XK_Right
+# define KEY_UP XK_Up
+# define KEY_DOWN XK_Down
+# define KEY_SPACE XK_space
+# define MOUSE_LEFT 1
+# define MOUSE_RIGHT 3
+//# endif
 
 /* Map characters */
 # define VALID_MAP_CHARS "01NSEWD "
@@ -118,25 +118,25 @@ typedef struct s_map
 
 typedef struct s_game
 {
-	void		*mlx;
-	void		*win;
-	void		*img;
-	char		*addr;
-	int			bits_per_pixel;
-	int			line_length;
-	int			endian;
-	int			fd_map;
-	char		*map_path;
-	t_map		map;
-	t_player	p1;
-	t_texture	north;
-	t_texture	south;
-	t_texture	east;
-	t_texture	west;
-	t_vector	last_mouse;	
-	double		mouse_sensi;
-	double		fps;
-    t_door_system *door_system;
+	void			*mlx;
+	void			*win;
+	void			*img;
+	char			*addr;
+	int				bits_per_pixel;
+	int				line_length;
+	int				endian;
+	int				fd_map;
+	char			*map_path;
+	t_map			map;
+	t_player		p1;
+	t_texture		north;
+	t_texture		south;
+	t_texture		east;
+	t_texture		west;
+	t_vector		last_mouse;	
+	double			mouse_sensi;
+	double			fps;
+	t_door_system	*door_system;
 }				t_game;
 
 void			cleanup_game(t_game *game);
