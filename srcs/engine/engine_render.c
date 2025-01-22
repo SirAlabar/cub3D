@@ -38,8 +38,6 @@ int	engine_render_frame(t_game *game)
 	draw_background(game);
 	init_scanline_buffer(&scanline_buffer);
 	cast_rays(game, rays);
-	update_enemies(game);
-	draw_enemies(game);
 	x = -1;
 	while (++x < WINDOW_WIDTH)
 	{
@@ -50,6 +48,8 @@ int	engine_render_frame(t_game *game)
 	draw_weapon(game);
 	draw_minimap(game);
 	draw_health_bar(game);
+	update_enemies(game);
+	draw_enemies(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }
