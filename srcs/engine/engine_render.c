@@ -43,7 +43,7 @@ int	engine_render_frame(t_game *game)
 	{
 		draw_wall_scanline(game, &rays[x], x, &scanline_buffer);
 	}
-	update_enemies(game);
+	//update_enemies(game);
 	draw_enemies(game);
 	handle_movement(game);
 	update_weapon_animation(game);

@@ -71,63 +71,7 @@ void    update_enemies(t_game *game)
 		current = current->next;
 	}
 }
-/*
-static bool is_enemy_visible(t_game *game, t_vector enemy_pos)
-{
-	t_vector ray_dir = vector_normalize(vector_sub(enemy_pos, game->p1.pos));
-	t_vector ray_pos = game->p1.pos;
-	t_vector delta_dist;
-	t_vector side_dist;
-	t_vector step;
-	int map_x = (int)ray_pos.x;
-	int map_y = (int)ray_pos.y;
 
-	delta_dist.x = fabs(1 / ray_dir.x);
-	delta_dist.y = fabs(1 / ray_dir.y);
-
-	if (ray_dir.x < 0)
-	{
-		step.x = -1;
-		side_dist.x = (ray_pos.x - map_x) * delta_dist.x;
-	}
-	else
-	{
-		step.x = 1;
-		side_dist.x = (map_x + 1.0 - ray_pos.x) * delta_dist.x;
-	}
-
-	if (ray_dir.y < 0)
-	{
-		step.y = -1;
-		side_dist.y = (ray_pos.y - map_y) * delta_dist.y;
-	}
-	else
-	{
-		step.y = 1;
-		side_dist.y = (map_y + 1.0 - ray_pos.y) * delta_dist.y;
-	}
-
-	while (1)
-	{
-		if (side_dist.x < side_dist.y)
-		{
-			side_dist.x += delta_dist.x;
-			map_x += step.x;
-		}
-		else
-		{
-			side_dist.y += delta_dist.y;
-			map_y += step.y;
-		}
-
-		if (map_x == (int)enemy_pos.x && map_y == (int)enemy_pos.y)
-			return true; // Enemy is visible
-
-		if (game->map.grid[map_x][map_y] == '1')
-			return false; // Wall blocks the view
-	}
-}
-*/
 static void draw_enemy_sprite(t_game *game, t_enemy *enemy, double screen_x, int sprite_height)
 {
     int draw_start_y = WINDOW_HEIGHT / 2 - sprite_height / 2;
@@ -173,6 +117,63 @@ double vector_length(t_vector v)
 	return (sqrt(v.x * v.x + v.y * v.y));
 }
 
+static bool is_enemy_visible(t_game *game, t_vector enemy_pos)
+{
+    t_vector ray_dir = vector_normalize(vector_sub(enemy_pos, game->p1.pos));
+    t_vector ray_pos = game->p1.pos;
+    t_vector delta_dist;
+    t_vector side_dist;
+    t_vector step;
+    int map_x = (int)ray_pos.x;
+    int map_y = (int)ray_pos.y;
+
+    delta_dist.x = fabs(1 / ray_dir.x + 0.3);
+    delta_dist.y = fabs(1 / ray_dir.y);
+
+    if (ray_dir.x < 0)
+    {
+        step.x = -1;
+        side_dist.x = (ray_pos.x - map_x) * delta_dist.x;
+    }
+    else
+    {
+        step.x = 1;
+        side_dist.x = (map_x + 1.0 - ray_pos.x) * delta_dist.x;
+    }
+
+    if (ray_dir.y < 0)
+    {
+        step.y = -1;
+        side_dist.y = (ray_pos.y - map_y) * delta_dist.y;
+    }
+    else
+    {
+        step.y = 1;
+        side_dist.y = (map_y + 1.0 - ray_pos.y) * delta_dist.y;
+    }
+
+    while (1)
+    {
+        if (side_dist.x < side_dist.y)
+        {
+            side_dist.x += delta_dist.x;
+            map_x += step.x;
+        }
+        else
+        {
+            side_dist.y += delta_dist.y;
+            map_y += step.y;
+        }
+
+        // Check if the ray has reached the enemy's position
+        if (map_x == (int)enemy_pos.x && map_y == (int)enemy_pos.y)
+            return true; // Enemy is visible
+
+        // Check if the ray has hit a wall
+        if (game->map.grid[map_x][map_y] == '1')
+            return false; // Wall blocks the view
+    }
+}
 void draw_enemies(t_game *game)
 {
     t_enemy_list *current = game->enemies;
@@ -184,6 +185,13 @@ void draw_enemies(t_game *game)
     while (current)
     {
         if (!current->enemy.alive)
+        {
+            current = current->next;
+            continue;
+        }
+
+        // Check if the enemy is visible (not blocked by a wall)
+        if (!is_enemy_visible(game, current->enemy.pos))
         {
             current = current->next;
             continue;
@@ -220,7 +228,6 @@ void draw_enemies(t_game *game)
         current = current->next;
     }
 }
-
 static void spawn_enemies_from_map(t_game *game)
 {
     for (int i = 0; i < game->map.height; i++)
@@ -238,6 +245,6 @@ static void spawn_enemies_from_map(t_game *game)
 
 void init_enemies(t_game *game)
 {
-    game->enemies = NULL;
-    spawn_enemies_from_map(game);
+	game->enemies = NULL;
+	spawn_enemies_from_map(game);
 }
