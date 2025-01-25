@@ -239,5 +239,8 @@ void					step_side_dist(t_ray *ray, t_game *game);
 void					perform_dda(t_ray *ray, t_game *game);
 void					wall_height(t_ray *ray);
 void					cast_rays(t_game *game, t_ray *rays);
+void					check_collisions(t_ray *ray, t_game *game);
+void					handle_wall_collision(t_ray *ray);
+void					handle_door_collision(t_ray *ray, t_game *game);
 
 #endif

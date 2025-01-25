@@ -12,40 +12,69 @@
 
 #include <cub3d.h>
 
-void	init_ray(t_ray *ray, t_game *game, int x)
+void	check_collisions(t_ray *ray, t_game *game)
 {
-	double	camera_x;
+	char	tile;
 
-	camera_x = 2 * x / (double)WINDOW_WIDTH - 1;
-	ray->dir.x = game->p1.dir.x + game->p1.plane.x * camera_x;
-	ray->dir.y = game->p1.dir.y + game->p1.plane.y * camera_x;
-	ray->map_x = (int)game->p1.pos.x;
-	ray->map_y = (int)game->p1.pos.y;
-	ray->delta_dist.x = fabs(1 / ray->dir.x);
-	ray->delta_dist.y = fabs(1 / ray->dir.y);
-	ray->hit = false;
-	ray->is_door = false;
+	tile = game->map.grid[ray->map_x][ray->map_y];
+	if (tile == '1')
+	{
+		handle_wall_collision(ray);
+		return ;
+	}
+	if (tile == 'D')
+	{
+		handle_door_collision(ray, game);
+	}
 }
 
-double	get_wall_hit_position(t_game *game, t_ray *ray)
+void	handle_wall_collision(t_ray *ray)
 {
-	double	wall_x;
+	ray->hit = true;
+	ray->is_door = false;
+	if (ray->side == 0)
+		ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
+	else
+		ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
+}
+
+static void	set_door_hit(t_ray *ray, double orig_dist)
+{
+	ray->hit = true;
+	ray->is_door = true;
+	ray->perp_wall_dist = orig_dist;
+}
+
+static double	get_wall_x(t_ray *ray, t_game *game, double orig_dist)
+{
+	double	wallx;
 
 	if (ray->side == 0)
-		wall_x = game->p1.pos.y + ray->perp_wall_dist * ray->dir.y;
+		wallx = game->p1.pos.y + orig_dist * ray->dir.y;
 	else
-		wall_x = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
-	wall_x -= floor(wall_x);
-	return (wall_x);
+		wallx = game->p1.pos.x + orig_dist * ray->dir.x;
+	return (wallx - floor(wallx));
 }
 
-void	wall_height(t_ray *ray)
+void	handle_door_collision(t_ray *ray, t_game *game)
 {
-	ray->line_height = (int)(WINDOW_HEIGHT / ray->perp_wall_dist);
-	ray->draw_start = -ray->line_height / 2 + WINDOW_HEIGHT / 2;
-	if (ray->draw_start < 0)
-		ray->draw_start = 0;
-	ray->draw_end = ray->line_height / 2 + WINDOW_HEIGHT / 2;
-	if (ray->draw_end >= WINDOW_HEIGHT)
-		ray->draw_end = WINDOW_HEIGHT - 1;
+	t_door	*door;
+	double	orig_dist;
+	double	wallx;
+
+	door = find_door(game, ray->map_x, ray->map_y);
+	if (!door || door->state == DOOR_OPEN)
+		return ;
+	if (ray->side == 0)
+		orig_dist = ray->side_dist.x - ray->delta_dist.x;
+	else
+		orig_dist = ray->side_dist.y - ray->delta_dist.y;
+	if (door->state == DOOR_CLOSED)
+	{
+		set_door_hit(ray, orig_dist);
+		return ;
+	}
+	wallx = get_wall_x(ray, game, orig_dist);
+	if (wallx > door->animation)
+		set_door_hit(ray, orig_dist);
 }

@@ -66,14 +66,19 @@ static void	process_door_animation(t_ray *ray, double door_hit_pos,
 		orig_dist = ray->side_dist.x - ray->delta_dist.x;
 	else
 		orig_dist = ray->side_dist.y - ray->delta_dist.y;
-	if (door_hit_pos <= door->animation)
-		update_ray_position(ray);
-	else
+	if (door->animation > 0.9 && door_hit_pos > door->animation)
 	{
-		ray->hit = true;
-		ray->is_door = true;
-		ray->perp_wall_dist = orig_dist;
+		update_ray_position(ray);
+		return ;
 	}
+	if (door_hit_pos <= door->animation)
+	{
+		update_ray_position(ray);
+		return ;
+	}
+	ray->hit = true;
+	ray->is_door = true;
+	ray->perp_wall_dist = orig_dist;
 }
 
 void	door_sliding(t_ray *ray, t_game *game, t_door *door)
@@ -89,11 +94,11 @@ void	door_sliding(t_ray *ray, t_game *game, t_door *door)
 		orig_dist = ray->side_dist.y - ray->delta_dist.y;
 	get_hit_position(ray, game, orig_dist, &door_hit_pos);
 	if (door->state == DOOR_OPENING || door->state == DOOR_CLOSING)
-		process_door_animation(ray, door_hit_pos, door);
-	else
 	{
-		ray->hit = true;
-		ray->is_door = true;
-		ray->perp_wall_dist = orig_dist;
+		process_door_animation(ray, door_hit_pos, door);
+		return ;
 	}
+	ray->hit = true;
+	ray->is_door = true;
+	ray->perp_wall_dist = orig_dist;
 }
