@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:34 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/22 18:00:31 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/25 10:59:13 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,24 +119,24 @@ typedef struct s_map
 
 typedef struct s_game
 {
-	void		*mlx;
-	void		*win;
-	void		*img;
-	char		*addr;
-	int			bits_per_pixel;
-	int			line_length;
-	int			endian;
-	int			fd_map;
-	char		*map_path;
-	t_map		map;
-	t_player	p1;
-	t_texture	north;
-	t_texture	south;
-	t_texture	east;
-	t_texture	west;
-	t_vector	last_mouse;	
-	double		mouse_sensi;
-	double		fps;		
+	void			*mlx;
+	void			*win;
+	void			*img;
+	char			*addr;
+	int				bits_per_pixel;
+	int				line_length;
+	int				endian;
+	int				fd_map;
+	char			*map_path;
+	t_map			map;
+	t_player		p1;
+	t_texture		north;
+	t_texture		south;
+	t_texture		east;
+	t_texture		west;
+	t_vector		last_mouse;
+	double			mouse_sensi;
+	double			fps;
 	t_enemy_list	*enemies;
 }				t_game;
 
