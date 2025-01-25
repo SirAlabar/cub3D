@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:34 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 19:06:50 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/25 10:59:13 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 # include <unistd.h>
 # include <validations.h>
 # include <checker.h>
+# include <health.h>
+# include <enemy.h>
 
 # ifdef MAC_OS
 #  include <mlx.h>
@@ -101,6 +103,7 @@ typedef struct s_player
 	double		last_fire;
 	int			gun_width;
 	int			gun_height;
+	int			health;
 }				t_player;
 
 typedef struct s_map
@@ -116,24 +119,25 @@ typedef struct s_map
 
 typedef struct s_game
 {
-	void		*mlx;
-	void		*win;
-	void		*img;
-	char		*addr;
-	int			bits_per_pixel;
-	int			line_length;
-	int			endian;
-	int			fd_map;
-	char		*map_path;
-	t_map		map;
-	t_player	p1;
-	t_texture	north;
-	t_texture	south;
-	t_texture	east;
-	t_texture	west;
-	t_vector	last_mouse;	
-	double		mouse_sensi;
-	double		fps;		
+	void			*mlx;
+	void			*win;
+	void			*img;
+	char			*addr;
+	int				bits_per_pixel;
+	int				line_length;
+	int				endian;
+	int				fd_map;
+	char			*map_path;
+	t_map			map;
+	t_player		p1;
+	t_texture		north;
+	t_texture		south;
+	t_texture		east;
+	t_texture		west;
+	t_vector		last_mouse;
+	double			mouse_sensi;
+	double			fps;
+	t_enemy_list	*enemies;
 }				t_game;
 
 void			cleanup_game(t_game *game);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:26:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/01 18:05:51 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/25 11:59:50 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,33 @@ void	cleanup_map(t_game *game)
 	}
 }
 
+void	cleanup_enemies(t_game *game)
+{
+	t_enemy_list	*current;
+	t_enemy_list	*next;
+
+	if (!game->enemies)
+		return ;
+	current = game->enemies;
+	while (current)
+	{
+		next = current->next;
+		if (current->enemy.texture && current->enemy.texture->img)
+			mlx_destroy_image(game->mlx, current->enemy.texture->img);
+		if (current->enemy.texture)
+			free(current->enemy.texture);
+		free(current);
+		current = next;
+	}
+	game->enemies = NULL;
+}
+
 void	cleanup_game(t_game *game)
 {
 	if (!game)
 		return ;
 	cleanup_textures(game);
+	cleanup_enemies(game);
 	if (game->win && game->mlx)
 		mlx_destroy_window(game->mlx, game->win);
 	if (game->img && game->mlx)

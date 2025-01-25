@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:55:14 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 13:55:16 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/25 10:46:48 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,12 @@ int	engine_render_frame(t_game *game)
 	{
 		draw_wall_scanline(game, &rays[x], x, &scanline_buffer);
 	}
+	draw_enemies(game);
 	handle_movement(game);
 	update_weapon_animation(game);
 	draw_weapon(game);
 	draw_minimap(game);
+	draw_health_bar(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }

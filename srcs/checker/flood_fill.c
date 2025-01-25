@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:01:02 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/12 17:56:15 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/25 10:52:21 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 static bool	recursive_flood_fill(char **grid, t_vector_i st, int h, int w)
 {
-	int		current_line_length;
+	int	cline_length;
 
 	if (st.x < 0 || st.y < 0 || st.x >= h || st.y >= w
 		|| grid[st.x][st.y] == '1' || grid[st.x][st.y] == 'X')
 		return (true);
-	current_line_length = 0;
-	while (grid[st.x][current_line_length] != '\0')
-		current_line_length++;
-	if (st.y >= current_line_length)
+	cline_length = 0;
+	while (grid[st.x][cline_length] != '\0')
+		cline_length++;
+	if (st.y >= cline_length)
 		return (false);
 	if (grid[st.x][st.y] == ' ')
 		return (false);
-	if (grid[st.x][st.y] == '0' && (st.x == 0 || st.y == 0
-			|| st.x == h - 1 || st.y >= current_line_length - 1))
+	if ((grid[st.x][st.y] == '0' || grid[st.x][st.y] == 'E') &&
+		(st.x == 0 || st.y == 0 || st.x == h - 1 || st.y >= cline_length - 1))
 		return (false);
 	grid[st.x][st.y] = 'X';
 	if (!recursive_flood_fill(grid, (t_vector_i){st.x - 1, st.y}, h, w))
