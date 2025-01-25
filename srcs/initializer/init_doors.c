@@ -60,7 +60,7 @@ static void	scan_map_for_doors(t_game *game)
 void	init_door_system(t_game *game)
 {
 	t_texture	*door_tex;
-	t_texture	*doorwall_tex;	
+	t_texture	*doorwall_tex;
 
 	game->door_system = ft_calloc(1, sizeof(t_door_system));
 	if (!game->door_system)
@@ -71,7 +71,7 @@ void	init_door_system(t_game *game)
 	game->door_system->doors = NULL;
 	game->door_system->door_count = 0;
 	door_tex = texture_create(game, DOOR1);
-	doorwall_tex = texture_create(game, DOOR2);	
+	doorwall_tex = texture_create(game, DOOR2);
 	if (!door_tex)
 	{
 		ft_printf("Error: Failed to load door texture\n");
@@ -81,7 +81,7 @@ void	init_door_system(t_game *game)
 	}
 	game->door_system->door_texture = *door_tex;
 	game->door_system->doorwall_texture = *doorwall_tex;
-	free(door_tex);	
+	free(door_tex);
 	free(doorwall_tex);
 	scan_map_for_doors(game);
 }

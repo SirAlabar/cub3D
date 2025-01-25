@@ -52,10 +52,7 @@ int		mouse_wrapper(int x, int y, void *param);
 void	render_door(t_game *game, t_ray *ray, int x);
 void	render_door_line(t_game *game, t_ray *ray, t_door *door, int x);
 t_door	*find_door(t_game *game, int x, int y);
-double	get_player_door_dist(t_door *door, t_vector player_pos);
 void	interact_with_door(t_game *game);
-void	calculate_door_dimensions(t_ray *ray, int *height, int *start,
-			int *end);
 double	get_wall_hit_position(t_game *game, t_ray *ray);
 void	add_door(t_game *game, int x, int y);
 void	init_door_system(t_game *game);
