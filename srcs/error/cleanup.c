@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:26:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/25 11:58:25 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/25 11:59:50 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ void	cleanup_map(t_game *game)
 	}
 }
 
-void    cleanup_enemies(t_game *game)
+void	cleanup_enemies(t_game *game)
 {
-	t_enemy_list    *current;
-	t_enemy_list    *next;
+	t_enemy_list	*current;
+	t_enemy_list	*next;
 
 	if (!game->enemies)
 		return ;
