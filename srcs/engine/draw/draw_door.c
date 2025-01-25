@@ -56,7 +56,7 @@ void	update_doors(t_game *game)
 		i++;
 	}
 }
-
+/*
 static void	process_door_animation(t_ray *ray, double door_hit_pos,
 		t_door *door)
 {
@@ -79,8 +79,8 @@ static void	process_door_animation(t_ray *ray, double door_hit_pos,
 	ray->hit = true;
 	ray->is_door = true;
 	ray->perp_wall_dist = orig_dist;
-}
-
+}*/
+/*
 void	door_sliding(t_ray *ray, t_game *game, t_door *door)
 {
 	double	orig_dist;
@@ -101,4 +101,61 @@ void	door_sliding(t_ray *ray, t_game *game, t_door *door)
 	ray->hit = true;
 	ray->is_door = true;
 	ray->perp_wall_dist = orig_dist;
+}*/
+
+void	door_sliding(t_ray *ray, t_game *game, t_door *door)
+{
+	double	orig_dist;
+	//double	door_hit_pos;
+	double	wallx;
+
+	// Se a porta já está aberta, não precisa realizar mais cálculos
+	if (door->state == DOOR_OPEN)
+		return ;
+
+	// Calcular a distância original e ajustar para renderizar no meio do tile
+	if (ray->side == 0)
+	{
+		ray->side_dist.x -= ray->delta_dist.x / 2; // Ajuste para meio do tile
+		if (ray->side_dist.x > ray->side_dist.y)
+		{
+			ray->side_dist.y += ray->delta_dist.y;
+			ray->map_y += ray->step_y;
+			ray->side = 1;
+			orig_dist = ray->side_dist.y - ray->delta_dist.y;
+		}
+		else
+			orig_dist = ray->side_dist.x - ray->delta_dist.x;
+		ray->side_dist.x += ray->delta_dist.x;
+	}
+	else
+	{
+		ray->side_dist.y -= ray->delta_dist.y / 2; // Ajuste para meio do tile
+		if (ray->side_dist.y > ray->side_dist.x)
+		{
+			ray->side_dist.x += ray->delta_dist.x;
+			ray->map_x += ray->step_x;
+			ray->side = 0;
+			orig_dist = ray->side_dist.x - ray->delta_dist.x;
+		}
+		else
+			orig_dist = ray->side_dist.y - ray->delta_dist.y;
+		ray->side_dist.y += ray->delta_dist.y;
+	}
+
+	// Marcar o impacto com a porta
+	ray->hit = true;
+	ray->is_door = true;
+	ray->perp_wall_dist = orig_dist;
+
+	// Calcular a posição de impacto da porta no eixo horizontal
+	wallx = get_wall_x(ray, game, orig_dist);
+	
+	// Ajuste para garantir que as molduras laterais da porta não saiam
+	if (wallx > door->animation && wallx < 1.0)
+	{
+		set_door_hit(ray, orig_dist);
+	}
+
+
 }

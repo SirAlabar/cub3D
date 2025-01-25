@@ -242,5 +242,7 @@ void					cast_rays(t_game *game, t_ray *rays);
 void					check_collisions(t_ray *ray, t_game *game);
 void					handle_wall_collision(t_ray *ray);
 void					handle_door_collision(t_ray *ray, t_game *game);
+double					get_wall_x(t_ray *ray, t_game *game, double orig_dist);
+void					set_door_hit(t_ray *ray, double orig_dist);
 
 #endif
