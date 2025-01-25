@@ -169,7 +169,7 @@ static bool	is_enemy_visible(t_game *game, t_vector enemy_pos)
 	ray.pos = game->p1.pos;
 	ray.map_x = (int)ray.pos.x;
 	ray.map_y = (int)ray.pos.y;
-	ray.delta_dist.x = fabs(1 / ray_dir.x + 0.3);
+	ray.delta_dist.x = fabs(1 / ray_dir.x);
 	ray.delta_dist.y = fabs(1 / ray_dir.y);
 	calculate_ray_step(&ray, ray_dir);
 	while (1)
