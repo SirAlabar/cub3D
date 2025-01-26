@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 21:45:06 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/26 16:25:37 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:09:46 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,18 +104,17 @@ t_texture *get_wall_texture(t_ray *ray, t_game *game)
             return (&game->south);
     }
 }*/
-/*
+
 t_texture *get_wall_texture(t_ray *ray, t_game *game)
 {
     char tile;
     t_door *door;
-    
+
     tile = game->map.grid[ray->map_x][ray->map_y];
     
     if (tile == '1')
     {
         t_vector_i door_pos = {-1, -1};
-        
         // Procura porta adjacente e guarda sua posição
         if (ray->map_y > 0 && game->map.grid[ray->map_x][ray->map_y - 1] == 'D')
             door_pos = (t_vector_i){ray->map_x, ray->map_y - 1};
@@ -128,28 +127,36 @@ t_texture *get_wall_texture(t_ray *ray, t_game *game)
 
         if (door_pos.x != -1 && (door = find_door(game, door_pos.x, door_pos.y)))
         {
+            // Verifica se estamos na frente da porta baseado na direção do raio
             int is_front_side = 0;
-
-            // Porta vertical (orientada em Y)
+            
             if (door->orient == DOOR_VERTICAL)
             {
-                // Se a diferença está no eixo X (lado da porta)
-                if (door_pos.x != ray->map_x && ray->side == 0)
-                    is_front_side = 1;
+                if (ray->side == 0)  // Parede vertical
+                {
+                    // Verifica se o raio está vindo da direção da porta
+                    if ((ray->dir.x > 0 && ray->map_x > door_pos.x) ||
+                        (ray->dir.x < 0 && ray->map_x < door_pos.x))
+                        is_front_side = 1;
+                }
             }
-            // Porta horizontal (orientada em X)
-            else
+            else  // DOOR_HORIZONTAL
             {
-                // Se a diferença está no eixo Y (lado da porta)
-                if (door_pos.y != ray->map_y && ray->side == 1)
-                    is_front_side = 1;
+                if (ray->side == 1)  // Parede horizontal
+                {
+                    // Verifica se o raio está vindo da direção da porta
+                    if ((ray->dir.y > 0 && ray->map_y > door_pos.y) ||
+                        (ray->dir.y < 0 && ray->map_y < door_pos.y))
+                        is_front_side = 1;
+                }
             }
 
+            // Aplica a textura da moldura apenas se estivermos na frente da porta
             if (is_front_side)
                 return (&game->door_system->doorwall_texture);
         }
     }
-
+	
     if (ray->is_door)
         return (&game->door_system->door_texture);
 
@@ -168,73 +175,7 @@ t_texture *get_wall_texture(t_ray *ray, t_game *game)
         else
             return (&game->south);
     }
-}*/
-
-t_texture *get_wall_texture(t_ray *ray, t_game *game)
-{
-    char tile;
-    t_door *door;
-
-    // Obtém o tile atual do mapa
-    tile = game->map.grid[ray->map_x][ray->map_y];
-
-    // Verifica se o tile é uma porta
-    if (tile == 'D')
-    {
-        door = find_door(game, ray->map_x, ray->map_y);
-        if (door)
-        {
-            // Porta vertical (lado esquerdo ou direito)
-            if (door->orient == DOOR_VERTICAL && ray->side == 0)
-                return (&game->door_system->doorwall_texture);
-
-            // Porta horizontal (lado superior ou inferior)
-            if (door->orient == DOOR_HORIZONTAL && ray->side == 1)
-                return (&game->door_system->doorwall_texture);
-
-            // Retorna textura padrão da porta
-            return (&game->door_system->door_texture);
-        }
-    }
-
-    // Verifica se o tile é uma parede
-    if (tile == '1')
-    {
-        // Identifica se a parede atual está diretamente ao lado de uma porta
-        if ((ray->side == 0 && 
-            ((ray->map_x > 0 && game->map.grid[ray->map_x - 1][ray->map_y] == 'D') || 
-             (ray->map_x < game->map.height - 1 && game->map.grid[ray->map_x + 1][ray->map_y] == 'D'))) || 
-            (ray->side == 1 && 
-            ((ray->map_y > 0 && game->map.grid[ray->map_x][ray->map_y - 1] == 'D') || 
-             (ray->map_y < game->map.width - 1 && game->map.grid[ray->map_x][ray->map_y + 1] == 'D'))))
-        {
-            // Retorna textura de moldura da porta
-            return (&game->door_system->doorwall_texture);
-        }
-
-        // Decide textura de parede normal
-        if (ray->side == 0)
-        {
-            if (ray->dir.x > 0)
-                return (&game->west);
-            else
-                return (&game->east);
-        }
-        else
-        {
-            if (ray->dir.y > 0)
-                return (&game->north);
-            else
-                return (&game->south);
-        }
-    }
-
-    return NULL; // Caso nenhum tile válido seja encontrado
 }
-
-
-
-
 
 static t_vector_i	get_scale_coords(t_vector_i pos, double scale_x,
 		double scale_y)
