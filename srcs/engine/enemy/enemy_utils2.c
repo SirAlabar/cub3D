@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:16:16 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/25 10:21:33 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:49:55 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,13 @@ void	draw_enemies(t_game *game)
 
 	current = game->enemies;
 	fov = 2 * atan2(vector_length(game->p1.plane), 1.0);
-	while (current && current->enemy.alive)
+	while (current) // Iterate through all enemies
 	{
-		if (!is_enemy_visible(game, current->enemy.pos))
+		if (current->enemy.alive && is_enemy_visible(game, current->enemy.pos)) // Only render alive and visible enemies
 		{
-			current = current->next;
-			continue ;
+			draw_enemy(game, current, fov);
 		}
-		draw_enemy(game, current, fov);
-		current = current->next;
+		current = current->next; // Move to the next enemy
 	}
 }
 

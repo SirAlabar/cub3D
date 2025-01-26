@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   key_handler.c                                      :+:      :+:    :+:   */
+/*   key_handle.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:20:50 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/09 20:13:54 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:42:37 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ int	key_press(int keycode, t_game *game)
 	else if (keycode == KEY_RIGHT)
 		game->p1.keys.right = 1;
 	else if (keycode == KEY_SPACE || keycode == MOUSE_LEFT)
+	{
 		game->p1.is_firing = 1;
+		shoot_enemy(game);
+	}
 	return (0);
 }
 

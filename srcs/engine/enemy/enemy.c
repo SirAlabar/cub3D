@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 19:40:02 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/26 16:18:57 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:37:53 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	add_enemy(t_game *game, t_vector pos)
 	if (!new)
 		return ;
 	new->enemy.pos = pos;
-	new->enemy.health = 100;
+	new->enemy.health = 3;
 	new->enemy.alive = true;
 	new->enemy.dir = vector_create(0, 0);
 	new->enemy.texture = load_enemy_texture(game);
