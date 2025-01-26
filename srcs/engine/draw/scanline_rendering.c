@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 19:10:01 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/22 21:44:40 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/26 14:00:07 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,44 @@ void	init_wall_drawing(t_wall *wall)
 		* wall->step;
 }
 
-void	set_wall_tex_coords(t_wall *wall)
+void set_wall_tex_coords(t_wall *wall)
 {
-	if (wall->ray->side == 0)
-		wall->pos.x = wall->game->p1.pos.y + wall->ray->perp_wall_dist
-			* wall->ray->dir.y;
-	else
-		wall->pos.x = wall->game->p1.pos.x + wall->ray->perp_wall_dist
-			* wall->ray->dir.x;
-	wall->pos.x -= floor(wall->pos.x);
-	wall->tex.x = (int)(wall->pos.x * wall->texture->width);
-	if (wall->ray->side == 0 && wall->ray->dir.x < 0)
-		wall->tex.x = wall->texture->width - wall->tex.x - 1;
-	if (wall->ray->side == 1 && wall->ray->dir.y > 0)
-		wall->tex.x = wall->texture->width - wall->tex.x - 1;
+    if (wall->ray->side == 0)
+        wall->pos.x = wall->game->p1.pos.y + wall->ray->perp_wall_dist
+            * wall->ray->dir.y;
+    else
+        wall->pos.x = wall->game->p1.pos.x + wall->ray->perp_wall_dist
+            * wall->ray->dir.x;
+    wall->pos.x -= floor(wall->pos.x);
+    wall->tex.x = (int)(wall->pos.x * wall->texture->width);
+
+    // Adiciona a lógica de animação da porta
+    if (wall->ray->is_door)
+    {
+        t_door *door = find_door(wall->game, wall->ray->map_x, wall->ray->map_y);
+        if (door && door->state != DOOR_OPEN)
+        {
+            if (door->state == DOOR_OPENING)
+            {
+                double animation_progress = door->animation;
+                int offset = (int)(wall->texture->width * animation_progress);
+                wall->tex.x = (int)((wall->tex.x - offset) + wall->texture->width)
+                    % wall->texture->width;
+            }
+            else if (door->state == DOOR_CLOSING)
+            {
+                double animation_progress = 1.0 - door->animation;
+                int offset = (int)(wall->texture->width * animation_progress);
+                wall->tex.x = (int)((wall->tex.x + offset) + wall->texture->width)
+                    % wall->texture->width;
+            }
+        }
+    }
+
+    if (wall->ray->side == 0 && wall->ray->dir.x < 0)
+        wall->tex.x = wall->texture->width - wall->tex.x - 1;
+    if (wall->ray->side == 1 && wall->ray->dir.y > 0)
+        wall->tex.x = wall->texture->width - wall->tex.x - 1;
 }
 
 static void	put_wall_pixel(t_wall *wall, t_vector_i pos)
@@ -74,19 +98,19 @@ void	draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
 {
 	t_wall		wall;
 	t_vector_i	pos;
-	t_door		*door;
+//	t_door		*door;
 
 	wall.game = game;
 	wall.ray = ray;
 	wall.x = x;
 	wall.buffer = buffer;
 	init_wall_drawing(&wall);
-	if (ray->is_door)
+	/*if (ray->is_door)
 	{
 		door = find_door(game, ray->map_x, ray->map_y);
 		if (door && door->state != DOOR_OPEN)
 			process_door_texture(&wall, door, game);
-	}
+	}*/
 	pos.x = x;
 	pos.y = wall.start - 1;
 	while (++pos.y <= wall.end)

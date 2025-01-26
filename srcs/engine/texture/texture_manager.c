@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 21:45:06 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/22 21:45:08 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/26 14:02:27 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,20 @@ t_texture	*texture_create(t_game *game, char *texture_path)
 
 t_texture	*get_wall_texture(t_ray *ray, t_game *game)
 {
+	char tile = game->map.grid[ray->map_x][ray->map_y];
+    
+    if (tile == '1')
+    {
+        // Verifica se tem parede adjacente
+        if ((ray->map_x > 0 && game->map.grid[ray->map_x - 1][ray->map_y] == 'D') ||
+            (ray->map_x < game->map.height - 1 && game->map.grid[ray->map_x + 1][ray->map_y] == 'D') ||
+            (ray->map_y > 0 && game->map.grid[ray->map_x][ray->map_y - 1] == 'D') ||
+            (ray->map_y < game->map.width - 1 && game->map.grid[ray->map_x][ray->map_y + 1] == 'D'))
+        {
+            return (&game->door_system->doorwall_texture);
+        }
+    }
+    
 	if (ray->is_door)
 		return (&game->door_system->door_texture);
 	if (ray->side == 0)

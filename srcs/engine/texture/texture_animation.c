@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 21:00:00 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/22 21:44:55 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/26 13:59:39 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	update_weapon_animation(t_game *game)
 	else
 		game->p1.current_frame = 0;
 }
-
+/*
 void	process_door_texture(t_wall *wall, t_door *door, t_game *game)
 {
 	double	wallx;
@@ -78,4 +78,4 @@ void	process_door_texture(t_wall *wall, t_door *door, t_game *game)
 		wall->tex.x = (int)((wall->tex.x + offset) + wall->texture->width)
 			% wall->texture->width;
 	}
-}
+}*/
