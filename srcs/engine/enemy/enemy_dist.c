@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 16:14:58 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/26 16:17:49 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:19:45 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	update_enemies(t_game *game)
 		if (current->enemy.alive)
 		{
 			calculate_enemy_distance(game, &current->enemy);
-			if (current->enemy.dist_to_player <= current->enemy.detection_radius)
+			if (current->enemy.dist_to_player
+				<= current->enemy.detection_radius)
 				update_enemy_position(&current->enemy, game, speed);
 		}
 		current = current->next;
