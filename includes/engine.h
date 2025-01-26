@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/22 21:40:29 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/26 19:18:29 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ typedef enum e_door_state
 typedef enum e_door_orientation
 {
 	DOOR_VERTICAL,
-	DOOR_HORIZONTAL
+	DOOR_HORIZONTAL,
+	DOOR_ERROR
 }						t_door_orientation;
 
 typedef struct s_door

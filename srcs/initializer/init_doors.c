@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/26 15:54:57 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/26 19:19:41 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ void	init_door(t_door *door, int x, int y, t_door_orientation orient)
 	door->locked = false;
 	door->key_type = 0;
 }
-/*
+
 static t_door_orientation	get_door_orientation(t_game *game, int x, int y)
 {
 	if (game->map.grid[y][x - 1] == '1' && game->map.grid[y][x + 1] == '1')
 		return (DOOR_HORIZONTAL);
 	if (game->map.grid[y - 1][x] == '1' && game->map.grid[y + 1][x] == '1')
 		return (DOOR_VERTICAL);
-	return (DOOR_VERTICAL);
-}*/
-
+	return (cleanup_game(game), DOOR_ERROR);
+}
+/*
 static t_door_orientation get_door_orientation(t_game *game, int x, int y)
 {
     printf("\nChecking door orientation at [%d,%d]:\n", x, y);
@@ -78,7 +78,7 @@ static t_door_orientation get_door_orientation(t_game *game, int x, int y)
     
     printf("Warning: No clear orientation detected, defaulting to VERTICAL\n");
     return (DOOR_VERTICAL);
-}
+}*/
 
 static void	scan_map_for_doors(t_game *game)
 {
