@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 19:40:02 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/25 10:21:45 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:18:57 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,15 @@ void	add_enemy(t_game *game, t_vector pos)
 	}
 }
 
-bool	can_enemy_move_x(t_game *game, t_vector new_position, t_vector direction, double padding)
+bool	c_enemy_mx(t_game *game, t_vector n_pos, t_vector dir, double padd)
 {
 	int	map_x;
 	int	map_y;
 
-	map_x = (int)(new_position.x + direction.x * padding);
-	map_y = (int)(new_position.y);
-	if (map_x >= 0 && map_x < game->map.width && map_y >= 0 && map_y < game->map.height)
+	map_x = (int)(n_pos.x + dir.x * padd);
+	map_y = (int)(n_pos.y);
+	if (map_x >= 0 && map_x < game->map.width
+		&& map_y >= 0 && map_y < game->map.height)
 	{
 		if (game->map.grid[map_y][map_x] == '0')
 			return (true);
@@ -73,66 +74,18 @@ bool	can_enemy_move_x(t_game *game, t_vector new_position, t_vector direction, d
 	return (false);
 }
 
-bool	can_enemy_move_y(t_game *game, t_vector new_position, t_vector direction, double padding)
+bool	c_enemy_my(t_game *game, t_vector n_pos, t_vector dir, double padd)
 {
 	int	map_x;
 	int	map_y;
 
-	map_x = (int)(new_position.x);
-	map_y = (int)(new_position.y + direction.y * padding);
-	if (map_x >= 0 && map_x < game->map.width && map_y >= 0 && map_y < game->map.height)
+	map_x = (int)(n_pos.x);
+	map_y = (int)(n_pos.y + dir.y * padd);
+	if (map_x >= 0 && map_x < game->map.width
+		&& map_y >= 0 && map_y < game->map.height)
 	{
 		if (game->map.grid[map_y][map_x] == '0')
 			return (true);
 	}
 	return (false);
-}
-
-void	calculate_enemy_distance(t_game *game, t_enemy *enemy)
-{
-	t_vector	dir_vector;
-	double		length;
-
-	dir_vector = vector_sub(game->p1.pos, enemy->pos);
-	length = vector_length(dir_vector);
-	if (length > 0.0001)
-		enemy->dir = vector_div(dir_vector, length);
-	else
-		enemy->dir = vector_create(0, 0);
-	enemy->dist_to_player = length;
-}
-
-void	update_enemy_position(t_enemy *enemy, t_game *game, double speed)
-{
-	t_vector	movement;
-	t_vector	new_position;
-
-	movement = vector_mult(enemy->dir, speed);
-	new_position = enemy->pos;
-	new_position.x += movement.x;
-	if (can_enemy_move_x(game, new_position, enemy->dir, 0.5))
-		enemy->pos.x = new_position.x;
-	new_position = enemy->pos;
-	new_position.y += movement.y;
-	if (can_enemy_move_y(game, new_position, enemy->dir, 0.5))
-		enemy->pos.y = new_position.y;
-}
-
-void	update_enemies(t_game *game)
-{
-	t_enemy_list	*current;
-	double			speed;
-
-	current = game->enemies;
-	speed = 0.03;
-	while (current != NULL)
-	{
-		if (current->enemy.alive)
-		{
-			calculate_enemy_distance(game, &current->enemy);
-			if (current->enemy.dist_to_player <= current->enemy.detection_radius)
-				update_enemy_position(&current->enemy, game, speed);
-		}
-		current = current->next;
-	}
 }

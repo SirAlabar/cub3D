@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:56:23 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/25 10:58:02 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:17:22 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,7 @@ void		draw_enemy(t_game *game, t_enemy_list *current, double fov);
 void		draw_enemies(t_game *game);
 void		spawn_enemies_from_map(t_game *game);
 void		init_enemies(t_game *game);
+bool		c_enemy_mx(t_game *game, t_vector n_pos, t_vector dir, double padd);
+bool		c_enemy_my(t_game *game, t_vector n_pos, t_vector dir, double padd);
 
 #endif
