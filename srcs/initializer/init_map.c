@@ -1,16 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init_map.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/11 13:53:43 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 13:53:46 by hluiz-ma         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <cub3d.h>
+
+void	*validate_player_count(t_game *game);
 
 void	init_map(t_game *game)
 {
@@ -23,6 +13,7 @@ void	init_map(t_game *game)
 	game->map.player_start = '\0';
 	game->map.player_pos = vector_create(0, 0);
 	read_map(game);
+	validate_player_count(game);
 }
 
 int	get_map_width(t_game *game)
@@ -113,30 +104,31 @@ int	count_lines(t_game *game)
 	return (height);
 }
 
-/*
-void	set_map(t_game *game, char *map_path)
+void	*validate_player_count(t_game *game)
 {
-	int		fd;
-	int		i;
-	char	*str;
+	int	i;
+	int	j;
+	int	player_count;
 
-	fd = open(map_path, O_RDONLY);
-	game->map.height = count_lines(map_path);
-	game->map.grid = ft_calloc(sizeof(char **), game->map.rows + 1);
-	i = 0;
-	str = get_next_line(fd);
-	while (str)
+	player_count = 0;
+	i = -1;
+	while (++i < game->map.height)
 	{
-		game->map.grid[i] = ft_calloc(sizeof(char *), ft_strlen(str) + 1);
-		if (i == game->map.height - 1)
-			ft_strlcpy(game->map.grid[i], str, ft_strlen(str) + 1);
-		else
-			ft_strlcpy(game->map.grid[i], str, ft_strlen(str));
-		free(str);
-		i++;
-		str = get_next_line(fd);
+		j = 0;
+		while (game->map.grid[i][j])
+		{
+			if (game->map.grid[i][j] == 'N' || game->map.grid[i][j] == 'S' ||
+				game->map.grid[i][j] == 'W' || game->map.grid[i][j] == 'E')
+			{
+				(player_count++);
+				game->map.player_start = game->map.grid[i][j];
+				game->map.player_pos = vector_create(j, i);
+			}
+			j++;
+		}
 	}
-	close(fd);
-	set_map_tiles(game);
+	if (player_count != 1)
+		return (printf("Error\nMap must contain one player.\n"),
+				cleanup_game(game), exit(1), NULL);
+	return (NULL);
 }
-*/
