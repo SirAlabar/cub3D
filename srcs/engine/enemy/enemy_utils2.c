@@ -84,7 +84,7 @@ void	spawn_enemies_from_map(t_game *game)
 		j = 0;
 		while (j < game->map.width)
 		{
-			if (game->map.grid[i][j] == 'E')
+			if (game->map.grid[i][j] == 'M')
 			{
 				add_enemy(game, vector_create(j + 0.5, i + 0.5));
 				game->map.grid[i][j] = '0';
