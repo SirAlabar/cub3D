@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 21:45:06 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/26 16:21:24 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/26 16:25:37 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,11 +184,11 @@ t_texture *get_wall_texture(t_ray *ray, t_game *game)
         door = find_door(game, ray->map_x, ray->map_y);
         if (door)
         {
-            // Porta vertical
+            // Porta vertical (lado esquerdo ou direito)
             if (door->orient == DOOR_VERTICAL && ray->side == 0)
                 return (&game->door_system->doorwall_texture);
 
-            // Porta horizontal
+            // Porta horizontal (lado superior ou inferior)
             if (door->orient == DOOR_HORIZONTAL && ray->side == 1)
                 return (&game->door_system->doorwall_texture);
 
@@ -200,11 +200,13 @@ t_texture *get_wall_texture(t_ray *ray, t_game *game)
     // Verifica se o tile é uma parede
     if (tile == '1')
     {
-        // Identifica se há uma porta adjacente
-        if ((ray->map_y > 0 && game->map.grid[ray->map_x][ray->map_y - 1] == 'D') || // Porta acima
-            (ray->map_y < game->map.width - 1 && game->map.grid[ray->map_x][ray->map_y + 1] == 'D') || // Porta abaixo
-            (ray->map_x > 0 && game->map.grid[ray->map_x - 1][ray->map_y] == 'D') || // Porta à esquerda
-            (ray->map_x < game->map.height - 1 && game->map.grid[ray->map_x + 1][ray->map_y] == 'D')) // Porta à direita
+        // Identifica se a parede atual está diretamente ao lado de uma porta
+        if ((ray->side == 0 && 
+            ((ray->map_x > 0 && game->map.grid[ray->map_x - 1][ray->map_y] == 'D') || 
+             (ray->map_x < game->map.height - 1 && game->map.grid[ray->map_x + 1][ray->map_y] == 'D'))) || 
+            (ray->side == 1 && 
+            ((ray->map_y > 0 && game->map.grid[ray->map_x][ray->map_y - 1] == 'D') || 
+             (ray->map_y < game->map.width - 1 && game->map.grid[ray->map_x][ray->map_y + 1] == 'D'))))
         {
             // Retorna textura de moldura da porta
             return (&game->door_system->doorwall_texture);
@@ -229,6 +231,7 @@ t_texture *get_wall_texture(t_ray *ray, t_game *game)
 
     return NULL; // Caso nenhum tile válido seja encontrado
 }
+
 
 
 
