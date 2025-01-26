@@ -42,8 +42,7 @@ typedef struct s_enemy
 	bool		alive;
 	double		dist_to_player;
 	t_texture	*texture;
-	double		detection_radius; // Add this line
-} t_enemy;
+}				t_enemy;
 
 typedef struct s_draw_params
 {
