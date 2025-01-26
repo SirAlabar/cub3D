@@ -19,13 +19,14 @@ void	cleanup_gun(t_game *game)
 	i = 0;
 	while (i < 4)
 	{
-		if (game->p1.gun_anim[i].img)
+		if (game->p1.gun_anim && game->p1.gun_anim[i].img)
 		{
 			mlx_destroy_image(game->mlx, game->p1.gun_anim[i].img);
 		}
 		i++;
 	}
-	free(game->p1.gun_anim);
+	if (game->p1.gun_anim)
+		free(game->p1.gun_anim);
 	game->p1.gun_anim = NULL;
 }
 

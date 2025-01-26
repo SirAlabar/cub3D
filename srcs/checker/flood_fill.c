@@ -75,7 +75,7 @@ bool	flood_fill(char **grid, int height, int width, t_vector_i start)
 {
 	if (!recursive_flood_fill(grid, start, height, width))
 	{
-		printf("Error: Map is not fully enclosed.\n");
+		printf("Error\nMap is not fully enclosed.\n");
 		return (false);
 	}
 	return (true);
@@ -99,13 +99,13 @@ bool	is_map_valid(t_game *game)
 	map_copy = copy_map(game->map.grid, game->map.height);
 	if (!map_copy)
 	{
-		printf("Error:\n Failed to create map copy.\n");
+		printf("Error\nFailed to create map copy.\n");
 		return (cleanup_game(game), exit(1), false);
 	}
 	if (!find_start_position(map_copy,
 			game->map.height, game->map.width, &start))
 	{
-		printf("Error:\n Player starting position not found.\n");
+		printf("Error\nPlayer starting position not found.\n");
 		free_map_copy(map_copy, game->map.height);
 		return (cleanup_game(game), exit(1), false);
 	}
