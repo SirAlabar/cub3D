@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:16:16 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/26 17:49:55 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:56:19 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 bool	is_enemy_visible(t_game *game, t_vector enemy_pos)
 {
 	t_ray_data	ray;
+
+	// Don't process if position is out of bounds
+	if (enemy_pos.x < 0 || enemy_pos.x >= game->map.width ||
+		enemy_pos.y < 0 || enemy_pos.y >= game->map.height)
+		return (false);
 
 	ray = init_ray_data(game, enemy_pos);
 	while (1)
@@ -29,9 +34,20 @@ bool	is_enemy_visible(t_game *game, t_vector enemy_pos)
 			ray.side_dist.y += ray.delta_dist.y;
 			ray.map_y += ray.step.y;
 		}
+		
+		// Check if we've reached the enemy position
 		if (ray.map_x == (int)enemy_pos.x && ray.map_y == (int)enemy_pos.y)
 			return (true);
-		if (game->map.grid[ray.map_x][ray.map_y] == '1')
+		
+		// Check for wall collision (fixed array indexing)
+		if (ray.map_y >= 0 && ray.map_y < game->map.height &&
+			ray.map_x >= 0 && ray.map_x < game->map.width &&
+			game->map.grid[ray.map_y][ray.map_x] == '1')
+			return (false);
+			
+		// Add bounds checking
+		if (ray.map_x < 0 || ray.map_x >= game->map.width ||
+			ray.map_y < 0 || ray.map_y >= game->map.height)
 			return (false);
 	}
 }
@@ -61,13 +77,14 @@ void	draw_enemies(t_game *game)
 
 	current = game->enemies;
 	fov = 2 * atan2(vector_length(game->p1.plane), 1.0);
-	while (current) // Iterate through all enemies
+	while (current)
 	{
-		if (current->enemy.alive && is_enemy_visible(game, current->enemy.pos)) // Only render alive and visible enemies
+		// Only draw if enemy is alive and visible
+		if (current->enemy.alive && is_enemy_visible(game, current->enemy.pos))
 		{
 			draw_enemy(game, current, fov);
 		}
-		current = current->next; // Move to the next enemy
+		current = current->next;
 	}
 }
 

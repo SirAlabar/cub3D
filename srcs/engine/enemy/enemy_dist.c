@@ -57,14 +57,10 @@ void	update_enemies(t_game *game)
 			if (current->enemy.dist_to_player <= current->enemy.detection_radius)
 			{
 				update_enemy_position(&current->enemy, game, speed);
-				printf("Updating alive enemy at (%d, %d).\n", 
-				       (int)current->enemy.pos.x, (int)current->enemy.pos.y);
 			}
 		}
 		else
 		{
-			printf("Skipping dead enemy at (%d, %d).\n", 
-			       (int)current->enemy.pos.x, (int)current->enemy.pos.y);
 		}
 		current = current->next;
 	}
