@@ -12,48 +12,6 @@
 
 #include <cub3d.h>
 
-void	cleanup_gun(t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (i < 4)
-	{
-		if (game->p1.gun_anim[i].img)
-		{
-			mlx_destroy_image(game->mlx, game->p1.gun_anim[i].img);
-		}
-		i++;
-	}
-	free(game->p1.gun_anim);
-	game->p1.gun_anim = NULL;
-}
-
-void	cleanup_textures(t_game *game)
-{
-	if (game->north.img)
-		mlx_destroy_image(game->mlx, game->north.img);
-	if (game->south.img)
-		mlx_destroy_image(game->mlx, game->south.img);
-	if (game->east.img)
-		mlx_destroy_image(game->mlx, game->east.img);
-	if (game->west.img)
-		mlx_destroy_image(game->mlx, game->west.img);
-	cleanup_gun(game);
-}
-
-void	cleanup_door_system(t_game *game)
-{
-	if (!game->door_system)
-		return ;
-	if (game->door_system->door_texture.img)
-		mlx_destroy_image(game->mlx, game->door_system->door_texture.img);
-	if (game->door_system->doors)
-		free(game->door_system->doors);
-	free(game->door_system);
-	game->door_system = NULL;
-}
-
 void	cleanup_map(t_game *game)
 {
 	int	i;
@@ -71,11 +29,33 @@ void	cleanup_map(t_game *game)
 	}
 }
 
+void	cleanup_enemies(t_game *game)
+{
+	t_enemy_list	*current;
+	t_enemy_list	*next;
+
+	if (!game->enemies)
+		return ;
+	current = game->enemies;
+	while (current)
+	{
+		next = current->next;
+		if (current->enemy.texture && current->enemy.texture->img)
+			mlx_destroy_image(game->mlx, current->enemy.texture->img);
+		if (current->enemy.texture)
+			free(current->enemy.texture);
+		free(current);
+		current = next;
+	}
+	game->enemies = NULL;
+}
+
 void	cleanup_game(t_game *game)
 {
 	if (!game)
 		return ;
 	cleanup_textures(game);
+	cleanup_enemies(game);
 	cleanup_door_system(game);
 	if (game->win && game->mlx)
 		mlx_destroy_window(game->mlx, game->win);

@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:34 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/22 21:49:07 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:48:12 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 # include <unistd.h>
 # include <validations.h>
 # include <checker.h>
+# include <health.h>
+# include <enemy.h>
 /*
 # ifdef MAC_OS
 #  include <mlx.h>
@@ -69,7 +71,7 @@
 //# endif
 
 /* Map characters */
-# define VALID_MAP_CHARS "01NSEWD "
+# define VALID_MAP_CHARS "01NSEWDM "
 # define PLAYER_CHARS "NSEW"
 
 /* Error messages */
@@ -103,6 +105,7 @@ typedef struct s_player
 	double		last_fire;
 	int			gun_width;
 	int			gun_height;
+	int			health;
 }				t_player;
 
 typedef struct s_map
@@ -133,10 +136,11 @@ typedef struct s_game
 	t_texture		south;
 	t_texture		east;
 	t_texture		west;
-	t_vector		last_mouse;	
+	t_vector		last_mouse;
 	double			mouse_sensi;
 	double			fps;
-	t_door_system	*door_system;
+	t_enemy_list	*enemies;
+	t_door_system	*door_system;	
 }				t_game;
 
 void			cleanup_game(t_game *game);

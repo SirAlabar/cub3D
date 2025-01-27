@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/22 21:07:49 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:45:30 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	init_game(t_game *game)
 	init_door_system(game);
 	init_textures(game);
 	init_textures_game(game);
+	init_enemies(game);
 	game->last_mouse = vector_create(-1.0, -1.0);
 	game->mouse_sensi = 0.004;
 	game->fps = 0;

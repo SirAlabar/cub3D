@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:20:40 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/16 14:20:40 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:41:47 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINIMAP_H
 
 # define MINIMAP_CELL_SIZE 12
-# define MINIMAP_PADDING 20
+# define MINIMAP_PADDING 40
 # define PLAYER_DOT_SIZE 6
 # define MINIMAP_VIEW_SIZE 11
 
