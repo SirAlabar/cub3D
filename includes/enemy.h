@@ -58,7 +58,6 @@ typedef struct s_enemy_list
 	struct s_enemy_list	*next;
 }				t_enemy_list;
 
-double		vector_length(t_vector v);
 void		init_enemies(t_game *game);
 void		update_enemies(t_game *game);
 void		draw_enemies(t_game *game);
