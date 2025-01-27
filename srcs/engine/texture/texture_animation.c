@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 21:00:00 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/26 13:59:39 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:31:24 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,32 +50,3 @@ void	update_weapon_animation(t_game *game)
 	else
 		game->p1.current_frame = 0;
 }
-/*
-void	process_door_texture(t_wall *wall, t_door *door, t_game *game)
-{
-	double	wallx;
-	double	animation_progress;
-	int		offset;
-
-	wall->texture = &game->door_system->door_texture;
-	if (wall->ray->side == 0)
-		wallx = game->p1.pos.y + wall->ray->perp_wall_dist * wall->ray->dir.y;
-	else
-		wallx = game->p1.pos.x + wall->ray->perp_wall_dist * wall->ray->dir.x;
-	wallx -= floor(wallx);
-	wall->tex.x = (int)(wallx * wall->texture->width);
-	if (door->state == DOOR_OPENING)
-	{
-		animation_progress = door->animation;
-		offset = (int)(wall->texture->width * animation_progress);
-		wall->tex.x = (int)((wall->tex.x - offset) + wall->texture->width)
-			% wall->texture->width;
-	}
-	else if (door->state == DOOR_CLOSING)
-	{
-		animation_progress = 1.0 - door->animation;
-		offset = (int)(wall->texture->width * animation_progress);
-		wall->tex.x = (int)((wall->tex.x + offset) + wall->texture->width)
-			% wall->texture->width;
-	}
-}*/

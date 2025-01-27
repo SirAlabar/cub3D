@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 21:45:06 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/26 20:15:39 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:22:39 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,56 +35,25 @@ t_texture	*texture_create(t_game *game, char *texture_path)
 	return (texture);
 }
 
-t_texture *get_wall_texture(t_ray *ray, t_game *game)
+t_texture	*get_wall_texture(t_ray *ray, t_game *game)
 {
-    char tile;
-    t_door *door;
-    
-    tile = game->map.grid[ray->map_x][ray->map_y];
-    
-    if (tile == '1')
-    {
-        t_vector_i door_pos = {-1, -1};
-        
-        // Procura porta adjacente
-        if (ray->map_y > 0 && game->map.grid[ray->map_x][ray->map_y - 1] == 'D')
-            door_pos = (t_vector_i){ray->map_x, ray->map_y - 1};
-        else if (ray->map_y < game->map.width - 1 && game->map.grid[ray->map_x][ray->map_y + 1] == 'D')
-            door_pos = (t_vector_i){ray->map_x, ray->map_y + 1};
-        else if (ray->map_x > 0 && game->map.grid[ray->map_x - 1][ray->map_y] == 'D')
-            door_pos = (t_vector_i){ray->map_x - 1, ray->map_y};
-        else if (ray->map_x < game->map.height - 1 && game->map.grid[ray->map_x + 1][ray->map_y] == 'D')
-            door_pos = (t_vector_i){ray->map_x + 1, ray->map_y};
-
-        if (door_pos.x != -1 && (door = find_door(game, door_pos.x, door_pos.y)))
-        {
-            // Verifica apenas se a orientação do raio é perpendicular à orientação da porta
-            if ((door->orient == DOOR_VERTICAL && ray->side == 0) ||
-                (door->orient == DOOR_HORIZONTAL && ray->side == 1))
-                return (&game->door_system->doorwall_texture);
-        }
-    }
-
-    if (ray->is_door)
-        return (&game->door_system->door_texture);
-
-    if (ray->side == 0)
-    {
-        if (ray->dir.x > 0)
-            return (&game->west);
-        else
-            return (&game->east);
-    }
-    else
-    {
-        if (ray->dir.y > 0)
-            return (&game->north);
-        else
-            return (&game->south);
-    }
+	if (ray->is_door)
+		return (&game->door_system->door_texture);
+	if (ray->side == 0)
+	{
+		if (ray->dir.x > 0)
+			return (&game->west);
+		else
+			return (&game->east);
+	}
+	else
+	{
+		if (ray->dir.y > 0)
+			return (&game->north);
+		else
+			return (&game->south);
+	}
 }
-
-
 
 static t_vector_i	get_scale_coords(t_vector_i pos, double scale_x,
 		double scale_y)

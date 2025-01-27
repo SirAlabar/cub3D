@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/26 19:19:41 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:33:56 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,60 +32,12 @@ static t_door_orientation	get_door_orientation(t_game *game, int x, int y)
 		return (DOOR_VERTICAL);
 	return (cleanup_game(game), DOOR_ERROR);
 }
-/*
-static t_door_orientation get_door_orientation(t_game *game, int x, int y)
-{
-    printf("\nChecking door orientation at [%d,%d]:\n", x, y);
-    
-    // Primeiro verifica se há portas adjacentes
-    int has_vertical_doors = 0;
-    if (y > 0 && game->map.grid[y - 1][x] == 'D')
-        has_vertical_doors = 1;
-    if (y < game->map.height - 1 && game->map.grid[y + 1][x] == 'D')
-        has_vertical_doors = 1;
-        
-    int has_horizontal_doors = 0;
-    if (x > 0 && game->map.grid[y][x - 1] == 'D')
-        has_horizontal_doors = 1;
-    if (x < game->map.width - 1 && game->map.grid[y][x + 1] == 'D')
-        has_horizontal_doors = 1;
-    
-    // Se tem portas adjacentes verticais, prioriza essa orientação
-    if (has_vertical_doors)
-    {
-        printf("Door is VERTICAL (connected to other doors vertically)\n");
-        return (DOOR_VERTICAL);
-    }
-    
-    // Se tem portas adjacentes horizontais, prioriza essa orientação
-    if (has_horizontal_doors)
-    {
-        printf("Door is HORIZONTAL (connected to other doors horizontally)\n");
-        return (DOOR_HORIZONTAL);
-    }
-    
-    // Se não tem portas adjacentes, verifica as paredes
-    if (game->map.grid[y][x - 1] == '1' && game->map.grid[y][x + 1] == '1')
-    {
-        printf("Door is HORIZONTAL (walls on left and right)\n");
-        return (DOOR_HORIZONTAL);
-    }
-    if (game->map.grid[y - 1][x] == '1' && game->map.grid[y + 1][x] == '1')
-    {
-        printf("Door is VERTICAL (walls on top and bottom)\n");
-        return (DOOR_VERTICAL);
-    }
-    
-    printf("Warning: No clear orientation detected, defaulting to VERTICAL\n");
-    return (DOOR_VERTICAL);
-}*/
 
 static void	scan_map_for_doors(t_game *game)
 {
 	int	y;
 	int	x;
 
-	printf("\nScanning map for doors...\n");
 	y = 0;
 	while (y < game->map.height)
 	{
@@ -94,20 +46,17 @@ static void	scan_map_for_doors(t_game *game)
 		{
 			if (is_door(game->map.grid[y][x]))
 			{
-				printf("Found door at [%d,%d]\n", x, y);
 				add_door(game, x, y);
 			}
 			x++;
 		}
 		y++;
 	}
-	printf("Total doors found: %d\n", game->door_system->door_count);
 }
 
 void	init_door_system(t_game *game)
 {
 	t_texture	*door_tex;
-	t_texture	*doorwall_tex;
 
 	game->door_system = ft_calloc(1, sizeof(t_door_system));
 	if (!game->door_system)
@@ -118,7 +67,6 @@ void	init_door_system(t_game *game)
 	game->door_system->doors = NULL;
 	game->door_system->door_count = 0;
 	door_tex = texture_create(game, DOOR1);
-	doorwall_tex = texture_create(game, DOOR2);
 	if (!door_tex)
 	{
 		ft_printf("Error: Failed to load door texture\n");
@@ -127,9 +75,7 @@ void	init_door_system(t_game *game)
 		return ;
 	}
 	game->door_system->door_texture = *door_tex;
-	game->door_system->doorwall_texture = *doorwall_tex;
 	free(door_tex);
-	free(doorwall_tex);
 	scan_map_for_doors(game);
 }
 

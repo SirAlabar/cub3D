@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/26 19:18:29 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:34:11 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,12 +128,10 @@ typedef struct s_door_system
 {
 	t_door				*doors;
 	int					door_count;
-	t_texture			door_texture;
-	t_texture			doorwall_texture;	
+	t_texture			door_texture;	
 }						t_door_system;
 
 # define DOOR1 "assets/texture/doorlab.xpm"
-# define DOOR2 "assets/texture/doorwall.xpm"
 # define DOOR_SPEED 0.5
 # define DOOR_STAY_OPEN_TIME 4.0
 # define DOOR_INTERACTION_DISTANCE 1.9
@@ -184,6 +182,7 @@ bool					is_door(char tile);
 t_door					*find_door(t_game *game, int x, int y);
 void					cleanup_door_system(t_game *game);
 void					door_sliding(t_ray *ray, t_game *game, t_door *door);
+void					adjust_door_texture(t_wall *wall);
 
 /*
  * Texture Management

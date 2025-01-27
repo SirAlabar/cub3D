@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 20:52:40 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/26 18:02:28 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:24:17 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,47 +65,16 @@ void	handle_door_collision(t_ray *ray, t_game *game)
 	door = find_door(game, ray->map_x, ray->map_y);
 	if (!door || door->state == DOOR_OPEN)
 		return ;
-
-	// Ajuste para renderizar no meio do tile
 	if (ray->side == 0)
-	{
-		ray->side_dist.x -= ray->delta_dist.x / 2; // Ajusta a distância lateral
-		if (ray->side_dist.x > ray->side_dist.y)
-		{
-			ray->side_dist.y += ray->delta_dist.y;
-			ray->map_y += ray->step_y;
-			ray->side = 1;
-			orig_dist = ray->side_dist.y - ray->delta_dist.y;
-		}
-		else
-			orig_dist = ray->side_dist.x - ray->delta_dist.x;
-		ray->side_dist.x += ray->delta_dist.x;
-	}
+		orig_dist = ray->side_dist.x - ray->delta_dist.x;
 	else
+		orig_dist = ray->side_dist.y - ray->delta_dist.y;
+	if (door->state == DOOR_CLOSED)
 	{
-		ray->side_dist.y -= ray->delta_dist.y / 2; // Ajusta a distância vertical
-		if (ray->side_dist.y > ray->side_dist.x)
-		{
-			ray->side_dist.x += ray->delta_dist.x;
-			ray->map_x += ray->step_x;
-			ray->side = 0;
-			orig_dist = ray->side_dist.x - ray->delta_dist.x;
-		}
-		else
-			orig_dist = ray->side_dist.y - ray->delta_dist.y;
-		ray->side_dist.y += ray->delta_dist.y;
+		set_door_hit(ray, orig_dist);
+		return ;
 	}
-
-	// Marca o impacto com a porta
-	ray->hit = true;
-	ray->is_door = true;
-	ray->perp_wall_dist = orig_dist;
-
-	// Calcula a posição do impacto da porta
 	wallx = get_wall_x(ray, game, orig_dist);
 	if (wallx > door->animation)
-	{
-		// Define o impacto da porta
 		set_door_hit(ray, orig_dist);
-	}
 }
