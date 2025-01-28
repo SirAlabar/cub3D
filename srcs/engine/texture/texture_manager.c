@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_manager.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/04 21:00:00 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/14 22:00:38 by marvin           ###   ########.fr       */
+/*   Created: 2025/01/22 21:45:06 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/01/27 20:22:39 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ t_texture	*texture_create(t_game *game, char *texture_path)
 
 t_texture	*get_wall_texture(t_ray *ray, t_game *game)
 {
+	if (ray->is_door)
+		return (&game->door_system->door_texture);
 	if (ray->side == 0)
 	{
 		if (ray->dir.x > 0)

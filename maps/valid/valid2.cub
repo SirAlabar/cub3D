@@ -4,18 +4,22 @@ C 171,154,137
 
 
 
-NO textures/simonkraft/bookshelf.xpm
-SO textures/simonkraft/bookshelf_01.xpm
-WE textures/simonkraft/bookshelf_02.xpm
-EA textures/simonkraft/bookshelf_03.xpm
+NO assets/texture/stone3.xpm
+SO assets/texture/stone4.xpm
+WE assets/texture/metal_floor.xpm
+EA assets/texture/metal_floor2.xpm
 
+
+11111
+1WD01
+11111
 
     1111111111111111111
     1001001001001000001
     1001001001001000001
 11111010010010010000001
 10010010000010010000001
-100000000S0000000000001
+10000000000000000000001
 10000111111110000111111
 111100000000000111
 100000010101000001
