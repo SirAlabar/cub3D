@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:56:23 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/26 17:43:34 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:44:56 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,7 @@ void		init_enemies(t_game *game);
 bool		c_enemy_mx(t_game *game, t_vector n_pos, t_vector dir, double padd);
 bool		c_enemy_my(t_game *game, t_vector n_pos, t_vector dir, double padd);
 void		shoot_enemy(t_game *game);
+bool	is_in_bounds(t_game *game, int x, int y);
+bool	has_hit_wall(t_game *game, t_ray_data *ray);
 
 #endif
