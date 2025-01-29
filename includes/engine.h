@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/27 20:34:11 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:50:21 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ typedef struct s_wall
 	t_scanline			*buffer;
 	int					x;
 }						t_wall;
-
+/*
 typedef enum e_door_state
 {
 	DOOR_CLOSED = 0,
@@ -135,7 +135,7 @@ typedef struct s_door_system
 # define DOOR_SPEED 0.5
 # define DOOR_STAY_OPEN_TIME 4.0
 # define DOOR_INTERACTION_DISTANCE 1.9
-
+*/
 /*
  * Core Engine Functions
  */

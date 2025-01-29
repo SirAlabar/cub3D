@@ -1,27 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   health.h                                           :+:      :+:    :+:   */
+/*   fixed32_vec_operations.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/22 17:35:41 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/25 10:48:54 by marsoare         ###   ########.fr       */
+/*   Created: 2025/01/29 20:12:09 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/01/29 20:12:35 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEALTH_H
-# define HEALTH_H
-
-typedef struct s_bar
-{
-	int	start_x;
-	int	start_y;
-	int	width;
-	int	height;
-	int	color;
-}	t_bar;
-
-void	draw_health_bar(t_game *game);
-
-#endif
+// Vector operations
+double					vector_dot(t_vector v1, t_vector v2);
+double					vector_mag(t_vector v);
+double					vector_mag_sq(t_vector v);
+t_vector				vector_normalize(t_vector v);

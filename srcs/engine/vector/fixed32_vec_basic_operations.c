@@ -1,35 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   door_utils.c                                       :+:      :+:    :+:   */
+/*   fixed32_vec_basic_operations.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/30 21:20:50 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/22 21:47:02 by hluiz-ma         ###   ########.fr       */
+/*   Created: 2025/01/29 20:06:37 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/01/29 20:08:57 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
-
-bool	is_door(char tile)
-{
-	return (tile == 'D');
-}
-
-t_door	*find_door(t_game *game, int x, int y)
-{
-	int	i;
-
-	i = 0;
-	while (i < game->door_system->door_count)
-	{
-		if (game->door_system->doors[i].position.x == x
-			&& game->door_system->doors[i].position.y == y)
-		{
-			return (&game->door_system->doors[i]);
-		}
-		i++;
-	}
-	return (NULL);
-}
+// Basic arithmetic
+fixed_t fixed_add(fixed_t a, fixed_t b);
+fixed_t fixed_sub(fixed_t a, fixed_t b);
+fixed_t fixed_mul(fixed_t a, fixed_t b);
+fixed_t fixed_div(fixed_t a, fixed_t b);
