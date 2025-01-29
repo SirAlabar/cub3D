@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:37:30 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/29 19:30:53 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/29 19:51:45 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ static void	draw_health_bar_background(t_game *game)
 
 	bar = init_bar();
 	bar.color = 0xFF3000;
+	bar.start_y -= 40;
+	bar.start_x += 775;
+	bar.width += 20;
+	bar.height += 16;
 	i = -1;
 	while (++i < bar.height)
 	{
