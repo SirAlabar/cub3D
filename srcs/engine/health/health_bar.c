@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:37:30 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/29 19:51:45 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:22:02 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,14 @@ static t_bar	init_bar(void)
 	return (bar);
 }
 
-
 void	draw_lifebar_hud(t_game *game, t_texture *image)
 {
 	t_bar	bar;
-	int		img_x;
-	int		img_y;
+	int		color;
 	int		i;
 	int		j;
-	int		color;
 
 	bar = init_bar();
-	img_x = (WINDOW_WIDTH - image->width) - 30;
-	img_y = bar.start_y - image->height + 30;
 	i = -1;
 	while (++i < image->height)
 	{
@@ -44,7 +39,8 @@ void	draw_lifebar_hud(t_game *game, t_texture *image)
 		{
 			color = get_texture_pixel(image, j, i);
 			if (color != 0xFFC0CB)
-				draw_pixel(game, img_x + j, img_y + i, color);
+				draw_pixel(game, (WINDOW_WIDTH - image->width) - 30 + j,
+					bar.start_y - image->height + 30 + i, color);
 		}
 	}
 }
@@ -94,10 +90,10 @@ static void	draw_health_bar_fill(t_game *game)
 
 void	draw_health_bar(t_game *game)
 {
-	t_texture	*health_img;
+	t_texture	*health;
 
-	(health_img = texture_create(game, "./assets/sprites/health/healthbar.xpm"));
-	if (!health_img)
+	(health = texture_create(game, "./assets/sprites/health/healthbar.xpm"));
+	if (!health)
 	{
 		printf("Error\nFalha ao carregar a textura do HUD!\n");
 		cleanup_game(game);
@@ -105,5 +101,5 @@ void	draw_health_bar(t_game *game)
 	}
 	draw_health_bar_background(game);
 	draw_health_bar_fill(game);
-	draw_lifebar_hud(game, health_img);
+	draw_lifebar_hud(game, health);
 }
