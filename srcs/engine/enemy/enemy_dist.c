@@ -54,7 +54,8 @@ void	update_enemies(t_game *game)
 		if (current->enemy.alive)
 		{
 			calculate_enemy_distance(game, &current->enemy);
-			if (current->enemy.dist_to_player <= current->enemy.detection_radius)
+			if (current->enemy.dist_to_player
+				<= current->enemy.detection_radius)
 			{
 				update_enemy_position(&current->enemy, game, speed);
 			}
