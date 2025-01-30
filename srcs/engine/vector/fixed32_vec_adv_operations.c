@@ -10,8 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// Advanced operations
-fixed_t fixed_sqrt(fixed_t value);
-fixed_t fixed_sin(fixed_t angle);
-fixed_t fixed_cos(fixed_t angle);
-fixed_t fixed_tan(fixed_t angle);
+#include <cub3d.h>
+
+/*
+  Newton-Raphson method square root for fixed point
+  Iteratively improves guess until sufficient precision
+  Returns fixed point square root of input
+ */
+t_fixed32    fixed32_sqrt(t_fixed32 value)
+{
+    t_fixed32   guess;
+    t_fixed32   new_guess;
+    size_t      i;
+
+    if (value <= 0)
+        return (0);
+    guess = value >> 1;
+    if (guess == 0)
+        guess = 1;
+    i = 8;
+    while (i > 0)
+    {
+        new_guess = fixed32_div(fixed32_add(fixed32_div(value, guess), guess),
+                                int_to_fixed32(2));
+        if (abs(new_guess - guess) <= 1)
+            break;
+        guess = new_guess;
+        i--;                            
+    }
+    return (guess);        
+}

@@ -22,6 +22,7 @@
 # define MAX_ROTATION 0.045
 
 # include <colors.h>
+# include <fixed_point.h>
 # include <engine.h>
 # include <events.h>
 # include <minimap.h>
@@ -139,8 +140,6 @@ typedef struct s_game
 	t_vector		last_mouse;
 	double			mouse_sensi;
 	double			fps;
-	t_enemy_list	*enemies;
-	t_door_system	*door_system;	
 }				t_game;
 
 void			cleanup_game(t_game *game);

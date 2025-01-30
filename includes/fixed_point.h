@@ -19,15 +19,23 @@
 Fixed point configuration
 */
 # define FIXED_POINT_BITS 16
-# define FIXED_POINT_SCALE (1 << FIXED_POINT_BITS)
-# define FIXED_POINT_MASK (FIXED_POINT_SCALE - 1)
+# define FIXED_POINT_SCALE 65536 /*(1 << FIXED_POINT_BITS)*/
+# define FIXED_POINT_MASK 65535 /*(FIXED_POINT_SCALE - 1)*/   
+
+/*
+Common constants in fixed point representation
+*/
+# define FIXED32_HALF 32768    /* (FIXED32_SCALE >> 1) */
+# define FIXED32_PI 205887     /* π in fixed point (≈3.14159 * 2^16) */
+# define FIXED32_2PI 411775    /* 2π in fixed point */
+# define FIXED32_PI_2 102944   /* π/2 in fixed point */
+# define FIXED32_E 178145      /* e in fixed point */
 
 /*
 Types
 */
-
-typedef int32_t fixed32_t;
-typedef int64_t fixed62_t;
+typedef int32_t t_fixed32;
+typedef int64_t t_fixed64;
 
 typedef struct s_fixed_vec32
 {
@@ -43,19 +51,22 @@ typedef struct s_fixed_vec64
 
 
 // Basic conversion functions
-fixed_t float_to_fixed(float value);
-fixed_t int_to_fixed(int value);
-float fixed_to_float(fixed_t value);
-int fixed_to_int(fixed_t value);
+t_fixed32 float_to_fixed(float value);
+t_fixed32 int_to_fixed(int value);
+float fixed_to_float(t_fixed32 value);
+int fixed_to_int(t_fixed32 value);
 
 // Basic arithmetic
-fixed_t fixed_add(fixed_t a, fixed_t b);
-fixed_t fixed_sub(fixed_t a, fixed_t b);
-fixed_t fixed_mul(fixed_t a, fixed_t b);
-fixed_t fixed_div(fixed_t a, fixed_t b);
+t_fixed32 fixed32_add(t_fixed32 a, t_fixed32 b);
+t_fixed32 fixed32_sub(t_fixed32 a, t_fixed32 b);
+t_fixed32 fixed32_mul(t_fixed32 a, t_fixed32 b);
+t_fixed32 fixed32_div(t_fixed32 a, t_fixed32 b);
 
 // Advanced operations
-fixed_t fixed_sqrt(fixed_t value);
-fixed_t fixed_sin(fixed_t angle);
-fixed_t fixed_cos(fixed_t angle);
-fixed_t fixed_tan(fixed_t angle);
+t_fixed32 fixed32_sqrt(t_fixed32 value);
+t_fixed32 fixed32_sin(t_fixed32 angle);
+t_fixed32 fixed32_cos(t_fixed32 angle);
+t_fixed32 fixed32_tan(t_fixed32 angle);
+
+
+#endif
