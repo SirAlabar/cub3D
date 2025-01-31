@@ -49,6 +49,16 @@ typedef struct s_fixed_vec64
     fixed64_t y;
 }   t_fixed_vec64;
 
+typedef struct s_fixed_tables
+{
+	t_fixed32	*sin_table;
+	t_fixed32	*cos_table;
+	t_fixed32	*tan_table;
+	t_fixed32	*inv_table;
+	t_fixed32	*sqrt_table;
+	t_fixed32	*shade_table;
+	t_bool		is_init;
+}	t_fixed_tables;
 
 // Basic conversion functions
 t_fixed32 float_to_fixed(float value);
@@ -68,5 +78,7 @@ t_fixed32 fixed32_sin(t_fixed32 angle);
 t_fixed32 fixed32_cos(t_fixed32 angle);
 t_fixed32 fixed32_tan(t_fixed32 angle);
 
+t_fixed_tables	*init_fixed_tables(void);
+void			destroy_fixed_tables(t_fixed_tables *tables);
 
 #endif

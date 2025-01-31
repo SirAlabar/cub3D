@@ -40,3 +40,47 @@ t_fixed32    fixed32_sqrt(t_fixed32 value)
     }
     return (guess);        
 }
+
+/*
+  Sine function using lookup table
+  Angle is in binary angle measurement (BAM)
+  Returns fixed point sine value between -1 and 1
+ */
+t_fixed32    fixed32_sin(t_fixed32 angle)
+{
+    double    float_angle;
+    double    sin_val;
+
+    float_angle = (angle * 2.0 * M_PI) / (1 << FIXED32_BITS);
+    sin_val = sin(float_angle);
+    return (float_to_fixed32(sin_val));
+}
+
+/*
+  Cosine function using lookup table
+  Angle is in binary angle measurement (BAM)
+  Returns fixed point cosine value between -1 and 1
+ */
+t_fixed32    fixed32_cos(t_fixed32 angle)
+{
+    return (fixed32_sin(angle + (FIXED32_PI >> 1)));
+}
+
+/*
+  Tangent function using sine and cosine
+  Angle is in binary angle measurement (BAM)
+  Returns fixed point tangent value
+ */
+t_fixed32    fixed32_tan(t_fixed32 angle)
+{
+    t_fixed32    cos_val;
+
+    cos_val = fixed32_cos(angle);
+    if (cos_val == 0)
+    {
+        if (angle > 0)
+            return (INT32_MAX);
+        return (INT32_MIN);
+    }
+    return (fixed32_div(fixed32_sin(angle), cos_val));
+}
