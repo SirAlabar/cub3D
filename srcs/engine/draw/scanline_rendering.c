@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
+/*
 void	init_scanline_buffer(t_scanline *buffer)
 {
 	int	x;
@@ -50,8 +50,6 @@ void	set_wall_tex_coords(t_wall *wall)
 			* wall->ray->dir.x;
 	wall->pos.x -= floor(wall->pos.x);
 	wall->tex.x = (int)(wall->pos.x * wall->texture->width);
-	if (wall->ray->is_door)
-		adjust_door_texture(wall);
 	if (wall->ray->side == 0 && wall->ray->dir.x < 0)
 		wall->tex.x = wall->texture->width - wall->tex.x - 1;
 	if (wall->ray->side == 1 && wall->ray->dir.y > 0)
@@ -89,3 +87,4 @@ void	draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
 	buffer->y_top[x] = wall.end + 1;
 	buffer->y_bottom[x] = wall.start - 1;
 }
+*/

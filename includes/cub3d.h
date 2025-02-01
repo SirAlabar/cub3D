@@ -25,7 +25,6 @@
 # include <fixed_point.h>
 # include <engine.h>
 # include <events.h>
-# include <minimap.h>
 # include <fcntl.h>
 # include <libft.h>
 # include <math.h>
@@ -37,8 +36,7 @@
 # include <unistd.h>
 # include <validations.h>
 # include <checker.h>
-# include <health.h>
-# include <enemy.h>
+
 /*
 # ifdef MAC_OS
 #  include <mlx.h>

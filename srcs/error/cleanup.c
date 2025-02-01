@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
+/*
 void	cleanup_map(t_game *game)
 {
 	int	i;
@@ -29,34 +29,12 @@ void	cleanup_map(t_game *game)
 	}
 }
 
-void	cleanup_enemies(t_game *game)
-{
-	t_enemy_list	*current;
-	t_enemy_list	*next;
-
-	if (!game->enemies)
-		return ;
-	current = game->enemies;
-	while (current)
-	{
-		next = current->next;
-		if (current->enemy.texture && current->enemy.texture->img)
-			mlx_destroy_image(game->mlx, current->enemy.texture->img);
-		if (current->enemy.texture)
-			free(current->enemy.texture);
-		free(current);
-		current = next;
-	}
-	game->enemies = NULL;
-}
 
 void	cleanup_game(t_game *game)
 {
 	if (!game)
 		return ;
 	cleanup_textures(game);
-	cleanup_enemies(game);
-	cleanup_door_system(game);
 	if (game->win && game->mlx)
 		mlx_destroy_window(game->mlx, game->win);
 	if (game->img && game->mlx)
@@ -68,3 +46,4 @@ void	cleanup_game(t_game *game)
 		close(game->fd_map);
 	free(game);
 }
+*/

@@ -49,7 +49,7 @@ t_fixed32   fixed32_mul(t_fixed32 a, t_fixed32 b)
 {
     int64_t    result;
 
-    result = ((int64_t)a * (int64_t)b) >> FIXED32_BITS;
+    result = ((int64_t)a * (int64_t)b) >> FIXED_POINT_BITS;
     if (result > INT32_MAX)
         return (INT32_MAX);
     if (result < INT32_MIN)
@@ -72,7 +72,7 @@ t_fixed32    fixed32_div(t_fixed32 a, t_fixed32 b)
             return (INT32_MAX);
         return (INT32_MIN);
     }
-    temp = ((int64_t)a << FIXED32_BITS) / b;
+    temp = ((int64_t)a << FIXED_POINT_BITS) / b;
     if (temp > INT32_MAX)
         return (INT32_MAX);
     if (temp < INT32_MIN)

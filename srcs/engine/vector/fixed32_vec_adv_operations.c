@@ -51,7 +51,7 @@ t_fixed32    fixed32_sin(t_fixed32 angle)
     double    float_angle;
     double    sin_val;
 
-    float_angle = (angle * 2.0 * M_PI) / (1 << FIXED32_BITS);
+    float_angle = (angle * 2.0 * M_PI) / ANG360;
     sin_val = sin(float_angle);
     return (float_to_fixed32(sin_val));
 }
@@ -63,7 +63,7 @@ t_fixed32    fixed32_sin(t_fixed32 angle)
  */
 t_fixed32    fixed32_cos(t_fixed32 angle)
 {
-    return (fixed32_sin(angle + (FIXED32_PI >> 1)));
+    return (fixed32_sin(angle + ANG90));
 }
 
 /*
@@ -83,4 +83,16 @@ t_fixed32    fixed32_tan(t_fixed32 angle)
         return (INT32_MIN);
     }
     return (fixed32_div(fixed32_sin(angle), cos_val));
+}
+
+t_fixed32    fixed32_atan2(t_fixed32 y, t_fixed32 x)
+{
+    float    float_y;
+    float    float_x;
+    float    result;
+
+    float_y = fixed32_to_float(y);
+    float_x = fixed32_to_float(x);
+    result = atan2(float_y, float_x);
+    return (float_to_fixed32(result));
 }

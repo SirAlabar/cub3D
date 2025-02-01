@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
+/*
 void	engine_prepare_frame(t_game *game)
 {
 	if (!game || !game->mlx)
@@ -35,7 +35,6 @@ int	engine_render_frame(t_game *game)
 	t_scanline	scanline_buffer;
 
 	engine_prepare_frame(game);
-	update_doors(game);
 	draw_background(game);
 	init_scanline_buffer(&scanline_buffer);
 	cast_rays(game, rays);
@@ -44,12 +43,10 @@ int	engine_render_frame(t_game *game)
 	{
 		draw_wall_scanline(game, &rays[x], x, &scanline_buffer);
 	}
-	draw_enemies(game);
 	handle_movement(game);
 	update_weapon_animation(game);
 	draw_weapon(game);
-	draw_minimap(game);
-	draw_health_bar(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }
+*/

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
+/*
 void	*keys_else(t_game *game, double *dir_x, double *dir_y)
 {
 	if (game->p1.keys.d)
@@ -26,3 +26,4 @@ void	*keys_else(t_game *game, double *dir_x, double *dir_y)
 	}
 	return (NULL);
 }
+*/

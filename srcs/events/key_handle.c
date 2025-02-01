@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
+/*
 void	handle_movement(t_game *game)
 {
 	double	dir_x;
@@ -42,8 +42,6 @@ int	key_press(int keycode, t_game *game)
 	printf("Key pressed: %d\n", keycode);
 	if (keycode == KEY_ESC)
 		close_window(game);
-	else if (keycode == KEY_E)
-		interact_with_door(game);
 	else if (keycode == KEY_W)
 		game->p1.keys.w = 1;
 	else if (keycode == KEY_S)
@@ -77,3 +75,4 @@ int	key_release(int keycode, t_game *game)
 		game->p1.keys.right = 0;
 	return (0);
 }
+*/

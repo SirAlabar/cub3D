@@ -74,7 +74,6 @@ typedef struct s_ray
 	int					side;
 	int					draw_start;
 	int					draw_end;
-	bool				is_door;
 }						t_ray;
 
 typedef struct s_wall
@@ -95,47 +94,7 @@ typedef struct s_wall
 	t_scanline			*buffer;
 	int					x;
 }						t_wall;
-/*
-typedef enum e_door_state
-{
-	DOOR_CLOSED = 0,
-	DOOR_OPENING = 1,
-	DOOR_OPEN = 2,
-	DOOR_CLOSING = 3
-}						t_door_state;
 
-typedef enum e_door_orientation
-{
-	DOOR_VERTICAL,
-	DOOR_HORIZONTAL,
-	DOOR_ERROR
-}						t_door_orientation;
-
-typedef struct s_door
-{
-	t_vector_i			position;
-	t_door_state		state;
-	t_door_orientation	orient;
-	double				dist;
-	bool				active;
-	double				animation;
-	double				timer;
-	bool				locked;
-	int					key_type;
-}						t_door;
-
-typedef struct s_door_system
-{
-	t_door				*doors;
-	int					door_count;
-	t_texture			door_texture;	
-}						t_door_system;
-
-# define DOOR1 "assets/texture/doorlab.xpm"
-# define DOOR_SPEED 0.5
-# define DOOR_STAY_OPEN_TIME 4.0
-# define DOOR_INTERACTION_DISTANCE 1.9
-*/
 /*
  * Core Engine Functions
  */
@@ -160,8 +119,7 @@ unsigned int			apply_shade(unsigned int color, double shade);
 int						draw_background(t_game *game);
 void					draw_wall(t_game *game, t_ray *ray, int x);
 void					update_ray_position(t_ray *ray);
-void					get_hit_position(t_ray *ray, t_game *game,
-							double orig_dist, double *door_hit_pos);
+
 // scanline_rendering.c
 void					init_scanline_buffer(t_scanline *buffer);
 void					draw_vertical_line(t_game *g, t_line line, int color);
@@ -184,9 +142,8 @@ void					texture_destroy(t_texture **texture, void *mlx);
 void					update_weapon_animation(t_game *game);
 void					resize_texture(t_texture *src, t_texture *dst);
 
-// texture_animation.c
-void					process_door_texture(t_wall *wall, t_door *door,
-							t_game *game);
+
+
 
 /*
  * Vector Operations

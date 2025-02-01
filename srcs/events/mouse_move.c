@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
+/*
 int	mouse_wrapper(int x, int y, void *param)
 {
 	t_game	*game;
@@ -54,3 +54,4 @@ int	mouse_move(t_game *game, t_vector pos)
 	}
 	return (0);
 }
+*/

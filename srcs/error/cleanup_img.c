@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
+/*
 void	cleanup_gun(t_game *game)
 {
 	int	i;
@@ -44,15 +44,4 @@ void	cleanup_textures(t_game *game)
 	cleanup_gun(game);
 }
 
-void	cleanup_door_system(t_game *game)
-{
-	if (!game || !game->door_system)
-		return ;
-	if (game->door_system->doors)
-	{
-		free(game->door_system->doors);
-		game->door_system->doors = NULL;
-	}
-	free(game->door_system);
-	game->door_system = NULL;
-}
+*/
