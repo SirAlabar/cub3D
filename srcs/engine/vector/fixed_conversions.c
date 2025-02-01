@@ -63,4 +63,3 @@ int	fixed32_to_int(t_fixed32 value)
 {
 	return ((int)(value >> FIXED_POINT_BITS));
 }
-

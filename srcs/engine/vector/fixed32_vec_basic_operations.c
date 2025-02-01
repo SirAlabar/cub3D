@@ -17,13 +17,13 @@
   Simply adds the raw values since fixed point maintains position
   Returns INT32_MAX/MIN on overflow
  */
-t_fixed32    fixed32_add(t_fixed32 a, t_fixed32 b)
+t_fixed32	fixed32_add(t_fixed32 a, t_fixed32 b)
 {
-    if (b > 0 && a > INT32_MAX - b)
-        return (INT32_MAX);
-    if (b < 0 && a < INT32_MIN - b)
-        return (INT32_MIN);
-    return (a + b);
+	if (b > 0 && a > INT32_MAX - b)
+		return (INT32_MAX);
+	if (b < 0 && a < INT32_MIN - b)
+		return (INT32_MIN);
+	return (a + b);
 }
 
 /*
@@ -31,13 +31,13 @@ t_fixed32    fixed32_add(t_fixed32 a, t_fixed32 b)
   Simply subtracts the raw values since fixed point maintains position
   Returns INT32_MAX/MIN on overflow
  */
-t_fixed32    fixed32_sub(t_fixed32 a, t_fixed32 b)
+t_fixed32	fixed32_sub(t_fixed32 a, t_fixed32 b)
 {
-    if (b < 0 && a > INT32_MAX + b)
-        return (INT32_MAX);
-    if (b > 0 && a < INT32_MIN + b)
-        return (INT32_MIN);
-    return (a - b);
+	if (b < 0 && a > INT32_MAX + b)
+		return (INT32_MAX);
+	if (b > 0 && a < INT32_MIN + b)
+		return (INT32_MIN);
+	return (a - b);
 }
 
 /*
@@ -45,16 +45,16 @@ t_fixed32    fixed32_sub(t_fixed32 a, t_fixed32 b)
   Uses int64_t for intermediate calculation to prevent overflow
   Shifts right by FIXED32_BITS to align decimal point
  */
-t_fixed32   fixed32_mul(t_fixed32 a, t_fixed32 b)
+t_fixed32	fixed32_mul(t_fixed32 a, t_fixed32 b)
 {
-    int64_t    result;
+	int64_t	result;
 
-    result = ((int64_t)a * (int64_t)b) >> FIXED_POINT_BITS;
-    if (result > INT32_MAX)
-        return (INT32_MAX);
-    if (result < INT32_MIN)
-        return (INT32_MIN);
-    return ((t_fixed32)result);
+	result = ((int64_t)a * (int64_t)b) >> FIXED_POINT_BITS;
+	if (result > INT32_MAX)
+		return (INT32_MAX);
+	if (result < INT32_MIN)
+		return (INT32_MIN);
+	return ((t_fixed32)result);
 }
 
 /*
@@ -62,20 +62,20 @@ t_fixed32   fixed32_mul(t_fixed32 a, t_fixed32 b)
   Uses int64_t and shifts left first to preserve precision
   Handles division by zero and overflow
  */
-t_fixed32    fixed32_div(t_fixed32 a, t_fixed32 b)
+t_fixed32	fixed32_div(t_fixed32 a, t_fixed32 b)
 {
-    int64_t    temp;
+	int64_t	temp;
 
-    if (b == 0)
-    {
-        if (a >= 0)
-            return (INT32_MAX);
-        return (INT32_MIN);
-    }
-    temp = ((int64_t)a << FIXED_POINT_BITS) / b;
-    if (temp > INT32_MAX)
-        return (INT32_MAX);
-    if (temp < INT32_MIN)
-        return (INT32_MIN);
-    return ((t_fixed32)temp);
+	if (b == 0)
+	{
+		if (a >= 0)
+			return (INT32_MAX);
+		return (INT32_MIN);
+	}
+	temp = ((int64_t)a << FIXED_POINT_BITS) / b;
+	if (temp > INT32_MAX)
+		return (INT32_MAX);
+	if (temp < INT32_MIN)
+		return (INT32_MIN);
+	return ((t_fixed32)temp);
 }

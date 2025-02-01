@@ -1,0 +1,62 @@
+# VERTICES
+# List of vertices (X, Y coordinates)
+0  0
+20 0
+20 12
+0  12
+2  2
+6  2
+6  5
+2  5
+8  4
+12 4
+12 7
+8  7
+14 2
+18 2
+18 6
+14 6
+10 10
+12 10
+12 12
+10 12
+
+# LINEDEFS
+# Defines walls and connections between vertices
+0 1
+1 2
+2 3
+3 0
+4 5
+5 6
+6 7
+7 4
+5 8 # Door to the corridor
+8 9
+9 10
+10 11
+11 8
+9 12 # Door to the final room
+12 13
+13 14
+14 15
+15 12
+16 17
+17 18
+18 19
+19 16 # Central pillar
+
+# SECTORS
+# Defines floor/ceiling height, brightness, and textures
+0   20  192  floor1.png  ceiling1.png  # Initial room
+-2  18  160  floor2.png  ceiling2.png  # Corridor (slightly lower)
+-5  15  128  floor3.png  ceiling3.png  # Final room (darker and lower)
+0   25  220  pillar.png  pillar.png    # Pillar (higher ceiling)
+
+# THINGS
+# Defines objects (player, enemies, items) with positions and textures
+PLAYER  3  3   90  player.png
+ENEMY   16 3   0   enemy1.png
+ENEMY   15 5   0   enemy2.png
+AMMO    10 3   0   ammo.png
+MEDKIT  12 3   0   medkit.png
