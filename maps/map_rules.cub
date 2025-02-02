@@ -1,0 +1,50 @@
+# DOOM-like map format
+# Each section defines specific map elements
+
+[VERTICES]
+# Format: vN = x,y
+# vN     = Unique vertex ID (v0, v1, v2, etc)
+# x,y    = Coordinates in 2D space (smaller values for simplicity)
+v0 = 0,0      # Starting point
+v1 = 64,0     # 64 units right
+v2 = 64,64    # 64 units down  
+v3 = 0,64     # Back to left (forms a square)
+v4 = 128,0    # Start of second room
+v5 = 192,0    # End of second room
+v6 = 192,64   # Corner of second room
+v7 = 128,64   # Connection to first room
+
+[LINEDEFS]
+# Format: lN = vertex1,vertex2,front_sector,back_sector,type
+# lN            = Unique line ID 
+# vertex1,2     = IDs of vertices forming the line
+# front_sector  = ID of sector in front of line
+# back_sector   = ID of sector behind (-1 if solid wall)
+# type          = 0:wall, 1:door, 2:transparent
+l0 = v0,v1,s0,-1,0    # North wall of room 1
+l1 = v1,v2,s0,-1,0    # East wall of room 1
+l2 = v2,v3,s0,-1,0    # South wall of room 1
+l3 = v3,v0,s0,-1,0    # West wall of room 1
+l4 = v4,v5,s1,-1,0    # North wall of room 2
+l5 = v5,v6,s1,-1,0    # East wall of room 2
+l6 = v6,v7,s1,-1,0    # South wall of room 2
+l7 = v1,v4,s0,s1,1    # Door between room 1 and 2
+
+[SECTORS]
+# Format: sN = floor_height,ceiling_height,light,floor_texture,ceiling_texture
+# sN              = Unique sector ID
+# floor_height    = Floor height (0 = base level)
+# ceiling_height  = Ceiling height
+# light          = Light level (0-255)
+# floor_texture  = Floor texture name
+# ceiling_texture = Ceiling texture name
+s0 = 0,128,160,floor1,ceil1    # Room 1: base level
+s1 = 32,128,192,floor2,ceil1   # Room 2: raised floor
+
+[THINGS]
+# Format: type,x,y,angle
+# type    = 1:player, 2:enemy, 3:item
+# x,y     = Position in map
+# angle   = Direction (0-359 degrees, 0=east, 90=north)
+1,32,32,90    # Player in room 1
+2,160,32,180  # Enemy in room 2

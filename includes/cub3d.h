@@ -24,6 +24,7 @@
 # include <colors.h>
 # include <fixed_point.h>
 # include <engine.h>
+# include <map.h>
 # include <events.h>
 # include <fcntl.h>
 # include <libft.h>
@@ -107,17 +108,6 @@ typedef struct s_player
 	int			health;
 }				t_player;
 
-typedef struct s_map
-{
-	char		**grid;
-	int			width;
-	int			height;
-	int			floor_color;
-	int			ceiling_color;
-	char		player_start;
-	t_vector	player_pos;
-}				t_map;
-
 typedef struct s_game
 {
 	void			*mlx;
@@ -129,7 +119,6 @@ typedef struct s_game
 	int				endian;
 	int				fd_map;
 	char			*map_path;
-	t_map			map;
 	t_player		p1;
 	t_texture		north;
 	t_texture		south;
