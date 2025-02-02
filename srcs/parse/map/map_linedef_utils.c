@@ -13,16 +13,26 @@
 #include <cub3d.h>
 
 /*
- * Extracts the linedef number from an identifier string
- * Format: lN where N is a number (e.g., "l0", "l1")
- * Returns false if string is invalid or number is out of bounds
+ * Extracts linedef number from identifier
+ * Format: lN where N is number
+ * Returns false if format is invalid
  */
 bool	get_linedef_number(char *str, int *number)
 {
-	if (!str || str[0] != 'l')
+	char	*trimmed;
+
+	trimmed = ft_strtrim(str, " \t\n\r");
+	if (!trimmed || trimmed[0] != 'l')
+	{
+		free(trimmed);
 		return (false);
-	*number = ft_atoi(str + 1);
+	}
+	*number = ft_atoi(trimmed + 1);
+	free(trimmed);
 	if (*number < 0 || *number >= MAX_LINEDEFS)
+	{
+		ft_printf(RED"Invalid linedef number: %d\n"DEFAULT, *number);
 		return (false);
+	}
 	return (true);
 }

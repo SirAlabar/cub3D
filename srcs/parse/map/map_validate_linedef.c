@@ -13,15 +13,6 @@
 #include <cub3d.h>
 
 /*
- * Checks if a value t is within the range [0,1]
- * Used for line intersection calculations
- *
-static bool	is_between(t_fixed32 t)
-{
-	return (t >= 0 && t <= int_to_fixed32(1));
-}*/
-
-/*
  * Checks if two lines intersect using parametric equations
  * Returns true if lines intersect at a point other than their endpoints
  */

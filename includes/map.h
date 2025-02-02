@@ -81,8 +81,8 @@ typedef struct s_sector
 	t_fixed32		floor_height;
 	t_fixed32		ceiling_height;
 	int				light;
-	char			floor_texture[MAX_TEXTURE_NAME];
-	char			ceiling_texture[MAX_TEXTURE_NAME];
+    char            *floor_texture;
+    char            *ceiling_texture;
 	int				linedef_count;
 	int				*linedefs;
 }	t_sector;

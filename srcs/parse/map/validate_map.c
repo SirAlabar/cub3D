@@ -44,31 +44,6 @@ bool	valid_extension(char *map)
 }
 
 /*
- * Validates all map components after parsing
- * Checks sectors, linedefs, textures and player
- * Returns false if any validation fails
- */
-bool	validate_map(t_doom_map *map)
-{
-	if (!validate_sectors(map))
-	{
-		ft_putendl_fd("Error\nSector validation failed", 2);
-		return (false);
-	}
-	if (!validate_all_textures(map))
-	{
-		ft_putendl_fd("Error\nTexture validation failed", 2);
-		return (false);
-	}
-	if (!validate_things(map))
-	{
-		ft_putendl_fd("Error\nThing validation failed", 2);
-		return (false);
-	}
-	return (true);
-}
-
-/*
  * Opens map file after validating arguments and extension
  * Returns file descriptor or -1 on failure
  * Prints error message if file can't be opened
@@ -83,4 +58,73 @@ int	open_map(int argc, char **argv)
 	if (fd == -1)
 		ft_putendl_fd("Error\nFailed to open map file", 2);
 	return (fd);
+}
+
+
+/*
+ * Check basic map requirements
+ * - At least one vertex
+ * - At least one sector
+ * - At least one linedef
+ * - Exactly one player
+ */
+static bool	check_map_basics(t_doom_map *map)
+{
+	ft_printf("Checking map basics:\n");
+	ft_printf("- Vertices: %d\n", map->vertex_count);
+	ft_printf("- Linedefs: %d\n", map->linedef_count);
+	ft_printf("- Sectors: %d\n", map->sector_count);
+	ft_printf("- Things: %d\n", map->thing_count);
+
+	if (map->vertex_count == 0)
+	{
+		ft_putendl_fd("Error\nNo vertices defined in map", 2);
+		return (false);
+	}
+	if (map->linedef_count == 0)
+	{
+		ft_putendl_fd("Error\nNo linedefs defined in map", 2);
+		return (false);
+	}
+	if (map->sector_count == 0)
+	{
+		ft_putendl_fd("Error\nNo sectors defined in map", 2);
+		return (false);
+	}
+	return (true);
+}
+
+/*
+ * Validates map structure and content
+ * Performs sequential checks to identify issues early
+ */
+bool	validate_map(t_doom_map *map)
+{
+	ft_printf("Starting map validation...\n");
+	if (!check_map_basics(map))
+		return (false);
+
+	ft_printf("Validating sectors...\n");
+	if (!validate_sectors(map))
+	{
+		ft_putendl_fd("Error\nSector validation failed", 2);
+		return (false);
+	}
+
+	ft_printf("Validating textures...\n");
+	if (!validate_all_textures(map))
+	{
+		ft_putendl_fd("Error\nTexture validation failed", 2);
+		return (false);
+	}
+
+	ft_printf("Validating things...\n");
+	if (!validate_things(map))
+	{
+		ft_putendl_fd("Error\nThing validation failed", 2);
+		return (false);
+	}
+
+	ft_printf("Map validation complete!\n");
+	return (true);
 }

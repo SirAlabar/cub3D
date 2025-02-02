@@ -13,90 +13,88 @@
 #include <cub3d.h>
 
 /*
- * Processes vertex reference in linedef definition
- * Format: vN where N is a vertex index (e.g., "v0", "v1")
- * Stores the vertex index in the vertex parameter
+ * Processes vertex reference
+ * Format: vN where N is vertex number
+ * Returns false if vertex doesn't exist
  */
 static bool	parse_vertex_ref(char *str, int *vertex)
 {
-	if (!str || str[0] != 'v')
+	char	*trimmed;
+
+	trimmed = ft_strtrim(str, " \t\n\r");
+	if (!trimmed || trimmed[0] != 'v')
+	{
+		free(trimmed);
 		return (false);
-	*vertex = ft_atoi(str + 1);
+	}
+	*vertex = ft_atoi(trimmed + 1);
+	free(trimmed);
 	return (true);
 }
 
 /*
- * Processes sector reference in linedef definition
- * Format: sN where N is a sector index, or -1 for no sector
- * Used for both front and back sector references
+ * Processes sector reference
+ * Format: sN or -1
+ * Returns false if format is invalid
  */
 static bool	parse_sector_ref(char *str, int *sector)
 {
-	if (!str)
+	char	*trimmed;
+
+	trimmed = ft_strtrim(str, " \t\n\r");
+	if (!trimmed)
 		return (false);
-	if (str[0] == 's')
-		*sector = ft_atoi(str + 1);
-	else if (str[0] == '-')
+	if (trimmed[0] == 's')
+		*sector = ft_atoi(trimmed + 1);
+	else if (ft_strcmp(trimmed, "-1") == 0)
 		*sector = -1;
 	else
+	{
+		free(trimmed);
 		return (false);
+	}
+	free(trimmed);
 	return (true);
 }
 
 /*
- * Validates linedef data against map constraints
- * Checks:
- * - Vertex indices within valid range
- * - Sector references exist
- * - Line type is valid (0:wall, 1:door, 2:transparent)
- */
-static bool	validate_linedef_data(t_linedef *line, t_doom_map *map)
-{
-	if (line->vertex1 >= map->vertex_count
-		|| line->vertex2 >= map->vertex_count)
-		return (false);
-	if (line->front_sector >= map->sector_count)
-		return (false);
-	if (line->back_sector >= 0 && line->back_sector >= map->sector_count)
-		return (false);
-	if (line->type < 0 || line->type > 2)
-		return (false);
-	return (true);
-}
-
-/*
- * Processes linedef data string into linedef structure
+ * Processes linedef data into components
  * Format: vertex1,vertex2,front_sector,back_sector,type
- * Returns false if any field is invalid
+ * Returns false if any component is invalid
  */
-static bool	get_linedef_data(char *data, t_linedef *line, t_doom_map *map)
+static bool	get_linedef_data(char *data, t_linedef *line)
 {
 	char	**parts;
-	bool	success;
+	int		type;
+	bool	valid;
 
-	success = false;
 	parts = ft_split(data, ',');
 	if (!parts)
 		return (false);
+	valid = false;
 	if (parts[0] && parts[1] && parts[2] && parts[3] && parts[4] && !parts[5])
 	{
-		if (parse_vertex_ref(ft_strtrim(parts[0], " \t"), &line->vertex1)
-			&& parse_vertex_ref(ft_strtrim(parts[1], " \t"), &line->vertex2)
-			&& parse_sector_ref(ft_strtrim(parts[2], " \t"),
-				&line->front_sector) && parse_sector_ref(ft_strtrim(parts[3],
-					" \t"), &line->back_sector))
+		type = ft_atoi(ft_strtrim(parts[4], " \t\n\r"));
+		if (parse_vertex_ref(parts[0], &line->vertex1)
+			&& parse_vertex_ref(parts[1], &line->vertex2)
+			&& parse_sector_ref(parts[2], &line->front_sector)
+			&& parse_sector_ref(parts[3], &line->back_sector)
+			&& type >= 0 && type <= 2)
 		{
-			line->type = ft_atoi(parts[4]);
-			success = validate_linedef_data(line, map);
+			line->type = type;
+			valid = true;
 		}
+		else
+			ft_printf(RED"Invalid linedef component\n"DEFAULT);
 	}
-	return (free_split(parts), success);
+	free_split(parts);
+	return (valid);
 }
 
 /*
- * Parses a linedef definition line and stores it in the map
+ * Parses a linedef definition line
  * Format: lN = vertex1,vertex2,front_sector,back_sector,type
- * Updates linedef count if new index is higher than current count
+ * Returns false if parsing fails
  */
 bool	parse_linedefs_section(char *line, t_doom_map *map)
 {
@@ -104,23 +102,30 @@ bool	parse_linedefs_section(char *line, t_doom_map *map)
 	int			linedef_num;
 	char		*trimmed;
 	t_linedef	new_line;
+	bool		success;
 
 	tokens = ft_split(line, '=');
-	if (!tokens)
-		return (false);
-	if (!tokens[0] || !tokens[1])
+	if (!tokens || !tokens[0] || !tokens[1])
 		return (free_split(tokens), false);
-	trimmed = ft_strtrim(tokens[0], " \t");
+
+	trimmed = ft_strtrim(tokens[0], " \t\n\r");
 	if (!get_linedef_number(trimmed, &linedef_num))
-		return (free(trimmed), free_split(tokens), false);
+	{
+		free(trimmed);
+		return (free_split(tokens), false);
+	}
 	free(trimmed);
-	trimmed = ft_strtrim(tokens[1], " \t");
-	if (!get_linedef_data(trimmed, &new_line, map))
-		return (free(trimmed), free_split(tokens), false);
+
+	trimmed = ft_strtrim(tokens[1], " \t\n\r");
+	success = get_linedef_data(trimmed, &new_line);
 	free(trimmed);
 	free_split(tokens);
-	map->linedefs[linedef_num] = new_line;
-	if (linedef_num >= map->linedef_count)
-		map->linedef_count = linedef_num + 1;
-	return (true);
+
+	if (success)
+	{
+		map->linedefs[linedef_num] = new_line;
+		if (linedef_num >= map->linedef_count)
+			map->linedef_count = linedef_num + 1;
+	}
+	return (success);
 }

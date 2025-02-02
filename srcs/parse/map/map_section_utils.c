@@ -19,11 +19,21 @@
  */
 bool	get_sector_number(char *str, int *number)
 {
-	if (!str || str[0] != 's')
+	char	*trimmed;
+
+	trimmed = ft_strtrim(str, " \t\n\r");
+	if (!trimmed || trimmed[0] != 's')
+	{
+		free(trimmed);
 		return (false);
-	*number = ft_atoi(str + 1);
+	}
+	*number = ft_atoi(trimmed + 1);
+	free(trimmed);
 	if (*number < 0 || *number >= MAX_SECTORS)
+	{
+		ft_printf(RED"Invalid sector number: %d\n"DEFAULT, *number);
 		return (false);
+	}
 	return (true);
 }
 

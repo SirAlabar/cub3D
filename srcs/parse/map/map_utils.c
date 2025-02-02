@@ -19,12 +19,22 @@
 void	init_map(t_doom_map *map)
 {
 	ft_bzero(map, sizeof(t_doom_map));
+	map->vertex_count = 0;
+	map->linedef_count = 0;
+	map->sector_count = 0;
+	map->thing_count = 0;
 }
 
+/*
+ * Free array returned by ft_split
+ * Sets pointer to NULL after freeing
+ */
 void	free_split(char **split)
 {
 	int	i;
 
+	if (!split)
+		return ;
 	i = 0;
 	while (split[i])
 		free(split[i++]);
@@ -40,14 +50,23 @@ void	cleanup_map(t_doom_map *map)
 {
 	int	i;
 
-	i = 0;
-	while (i < map->sector_count)
-	{
-		if (map->sectors[i].linedefs)
-		{
-			free(map->sectors[i].linedefs);
-			map->sectors[i].linedefs = NULL;
-		}
-		i++;
-	}
+    i = -1;
+    while (++i < map->sector_count)
+    {
+        if (map->sectors[i].floor_texture)
+        {
+            free(map->sectors[i].floor_texture);
+            map->sectors[i].floor_texture = NULL;
+        }
+        if (map->sectors[i].ceiling_texture)
+        {
+            free(map->sectors[i].ceiling_texture);
+            map->sectors[i].ceiling_texture = NULL;
+        }
+        if (map->sectors[i].linedefs)
+        {
+            free(map->sectors[i].linedefs);
+            map->sectors[i].linedefs = NULL;
+        }
+    }
 }
