@@ -14,7 +14,7 @@
 # define MAP_H
 
 # include <fixed_point.h>
-# include <bsp.h>
+//# include <bsp.h>
 
 /*
  * Maximum limits for map elements
@@ -26,6 +26,10 @@
 # define MAX_SECTORS 256
 # define MAX_THINGS 512
 # define MAX_TEXTURE_NAME 32
+
+# define ERROR_USAGE "Game usage: ./cub3d maps/valid_map.cub\n"
+# define ERROR_MAPTYPE "Invalid map extension\n"
+# define ERROR_OPEN "Error\nOpen"
 
 typedef enum e_section
 {
@@ -118,21 +122,53 @@ typedef struct s_doom_map
 ** Function prototypes
 */
 
-/* doom_map_parse.c */
-bool		parse_doom_map(const char *filename, t_doom_map *map);
+/* map_parse.c */
+bool    parse_map(int fd, t_doom_map *map);
+bool    load_map(int argc, char **argv, t_doom_map *map);
 
-/* doom_map_validate.c */
-bool		validate_doom_map(t_doom_map *map);
+/* map_vertises_parse.c */
+bool	parse_vertices_section(char *line, t_doom_map *map);
 
-/* doom_map_utils.c */
-void		init_doom_map(t_doom_map *map);
-void		cleanup_doom_map(t_doom_map *map);
-t_fixed32	calculate_linedef_length(t_vertex v1, t_vertex v2);
+/* map_section_parse.c */
+bool    parse_vertices_section(char *line, t_doom_map *map);
+bool    parse_linedefs_section(char *line, t_doom_map *map);
+bool    parse_sectors_section(char *line, t_doom_map *map);
+bool    parse_things_section(char *line, t_doom_map *map);
 
-/* doom_map_section_parse.c */
-bool		parse_vertices_section(char *line, t_doom_map *map);
-bool		parse_linedefs_section(char *line, t_doom_map *map);
-bool		parse_sectors_section(char *line, t_doom_map *map);
-bool		parse_things_section(char *line, t_doom_map *map);
+/* map_utils.c */
+void    init_map(t_doom_map *map);
+void    cleanup_map(t_doom_map *map);
+void    free_split(char **split);
+
+/* map_section_utils.c */
+bool    get_sector_number(char *str, int *number);
+bool    validate_heights(t_sector *sector, int floor, int ceiling);
+bool    validate_light(t_sector *sector, int light);
+
+/* map_linedef_utils.c */
+bool    get_linedef_number(char *str, int *number);
+
+/* validate_map.c */
+bool    validate_map_extension(int argc, char **argv);
+bool    valid_extension(char *map);
+int     open_map(int argc, char **argv);
+bool	validate_map(t_doom_map *map);
+
+/* map_validate_player.c */
+bool    validate_player(t_doom_map *map);
+bool    validate_things(t_doom_map *map);
+
+/* texture_validate.c */
+bool    texture_exists(char *texture_path);
+bool    validate_all_textures(t_doom_map *map);
+
+
+
+/* linedef_validate.c */
+bool    check_linedef_intersect(t_linedef *line, t_sector *sector, t_doom_map *map);
+bool    validate_linedef(t_linedef *line, t_doom_map *map);
+
+/* map_validate_sectors.c */
+bool    validate_sectors(t_doom_map *map);
 
 #endif

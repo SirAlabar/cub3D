@@ -19,13 +19,14 @@
  */
 static bool	is_empty_line(char *line)
 {
-	while (*line && *line != '\n')
-	{
-		if (!ft_isspace(*line) && *line != '#')
-			return (false);
-		line++;
-	}
-	return (true);
+	int	i;
+
+	i = 0;
+	while (line[i] && ft_isspace(line[i]))
+		i++;
+	if (line[i] == '#' || line[i] == '\0' || line[i] == '\n')
+		return (true);
+	return (false);
 }
 
 /*
@@ -35,15 +36,56 @@ static bool	is_empty_line(char *line)
  */
 static t_section	identify_section(char *line)
 {
-	if (ft_strncmp(line, "[VERTICES]", 10) == 0)
-		return (VERTICES);
-	if (ft_strncmp(line, "[LINEDEFS]", 10) == 0)
-		return (LINEDEFS);
-	if (ft_strncmp(line, "[SECTORS]", 9) == 0)
-		return (SECTORS);
-	if (ft_strncmp(line, "[THINGS]", 8) == 0)
-		return (THINGS);
+	char	*trimmed;
+
+	trimmed = ft_strtrim(line, " \t\n");
+	if (!trimmed)
+		return (NONE);
+	if (ft_strcmp(trimmed, "[VERTICES]") == 0)
+		return (free(trimmed), VERTICES);
+	if (ft_strcmp(trimmed, "[LINEDEFS]") == 0)
+		return (free(trimmed), LINEDEFS);
+	if (ft_strcmp(trimmed, "[SECTORS]") == 0)
+		return (free(trimmed), SECTORS);
+	if (ft_strcmp(trimmed, "[THINGS]") == 0)
+		return (free(trimmed), THINGS);
+	free(trimmed);
 	return (NONE);
+}
+
+/*
+ * Routes parsing to appropriate section handler
+ * Each section has its own specialized parser
+ * Returns false if parsing fails
+ */
+static bool	parse_section(char *line, t_doom_map *map, t_section section)
+{
+	bool	result;
+
+	result = false;
+	if (section == VERTICES)
+	{
+		ft_printf("Parsing vertex: %s\n", line);
+		result = parse_vertices_section(line, map);
+	}
+	else if (section == LINEDEFS)
+	{
+		ft_printf("Parsing linedef: %s\n", line);
+		result = parse_linedefs_section(line, map);
+	}
+	else if (section == SECTORS)
+	{
+		ft_printf("Parsing sector: %s\n", line);
+		result = parse_sectors_section(line, map);
+	}
+	else if (section == THINGS)
+	{
+		ft_printf("Parsing thing: %s\n", line);
+		result = parse_things_section(line, map);
+	}
+	if (!result)
+		ft_printf("Failed to parse: %s\n", line);
+	return (result);
 }
 
 /*
@@ -66,35 +108,23 @@ bool	parse_map(int fd, t_doom_map *map)
 		{
 			section = identify_section(line);
 			if (section != NONE)
+			{
+				ft_printf("Found section: %s", line);
 				current_section = section;
+			}
 			else if (current_section != NONE)
 			{
 				if (!parse_section(line, map, current_section))
-					return (free(line), false);
+				{
+					free(line);
+					return (false);
+				}
 			}
 		}
 		free(line);
 		line = get_next_line(fd);
 	}
 	return (true);
-}
-
-/*
- * Routes parsing to appropriate section handler
- * Each section has its own specialized parser
- * Returns false if parsing fails
- */
-static bool	parse_section(char *line, t_doom_map *map, t_section section)
-{
-	if (section == VERTICES)
-		return (parse_vertices_section(line, map));
-	if (section == LINEDEFS)
-		return (parse_linedefs_section(line, map));
-	if (section == SECTORS)
-		return (parse_sectors_section(line, map));
-	if (section == THINGS)
-		return (parse_things_section(line, map));
-	return (false);
 }
 
 /*
@@ -110,13 +140,20 @@ bool	load_map(int argc, char **argv, t_doom_map *map)
 	fd = open_map(argc, argv);
 	if (fd == -1)
 		return (false);
+	ft_printf("File opened successfully\n");
 	init_map(map);
 	if (!parse_map(fd, map))
 	{
+		ft_putendl_fd("Error\nMap parsing failed", 2);
 		cleanup_map(map);
 		close(fd);
 		return (false);
 	}
 	close(fd);
+	if (!validate_map(map))
+	{
+		cleanup_map(map);
+		return (false);
+	}
 	return (true);
 }

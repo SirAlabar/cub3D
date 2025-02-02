@@ -60,140 +60,125 @@ int	main(int argc, char **argv)
 /* ************************************************************************** */
 
 #include "fixed_point.h"
+#include <cub3d.h>
 #include <stdio.h>
 #include <math.h>
+#include <map.h>
 
-void	test_basic_conversions(void)
+/*
+ * Print a section of vertices with their coordinates
+ */
+static void	print_vertices(t_doom_map *map)
 {
-	float		test_float;
-	t_fixed32	fixed;
-	float		back_to_float;
-	int			test_int;
-	t_fixed32	fixed_from_int;
-	int			back_to_int;
+	int	i;
 
-	printf("\n=== Testing Basic Conversions ===\n");
-	test_float = 3.14159;
-	fixed = float_to_fixed32(test_float);
-	back_to_float = fixed32_to_float(fixed);
-	printf("Float to Fixed to Float: %.5f -> %d -> %.5f\n",
-		test_float, fixed, back_to_float);
-
-	test_int = 42;
-	fixed_from_int = int_to_fixed32(test_int);
-	back_to_int = fixed32_to_int(fixed_from_int);
-	printf("Int to Fixed to Int: %d -> %d -> %d\n",
-		test_int, fixed_from_int, back_to_int);
+	ft_printf("\nVertices (%d):\n", map->vertex_count);
+	i = -1;
+	while (++i < map->vertex_count)
+		ft_printf("  v%d: (%d,%d)\n", i,
+			fixed32_to_int(map->vertices[i].pos.x),
+			fixed32_to_int(map->vertices[i].pos.y));
 }
 
-void	test_basic_arithmetic(void)
+/*
+ * Print linedefs with their connections and properties
+ */
+static void	print_linedefs(t_doom_map *map)
 {
-	t_fixed32	a;
-	t_fixed32	b;
-	float		fa;
-	float		fb;
+	int	i;
 
-	printf("\n=== Testing Basic Arithmetic ===\n");
-	fa = 3.14;
-	fb = 2.0;
-	a = float_to_fixed32(fa);
-	b = float_to_fixed32(fb);
-
-	printf("a = %.2f, b = %.2f\n", fa, fb);
-	printf("Add: %.2f + %.2f = %.2f\n",
-		fa, fb, fixed32_to_float(fixed32_add(a, b)));
-	printf("Sub: %.2f - %.2f = %.2f\n",
-		fa, fb, fixed32_to_float(fixed32_sub(a, b)));
-	printf("Mul: %.2f * %.2f = %.2f\n",
-		fa, fb, fixed32_to_float(fixed32_mul(a, b)));
-	printf("Div: %.2f / %.2f = %.2f\n",
-		fa, fb, fixed32_to_float(fixed32_div(a, b)));
-}
-
-static t_fixed32	rad_to_bam(float rad)
-{
-    // Normalizar ângulo para [0, 2π]
-    while (rad < 0)
-        rad += 2.0 * M_PI;
-    while (rad >= 2.0 * M_PI)
-        rad -= 2.0 * M_PI;
-    
-    // Converter para BAM
-    return ((t_fixed32)(rad * (ANG360 / (2.0 * M_PI))));
-}
-
-void	test_trig_functions(t_fixed_tables_8192 *tables)
-{
-	float		angle;
-	t_fixed32	bam_angle;
-	float		angles[4];
-	int			i;
-
-	printf("\n=== Testing Trigonometric Functions ===\n");
-	angles[0] = 0;
-	angles[1] = M_PI / 6;  // 30 degrees
-	angles[2] = M_PI / 4;  // 45 degrees
-	angles[3] = M_PI / 2;  // 90 degrees
-
-	i = 0;
-	while (i < 4)
+	ft_printf("\nLinedefs (%d):\n", map->linedef_count);
+	i = -1;
+	while (++i < map->linedef_count)
 	{
-		angle = angles[i];
-		bam_angle = rad_to_bam(angle);
-		printf("\nAngle: %.2f radians\n", angle);
-		printf("Regular Sin: %.4f vs Fixed Sin: %.4f vs Table Sin: %.4f\n",
-			sin(angle),
-			fixed32_to_float(fixed32_sin(bam_angle)),
-			fixed32_to_float(get_sin_8192(tables, bam_angle)));
-		printf("Regular Cos: %.4f vs Fixed Cos: %.4f vs Table Cos: %.4f\n",
-			cos(angle),
-			fixed32_to_float(fixed32_cos(bam_angle)),
-			fixed32_to_float(get_cos_8192(tables, bam_angle)));
-		i++;
+		ft_printf("  l%d: v%d->v%d (s%d|s%d) type:%d\n", i,
+			map->linedefs[i].vertex1,
+			map->linedefs[i].vertex2,
+			map->linedefs[i].front_sector,
+			map->linedefs[i].back_sector,
+			map->linedefs[i].type);
 	}
 }
 
-void	test_vector_operations(void)
+/*
+ * Print sectors with their properties and textures
+ */
+static void	print_sectors(t_doom_map *map)
 {
-	t_fixed_vec32	v1;
-	t_fixed_vec32	v2;
-	t_fixed32		dot;
-	t_fixed32		mag;
+	int	i;
 
-	printf("\n=== Testing Vector Operations ===\n");
-	v1.x = float_to_fixed32(3.0);
-	v1.y = float_to_fixed32(4.0);
-	v2.x = float_to_fixed32(1.0);
-	v2.y = float_to_fixed32(2.0);
-
-	printf("Vector 1: (%.2f, %.2f)\n",
-		fixed32_to_float(v1.x), fixed32_to_float(v1.y));
-	printf("Vector 2: (%.2f, %.2f)\n",
-		fixed32_to_float(v2.x), fixed32_to_float(v2.y));
-
-	dot = fixed32_vec_dot(v1, v2);
-	mag = fixed32_vec_mag(v1);
-
-	printf("Dot Product: %.2f\n", fixed32_to_float(dot));
-	printf("Magnitude of v1: %.2f\n", fixed32_to_float(mag));
+	ft_printf("\nSectors (%d):\n", map->sector_count);
+	i = -1;
+	while (++i < map->sector_count)
+	{
+		ft_printf("  s%d:\n", i);
+		ft_printf("    Floor:   %d\n", fixed32_to_int(map->sectors[i].floor_height));
+		ft_printf("    Ceiling: %d\n", fixed32_to_int(map->sectors[i].ceiling_height));
+		ft_printf("    Light:   %d\n", map->sectors[i].light);
+		ft_printf("    Textures: %s (floor), %s (ceiling)\n",
+			map->sectors[i].floor_texture,
+			map->sectors[i].ceiling_texture);
+	}
 }
 
-int	main(void)
+/*
+ * Print all things (player, enemies, items) with positions
+ */
+static void	print_things(t_doom_map *map)
 {
-	t_fixed_tables_8192	*tables;
+	int		i;
+	char	*type_str;
 
-	tables = init_fixed_tables_8192();
-	if (!tables)
+	ft_printf("\nThings (%d):\n", map->thing_count);
+	i = -1;
+	while (++i < map->thing_count)
 	{
-		printf("Failed to initialize lookup tables\n");
+		if (map->things[i].type == 1)
+			type_str = "Player";
+		else if (map->things[i].type == 2)
+			type_str = "Enemy";
+		else
+			type_str = "Item";
+		ft_printf("  %s at (%d,%d) angle:%d\n",
+			type_str,
+			fixed32_to_int(map->things[i].pos.x),
+			fixed32_to_int(map->things[i].pos.y),
+			fixed32_to_int(map->things[i].angle));
+	}
+}
+
+/*
+ * Print complete map structure in a readable format
+ */
+static void	print_map_details(t_doom_map *map)
+{
+	ft_printf("\n=== Map Details ===\n");
+	print_vertices(map);
+	print_linedefs(map);
+	print_sectors(map);
+	print_things(map);
+	ft_printf("\n=================\n");
+}
+
+/*
+ * Main function for map parsing and validation
+ * Shows detailed information about map structure
+ */
+int	main(int argc, char **argv)
+{
+	t_doom_map	map;
+
+	if (!validate_map_extension(argc, argv))
+		return (1);
+	ft_printf(CYAN"\nLoading map: %s\n"DEFAULT, argv[1]);
+	ft_printf(YELLOW"Validating file format...\n"DEFAULT);
+	if (!load_map(argc, argv, &map))
+	{
+		ft_printf(RED"Failed to load map!\n"DEFAULT);
 		return (1);
 	}
-
-	test_basic_conversions();
-	test_basic_arithmetic();
-	test_trig_functions(tables);
-	test_vector_operations();
-
-	destroy_fixed_tables_8192(tables);
+	ft_printf(GREEN"Map loaded successfully!\n"DEFAULT);
+	print_map_details(&map);
+	cleanup_map(&map);
 	return (0);
 }

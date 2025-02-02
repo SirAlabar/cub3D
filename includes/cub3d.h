@@ -35,8 +35,6 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-# include <validations.h>
-# include <checker.h>
 
 /*
 # ifdef MAC_OS
@@ -142,11 +140,8 @@ void			assign_color(t_game *game, char *line);
 int				get_number(int flag);
 void			norm_norm(t_game *game, char *line, char **c, char **f);
 int				rgb_to_hex(char *color);
-//initialize/init_map.c
-void			init_map(t_game *game);
-char			**read_map(t_game *game);
-int				count_lines(t_game *game);
-void			set_grid(t_game *game);
+
+
 //initialize/textures.c
 void			init_textures(t_game *game);
 //initialize/printers.c
@@ -154,12 +149,13 @@ void			print_map(t_game *game);
 //
 void			read_error(t_game *game);
 //error/cleanup
+/*
 void			cleanup_gun(t_game *game);
 void			cleanup_textures(t_game *game);
 void			cleanup_map(t_game *game);
 void			cleanup_game(t_game *game);
 void			cleanup_door_system(t_game *game);
-
+*/
 //
 void			init_test_map(t_game *game);
 int				close_window(t_game *game);

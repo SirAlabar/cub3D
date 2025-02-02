@@ -44,6 +44,31 @@ bool	valid_extension(char *map)
 }
 
 /*
+ * Validates all map components after parsing
+ * Checks sectors, linedefs, textures and player
+ * Returns false if any validation fails
+ */
+bool	validate_map(t_doom_map *map)
+{
+	if (!validate_sectors(map))
+	{
+		ft_putendl_fd("Error\nSector validation failed", 2);
+		return (false);
+	}
+	if (!validate_all_textures(map))
+	{
+		ft_putendl_fd("Error\nTexture validation failed", 2);
+		return (false);
+	}
+	if (!validate_things(map))
+	{
+		ft_putendl_fd("Error\nThing validation failed", 2);
+		return (false);
+	}
+	return (true);
+}
+
+/*
  * Opens map file after validating arguments and extension
  * Returns file descriptor or -1 on failure
  * Prints error message if file can't be opened

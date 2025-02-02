@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "map.h"
+#include <cub3d.h>
 
 /*
  * Initializes an empty map structure

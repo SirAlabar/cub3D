@@ -59,6 +59,7 @@
   "makefile.configureOnOpen": false,
   "files.associations": {
     "cub3d.h": "c",
-    "bsp.h": "c"
+    "bsp.h": "c",
+    "fixed_point.h": "c"
   }
 }

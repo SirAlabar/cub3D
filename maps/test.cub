@@ -1,0 +1,17 @@
+[VERTICES]
+v0 = 0,0
+v1 = 64,0
+v2 = 64,64
+v3 = 0,64
+
+[LINEDEFS]
+l0 = v0,v1,s0,-1,0
+l1 = v1,v2,s0,-1,0
+l2 = v2,v3,s0,-1,0
+l3 = v3,v0,s0,-1,0
+
+[SECTORS]
+s0 = 0,128,160, assets/texture/stone1.xpm,assets/texture/fire4.xpm
+
+[THINGS]
+1,32,32,90
