@@ -12,12 +12,12 @@
 
 #include <bsp.h>
 
+
 /*
 ** Calculates intersection point between line and partition
 ** Returns intersection point in fixed point coordinates
 */
-static t_fixed_vec32	find_intersection(t_bsp_line *line,
-		t_bsp_line *partition)
+static t_fixed_vec32	find_intersection(t_bsp_line *line, t_bsp_line *partition)
 {
 	t_fixed_vec32	delta;
 	t_fixed_vec32	delta_part;
@@ -36,34 +36,15 @@ static t_fixed_vec32	find_intersection(t_bsp_line *line,
 }
 
 /*
-** Creates a new line segment with given parameters
-** Returns NULL if allocation fails
-*/
-static t_bsp_line	*create_split_line(t_fixed_vec32 start, t_fixed_vec32 end,
-		int type)
-{
-	t_bsp_line	*line;
-
-	line = malloc(sizeof(t_bsp_line));
-	if (!line)
-		return (NULL);
-	line->start = start;
-	line->end = end;
-	line->type = type;
-	line->normal = vector_normalize((t_fixed_vec32){fixed32_sub(end.y, start.y),
-			fixed32_sub(start.x, end.x)});
-	return (line);
-}
-
-/*
 ** Splits a line at intersection with partition
 ** Creates two new line segments if needed
+** Returns false if allocation fails
 */
 static bool	allocate_split_lines(t_bsp_line **front, t_bsp_line **back,
 		t_bsp_line *line, t_fixed_vec32 intersect)
 {
-	*front = create_split_line(line->start, intersect, line->type);
-	*back = create_split_line(intersect, line->end, line->type);
+	*front = create_bsp_line(line->start, intersect, line->type);
+	*back = create_bsp_line(intersect, line->end, line->type);
 	if (!*front || !*back)
 	{
 		free(*front);
@@ -73,6 +54,10 @@ static bool	allocate_split_lines(t_bsp_line **front, t_bsp_line **back,
 	return (true);
 }
 
+/*
+** Classifies points and creates split lines
+** Sets front and back pointers to NULL if split fails
+*/
 static void	classify_and_split(t_bsp_line *line, t_bsp_line *partition,
 		t_bsp_line **front, t_bsp_line **back)
 {
@@ -97,6 +82,10 @@ static void	classify_and_split(t_bsp_line *line, t_bsp_line *partition,
 	}
 }
 
+/*
+** Main function to split a BSP line at intersection with partition
+** Returns false if split fails
+*/
 bool	split_bsp_line(t_bsp_line *line, t_bsp_line *partition,
 		t_bsp_line **front, t_bsp_line **back)
 {

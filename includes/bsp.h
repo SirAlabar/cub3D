@@ -15,6 +15,11 @@
 
 # include <fixed_point.h>
 
+/* Fixed point value for collision detection (1/16) */
+# define COLLISION_THRESHOLD   4096
+/* Penalty factor for each line split during partition */
+# define SPLIT_PENALTY        8
+
 /*
  Structure representing a line/segment in the BSP tree
  Uses fixed-point arithmetic for precise calculations
@@ -107,25 +112,52 @@ t_bsp_line				*choose_partition(t_bsp_line **lines, int num_lines);
 t_fixed32				eval_partition(t_bsp_line *partition,
 							t_bsp_line **lines, int num_lines);
 
-/* bsp_create_split_lines.c */
-bool					split_bsp_line(t_bsp_line *line, t_bsp_line *partition,
-							t_bsp_line **front, t_bsp_line **back);
-
-/* bsp_split_lines.c */
-bool					split_lines(t_bsp_line *partition, t_bsp_line **lines,
-							int num_lines, t_bsp_data *data);
-
-/* bsp_utils.c */
-t_bsp_tree				*init_bsp_build(t_game *game);
-void					*free_and_return(void *ptr, void *ret);
-t_bsp_node				*create_bsp_node(void);
-bool					extract_map_lines(t_game *game, t_bsp_line ***lines,
-							int *num_lines);
-
 /* bsp_classify.c */
 t_bsp_side				bsp_classify_line(t_bsp_line *line,
 							t_bsp_line *partition);
 t_bsp_side				bsp_classify_point(t_fixed_vec32 point,
 							t_bsp_line *partition);
+
+/* bsp_create_split_lines.c */
+bool					split_bsp_line(t_bsp_line *line, t_bsp_line *partition,
+							t_bsp_line **front, t_bsp_line **back);
+
+/* bsp_create_split_lines.c */
+bool					extract_map_lines(t_game *game, t_bsp_line ***lines,
+							int *num_lines);
+
+/* bsp_split_lines.c */
+bool					split_lines(t_bsp_line *partition, t_bsp_line **lines,
+							int num_lines, t_bsp_data *data);
+
+/* bsp_traverse.c */
+t_bsp_node	*find_node(t_bsp_node *node, t_fixed_vec32 point);
+void	traverse_front_to_back(t_bsp_node *node, t_fixed_vec32 viewpoint,
+		void (*process_node)(t_bsp_node *));
+void	traverse_front_nodes(t_bsp_node *node, t_fixed_vec32 viewpoint,
+		void (*process_node)(t_bsp_node *));
+int	count_front_nodes(t_bsp_node *node, t_fixed_vec32 viewpoint);
+
+/* bsp_utils.c */
+t_bsp_tree				*init_bsp_build(t_game *game);
+void					*free_and_return(void *ptr, void *ret);
+t_bsp_node				*create_bsp_node(void);
+t_bsp_line				*create_bsp_line(t_fixed_vec32 start, t_fixed_vec32 end,
+							int type);
+bool					extract_map_lines(t_game *game, t_bsp_line ***lines,
+							int *num_lines);
+
+/* bsp_balance.c */
+bool        balance_bsp_tree(t_bsp_tree *tree);
+
+/* bsp_intersect.c */
+t_fixed32   find_nearest_wall(t_bsp_node *node, t_fixed_vec32 point);
+bool        check_movement_valid(t_bsp_tree *tree, t_fixed_vec32 start,
+                t_fixed_vec32 end);
+void        adjust_collision_response(t_bsp_node *node, t_fixed_vec32 *movement);
+
+/* bsp_validate.c */
+bool    validate_bsp_tree(t_bsp_tree *tree);
+void    debug_print_node(t_bsp_node *node, int depth);
 
 #endif

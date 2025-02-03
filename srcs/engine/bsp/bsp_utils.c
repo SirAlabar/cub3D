@@ -42,25 +42,43 @@ t_bsp_tree	*init_bsp_build(t_game *game)
 }
 
 /*
-** Creates a BSP line from two points in fixed-point format
-** @param start_x: starting x coordinate
-** @param start_y: starting y coordinate
-** @param end_x: ending x coordinate
-** @param end_y: ending y coordinate
-** @return: newly allocated BSP line, or NULL if allocation fails
+** Calculates normalized normal vector for a BSP line
+** Normal points to the left side of the line when facing from start to end
+** Returns normalized normal vector
 */
-static t_bsp_line	*create_bsp_line(int start_x, int start_y, int end_x,
-		int end_y)
+static t_fixed_vec32	calculate_normal(t_fixed_vec32 start, t_fixed_vec32 end)
+{
+	t_fixed_vec32	delta;
+	t_fixed_vec32	normal;
+	t_fixed32		length;
+
+	delta.x = fixed32_sub(end.x, start.x);
+	delta.y = fixed32_sub(end.y, start.y);
+	length = fixed32_sqrt(fixed32_add(fixed32_mul(delta.x, delta.x),
+				fixed32_mul(delta.y, delta.y)));
+	if (length == 0)
+		return ((t_fixed_vec32){0, 0});
+	normal.x = fixed32_div(-delta.y, length);
+	normal.y = fixed32_div(delta.x, length);
+	return (normal);
+}
+
+/*
+** Creates a new BSP line with given parameters
+** Calculates and stores the normal vector
+** Returns NULL if allocation fails
+*/
+t_bsp_line	*create_bsp_line(t_fixed_vec32 start, t_fixed_vec32 end, int type)
 {
 	t_bsp_line	*line;
 
 	line = (t_bsp_line *)malloc(sizeof(t_bsp_line));
 	if (!line)
 		return (NULL);
-	line->start.x = int_to_fixed32(start_x);
-	line->start.y = int_to_fixed32(start_y);
-	line->end.x = int_to_fixed32(end_x);
-	line->end.y = int_to_fixed32(end_y);
+	line->start = start;
+	line->end = end;
+	line->type = type;
+	line->normal = calculate_normal(start, end);
 	return (line);
 }
 

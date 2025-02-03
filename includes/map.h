@@ -23,6 +23,7 @@
 */
 # define MAX_VERTICES 1024
 # define MAX_LINEDEFS 2048
+# define MAX_SIDEDEFS 4096
 # define MAX_SECTORS 256
 # define MAX_THINGS 512
 # define MAX_TEXTURE_NAME 32
@@ -50,6 +51,15 @@ typedef struct s_vertex
 	t_fixed_vec32	pos;
 }	t_vertex;
 
+typedef struct s_sidedef
+{
+    t_fixed32    x_offset;
+    t_fixed32    y_offset;
+    char        *upper_texture;
+    char        *middle_texture;
+    char        *lower_texture;
+    int         sector;
+} t_sidedef;
 /*
  * Linedef structure defining wall segments
  * Connects two vertices and defines properties of the wall
@@ -62,8 +72,8 @@ typedef struct s_linedef
 {
 	int				vertex1;
 	int				vertex2;
-	int				front_sector;
-	int				back_sector;
+    int				front_sidedef;
+    int				back_sidedef;
 	int				type;
 	t_fixed32		length;
 }	t_linedef;
@@ -110,6 +120,8 @@ typedef struct s_doom_map
 {
 	t_vertex		vertices[MAX_VERTICES];
 	int				vertex_count;
+    t_sidedef       sidedefs[MAX_SIDEDEFS];
+    int             sidedef_count;        
 	t_linedef		linedefs[MAX_LINEDEFS];
 	int				linedef_count;
 	t_sector		sectors[MAX_SECTORS];

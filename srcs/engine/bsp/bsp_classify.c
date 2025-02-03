@@ -39,7 +39,7 @@ t_bsp_side	bsp_classify_point(t_fixed_vec32 point, t_bsp_line *partition)
 		return (BSP_FRONT);
 	if (cross_product < -epsilon)
 		return (BSP_BACK);
-	return (BSP_ON);
+	return (BSP_COLINEAR);
 }
 
 /*
@@ -59,9 +59,9 @@ t_bsp_side	bsp_classify_line(t_bsp_line *line, t_bsp_line *partition)
 	end_side = bsp_classify_point(line->end, partition);
 	if (start_side == end_side)
 		return (start_side);
-	if (start_side == BSP_ON)
+	if (start_side == BSP_COLINEAR)
 		return (end_side);
-	if (end_side == BSP_ON)
+	if (end_side == BSP_COLINEAR)
 		return (start_side);
 	return (BSP_SPANNING);
 }

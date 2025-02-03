@@ -14,13 +14,34 @@ v5 = 192,0    # End of second room
 v6 = 192,64   # Corner of second room
 v7 = 128,64   # Connection to first room
 
+[SIDEDEFS]
+# Format: sdN = x_offset,y_offset,upper_texture,middle_texture,lower_texture,sector
+# Parameters:
+#   sdN              = Unique sidedef ID (e.g., sd0, sd1, sd2)
+#   x_offset         = Horizontal texture alignment offset (pixels)
+#   y_offset         = Vertical texture alignment offset (pixels)
+#   upper_texture    = Texture path for the upper part (visible when adjacent sector has lower ceiling)
+#   middle_texture   = Texture path for the middle part (visible on solid walls or transparent areas)
+#   lower_texture    = Texture path for the lower part (visible when adjacent sector has higher floor)
+#   sector          = Reference to the sector this sidedef belongs to (e.g., s0, s1)
+#
+# Notes:
+# - All texture paths should point to valid .xpm texture files
+# - Use "none" or "-" when no texture should be rendered for that part
+# - At least one texture must be specified (cannot have all three as "none")
+# Examples:
+sd0 = 0,0,textures/stone_up.xpm,none,textures/stone_low.xpm,s0    # Two-height difference wall
+sd1 = 0,0,none,textures/door.xpm,none,s1                          # Solid or transparent wall
+sd2 = 0,0,none,textures/wall.xpm,none,s0                          # Simple solid wall
+
 [LINEDEFS]
-# Format: lN = vertex1,vertex2,front_sector,back_sector,type
-# lN            = Unique line ID 
-# vertex1,2     = IDs of vertices forming the line
-# front_sector  = ID of sector in front of line
-# back_sector   = ID of sector behind (-1 if solid wall)
-# type          = 0:wall, 1:door, 2:transparent
+# Format: lN = vertex1,vertex2,front_sidedef,back_sidedef,type
+# Parameters:
+#   lN              = Unique linedef ID (e.g., l0, l1)
+#   vertex1,vertex2 = Start and end vertices (e.g., v0, v1)
+#   front_sidedef   = Sidedef facing the front sector (e.g., sd0)
+#   back_sidedef    = Sidedef facing the back sector (use -1 for solid walls)
+#   type            = Wall type: 0 (solid), 1 (door), 2 (transparent)
 l0 = v0,v1,s0,-1,0    # North wall of room 1
 l1 = v1,v2,s0,-1,0    # East wall of room 1
 l2 = v2,v3,s0,-1,0    # South wall of room 1
