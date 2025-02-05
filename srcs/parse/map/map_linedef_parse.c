@@ -64,31 +64,32 @@ static bool	parse_sector_ref(char *str, int *sector)
  */
 static bool	get_linedef_data(char *data, t_linedef *line)
 {
-	char	**parts;
-	int		type;
-	bool	valid;
+    char	**parts;
+    char    *trimmed;
+    bool	valid;
+    int     type;
 
-	parts = ft_split(data, ',');
-	if (!parts)
-		return (false);
-	valid = false;
-	if (parts[0] && parts[1] && parts[2] && parts[3] && parts[4] && !parts[5])
-	{
-		type = ft_atoi(ft_strtrim(parts[4], " \t\n\r"));
-		if (parse_vertex_ref(parts[0], &line->vertex1)
-			&& parse_vertex_ref(parts[1], &line->vertex2)
-			&& parse_sector_ref(parts[2], &line->front_sidedef)
-			&& parse_sector_ref(parts[3], &line->back_sidedef)
-			&& type >= 0 && type <= 2)
-		{
-			line->type = type;
-			valid = true;
-		}
-		else
-			ft_printf(RED"Invalid linedef component\n"DEFAULT);
-	}
-	free_split(parts);
-	return (valid);
+    parts = ft_split(data, ',');
+    if (!parts)
+        return (false);
+    valid = false;
+    if (parts[0] && parts[1] && parts[2] && parts[3] && parts[4] && !parts[5])
+    {
+        trimmed = ft_strtrim(parts[4], " \t\n\r");
+        type = ft_atoi(trimmed);
+        free(trimmed);
+        if (parse_vertex_ref(parts[0], &line->vertex1)
+            && parse_vertex_ref(parts[1], &line->vertex2)
+            && parse_sector_ref(parts[2], &line->front_sidedef)
+            && parse_sector_ref(parts[3], &line->back_sidedef)
+            && type >= 0 && type <= 2)
+        {
+            line->type = type;
+            valid = true;
+        }
+    }
+    free_split(parts);
+    return (valid);
 }
 
 /*

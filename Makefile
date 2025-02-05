@@ -130,7 +130,7 @@ fclean: clean
 leak: ${NAME}
 ifeq ($(UNAME_S),Linux)
 	@echo "$(YELLOW)Running Valgrind for leak check...$(RESET)"
-	@$(VALGRIND) ./${NAME} maps/valid/valid1.cub
+	@$(VALGRIND) ./${NAME} maps/test.cub
 else ifeq ($(UNAME_S),Darwin)
 	@echo "$(YELLOW)Running leak check for macOS...$(RESET)"
 	@leaks --atExit -- ./${NAME} maps/valid/valid1.cub

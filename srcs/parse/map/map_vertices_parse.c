@@ -37,21 +37,28 @@ static bool	get_vertex_number(char *str, int *number)
  */
 static bool	parse_vertex_coords(char *coords, t_fixed_vec32 *pos)
 {
-	char	**parts;
-	bool	success;
+    char	**parts;
+    char    *trimmed;
+    bool	success;
 
-	success = false;
-	parts = ft_split(coords, ',');
-	if (!parts)
-		return (false);
-	if (parts[0] && parts[1] && !parts[2])
-	{
-		pos->x = int_to_fixed32(ft_atoi(ft_strtrim(parts[0], " \t")));
-		pos->y = int_to_fixed32(ft_atoi(ft_strtrim(parts[1], " \t")));
-		success = true;
-	}
-	free_split(parts);
-	return (success);
+    success = false;
+    parts = ft_split(coords, ',');
+    if (!parts)
+        return (false);
+    if (parts[0] && parts[1] && !parts[2])
+    {
+        trimmed = ft_strtrim(parts[0], " \t");
+        pos->x = int_to_fixed32(ft_atoi(trimmed));
+        free(trimmed);
+        
+        trimmed = ft_strtrim(parts[1], " \t");
+        pos->y = int_to_fixed32(ft_atoi(trimmed));
+        free(trimmed);
+        
+        success = true;
+    }
+    free_split(parts);
+    return (success);
 }
 
 /*
