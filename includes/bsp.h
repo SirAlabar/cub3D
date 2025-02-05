@@ -14,6 +14,7 @@
 # define BSP_H
 
 # include <fixed_point.h>
+# include <map.h>
 
 /* Fixed point value for collision detection (1/16) */
 # define COLLISION_THRESHOLD   4096
@@ -122,10 +123,6 @@ t_bsp_side				bsp_classify_point(t_fixed_vec32 point,
 bool					split_bsp_line(t_bsp_line *line, t_bsp_line *partition,
 							t_bsp_line **front, t_bsp_line **back);
 
-/* bsp_create_split_lines.c */
-bool					extract_map_lines(t_game *game, t_bsp_line ***lines,
-							int *num_lines);
-
 /* bsp_split_lines.c */
 bool					split_lines(t_bsp_line *partition, t_bsp_line **lines,
 							int num_lines, t_bsp_data *data);
@@ -139,12 +136,12 @@ void	traverse_front_nodes(t_bsp_node *node, t_fixed_vec32 viewpoint,
 int	count_front_nodes(t_bsp_node *node, t_fixed_vec32 viewpoint);
 
 /* bsp_utils.c */
-t_bsp_tree				*init_bsp_build(t_game *game);
+t_bsp_tree				*init_bsp_build(t_doom_map *map);
 void					*free_and_return(void *ptr, void *ret);
 t_bsp_node				*create_bsp_node(void);
 t_bsp_line				*create_bsp_line(t_fixed_vec32 start, t_fixed_vec32 end,
 							int type);
-bool					extract_map_lines(t_game *game, t_bsp_line ***lines,
+bool					extract_map_lines(t_doom_map *map, t_bsp_line ***lines,
 							int *num_lines);
 
 /* bsp_balance.c */
@@ -159,5 +156,9 @@ void        adjust_collision_response(t_bsp_node *node, t_fixed_vec32 *movement)
 /* bsp_validate.c */
 bool    validate_bsp_tree(t_bsp_tree *tree);
 void    debug_print_node(t_bsp_node *node, int depth);
+
+
+void	print_bsp_tree(t_bsp_tree *tree);
+void	print_bsp_tree_recursive(t_bsp_node *node, int depth, char *prefix);
 
 #endif

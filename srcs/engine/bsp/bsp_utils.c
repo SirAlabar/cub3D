@@ -17,30 +17,29 @@
 ** Focuses solely on BSP creation from map lines
 */
 
-t_bsp_tree	*init_bsp_build(t_game *game)
+t_bsp_tree *init_bsp_build(t_doom_map *map)
 {
-	t_bsp_tree	*tree;
-	t_bsp_line	**lines;
-	int			num_lines;
+    t_bsp_tree *tree;
+    t_bsp_line **lines;
+    int num_lines;
 
-	tree = malloc(sizeof(t_bsp_tree));
-	if (!tree)
-		return (NULL);
-	if (!extract_map_lines(game, &lines, &num_lines))
-	{
-		free(tree);
-		return (NULL);
-	}
-	tree->root = build_bsp_tree(lines, num_lines);
-	free(lines);
-	if (!tree->root)
-	{
-		free(tree);
-		return (NULL);
-	}
-	return (tree);
+    tree = ft_calloc(1, sizeof(t_bsp_tree));
+    if (!tree)
+        return (NULL);
+    if (!extract_map_lines(map, &lines, &num_lines))
+    {
+        free(tree);
+        return (NULL);
+    }
+    tree->root = build_bsp_tree(lines, num_lines);
+    free(lines);
+    if (!tree->root)
+    {
+        free(tree);
+        return (NULL);
+    }
+    return (tree);
 }
-
 /*
 ** Calculates normalized normal vector for a BSP line
 ** Normal points to the left side of the line when facing from start to end
@@ -72,7 +71,7 @@ t_bsp_line	*create_bsp_line(t_fixed_vec32 start, t_fixed_vec32 end, int type)
 {
 	t_bsp_line	*line;
 
-	line = (t_bsp_line *)malloc(sizeof(t_bsp_line));
+	line = ft_calloc(1, sizeof(t_bsp_line));
 	if (!line)
 		return (NULL);
 	line->start = start;
