@@ -77,8 +77,8 @@ static bool	get_linedef_data(char *data, t_linedef *line)
 		type = ft_atoi(ft_strtrim(parts[4], " \t\n\r"));
 		if (parse_vertex_ref(parts[0], &line->vertex1)
 			&& parse_vertex_ref(parts[1], &line->vertex2)
-			&& parse_sector_ref(parts[2], &line->front_sector)
-			&& parse_sector_ref(parts[3], &line->back_sector)
+			&& parse_sector_ref(parts[2], &line->front_sidedef)
+			&& parse_sector_ref(parts[3], &line->back_sidedef)
 			&& type >= 0 && type <= 2)
 		{
 			line->type = type;

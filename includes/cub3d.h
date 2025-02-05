@@ -23,7 +23,7 @@
 
 # include <colors.h>
 # include <fixed_point.h>
-# include <bsp.h>
+//# include <bsp.h>
 # include <engine.h>
 # include <map.h>
 # include <events.h>

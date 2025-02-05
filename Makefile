@@ -27,7 +27,7 @@ LIBFT   = ${LIBFT_DIR}/src/libft.a
 MLX     = ${MLX_DIR}/libmlx.a
 
 # Source files using wildcards
-SRCS    = $(wildcard srcs/*.c) $(wildcard srcs/*/*.c) $(wildcard srcs/*/*/*.c)
+SRCS    = $(filter-out srcs/engine/bsp/%.c, $(wildcard srcs/*.c) $(wildcard srcs/*/*.c) $(wildcard srcs/*/*/*.c))
 OBJS    = ${SRCS:.c=.o}
 INCLUDE = -Iincludes/ -I${LIBFT_DIR}/src -L${LIBFT_DIR}/src -I${MLX_DIR} ${MLXINC}
 

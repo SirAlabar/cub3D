@@ -191,6 +191,30 @@ static bool	is_empty_line(char *line)
 }
 
 /*
+ * Remove comments from line (everything after #)
+ * Returns trimmed string without comments
+ * Returns NULL if input is NULL or empty after cleaning
+ */
+char	*clean_line(char *line)
+{
+	char	*comment;
+	char	*clean;
+
+	if (!line)
+		return (NULL);
+	comment = ft_strchr(line, '#');
+	if (comment)
+		*comment = '\0';
+	clean = ft_strtrim(line, " \t\n\r");
+	if (!clean || !*clean)
+	{
+		free(clean);
+		return (NULL);
+	}
+	return (clean);
+}
+
+/*
  * Debug function to print section type
  */
 static void	print_section_debug(t_section section)
@@ -212,29 +236,32 @@ static void	print_section_debug(t_section section)
  * Sections: [VERTICES], [LINEDEFS], [SECTORS], [THINGS]
  * Returns section type or NONE if line isn't a header
  */
-static t_section	identify_section(char *line)
+static t_section identify_section(char *line)
 {
-	t_section	section;
-	char		*clean_line;
+    t_section   section;
+    char        *cleaned;
 
-	clean_line = ft_strtrim(line, " \t\n\r");
-	if (!clean_line)
+	cleaned = clean_line(line);
+	if (!cleaned)
 		return (NONE);
-	ft_printf(CYAN"Checking section: '%s'\n"DEFAULT, clean_line);
-	
-	section = NONE;
-	if (ft_strcmp(clean_line, "[VERTICES]") == 0)
-		section = VERTICES;
-	else if (ft_strcmp(clean_line, "[LINEDEFS]") == 0)
-		section = LINEDEFS;
-	else if (ft_strcmp(clean_line, "[SECTORS]") == 0)
-		section = SECTORS;
-	else if (ft_strcmp(clean_line, "[THINGS]") == 0)
-		section = THINGS;
+    if (cleaned[0] == '[')
+        ft_printf(CYAN"Checking section header: '%s'\n"DEFAULT, cleaned);
+    
+    section = NONE;
+    if (ft_strcmp(cleaned, "[VERTICES]") == 0)
+        section = VERTICES;
+    else if (ft_strcmp(cleaned, "[SIDEDEFS]") == 0)
+        section = SIDEDEFS;
+    else if (ft_strcmp(cleaned, "[LINEDEFS]") == 0)
+        section = LINEDEFS;
+    else if (ft_strcmp(cleaned, "[SECTORS]") == 0)
+        section = SECTORS;
+    else if (ft_strcmp(cleaned, "[THINGS]") == 0)
+        section = THINGS;
 
-	free(clean_line);
-	print_section_debug(section);
-	return (section);
+    free(cleaned);
+    print_section_debug(section);
+    return (section);
 }
 
 /*
@@ -244,29 +271,31 @@ static t_section	identify_section(char *line)
  */
 static bool	parse_section(char *line, t_doom_map *map, t_section section)
 {
-	char	*clean_line;
+	char	*cleaned;
 	bool	result;
 
-	clean_line = ft_strtrim(line, " \t\n\r");
-	if (!clean_line)
-		return (false);
+	cleaned = clean_line(line);
+	if (!cleaned)
+		return (true);
 
-	ft_printf(CYAN"Parsing line: '%s' in section ", clean_line);
+	ft_printf(CYAN"Parsing line: '%s' in section ", cleaned);
 	print_section_debug(section);
 
 	result = false;
 	if (section == VERTICES)
-		result = parse_vertices_section(clean_line, map);
+		result = parse_vertices_section(cleaned, map);
+	else if (section == SIDEDEFS)
+		result = parse_sidedefs_section(cleaned, map);
 	else if (section == LINEDEFS)
-		result = parse_linedefs_section(clean_line, map);
+		result = parse_linedefs_section(cleaned, map);
 	else if (section == SECTORS)
-		result = parse_sectors_section(clean_line, map);
+		result = parse_sectors_section(cleaned, map);
 	else if (section == THINGS)
-		result = parse_things_section(clean_line, map);
+		result = parse_things_section(cleaned, map);
 
 	if (!result)
-		ft_printf(RED"Failed to parse line: '%s'\n"DEFAULT, clean_line);
-	free(clean_line);
+		ft_printf(RED"Failed to parse line: '%s'\n"DEFAULT, cleaned);
+	free(cleaned);
 	return (result);
 }
 

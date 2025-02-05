@@ -63,7 +63,7 @@ static bool	validate_sector_linedefs(t_sector *sector, t_doom_map *map)
 			return (false);
 		}
 		linedef = &map->linedefs[sector->linedefs[i]];
-		if (linedef->front_sector != -1 && linedef->front_sector >= map->sector_count)
+		if (linedef->front_sidedef != -1 && linedef->front_sidedef >= map->sector_count)
 		{
 			ft_putendl_fd("Error\nInvalid sector reference in linedef", 2);
 			return (false);

@@ -37,8 +37,8 @@ static bool	init_sector_linedefs(t_sector *sector, t_doom_map *map, int sector_n
 	i = -1;
 	while (++i < map->linedef_count)
 	{
-		if (map->linedefs[i].front_sector == sector_num ||
-			map->linedefs[i].back_sector == sector_num)
+		if (map->linedefs[i].front_sidedef == sector_num ||
+			map->linedefs[i].back_sidedef == sector_num)
 			count++;
 	}
 
@@ -51,8 +51,8 @@ static bool	init_sector_linedefs(t_sector *sector, t_doom_map *map, int sector_n
 	i = -1;
 	while (++i < map->linedef_count)
 	{
-		if (map->linedefs[i].front_sector == sector_num ||
-			map->linedefs[i].back_sector == sector_num)
+		if (map->linedefs[i].front_sidedef == sector_num ||
+			map->linedefs[i].back_sidedef == sector_num)
 			sector->linedefs[count++] = i;
 	}
 	return (true);

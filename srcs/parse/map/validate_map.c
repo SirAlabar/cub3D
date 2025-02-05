@@ -66,12 +66,14 @@ int	open_map(int argc, char **argv)
  * - At least one vertex
  * - At least one sector
  * - At least one linedef
+ * - At least one sidedef
  * - Exactly one player
  */
 static bool	check_map_basics(t_doom_map *map)
 {
 	ft_printf("Checking map basics:\n");
 	ft_printf("- Vertices: %d\n", map->vertex_count);
+	ft_printf("- Sidedefs: %d\n", map->sidedef_count);
 	ft_printf("- Linedefs: %d\n", map->linedef_count);
 	ft_printf("- Sectors: %d\n", map->sector_count);
 	ft_printf("- Things: %d\n", map->thing_count);
@@ -79,6 +81,11 @@ static bool	check_map_basics(t_doom_map *map)
 	if (map->vertex_count == 0)
 	{
 		ft_putendl_fd("Error\nNo vertices defined in map", 2);
+		return (false);
+	}
+	if (map->sidedef_count == 0)
+	{
+		ft_putendl_fd("Error\nNo sidedefs defined in map", 2);
 		return (false);
 	}
 	if (map->linedef_count == 0)
@@ -104,10 +111,24 @@ bool	validate_map(t_doom_map *map)
 	if (!check_map_basics(map))
 		return (false);
 
+	ft_printf("Validating sidedefs...\n");
+	if (!validate_all_sidedefs(map))
+	{
+		ft_putendl_fd("Error\nSidedef validation failed", 2);
+		return (false);
+	}
+
 	ft_printf("Validating sectors...\n");
 	if (!validate_sectors(map))
 	{
 		ft_putendl_fd("Error\nSector validation failed", 2);
+		return (false);
+	}
+
+	ft_printf("Validating references...\n");
+	if (!validate_sidedef_references(map))
+	{
+		ft_putendl_fd("Error\nSidedef references validation failed", 2);
 		return (false);
 	}
 

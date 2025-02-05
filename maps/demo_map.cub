@@ -1,62 +1,92 @@
-# VERTICES
+[VERTICES]
 # List of vertices (X, Y coordinates)
-0  0
-20 0
-20 12
-0  12
-2  2
-6  2
-6  5
-2  5
-8  4
-12 4
-12 7
-8  7
-14 2
-18 2
-18 6
-14 6
-10 10
-12 10
-12 12
-10 12
+v0 = 0,0
+v1 = 20,0
+v2 = 20,12
+v3 = 0,12
+v4 = 2,2
+v5 = 6,2
+v6 = 6,5
+v7 = 2,5
+v8 = 8,4
+v9 = 12,4
+v10 = 12,7
+v11 = 8,7
+v12 = 14,2
+v13 = 18,2
+v14 = 18,6
+v15 = 14,6
+v16 = 10,10
+v17 = 12,10
+v18 = 12,12
+v19 = 10,12
 
-# LINEDEFS
+[SIDEDEFS]
+# Initial room (sector 0) - Laboratory theme
+sd0 = 0,0,-,assets/texture/lab1.xpm,-,s0               # Outer walls north
+sd1 = 0,0,-,assets/texture/lab2.xpm,-,s0               # Outer walls east
+sd2 = 0,0,-,assets/texture/lab3.xpm,-,s0               # Outer walls south
+sd3 = 0,0,-,assets/texture/lab4.xpm,-,s0               # Outer walls west
+sd4 = 0,0,assets/texture/tech1.xpm,assets/texture/doorlab.xpm,assets/texture/tech2.xpm,s0  # Door to corridor
+
+# Corridor (sector 1) - Tech/Metal theme
+sd5 = 0,0,-,assets/texture/metal.xpm,-,s1              # Corridor walls
+sd6 = 0,0,-,assets/texture/metal2.xpm,-,s1             # Corridor walls
+sd7 = 0,0,assets/texture/metal3.xpm,-,assets/texture/metal4.xpm,s1    # Height transitions
+sd8 = 0,0,assets/texture/tech3.xpm,assets/texture/doorlab.xpm,assets/texture/tech4.xpm,s1  # Door to final room
+
+# Final room (sector 2) - Stone/Ice theme
+sd9 = 0,0,-,assets/texture/stone1.xpm,-,s2             # Final room walls
+sd10 = 0,0,-,assets/texture/stone2.xpm,-,s2            # Final room walls
+sd11 = 0,0,-,assets/texture/stone3.xpm,-,s2            # Final room walls
+sd12 = 0,0,-,assets/texture/stone4.xpm,-,s2            # Final room walls
+sd13 = 0,0,assets/texture/ice1.xpm,-,assets/texture/ice2.xpm,s2       # Height transitions
+
+# Central pillar (sector 3) - Marble theme
+sd14 = 0,0,assets/texture/marmore.xpm,-,assets/texture/metal_floor.xpm,s3  # Pillar sides
+
+
+[LINEDEFS]
 # Defines walls and connections between vertices
-0 1
-1 2
-2 3
-3 0
-4 5
-5 6
-6 7
-7 4
-5 8 # Door to the corridor
-8 9
-9 10
-10 11
-11 8
-9 12 # Door to the final room
-12 13
-13 14
-14 15
-15 12
-16 17
-17 18
-18 19
-19 16 # Central pillar
+l0 = v0,v1,sd0,-1,0         # Initial room outer wall (north)
+l1 = v1,v2,sd1,-1,0         # Initial room outer wall (east)
+l2 = v2,v3,sd2,-1,0         # Initial room outer wall (south)
+l3 = v3,v0,sd3,-1,0         # Initial room outer wall (west)
 
-# SECTORS
-# Defines floor/ceiling height, brightness, and textures
-0   20  192  floor1.png  ceiling1.png  # Initial room
--2  18  160  floor2.png  ceiling2.png  # Corridor (slightly lower)
--5  15  128  floor3.png  ceiling3.png  # Final room (darker and lower)
-0   25  220  pillar.png  pillar.png    # Pillar (higher ceiling)
+l4 = v4,v5,sd4,-1,0         # Small room outer wall (north)
+l5 = v5,v6,sd5,-1,0         # Small room outer wall (east)
+l6 = v6,v7,sd6,-1,0         # Small room outer wall (south)
+l7 = v7,v4,sd7,-1,0         # Small room outer wall (west)
 
-# THINGS
-# Defines objects (player, enemies, items) with positions and textures
-PLAYER  3  3   90  player.png
-ENEMY   16 3   0   enemy1.png
-ENEMY   15 5   0   enemy2.png
-AMMO    10 3   0   ammo.png
-MEDKIT  12 3   0   medkit.png
+l8 = v5,v8,sd8,sd9,1        # Door to corridor
+l9 = v8,v9,sd10,-1,0        # Corridor wall north
+l10 = v9,v10,sd11,-1,0      # Corridor wall east
+l11 = v10,v11,sd12,-1,0     # Corridor wall south
+l12 = v11,v8,sd13,-1,0      # Corridor wall west
+
+l13 = v9,v12,sd14,sd15,1    # Door to final room
+l14 = v12,v13,sd16,-1,0     # Final room wall north
+l15 = v13,v14,sd17,-1,0     # Final room wall east
+l16 = v14,v15,sd18,-1,0     # Final room wall south
+l17 = v15,v12,sd19,-1,0     # Final room wall west
+
+# Central pillar
+l18 = v16,v17,sd20,-1,0     # Pillar wall north
+l19 = v17,v18,sd20,-1,0     # Pillar wall east
+l20 = v18,v19,sd20,-1,0     # Pillar wall south
+l21 = v19,v16,sd20,-1,0     # Pillar wall west
+
+[SECTORS]
+# Format: floor_height ceiling_height light floor_texture ceiling_texture
+s0 = 0,20,192,assets/texture/tile_floor1.xpm,assets/texture/tech5.xpm        # Initial room (lab)
+s1 = -2,18,160,assets/texture/metal_floor2.xpm,assets/texture/tile_floor2.xpm # Corridor (metal)
+s2 = -5,15,128,assets/texture/tile_floor3.xpm,assets/texture/ice3.xpm        # Final room (ice)
+s3 = 0,25,220,assets/texture/tile_floor4.xpm,assets/texture/marmore.xpm      # Pillar (marble)
+
+[THINGS]
+# type (1:player, 2:enemy, 3:item) x,y,angle,texture
+1,3,3,90      # Player
+2,16,3,0      # Enemy 1
+2,15,5,0      # Enemy 2
+3,10,3,0      # Ammo
+3,12,3,0      # Medkit

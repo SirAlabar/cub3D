@@ -36,6 +36,7 @@ typedef enum e_section
 {
 	NONE,
 	VERTICES,
+	SIDEDEFS,	
 	LINEDEFS,
 	SECTORS,
 	THINGS
@@ -138,8 +139,19 @@ typedef struct s_doom_map
 bool    parse_map(int fd, t_doom_map *map);
 bool    load_map(int argc, char **argv, t_doom_map *map);
 
+char	*clean_line(char *line);
+
 /* map_vertises_parse.c */
 bool	parse_vertices_section(char *line, t_doom_map *map);
+
+/* map_sidedefs_parse.c */
+bool get_sidedef_data(char *data, t_sidedef *sidedef);
+bool    parse_sidedefs_section(char *line, t_doom_map *map);
+
+/* map_sidedefs_utils.c */
+bool    get_sidedef_number(char *str, int *number);
+bool    parse_texture_path(char *str, char **texture_path);
+bool    validate_sidedef_textures(t_sidedef *sidedef);
 
 /* map_section_parse.c */
 bool    parse_vertices_section(char *line, t_doom_map *map);
@@ -165,6 +177,11 @@ bool    validate_map_extension(int argc, char **argv);
 bool    valid_extension(char *map);
 int     open_map(int argc, char **argv);
 bool	validate_map(t_doom_map *map);
+
+/* map_validate_sidedefs.c */
+bool    validate_sidedef(t_sidedef *sidedef, t_doom_map *map);
+bool	validate_sidedef_references(t_doom_map *map);
+bool    validate_all_sidedefs(t_doom_map *map);
 
 /* map_validate_player.c */
 bool    validate_player(t_doom_map *map);
