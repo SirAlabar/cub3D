@@ -34,23 +34,23 @@ v22 = 128,64
 
 [SIDEDEFS]
 # Lab/Tech (Sala 1)
-sd0 = 0,0,./assets/textures/lab2.xpm,./assets/textures/lab3.xpm,./assets/textures/lab4.xpm,s0
-sd1 = 0,0,none,./assets/textures/doorwall.xpm,none,s0
+sd0 = 0,0,./assets/texture/lab2.xpm,./assets/texture/lab3.xpm,./assets/texture/lab4.xpm,s0
+sd1 = 0,0,none,./assets/texture/doorwall.xpm,none,s0
 
 # Metal/Industrial (Sala 2)
-sd2 = 0,0,./assets/textures/metal3.xpm,./assets/textures/metal4.xpm,./assets/textures/metal2.xpm,s1
-sd3 = 0,0,none,./assets/textures/doorlab.xpm,none,s1
+sd2 = 0,0,./assets/texture/metal3.xpm,./assets/texture/metal4.xpm,./assets/texture/metal2.xpm,s1
+sd3 = 0,0,none,./assets/texture/doorlab.xpm,none,s1
 
 # Ice (Sala 3)
-sd4 = 0,0,./assets/textures/ice2.xpm,./assets/textures/ice3.xpm,./assets/textures/ice5.xpm,s2
-sd5 = 0,0,none,./assets/textures/glass.xpm,none,s2
+sd4 = 0,0,./assets/texture/ice2.xpm,./assets/texture/ice3.xpm,./assets/texture/ice5.xpm,s2
+sd5 = 0,0,none,./assets/texture/glass.xpm,none,s2
 
 # Fire/Lava (Sala 4)
-sd6 = 0,0,./assets/textures/fire1.xpm,./assets/textures/fire3.xpm,./assets/textures/fire4.xpm,s3
-sd7 = 0,0,./assets/textures/lava2.xpm,none,./assets/textures/lava1.xpm,s3
+sd6 = 0,0,./assets/texture/fire1.xpm,./assets/texture/fire3.xpm,./assets/texture/fire4.xpm,s3
+sd7 = 0,0,./assets/texture/lava2.xpm,none,./assets/texture/lava1.xpm,s3
 
 # Tech (Sala Octagonal)
-sd8 = 0,0,./assets/textures/tech4.xpm,./assets/textures/tech2.xpm,./assets/textures/tech1.xpm,s4
+sd8 = 0,0,./assets/texture/tech4.xpm,./assets/texture/tech2.xpm,./assets/texture/tech1.xpm,s4
 
 [LINEDEFS]
 # Sala 1 (Lab)
@@ -93,19 +93,19 @@ l25 = v7,v12,sd3,sd7,1 # Porta Metal-Fire
 
 [SECTORS]
 # Sala 1 - Lab Theme
-s0 = 0,128,160,./assets/textures/lab1.xpm,./assets/textures/tech1.xpm
+s0 = 0,128,160,./assets/texture/lab1.xpm,./assets/texture/tech1.xpm
 
 # Sala 2 - Metal Theme  
-s1 = 32,128,192,./assets/textures/metal_floor.xpm,./assets/textures/metal2.xpm
+s1 = 32,128,192,./assets/texture/metal_floor.xpm,./assets/texture/metal2.xpm
 
 # Sala 3 - Ice Theme
-s2 = 0,128,160,./assets/textures/ice1.xpm,./assets/textures/ice4.xpm
+s2 = 0,128,160,./assets/texture/ice1.xpm,./assets/texture/ice4.xpm
 
 # Sala 4 - Fire/Lava Theme
-s3 = 32,128,192,./assets/textures/lava1.xpm,./assets/textures/fire2.xpm
+s3 = 32,128,192,./assets/texture/lava1.xpm,./assets/texture/fire2.xpm
 
 # Sala Octagonal - Tech Theme
-s4 = 64,128,160,./assets/textures/tech3.xpm,./assets/textures/tech5.xpm
+s4 = 64,128,160,./assets/texture/tech3.xpm,./assets/texture/tech5.xpm
 
 [THINGS]
 1,128,128,90    # Jogador na Sala Tech
