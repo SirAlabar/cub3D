@@ -15,6 +15,8 @@
 
 # include <fixed_point.h>
 # include <map.h>
+# include <stddef.h>
+# include <libft.h>
 
 /* Fixed point value for collision detection (1/16) */
 # define COLLISION_THRESHOLD   4096
@@ -157,8 +159,12 @@ void        adjust_collision_response(t_bsp_node *node, t_fixed_vec32 *movement)
 bool    validate_bsp_tree(t_bsp_tree *tree);
 void    debug_print_node(t_bsp_node *node, int depth);
 
-
+void            free_bsp_tree(t_bsp_tree *tree);
 void	print_bsp_tree(t_bsp_tree *tree);
 void	print_bsp_tree_recursive(t_bsp_node *node, int depth, char *prefix);
+
+void	count_line_sides(t_bsp_line *line, t_bsp_line *partition,
+		t_count_data *count);
+t_bsp_node	*build_subtrees(t_bsp_node *node, t_bsp_data *data);
 
 #endif

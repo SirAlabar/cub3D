@@ -95,7 +95,7 @@ t_bsp_node	*create_bsp_node(void)
 		return (NULL);
 	node->front = NULL;
 	node->back = NULL;
-	node->line = NULL;
+	node->lines = NULL;
 	node->num_lines = 0;
 	node->lines = NULL;
 	return (node);

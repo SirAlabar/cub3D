@@ -79,3 +79,10 @@ t_fixed32	fixed32_div(t_fixed32 a, t_fixed32 b)
 		return (INT32_MIN);
 	return ((t_fixed32)temp);
 }
+
+t_fixed32    fixed32_abs(t_fixed32 value)
+{
+    if (value < 0)
+        return (-value);
+    return (value);
+}

@@ -60,43 +60,11 @@ int	main(int argc, char **argv)
 /* ************************************************************************** */
 
 #include "fixed_point.h"
-#include <cub3d.h>
+#include "bsp.h"
+#include "map.h"
 #include <stdio.h>
-#include <math.h>
-#include <map.h>
 
-
-// Helper function to create fixed point test lines
-static t_bsp_line **create_test_lines(int *num_lines)
-{
-    t_bsp_line **lines;
-    
-    *num_lines = 4;
-    lines = malloc(sizeof(t_bsp_line *) * *num_lines);
-    if (!lines)
-        return (NULL);
-        
-    // Create a square room
-    lines[0] = create_bsp_line(
-        (t_fixed_vec32){0, 0},
-        (t_fixed_vec32){65536, 0}, 0);  // Top wall
-    
-    lines[1] = create_bsp_line(
-        (t_fixed_vec32){65536, 0},
-        (t_fixed_vec32){65536, 65536}, 0);  // Right wall
-    
-    lines[2] = create_bsp_line(
-        (t_fixed_vec32){65536, 65536},
-        (t_fixed_vec32){0, 65536}, 0);  // Bottom wall
-    
-    lines[3] = create_bsp_line(
-        (t_fixed_vec32){0, 65536},
-        (t_fixed_vec32){0, 0}, 0);  // Left wall
-            
-    return (lines);
-}
-
-// Helper function to print fixed point vector
+/* Helper function to print fixed point vector */
 static void print_fixed_vec(const char *prefix, t_fixed_vec32 vec)
 {
     printf("%s(%.2f, %.2f)\n", prefix,
@@ -104,36 +72,52 @@ static void print_fixed_vec(const char *prefix, t_fixed_vec32 vec)
         (float)vec.y / 65536.0f);
 }
 
-// Test BSP tree creation and structure
+/* Creates a test map with a simple square room */
+static t_doom_map *create_test_map(void)
+{
+    t_doom_map *map;
+    
+    map = calloc(1, sizeof(t_doom_map));
+    if (!map)
+        return (NULL);
+
+    /* Create vertices for a square room */
+    map->vertices[0] = (t_vertex){(t_fixed_vec32){0, 0}};         // Top-left
+    map->vertices[1] = (t_vertex){(t_fixed_vec32){65536, 0}};     // Top-right
+    map->vertices[2] = (t_vertex){(t_fixed_vec32){65536, 65536}}; // Bottom-right
+    map->vertices[3] = (t_vertex){(t_fixed_vec32){0, 65536}};     // Bottom-left
+    map->vertex_count = 4;
+
+    /* Create linedefs forming the walls */
+    map->linedefs[0] = (t_linedef){0, 1, -1, -1, 0, 0};  // Top wall
+    map->linedefs[1] = (t_linedef){1, 2, -1, -1, 0, 0};  // Right wall
+    map->linedefs[2] = (t_linedef){2, 3, -1, -1, 0, 0};  // Bottom wall
+    map->linedefs[3] = (t_linedef){3, 0, -1, -1, 0, 0};  // Left wall
+    map->linedef_count = 4;
+
+    return (map);
+}
+
+/* Test BSP tree creation and structure */
 static void test_bsp_tree_creation(void)
 {
-    t_bsp_line **lines;
+    t_doom_map *map;
     t_bsp_tree *tree;
-    int num_lines;
 
     printf("\n=== Testing BSP Tree Creation ===\n");
     
-    lines = create_test_lines(&num_lines);
-    if (!lines)
+    map = create_test_map();
+    if (!map)
     {
-        printf("Failed to create test lines\n");
+        printf("Failed to create test map\n");
         return;
     }
 
-    tree = init_bsp_tree();
+    tree = init_bsp_build(map);
     if (!tree)
     {
         printf("Failed to initialize BSP tree\n");
-        free(lines);
-        return;
-    }
-
-    tree->root = build_bsp_tree(lines, num_lines);
-    if (!tree->root)
-    {
-        printf("Failed to build BSP tree\n");
-        free(lines);
-        free(tree);
+        free(map);
         return;
     }
 
@@ -149,15 +133,14 @@ static void test_bsp_tree_creation(void)
     print_bsp_tree(tree);
 
     free_bsp_tree(tree);
-    free(lines);
+    free(map);
 }
 
-// Test point classification and collision detection
+/* Test collision detection and point classification */
 static void test_collision_detection(void)
 {
-    t_bsp_line **lines;
+    t_doom_map *map;
     t_bsp_tree *tree;
-    int num_lines;
     t_fixed_vec32 test_points[] = {
         {32768, 32768},  // Center (0.5, 0.5)
         {16384, 16384},  // Near corner (0.25, 0.25)
@@ -166,24 +149,15 @@ static void test_collision_detection(void)
     
     printf("\n=== Testing Collision Detection ===\n");
     
-    lines = create_test_lines(&num_lines);
-    if (!lines || !(tree = init_bsp_tree()))
+    map = create_test_map();
+    if (!map || !(tree = init_bsp_build(map)))
     {
         printf("Failed to initialize test\n");
-        free(lines);
-        return;
-    }
-    
-    tree->root = build_bsp_tree(lines, num_lines);
-    if (!tree->root)
-    {
-        printf("Failed to build BSP tree\n");
-        free_bsp_tree(tree);
-        free(lines);
+        free(map);
         return;
     }
 
-    // Test each point
+    /* Test each point */
     for (int i = 0; i < 3; i++)
     {
         print_fixed_vec("\nTesting point: ", test_points[i]);
@@ -192,7 +166,7 @@ static void test_collision_detection(void)
         printf("Distance to nearest wall: %.2f units\n", 
             (float)dist / 65536.0f);
         
-        // Test movement in different directions
+        /* Test movement in different directions */
         t_fixed_vec32 movements[] = {
             {6554, 0},     // Right (0.1, 0)
             {0, 6554},     // Down (0, 0.1)
@@ -216,10 +190,10 @@ static void test_collision_detection(void)
     }
 
     free_bsp_tree(tree);
-    free(lines);
+    free(map);
 }
 
-// Main test function
+/* Main test function */
 int main(void)
 {
     test_bsp_tree_creation();

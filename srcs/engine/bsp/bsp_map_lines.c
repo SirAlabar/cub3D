@@ -15,14 +15,14 @@
 /*
 ** Alloc array for BSP lines based on map linedef count
 ** Returns false if allocation fails
-*/
+*
 static bool	alloc_bsp_lines(t_bsp_line ***lines, int count)
 {
 	*lines = ft_calloc(count, sizeof(t_bsp_line *));
 	if (!*lines)
 		return (false);
 	return (true);
-}
+}*/
 
 /*
 ** Create BSP line from map linedef data

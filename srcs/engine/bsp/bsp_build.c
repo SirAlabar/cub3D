@@ -12,7 +12,7 @@
 
 #include <bsp.h>
 
-static void	count_line_sides(t_bsp_line *line, t_bsp_line *partition,
+void	count_line_sides(t_bsp_line *line, t_bsp_line *partition,
 		t_count_data *count)
 {
 	t_bsp_side	side;
@@ -36,7 +36,7 @@ t_fixed32	eval_partition(t_bsp_line *partition, t_bsp_line **lines,
 		int num_lines)
 {
 	t_count_data	count;
-	size_t			i;
+	int			i;
 
 	count.front = 0;
 	count.back = 0;
@@ -62,7 +62,7 @@ t_bsp_line	*choose_partition(t_bsp_line **lines, int num_lines)
 	t_bsp_line	*best_partition;
 	t_fixed32	best_score;
 	t_fixed32	score;
-	size_t		i;
+	int		i;
 
 	best_partition = NULL;
 	best_score = INT32_MIN;
@@ -83,7 +83,7 @@ t_bsp_line	*choose_partition(t_bsp_line **lines, int num_lines)
 /*
 ** Handles recursive build of BSP subtrees
 */
-static t_bsp_node	*build_subtrees(t_bsp_node *node, t_bsp_data *data)
+t_bsp_node	*build_subtrees(t_bsp_node *node, t_bsp_data *data)
 {
 	node->front = build_bsp_tree(data->front_lines, data->num_front);
 	node->back = build_bsp_tree(data->back_lines, data->num_back);

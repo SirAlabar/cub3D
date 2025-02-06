@@ -82,6 +82,7 @@ t_fixed32			fixed32_add(t_fixed32 a, t_fixed32 b);
 t_fixed32			fixed32_sub(t_fixed32 a, t_fixed32 b);
 t_fixed32			fixed32_mul(t_fixed32 a, t_fixed32 b);
 t_fixed32			fixed32_div(t_fixed32 a, t_fixed32 b);
+t_fixed32			fixed32_abs(t_fixed32 value);
 
 /*
 ** Advanced operations (fixed32_vec_adv_operations.c)
