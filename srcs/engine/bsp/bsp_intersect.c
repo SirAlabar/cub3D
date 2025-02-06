@@ -11,137 +11,122 @@
 /* ************************************************************************** */
 
 #include <bsp.h>
+# include <colors.h>
 
 /*
-** Check if point-line distance is within threshold
-** Returns true if point is too close to line
+** Tests intersection between two line segments using parametric equations
+** Uses small epsilon for precise intersection testing at line endpoints
+** Returns true if segments intersect at a non-endpoint point
 */
-static bool	check_point_line_distance(t_fixed_vec32 point, t_bsp_line *line)
+static bool	line_intersect(t_fixed_vec32 p1, t_fixed_vec32 p2, t_bsp_line *wall)
 {
-	t_fixed_vec32	line_dir;
-	t_fixed_vec32	to_point;
-	t_fixed32		cross_product;
-	t_fixed32		line_length;
+	t_fixed_vec32	v1;
+	t_fixed_vec32	v2;
+	t_fixed32		det;
+	t_fixed32		t;
+	t_fixed32		u;
 
-	line_dir.x = fixed32_sub(line->end.x, line->start.x);
-	line_dir.y = fixed32_sub(line->end.y, line->start.y);
-	to_point.x = fixed32_sub(point.x, line->start.x);
-	to_point.y = fixed32_sub(point.y, line->start.y);
-	cross_product = fixed32_sub(fixed32_mul(line_dir.x, to_point.y),
-			fixed32_mul(line_dir.y, to_point.x));
-	line_length = fixed32_sqrt(fixed32_add(fixed32_mul(line_dir.x, line_dir.x),
-				fixed32_mul(line_dir.y, line_dir.y)));
-	return (fixed32_abs(fixed32_div(cross_product, line_length))
-		< COLLISION_THRESHOLD);
-}
-
-/*
-** Check for collision with lines in node
-** Returns true if collision detected
-*/
-static bool	check_node_collision(t_bsp_node *node, t_fixed_vec32 point)
-{
-	int	i;
-
-	if (!node)
+	v1.x = fixed32_sub(p2.x, p1.x);
+	v1.y = fixed32_sub(p2.y, p1.y);
+	v2.x = fixed32_sub(wall->end.x, wall->start.x);
+	v2.y = fixed32_sub(wall->end.y, wall->start.y);
+	det = fixed32_sub(fixed32_mul(v1.x, v2.y), fixed32_mul(v1.y, v2.x));
+	
+	ft_printf(BLUE"Line vectors: v1(%d,%d) v2(%d,%d)\n"DEFAULT, 
+		v1.x, v1.y, v2.x, v2.y);
+	ft_printf(BLUE"Determinant: %d\n"DEFAULT, det);
+	
+	if (fixed32_abs(det) < (FIXED32_HALF >> 10))
 		return (false);
-	i = 0;
-	while (i < node->num_lines)
-	{
-		if (check_point_line_distance(point, node->lines[i]))
-			return (true);
-		i++;
-	}
-	return (false);
+	
+	t = fixed32_div(fixed32_sub(fixed32_mul(v2.x, fixed32_sub(p1.y,
+					wall->start.y)), fixed32_mul(v2.y, fixed32_sub(p1.x,
+					wall->start.x))), det);
+	u = fixed32_div(fixed32_sub(fixed32_mul(v1.x, fixed32_sub(p1.y,
+					wall->start.y)), fixed32_mul(v1.y, fixed32_sub(p1.x,
+					wall->start.x))), det);
+					
+	ft_printf(YELLOW"Intersection parameters: t=%d u=%d\n"DEFAULT, t, u);
+	return ((t > (FIXED32_HALF >> 8) && t < (FIXED_POINT_SCALE - (FIXED32_HALF >> 8)))
+		&& (u > (FIXED32_HALF >> 8) && u < (FIXED_POINT_SCALE - (FIXED32_HALF >> 8))));
 }
 
 /*
-** Find closest wall to a point
-** Returns distance to nearest wall or -1 if none found
+** Finds closest wall to a point in current BSP node
+** Uses wall normals for efficient distance calculation
+** Returns actual fixed-point distance, not scaled
 */
 t_fixed32	find_nearest_wall(t_bsp_node *node, t_fixed_vec32 point)
 {
-	t_fixed32	min_dist;
-	t_fixed32	curr_dist;
-	int			i;
+	t_fixed32		min_dist;
+	t_fixed32		curr_dist;
+	t_fixed_vec32	delta;
+	int				i;
 
-	if (!node)
+	if (!node || !node->num_lines)
 		return (-1);
 	min_dist = INT32_MAX;
-	i = 0;
-	while (i < node->num_lines)
+	i = -1;
+	while (++i < node->num_lines)
 	{
-		curr_dist = fixed32_abs(fixed32_mul(node->lines[i]->normal.x,
-				fixed32_sub(point.x, node->lines[i]->start.x))
-			+ fixed32_mul(node->lines[i]->normal.y,
-				fixed32_sub(point.y, node->lines[i]->start.y)));
+		delta.x = fixed32_sub(point.x, node->lines[i]->start.x);
+		delta.y = fixed32_sub(point.y, node->lines[i]->start.y);
+		curr_dist = fixed32_abs(fixed32_add(fixed32_mul(
+						node->lines[i]->normal.x, delta.x),
+					fixed32_mul(node->lines[i]->normal.y, delta.y)));
+		
+		ft_printf(GREEN"Wall %d: delta(%d,%d) dist=%d\n"DEFAULT, 
+			i, delta.x, delta.y, curr_dist);
+		
 		if (curr_dist < min_dist)
 			min_dist = curr_dist;
-		i++;
 	}
+	ft_printf(RED"Nearest wall distance: %d\n"DEFAULT, min_dist);
 	return (min_dist);
 }
 
 /*
-** Check if movement from start to end intersects any walls
-** Returns true if path is clear
+** Validates movement between points for wall collisions
+** Checks both distance to walls and path intersection
+** Returns true if movement is valid with no collisions
 */
 bool	check_movement_valid(t_bsp_tree *tree, t_fixed_vec32 start,
 		t_fixed_vec32 end)
 {
-	t_bsp_node		*curr_node;
-	t_fixed_vec32	step;
-	t_fixed_vec32	curr_pos;
-	int				num_steps;
-	int				i;
+	t_bsp_node	*start_node;
+	int			i;
+	t_fixed32	dist;
 
-	curr_node = find_node(tree->root, start);
-	if (!curr_node)
+	ft_printf(CYAN"\nMovement check: (%d,%d) -> (%d,%d)\n"DEFAULT,
+		start.x, start.y, end.x, end.y);
+
+	start_node = find_node(tree->root, start);
+	if (!start_node || start_node != find_node(tree->root, end))
+	{
+		ft_printf(RED"Points in different nodes\n"DEFAULT);
 		return (false);
-	step.x = fixed32_div(fixed32_sub(end.x, start.x), int_to_fixed32(10));
-	step.y = fixed32_div(fixed32_sub(end.y, start.y), int_to_fixed32(10));
-	num_steps = 10;
-	curr_pos = start;
-	i = 0;
-	while (i < num_steps)
-	{
-		curr_pos.x = fixed32_add(curr_pos.x, step.x);
-		curr_pos.y = fixed32_add(curr_pos.y, step.y);
-		if (check_node_collision(curr_node, curr_pos))
-			return (false);
-		curr_node = find_node(tree->root, curr_pos);
-		if (!curr_node)
-			return (false);
-		i++;
 	}
-	return (true);
-}
-
-/*
-** Adjust movement vector to slide along walls
-** Modifies movement to prevent wall penetration
-*/
-void	adjust_collision_response(t_bsp_node *node, t_fixed_vec32 *movement)
-{
-	t_fixed_vec32	normal;
-	t_fixed32		dot;
-	int				i;
-
-	if (!node || !movement)
-		return ;
-	i = 0;
-	while (i < node->num_lines)
+	if (!start_node->num_lines)
+		return (true);
+		
+	i = -1;
+	while (++i < start_node->num_lines)
 	{
-		normal = node->lines[i]->normal;
-		dot = fixed32_add(fixed32_mul(movement->x, normal.x),
-				fixed32_mul(movement->y, normal.y));
-		if (dot < 0)
+		dist = find_nearest_wall(start_node, start);
+		ft_printf(MAGENTA"Wall distance vs threshold: %d < %d?\n"DEFAULT,
+			dist, COLLISION_THRESHOLD);
+			
+		if (dist != -1 && dist < COLLISION_THRESHOLD)
 		{
-			movement->x = fixed32_sub(movement->x,
-					fixed32_mul(normal.x, dot));
-			movement->y = fixed32_sub(movement->y,
-					fixed32_mul(normal.y, dot));
+			ft_printf(RED"Too close to wall!\n"DEFAULT);
+			return (false);
 		}
-		i++;
+		if (line_intersect(start, end, start_node->lines[i]))
+		{
+			ft_printf(RED"Wall intersection detected!\n"DEFAULT);
+			return (false);
+		}
 	}
+	ft_printf(GREEN"Movement valid!\n"DEFAULT);
+	return (true);
 }
