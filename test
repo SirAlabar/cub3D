@@ -574,7 +574,7 @@ Processing Linedef 25:
   Vertex2 index: 12
   Start: (320, 256)
   End: (320, 320)
-Best Partition Selected: (256,0) -> (256,256)
+Best Partition Selected: (256,320) -> (256,512)
 
 === Testing Point Classification ===
 Test Line: (0,0) -> (100,0)
@@ -597,23 +597,397 @@ Test Point (50,40): -1
 
 === Testing Line Splitting ===
 
-Test Case 1 - Cross Split:
-Partition: (100,100) -> (300,100)
-Line: (200,0) -> (200,200)
+Test 1 - Basic Perpendicular Split:
+Partition: (0,100) -> (200,100)
+Line: (100,0) -> (100,200)
 Split successful!
-Front part: (200,122) -> (200,200)
-Back part: (200,0) -> (200,122)
+Front part: (100,100) -> (100,200)
+Back part: (100,0) -> (100,100)
 
-Test Case 2 - Diagonal Split:
-Partition: (0,0) -> (200,200)
-Line: (0,200) -> (200,0)
+Test 2 - 45-Degree Diagonal Split:
+Partition: (0,0) -> (100,100)
+Line: (0,100) -> (100,0)
 Split successful!
-Front part: (0,200) -> (200,0)
-Back part: (200,0) -> (200,0)
+Front part: (0,100) -> (50,50)
+Back part: (50,50) -> (100,0)
 
-Test Case 3 - Parallel Lines:
-Testing with original partition and parallel line:
-Line: (100,150) -> (300,150)
+Test 3 - Parallel Lines:
+Testing parallel line with horizontal partition:
+Line: (0,150) -> (200,150)
 No split (correct for parallel lines)
 
+Test 4 - Steep Angle Split:
+Partition: (0,0) -> (10,100)
+Line: (0,100) -> (10,0)
+Split successful!
+Front part: (0,100) -> (5,50)
+Back part: (5,50) -> (10,0)
+
+Test 5 - Edge Case Split:
+Partition: (100,0) -> (100,100)
+Line: (99,50) -> (101,50)
+Split successful!
+Front part: (99,50) -> (100,50)
+Back part: (100,50) -> (101,50)
+
 === End of Line Splitting Tests ===
+
+=== Testing BSP Tree Construction ===
+
+Building BSP tree for map with 23 vertices and 26 lines
+
+=== Detailed Map Line Extraction ===
+Total vertices: 23
+Total linedefs: 26
+
+Processing Linedef 0:
+  Vertex1 index: 0
+  Vertex2 index: 1
+  Start: (0, 0)
+  End: (256, 0)
+
+Processing Linedef 1:
+  Vertex1 index: 1
+  Vertex2 index: 2
+  Start: (256, 0)
+  End: (256, 256)
+
+Processing Linedef 2:
+  Vertex1 index: 2
+  Vertex2 index: 3
+  Start: (256, 256)
+  End: (0, 256)
+
+Processing Linedef 3:
+  Vertex1 index: 3
+  Vertex2 index: 0
+  Start: (0, 256)
+  End: (0, 0)
+
+Processing Linedef 4:
+  Vertex1 index: 4
+  Vertex2 index: 5
+  Start: (320, 0)
+  End: (512, 0)
+
+Processing Linedef 5:
+  Vertex1 index: 5
+  Vertex2 index: 6
+  Start: (512, 0)
+  End: (512, 256)
+
+Processing Linedef 6:
+  Vertex1 index: 6
+  Vertex2 index: 7
+  Start: (512, 256)
+  End: (320, 256)
+
+Processing Linedef 7:
+  Vertex1 index: 7
+  Vertex2 index: 4
+  Start: (320, 256)
+  End: (320, 0)
+
+Processing Linedef 8:
+  Vertex1 index: 8
+  Vertex2 index: 9
+  Start: (0, 320)
+  End: (256, 320)
+
+Processing Linedef 9:
+  Vertex1 index: 9
+  Vertex2 index: 10
+  Start: (256, 320)
+  End: (256, 512)
+
+Processing Linedef 10:
+  Vertex1 index: 10
+  Vertex2 index: 11
+  Start: (256, 512)
+  End: (0, 512)
+
+Processing Linedef 11:
+  Vertex1 index: 11
+  Vertex2 index: 8
+  Start: (0, 512)
+  End: (0, 320)
+
+Processing Linedef 12:
+  Vertex1 index: 12
+  Vertex2 index: 13
+  Start: (320, 320)
+  End: (512, 320)
+
+Processing Linedef 13:
+  Vertex1 index: 13
+  Vertex2 index: 14
+  Start: (512, 320)
+  End: (512, 512)
+
+Processing Linedef 14:
+  Vertex1 index: 14
+  Vertex2 index: 15
+  Start: (512, 512)
+  End: (320, 512)
+
+Processing Linedef 15:
+  Vertex1 index: 15
+  Vertex2 index: 12
+  Start: (320, 512)
+  End: (320, 320)
+
+Processing Linedef 16:
+  Vertex1 index: 16
+  Vertex2 index: 17
+  Start: (128, 128)
+  End: (192, 64)
+
+Processing Linedef 17:
+  Vertex1 index: 17
+  Vertex2 index: 18
+  Start: (192, 64)
+  End: (256, 128)
+
+Processing Linedef 18:
+  Vertex1 index: 18
+  Vertex2 index: 19
+  Start: (256, 128)
+  End: (192, 192)
+
+Processing Linedef 19:
+  Vertex1 index: 19
+  Vertex2 index: 20
+  Start: (192, 192)
+  End: (128, 192)
+
+Processing Linedef 20:
+  Vertex1 index: 20
+  Vertex2 index: 21
+  Start: (128, 192)
+  End: (64, 128)
+
+Processing Linedef 21:
+  Vertex1 index: 21
+  Vertex2 index: 22
+  Start: (64, 128)
+  End: (128, 64)
+
+Processing Linedef 22:
+  Vertex1 index: 22
+  Vertex2 index: 16
+  Start: (128, 64)
+  End: (128, 128)
+
+Processing Linedef 23:
+  Vertex1 index: 1
+  Vertex2 index: 4
+  Start: (256, 0)
+  End: (320, 0)
+
+Processing Linedef 24:
+  Vertex1 index: 2
+  Vertex2 index: 9
+  Start: (256, 256)
+  End: (256, 320)
+
+Processing Linedef 25:
+  Vertex1 index: 7
+  Vertex2 index: 12
+  Start: (320, 256)
+  End: (320, 320)
+Processing line (320,256)->(320,320): Added to back
+Processing line (320,256)->(320,0): Added to back
+Processing line (256,0)->(256,256): Processing line (256,320)->(256,512): Processing line (320,0)->(512,0): Added to back
+Processing line (512,0)->(512,256): Added to back
+Processing line (512,256)->(320,256): Added to back
+Processing line (0,320)->(256,320): Added to front
+Processing line (0,0)->(256,0): Added to front
+Processing line (256,0)->(320,0): Added to back
+Processing line (256,512)->(0,512): Added to front
+Processing line (192,192)->(128,192): Added to front
+Processing line (64,128)->(128,64): Added to front
+Processing line (512,512)->(320,512): Added to back
+Processing line (192,64)->(256,128): Added to front
+Processing line (128,64)->(128,128): Added to front
+Processing line (256,256)->(0,256): Added to front
+Processing line (0,256)->(0,0): Added to front
+Processing line (256,128)->(192,192): Added to front
+Processing line (320,512)->(320,320): Added to back
+Processing line (128,192)->(64,128): Added to front
+Processing line (0,512)->(0,320): Added to front
+Processing line (512,320)->(512,512): Added to back
+Processing line (128,128)->(192,64): Added to front
+Processing line (320,320)->(512,320): Added to back
+Processing line (0,512)->(0,320): Added to back
+Processing line (192,64)->(256,128): Added to front
+Processing line (0,256)->(0,0): Added to front
+Processing line (0,0)->(256,0): Added to front
+Processing line (128,64)->(128,128): Added to front
+Processing line (0,320)->(256,320): Added to back
+Processing line (64,128)->(128,64): Added to front
+Processing line (256,128)->(192,192): Added to front
+Processing line (192,192)->(128,192): Added to front
+Processing line (128,128)->(192,64): Added to front
+Processing line (128,192)->(64,128): Added to front
+Processing line (256,512)->(0,512): Added to back
+Processing line (192,64)->(256,128): Added to front
+Processing line (128,192)->(64,128): Splitting line
+Processing line (256,512)->(0,512): Added to front
+Processing line (0,512)->(0,320): Added to front
+Processing line (512,512)->(320,512): Added to back
+Processing line (320,256)->(320,320): Added to back
+Processing line (320,0)->(512,0): Added to front
+Processing line (320,256)->(320,0): Added to front
+Processing line (512,320)->(512,512): Added to back
+Processing line (320,320)->(512,320): Added to back
+Processing line (256,0)->(320,0): Added to front
+Processing line (320,512)->(320,320): Added to back
+Processing line (512,0)->(512,256): Added to front
+Processing line (256,0)->(320,0): Added to back
+Processing line (512,0)->(512,256): Added to front
+Processing line (320,0)->(512,0): Added to front
+Processing line (512,512)->(320,512): Added to front
+Processing line (320,256)->(320,320): Added to back
+Processing line (320,512)->(320,320): Added to front
+Processing line (512,320)->(512,512): Added to front
+Processing line (320,512)->(320,320): Added to front
+Processing line (512,512)->(320,512): Added to front
+BSP Tree Stats:
+- Max Depth: 3
+- Total Errors: 0
+
+BSP Tree validation passed!
+Node partition: (256,256) -> (256,320)
+Node partition: (256,256) -> (0,256)
+Node partition: (128,128) -> (192,64)
+
+Point (100,100) not found in any node
+
+BSP Tree structure:
+
+=== BSP Tree ===
+
+
+Partition: Line: (256,256) -> (256,320) [type: 0]
+Lines (26):
+  [0] Line: (0,0) -> (256,0) [type: 0]
+  [1] Line: (256,0) -> (256,256) [type: 0]
+  [2] Line: (256,256) -> (0,256) [type: 0]
+  [3] Line: (0,256) -> (0,0) [type: 0]
+  [4] Line: (320,0) -> (512,0) [type: 0]
+  [5] Line: (512,0) -> (512,256) [type: 0]
+  [6] Line: (512,256) -> (320,256) [type: 0]
+  [7] Line: (320,256) -> (320,0) [type: 0]
+  [8] Line: (0,320) -> (256,320) [type: 0]
+  [9] Line: (256,320) -> (256,512) [type: 0]
+  [10] Line: (256,512) -> (0,512) [type: 0]
+  [11] Line: (0,512) -> (0,320) [type: 0]
+  [12] Line: (320,320) -> (512,320) [type: 0]
+  [13] Line: (512,320) -> (512,512) [type: 0]
+  [14] Line: (512,512) -> (320,512) [type: 0]
+  [15] Line: (320,512) -> (320,320) [type: 0]
+  [16] Line: (128,128) -> (192,64) [type: 0]
+  [17] Line: (192,64) -> (256,128) [type: 0]
+  [18] Line: (256,128) -> (192,192) [type: 0]
+  [19] Line: (192,192) -> (128,192) [type: 0]
+  [20] Line: (128,192) -> (64,128) [type: 0]
+  [21] Line: (64,128) -> (128,64) [type: 0]
+  [22] Line: (128,64) -> (128,128) [type: 0]
+  [23] Line: (256,0) -> (320,0) [type: 0]
+  [24] Line: (256,256) -> (256,320) [type: 0]
+  [25] Line: (320,256) -> (320,320) [type: 0]
+├── Front:
+│
+  Partition: Line: (256,256) -> (0,256) [type: 0]
+  Lines (13):
+    [0] Line: (0,320) -> (256,320) [type: 0]
+    [1] Line: (0,0) -> (256,0) [type: 0]
+    [2] Line: (256,512) -> (0,512) [type: 0]
+    [3] Line: (192,192) -> (128,192) [type: 0]
+    [4] Line: (64,128) -> (128,64) [type: 0]
+    [5] Line: (192,64) -> (256,128) [type: 0]
+    [6] Line: (128,64) -> (128,128) [type: 0]
+    [7] Line: (256,256) -> (0,256) [type: 0]
+    [8] Line: (0,256) -> (0,0) [type: 0]
+    [9] Line: (256,128) -> (192,192) [type: 0]
+    [10] Line: (128,192) -> (64,128) [type: 0]
+    [11] Line: (0,512) -> (0,320) [type: 0]
+    [12] Line: (128,128) -> (192,64) [type: 0]
+│├── Front:
+││
+    Partition: Line: (128,128) -> (192,64) [type: 0]
+    Lines (9):
+      [0] Line: (192,64) -> (256,128) [type: 0]
+      [1] Line: (0,256) -> (0,0) [type: 0]
+      [2] Line: (0,0) -> (256,0) [type: 0]
+      [3] Line: (128,64) -> (128,128) [type: 0]
+      [4] Line: (64,128) -> (128,64) [type: 0]
+      [5] Line: (256,128) -> (192,192) [type: 0]
+      [6] Line: (192,192) -> (128,192) [type: 0]
+      [7] Line: (128,128) -> (192,64) [type: 0]
+      [8] Line: (128,192) -> (64,128) [type: 0]
+│└── Back:
+│   
+    Partition: Line: (0,320) -> (256,320) [type: 0]
+    Lines (3):
+      [0] Line: (0,512) -> (0,320) [type: 0]
+      [1] Line: (0,320) -> (256,320) [type: 0]
+      [2] Line: (256,512) -> (0,512) [type: 0]
+└── Back:
+   
+  Partition: Line: (512,256) -> (320,256) [type: 0]
+  Lines (10):
+    [0] Line: (320,256) -> (320,320) [type: 0]
+    [1] Line: (320,256) -> (320,0) [type: 0]
+    [2] Line: (320,0) -> (512,0) [type: 0]
+    [3] Line: (512,0) -> (512,256) [type: 0]
+    [4] Line: (512,256) -> (320,256) [type: 0]
+    [5] Line: (256,0) -> (320,0) [type: 0]
+    [6] Line: (512,512) -> (320,512) [type: 0]
+    [7] Line: (320,512) -> (320,320) [type: 0]
+    [8] Line: (512,320) -> (512,512) [type: 0]
+    [9] Line: (320,320) -> (512,320) [type: 0]
+   ├── Front:
+   │
+    Partition: Line: (320,256) -> (320,0) [type: 0]
+    Lines (4):
+      [0] Line: (320,0) -> (512,0) [type: 0]
+      [1] Line: (320,256) -> (320,0) [type: 0]
+      [2] Line: (256,0) -> (320,0) [type: 0]
+      [3] Line: (512,0) -> (512,256) [type: 0]
+   │├── Front:
+   ││
+      Leaf Node
+      Lines (2):
+        [0] Line: (512,0) -> (512,256) [type: 0]
+        [1] Line: (320,0) -> (512,0) [type: 0]
+   │└── Back:
+   │   
+      Leaf Node
+      Lines (1):
+        [0] Line: (256,0) -> (320,0) [type: 0]
+   └── Back:
+      
+    Partition: Line: (320,320) -> (512,320) [type: 0]
+    Lines (5):
+      [0] Line: (512,512) -> (320,512) [type: 0]
+      [1] Line: (320,256) -> (320,320) [type: 0]
+      [2] Line: (512,320) -> (512,512) [type: 0]
+      [3] Line: (320,320) -> (512,320) [type: 0]
+      [4] Line: (320,512) -> (320,320) [type: 0]
+      ├── Front:
+      │
+      Partition: Line: (512,320) -> (512,512) [type: 0]
+      Lines (3):
+        [0] Line: (512,512) -> (320,512) [type: 0]
+        [1] Line: (320,512) -> (320,320) [type: 0]
+        [2] Line: (512,320) -> (512,512) [type: 0]
+      └── Back:
+         
+      Leaf Node
+      Lines (1):
+        [0] Line: (320,256) -> (320,320) [type: 0]
+
+=== End of Tree ===
+
+Cleaning up...

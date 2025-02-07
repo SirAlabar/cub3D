@@ -192,4 +192,7 @@ t_fixed32	evaluate_seed_quality(t_bsp_line **lines, int count,
 unsigned int	find_best_seed(t_bsp_line **lines, int count, int depth);		
 void	init_count_data(t_count_data *count);
 
+t_bsp_node	*init_node(t_bsp_line **lines, int num_lines);
+void	free_bsp_node(t_bsp_node *node);
+
 #endif

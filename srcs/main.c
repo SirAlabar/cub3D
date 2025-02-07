@@ -555,6 +555,50 @@ static void test_line_splitting(void)
     ft_printf("\n=== End of Line Splitting Tests ===\n");
 }
 
+static void test_bsp_tree_construction(void)
+{
+    t_doom_map      *map;
+    t_bsp_tree      *tree;
+    t_bsp_line      **lines;
+    int             num_lines;
+
+    ft_printf("\n=== Testing BSP Tree Construction ===\n");
+
+    map = create_complex_test_map();
+    if (!map)
+    {
+        ft_printf("Failed to create test map\n");
+        return ;
+    }
+
+    ft_printf("Input map:\n");
+    print_map_details(map);
+
+    if (!extract_map_lines(map, &lines, &num_lines))
+    {
+        ft_printf("Failed to extract lines\n");
+        free(map);
+        return ;
+    }
+
+    tree = init_bsp_build(map);
+    if (!tree)
+    {
+        ft_printf("Failed to create BSP tree\n");
+        free(map);
+        return ;
+    }
+
+    ft_printf("\nBSP Tree structure:\n");
+    print_bsp_tree(tree);
+
+    ft_printf("\nCleaning up...\n");
+    free_bsp_tree(tree);
+    free(map);
+
+    ft_printf("=== End of BSP Tree Construction Test ===\n");
+}
+
 int main(void)
 {
     test_map_line_extraction();
@@ -562,6 +606,7 @@ int main(void)
     test_partition_selection();
     test_point_classification();
     test_line_splitting();
+    test_bsp_tree_construction();
     
     return (0);
 }

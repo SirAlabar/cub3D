@@ -17,21 +17,41 @@
 * Free all lines stored in a node
 * Safe to call with NULL pointers
 */
-static void	free_node_lines(t_bsp_line **lines, int num_lines)
+static void	free_node_lines(t_bsp_line **lines, int num_lines,
+	t_bsp_line *partition)
 {
 	int	i;
 
 	if (!lines)
 		return ;
-	i = -1;
-	while (++i < num_lines)
+	i = 0;
+	while (i < num_lines)
 	{
-		if (lines[i])
+		if (lines[i] && lines[i] != partition)
+		{
 			free(lines[i]);
+			lines[i] = NULL;
+		}
+		i++;
 	}
 	free(lines);
 }
 
+static void	free_node_content(t_bsp_node *node)
+{
+	if (!node)
+		return ;
+	if (node->lines)
+	{
+		free_node_lines(node->lines, node->num_lines, node->partition);
+		node->lines = NULL;
+	}
+	if (node->partition)
+	{
+		free(node->partition);
+		node->partition = NULL;
+	}
+}
 /*
 ** Recursively free a BSP node and all its children
 ** Safe to call with NULL pointer
@@ -41,12 +61,16 @@ void	free_bsp_node(t_bsp_node *node)
 	if (!node)
 		return ;
 	if (node->front)
+	{
 		free_bsp_node(node->front);
+		node->front = NULL;
+	}
 	if (node->back)
+	{
 		free_bsp_node(node->back);
-	if (node->partition)
-		free(node->partition);
-	free_node_lines(node->lines, node->num_lines);
+		node->back = NULL;
+	}
+	free_node_content(node);
 	free(node);
 }
 
@@ -142,6 +166,10 @@ void	free_bsp_tree(t_bsp_tree *tree)
 {
 	if (!tree)
 		return ;
-	free_bsp_node(tree->root);
+	if (tree->root)
+	{
+		free_bsp_node(tree->root);
+		tree->root = NULL;
+	}
 	free(tree);
 }
