@@ -1,0 +1,619 @@
+
+=== Map Details ===
+Vertices (23):
+v0: (0, 0)
+v1: (256, 0)
+v2: (256, 256)
+v3: (0, 256)
+v4: (320, 0)
+v5: (512, 0)
+v6: (512, 256)
+v7: (320, 256)
+v8: (0, 320)
+v9: (256, 320)
+v10: (256, 512)
+v11: (0, 512)
+v12: (320, 320)
+v13: (512, 320)
+v14: (512, 512)
+v15: (320, 512)
+v16: (128, 128)
+v17: (192, 64)
+v18: (256, 128)
+v19: (192, 192)
+v20: (128, 192)
+v21: (64, 128)
+v22: (128, 64)
+
+Linedefs (26):
+l0: v0 -> v1 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l1: v1 -> v2 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l2: v2 -> v3 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l3: v3 -> v0 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l4: v4 -> v5 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l5: v5 -> v6 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l6: v6 -> v7 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l7: v7 -> v4 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l8: v8 -> v9 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l9: v9 -> v10 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l10: v10 -> v11 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l11: v11 -> v8 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l12: v12 -> v13 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l13: v13 -> v14 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l14: v14 -> v15 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l15: v15 -> v12 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l16: v16 -> v17 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l17: v17 -> v18 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l18: v18 -> v19 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l19: v19 -> v20 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l20: v20 -> v21 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l21: v21 -> v22 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l22: v22 -> v16 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l23: v1 -> v4 (type: 0, front_sidedef: -1, back_sidedef: -1)
+l24: v2 -> v9 (type: 0, front_sidedef: 0, back_sidedef: -1)
+l25: v7 -> v12 (type: 0, front_sidedef: 1, back_sidedef: -1)
+
+=== End of Map Details ===
+
+
+
+=== Testing Map Line Extraction ===
+
+=== Detailed Map Line Extraction ===
+Total vertices: 23
+Total linedefs: 26
+
+Processing Linedef 0:
+  Vertex1 index: 0
+  Vertex2 index: 1
+  Start: (0, 0)
+  End: (256, 0)
+
+Processing Linedef 1:
+  Vertex1 index: 1
+  Vertex2 index: 2
+  Start: (256, 0)
+  End: (256, 256)
+
+Processing Linedef 2:
+  Vertex1 index: 2
+  Vertex2 index: 3
+  Start: (256, 256)
+  End: (0, 256)
+
+Processing Linedef 3:
+  Vertex1 index: 3
+  Vertex2 index: 0
+  Start: (0, 256)
+  End: (0, 0)
+
+Processing Linedef 4:
+  Vertex1 index: 4
+  Vertex2 index: 5
+  Start: (320, 0)
+  End: (512, 0)
+
+Processing Linedef 5:
+  Vertex1 index: 5
+  Vertex2 index: 6
+  Start: (512, 0)
+  End: (512, 256)
+
+Processing Linedef 6:
+  Vertex1 index: 6
+  Vertex2 index: 7
+  Start: (512, 256)
+  End: (320, 256)
+
+Processing Linedef 7:
+  Vertex1 index: 7
+  Vertex2 index: 4
+  Start: (320, 256)
+  End: (320, 0)
+
+Processing Linedef 8:
+  Vertex1 index: 8
+  Vertex2 index: 9
+  Start: (0, 320)
+  End: (256, 320)
+
+Processing Linedef 9:
+  Vertex1 index: 9
+  Vertex2 index: 10
+  Start: (256, 320)
+  End: (256, 512)
+
+Processing Linedef 10:
+  Vertex1 index: 10
+  Vertex2 index: 11
+  Start: (256, 512)
+  End: (0, 512)
+
+Processing Linedef 11:
+  Vertex1 index: 11
+  Vertex2 index: 8
+  Start: (0, 512)
+  End: (0, 320)
+
+Processing Linedef 12:
+  Vertex1 index: 12
+  Vertex2 index: 13
+  Start: (320, 320)
+  End: (512, 320)
+
+Processing Linedef 13:
+  Vertex1 index: 13
+  Vertex2 index: 14
+  Start: (512, 320)
+  End: (512, 512)
+
+Processing Linedef 14:
+  Vertex1 index: 14
+  Vertex2 index: 15
+  Start: (512, 512)
+  End: (320, 512)
+
+Processing Linedef 15:
+  Vertex1 index: 15
+  Vertex2 index: 12
+  Start: (320, 512)
+  End: (320, 320)
+
+Processing Linedef 16:
+  Vertex1 index: 16
+  Vertex2 index: 17
+  Start: (128, 128)
+  End: (192, 64)
+
+Processing Linedef 17:
+  Vertex1 index: 17
+  Vertex2 index: 18
+  Start: (192, 64)
+  End: (256, 128)
+
+Processing Linedef 18:
+  Vertex1 index: 18
+  Vertex2 index: 19
+  Start: (256, 128)
+  End: (192, 192)
+
+Processing Linedef 19:
+  Vertex1 index: 19
+  Vertex2 index: 20
+  Start: (192, 192)
+  End: (128, 192)
+
+Processing Linedef 20:
+  Vertex1 index: 20
+  Vertex2 index: 21
+  Start: (128, 192)
+  End: (64, 128)
+
+Processing Linedef 21:
+  Vertex1 index: 21
+  Vertex2 index: 22
+  Start: (64, 128)
+  End: (128, 64)
+
+Processing Linedef 22:
+  Vertex1 index: 22
+  Vertex2 index: 16
+  Start: (128, 64)
+  End: (128, 128)
+
+Processing Linedef 23:
+  Vertex1 index: 1
+  Vertex2 index: 4
+  Start: (256, 0)
+  End: (320, 0)
+
+Processing Linedef 24:
+  Vertex1 index: 2
+  Vertex2 index: 9
+  Start: (256, 256)
+  End: (256, 320)
+
+Processing Linedef 25:
+  Vertex1 index: 7
+  Vertex2 index: 12
+  Start: (320, 256)
+  End: (320, 320)
+Successfully extracted 26 lines
+Line 0: (0,0) -> (256,0) [type: 0]
+Line 1: (256,0) -> (256,256) [type: 0]
+Line 2: (256,256) -> (0,256) [type: 0]
+Line 3: (0,256) -> (0,0) [type: 0]
+Line 4: (320,0) -> (512,0) [type: 0]
+
+=== Testing Line Classification ===
+
+=== Detailed Map Line Extraction ===
+Total vertices: 23
+Total linedefs: 26
+
+Processing Linedef 0:
+  Vertex1 index: 0
+  Vertex2 index: 1
+  Start: (0, 0)
+  End: (256, 0)
+
+Processing Linedef 1:
+  Vertex1 index: 1
+  Vertex2 index: 2
+  Start: (256, 0)
+  End: (256, 256)
+
+Processing Linedef 2:
+  Vertex1 index: 2
+  Vertex2 index: 3
+  Start: (256, 256)
+  End: (0, 256)
+
+Processing Linedef 3:
+  Vertex1 index: 3
+  Vertex2 index: 0
+  Start: (0, 256)
+  End: (0, 0)
+
+Processing Linedef 4:
+  Vertex1 index: 4
+  Vertex2 index: 5
+  Start: (320, 0)
+  End: (512, 0)
+
+Processing Linedef 5:
+  Vertex1 index: 5
+  Vertex2 index: 6
+  Start: (512, 0)
+  End: (512, 256)
+
+Processing Linedef 6:
+  Vertex1 index: 6
+  Vertex2 index: 7
+  Start: (512, 256)
+  End: (320, 256)
+
+Processing Linedef 7:
+  Vertex1 index: 7
+  Vertex2 index: 4
+  Start: (320, 256)
+  End: (320, 0)
+
+Processing Linedef 8:
+  Vertex1 index: 8
+  Vertex2 index: 9
+  Start: (0, 320)
+  End: (256, 320)
+
+Processing Linedef 9:
+  Vertex1 index: 9
+  Vertex2 index: 10
+  Start: (256, 320)
+  End: (256, 512)
+
+Processing Linedef 10:
+  Vertex1 index: 10
+  Vertex2 index: 11
+  Start: (256, 512)
+  End: (0, 512)
+
+Processing Linedef 11:
+  Vertex1 index: 11
+  Vertex2 index: 8
+  Start: (0, 512)
+  End: (0, 320)
+
+Processing Linedef 12:
+  Vertex1 index: 12
+  Vertex2 index: 13
+  Start: (320, 320)
+  End: (512, 320)
+
+Processing Linedef 13:
+  Vertex1 index: 13
+  Vertex2 index: 14
+  Start: (512, 320)
+  End: (512, 512)
+
+Processing Linedef 14:
+  Vertex1 index: 14
+  Vertex2 index: 15
+  Start: (512, 512)
+  End: (320, 512)
+
+Processing Linedef 15:
+  Vertex1 index: 15
+  Vertex2 index: 12
+  Start: (320, 512)
+  End: (320, 320)
+
+Processing Linedef 16:
+  Vertex1 index: 16
+  Vertex2 index: 17
+  Start: (128, 128)
+  End: (192, 64)
+
+Processing Linedef 17:
+  Vertex1 index: 17
+  Vertex2 index: 18
+  Start: (192, 64)
+  End: (256, 128)
+
+Processing Linedef 18:
+  Vertex1 index: 18
+  Vertex2 index: 19
+  Start: (256, 128)
+  End: (192, 192)
+
+Processing Linedef 19:
+  Vertex1 index: 19
+  Vertex2 index: 20
+  Start: (192, 192)
+  End: (128, 192)
+
+Processing Linedef 20:
+  Vertex1 index: 20
+  Vertex2 index: 21
+  Start: (128, 192)
+  End: (64, 128)
+
+Processing Linedef 21:
+  Vertex1 index: 21
+  Vertex2 index: 22
+  Start: (64, 128)
+  End: (128, 64)
+
+Processing Linedef 22:
+  Vertex1 index: 22
+  Vertex2 index: 16
+  Start: (128, 64)
+  End: (128, 128)
+
+Processing Linedef 23:
+  Vertex1 index: 1
+  Vertex2 index: 4
+  Start: (256, 0)
+  End: (320, 0)
+
+Processing Linedef 24:
+  Vertex1 index: 2
+  Vertex2 index: 9
+  Start: (256, 256)
+  End: (256, 320)
+
+Processing Linedef 25:
+  Vertex1 index: 7
+  Vertex2 index: 12
+  Start: (320, 256)
+  End: (320, 320)
+Partition Line: (0,0) -> (256,0)
+Line 1: (256,0) -> (256,256) - Side: 1
+Line 2: (256,256) -> (0,256) - Side: 1
+Line 3: (0,256) -> (0,0) - Side: 1
+Line 4: (320,0) -> (512,0) - Side: 2
+Line 5: (512,0) -> (512,256) - Side: 1
+Line 6: (512,256) -> (320,256) - Side: 1
+Line 7: (320,256) -> (320,0) - Side: 1
+Line 8: (0,320) -> (256,320) - Side: 1
+Line 9: (256,320) -> (256,512) - Side: 1
+Line 10: (256,512) -> (0,512) - Side: 1
+Line 11: (0,512) -> (0,320) - Side: 1
+Line 12: (320,320) -> (512,320) - Side: 1
+Line 13: (512,320) -> (512,512) - Side: 1
+Line 14: (512,512) -> (320,512) - Side: 1
+Line 15: (320,512) -> (320,320) - Side: 1
+Line 16: (128,128) -> (192,64) - Side: 1
+Line 17: (192,64) -> (256,128) - Side: 1
+Line 18: (256,128) -> (192,192) - Side: 1
+Line 19: (192,192) -> (128,192) - Side: 1
+Line 20: (128,192) -> (64,128) - Side: 1
+Line 21: (64,128) -> (128,64) - Side: 1
+Line 22: (128,64) -> (128,128) - Side: 1
+Line 23: (256,0) -> (320,0) - Side: 2
+Line 24: (256,256) -> (256,320) - Side: 1
+Line 25: (320,256) -> (320,320) - Side: 1
+
+=== Testing Partition Selection ===
+
+=== Detailed Map Line Extraction ===
+Total vertices: 23
+Total linedefs: 26
+
+Processing Linedef 0:
+  Vertex1 index: 0
+  Vertex2 index: 1
+  Start: (0, 0)
+  End: (256, 0)
+
+Processing Linedef 1:
+  Vertex1 index: 1
+  Vertex2 index: 2
+  Start: (256, 0)
+  End: (256, 256)
+
+Processing Linedef 2:
+  Vertex1 index: 2
+  Vertex2 index: 3
+  Start: (256, 256)
+  End: (0, 256)
+
+Processing Linedef 3:
+  Vertex1 index: 3
+  Vertex2 index: 0
+  Start: (0, 256)
+  End: (0, 0)
+
+Processing Linedef 4:
+  Vertex1 index: 4
+  Vertex2 index: 5
+  Start: (320, 0)
+  End: (512, 0)
+
+Processing Linedef 5:
+  Vertex1 index: 5
+  Vertex2 index: 6
+  Start: (512, 0)
+  End: (512, 256)
+
+Processing Linedef 6:
+  Vertex1 index: 6
+  Vertex2 index: 7
+  Start: (512, 256)
+  End: (320, 256)
+
+Processing Linedef 7:
+  Vertex1 index: 7
+  Vertex2 index: 4
+  Start: (320, 256)
+  End: (320, 0)
+
+Processing Linedef 8:
+  Vertex1 index: 8
+  Vertex2 index: 9
+  Start: (0, 320)
+  End: (256, 320)
+
+Processing Linedef 9:
+  Vertex1 index: 9
+  Vertex2 index: 10
+  Start: (256, 320)
+  End: (256, 512)
+
+Processing Linedef 10:
+  Vertex1 index: 10
+  Vertex2 index: 11
+  Start: (256, 512)
+  End: (0, 512)
+
+Processing Linedef 11:
+  Vertex1 index: 11
+  Vertex2 index: 8
+  Start: (0, 512)
+  End: (0, 320)
+
+Processing Linedef 12:
+  Vertex1 index: 12
+  Vertex2 index: 13
+  Start: (320, 320)
+  End: (512, 320)
+
+Processing Linedef 13:
+  Vertex1 index: 13
+  Vertex2 index: 14
+  Start: (512, 320)
+  End: (512, 512)
+
+Processing Linedef 14:
+  Vertex1 index: 14
+  Vertex2 index: 15
+  Start: (512, 512)
+  End: (320, 512)
+
+Processing Linedef 15:
+  Vertex1 index: 15
+  Vertex2 index: 12
+  Start: (320, 512)
+  End: (320, 320)
+
+Processing Linedef 16:
+  Vertex1 index: 16
+  Vertex2 index: 17
+  Start: (128, 128)
+  End: (192, 64)
+
+Processing Linedef 17:
+  Vertex1 index: 17
+  Vertex2 index: 18
+  Start: (192, 64)
+  End: (256, 128)
+
+Processing Linedef 18:
+  Vertex1 index: 18
+  Vertex2 index: 19
+  Start: (256, 128)
+  End: (192, 192)
+
+Processing Linedef 19:
+  Vertex1 index: 19
+  Vertex2 index: 20
+  Start: (192, 192)
+  End: (128, 192)
+
+Processing Linedef 20:
+  Vertex1 index: 20
+  Vertex2 index: 21
+  Start: (128, 192)
+  End: (64, 128)
+
+Processing Linedef 21:
+  Vertex1 index: 21
+  Vertex2 index: 22
+  Start: (64, 128)
+  End: (128, 64)
+
+Processing Linedef 22:
+  Vertex1 index: 22
+  Vertex2 index: 16
+  Start: (128, 64)
+  End: (128, 128)
+
+Processing Linedef 23:
+  Vertex1 index: 1
+  Vertex2 index: 4
+  Start: (256, 0)
+  End: (320, 0)
+
+Processing Linedef 24:
+  Vertex1 index: 2
+  Vertex2 index: 9
+  Start: (256, 256)
+  End: (256, 320)
+
+Processing Linedef 25:
+  Vertex1 index: 7
+  Vertex2 index: 12
+  Start: (320, 256)
+  End: (320, 320)
+Best Partition Selected: (256,0) -> (256,256)
+
+=== Testing Point Classification ===
+Test Line: (0,0) -> (100,0)
+
+Testing clear front/back points:
+Point Front (50,10): 1
+Point Back (50,-10): -1
+
+Testing point on the line:
+Point Near (50,0): 2
+
+Testing point beyond endpoint:
+Point Beyond (150,0): 2
+
+Testing with diagonal line:
+Diagonal Line: (0,0) -> (100,100)
+Test Point (50,40): -1
+
+=== End of Point Classification Tests ===
+
+=== Testing Line Splitting ===
+
+Test Case 1 - Cross Split:
+Partition: (100,100) -> (300,100)
+Line: (200,0) -> (200,200)
+Split successful!
+Front part: (200,122) -> (200,200)
+Back part: (200,0) -> (200,122)
+
+Test Case 2 - Diagonal Split:
+Partition: (0,0) -> (200,200)
+Line: (0,200) -> (200,0)
+Split successful!
+Front part: (0,200) -> (200,0)
+Back part: (200,0) -> (200,0)
+
+Test Case 3 - Parallel Lines:
+Testing with original partition and parallel line:
+Line: (100,150) -> (300,150)
+No split (correct for parallel lines)
+
+=== End of Line Splitting Tests ===

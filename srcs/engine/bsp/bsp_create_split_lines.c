@@ -17,36 +17,42 @@
 ** Calculates intersection point between line and partition
 ** Returns intersection point in fixed point coordinates
 */
-static t_fixed_vec32  find_intersection(t_bsp_line *line, t_bsp_line *part)
+static t_fixed_vec32	find_intersection(t_bsp_line *line, t_bsp_line *part)
 {
-    t_fixed_vec32  delta;
-    t_fixed_vec32  part_delta;
-    t_fixed32      den;
-    t_fixed32      t;
+	t_fixed_vec32	delta;
+	t_fixed_vec32	part_delta;
+	t_fixed32		den;
+	t_fixed32		t;
 
-    delta.x = fixed32_sub(line->end.x, line->start.x);
-    delta.y = fixed32_sub(line->end.y, line->start.y);
-    
-    part_delta.x = fixed32_sub(part->end.x, part->start.x);
-    part_delta.y = fixed32_sub(part->end.y, part->start.y);
+	delta.x = fixed32_sub(line->end.x, line->start.x);
+	delta.y = fixed32_sub(line->end.y, line->start.y);
+	part_delta.x = fixed32_sub(part->end.x, part->start.x);
+	part_delta.y = fixed32_sub(part->end.y, part->start.y);
+	den = fixed32_sub(fixed32_mul(delta.x, part_delta.y),
+			fixed32_mul(delta.y, part_delta.x));
+	if (den == 0)
+		return ((t_fixed_vec32){0, 0});
+	if (delta.x == 0)
+		return ((t_fixed_vec32){line->start.x, part->start.y});
+	t = fixed32_div(fixed32_sub(fixed32_mul(part_delta.x,
+					fixed32_sub(line->start.y, part->start.y)),
+				fixed32_mul(part_delta.y,
+					fixed32_sub(line->start.x, part->start.x))), den);
+	return ((t_fixed_vec32){fixed32_add(line->start.x, fixed32_mul(delta.x, t)),
+		fixed32_add(line->start.y, fixed32_mul(delta.y, t))});
+}
 
-    den = fixed32_sub(
-        fixed32_mul(delta.x, part_delta.y),
-        fixed32_mul(delta.y, part_delta.x)
-    );
 
-    t = fixed32_div(
-        fixed32_sub(
-            fixed32_mul(part_delta.x, fixed32_sub(line->start.y, part->start.y)),
-            fixed32_mul(part_delta.y, fixed32_sub(line->start.x, part->start.x))
-        ),
-        den
-    );
-
-    return ((t_fixed_vec32){
-        fixed32_add(line->start.x, fixed32_mul(delta.x, t)),
-        fixed32_add(line->start.y, fixed32_mul(delta.y, t))
-    });
+static bool	check_bounds(t_fixed_vec32 point, t_bsp_line *line)
+{
+	if (line->start.x == line->end.x)
+		return (point.x == line->start.x
+			&& point.y >= fix_min(line->start.y, line->end.y)
+			&& point.y <= fix_max(line->start.y, line->end.y));
+	return (point.x >= fix_min(line->start.x, line->end.x)
+		&& point.x <= fix_max(line->start.x, line->end.x)
+		&& point.y >= fix_min(line->start.y, line->end.y)
+		&& point.y <= fix_max(line->start.y, line->end.y));
 }
 
 /*
@@ -63,37 +69,11 @@ static bool	allocate_split_lines(t_bsp_line **front, t_bsp_line **back,
 	{
 		free(*front);
 		free(*back);
+		*front = NULL;
+		*back = NULL;
 		return (false);
 	}
 	return (true);
-}
-
-/*
-** Classifies points and creates split lines
-** Sets front and back pointers to NULL if split fails
-*/
-static void	classify_and_split(t_bsp_line *line, t_bsp_line *partition,
-		t_bsp_line **front, t_bsp_line **back)
-{
-	t_fixed_vec32	intersect;
-	t_bsp_side		start_side;
-	//t_bsp_side		end_side;
-
-	*front = NULL;
-	*back = NULL;
-	intersect = find_intersection(line, partition);
-	start_side = bsp_classify_point(line->start, partition);
-	//end_side = bsp_classify_point(line->end, partition);
-	if (start_side == BSP_FRONT || start_side == BSP_COLINEAR)
-	{
-		if (!allocate_split_lines(front, back, line, intersect))
-			return ;
-	}
-	else
-	{
-		if (!allocate_split_lines(back, front, line, intersect))
-			return ;
-	}
 }
 
 /*
@@ -103,8 +83,18 @@ static void	classify_and_split(t_bsp_line *line, t_bsp_line *partition,
 bool	split_bsp_line(t_bsp_line *line, t_bsp_line *partition,
 		t_bsp_line **front, t_bsp_line **back)
 {
-	classify_and_split(line, partition, front, back);
-	if (*front == NULL || *back == NULL)
+	t_fixed_vec32	intersect;
+	t_bsp_side		side;
+
+	*front = NULL;
+	*back = NULL;
+	side = bsp_classify_line(line, partition);
+	if (side != BSP_SPANNING)
 		return (false);
-	return (true);
+	intersect = find_intersection(line, partition);
+	if (!check_bounds(intersect, line) || !check_bounds(intersect, partition))
+		return (false);
+	if (bsp_classify_point(line->start, partition) == BSP_FRONT)
+		return (allocate_split_lines(front, back, line, intersect));
+	return (allocate_split_lines(back, front, line, intersect));
 }

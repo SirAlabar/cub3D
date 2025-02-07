@@ -16,18 +16,60 @@
 ** Find node containing given point in BSP tree
 ** Returns NULL if point not found or tree is empty
 */
-t_bsp_node	*find_node(t_bsp_node *node, t_fixed_vec32 point)
+t_bsp_node *find_node(t_bsp_node *node, t_fixed_vec32 point)
 {
-	t_bsp_side	side;
+    if (!node)
+        return (NULL);
 
-	if (!node)
-		return (NULL);
-	if (!node->partition)
-		return (node);
-	side = bsp_classify_point(point, node->partition);
-	if (side == BSP_FRONT)
-		return (find_node(node->front, point));
-	return (find_node(node->back, point));
+    static int max_depth = 10;
+    static int current_depth = 0;
+
+    if (current_depth >= max_depth)
+    {
+        ft_printf("Max depth reached\n");
+        return (NULL);
+    }
+
+
+    if (!node->partition)
+    {
+        ft_printf("Reached leaf node\n");
+        return (node);
+    }
+
+    // Adicionar diagnóstico detalhado
+    ft_printf("Node partition: (%d,%d) -> (%d,%d)\n", 
+              fixed32_to_int(node->partition->start.x),
+              fixed32_to_int(node->partition->start.y),
+              fixed32_to_int(node->partition->end.x),
+              fixed32_to_int(node->partition->end.y));
+
+    t_bsp_side side = bsp_classify_point(point, node->partition);
+    
+    current_depth++;
+    t_bsp_node *result = NULL;
+
+    switch (side)
+    {
+        case BSP_FRONT:
+            if (node->front)
+                result = find_node(node->front, point);
+            break;
+        case BSP_BACK:
+            if (node->back)
+                result = find_node(node->back, point);
+            break;
+        case BSP_COLINEAR:
+        case BSP_SPANNING:
+            if (node->front)
+                result = find_node(node->front, point);
+            if (!result && node->back)
+                result = find_node(node->back, point);
+            break;
+    }
+
+    current_depth--;
+    return result;
 }
 
 /*

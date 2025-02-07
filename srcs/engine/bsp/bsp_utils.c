@@ -31,7 +31,7 @@ t_bsp_tree *init_bsp_build(t_doom_map *map)
         free(tree);
         return (NULL);
     }
-    tree->root = build_bsp_tree(lines, num_lines);
+    tree->root = build_bsp_tree(lines, num_lines, 0);
     free(lines);
     if (!tree->root)
     {
@@ -97,7 +97,7 @@ t_bsp_node	*create_bsp_node(void)
 	node->back = NULL;
 	node->lines = NULL;
 	node->num_lines = 0;
-	node->lines = NULL;
+	node->depth = 0;	
 	return (node);
 }
 

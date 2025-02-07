@@ -18,6 +18,13 @@
 # include <stddef.h>
 # include <libft.h>
 
+/* BSP Configuration */
+# define BSP_WEIGHT_FACTOR     3
+# define BSP_MIN_SEED         0
+# define BSP_MAX_SEED         1000
+# define BSP_MAX_DEPTH        16
+# define BSP_MIN_NODE_SIZE    4096 
+
 /* Fixed point value for collision detection (1/16) */
 # define COLLISION_THRESHOLD   4096
 /* Penalty factor for each line split during partition */
@@ -49,6 +56,7 @@ typedef struct s_bsp_node
 	struct s_bsp_node	*back;
 	t_bsp_line			**lines;
 	int					num_lines;
+    int                 depth;	
 }						t_bsp_node;
 
 /*
@@ -59,6 +67,9 @@ typedef struct s_bsp_node
 typedef struct s_bsp_tree
 {
 	t_bsp_node			*root;
+    t_fixed32           best_score;
+    unsigned int        best_seed;
+    int                 max_depth; 	
 }						t_bsp_tree;
 
 /*
@@ -87,6 +98,9 @@ typedef struct s_count_data
 	int					front;
 	int					back;
 	int					split;
+	int					total_splits;
+	int					tree_depth;
+	int					max_depth;	
 }						t_count_data;
 
 /*
@@ -110,10 +124,13 @@ typedef enum e_bsp_side
 */
 
 /* bsp_build.c */
-t_bsp_node				*build_bsp_tree(t_bsp_line **lines, int num_lines);
+t_bsp_node	*build_bsp_tree(t_bsp_line **lines, int num_lines, int depth);
+t_bsp_node	*build_subtrees(t_bsp_node *node, t_bsp_data *data);
 t_bsp_line				*choose_partition(t_bsp_line **lines, int num_lines);
-t_fixed32				eval_partition(t_bsp_line *partition,
-							t_bsp_line **lines, int num_lines);
+t_fixed32	eval_partition(t_bsp_line *partition, t_bsp_line **lines,
+		int num_lines, int depth);
+		void	count_line_sides(t_bsp_line *line, t_bsp_line *partition,
+		t_count_data *count);
 
 /* bsp_classify.c */
 t_bsp_side				bsp_classify_line(t_bsp_line *line,
@@ -166,5 +183,13 @@ void	print_bsp_tree_recursive(t_bsp_node *node, int depth, char *prefix);
 void	count_line_sides(t_bsp_line *line, t_bsp_line *partition,
 		t_count_data *count);
 t_bsp_node	*build_subtrees(t_bsp_node *node, t_bsp_data *data);
+
+
+unsigned int	generate_random_seed(void);
+void	shuffle_lines(t_bsp_line **lines, int count, unsigned int seed);
+t_fixed32	evaluate_seed_quality(t_bsp_line **lines, int count,
+		unsigned int seed, int depth);
+unsigned int	find_best_seed(t_bsp_line **lines, int count, int depth);		
+void	init_count_data(t_count_data *count);
 
 #endif

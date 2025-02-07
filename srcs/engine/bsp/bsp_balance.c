@@ -12,6 +12,20 @@
 
 #include <bsp.h>
 
+
+/*
+** Initializes count data structure with zero values
+*/
+void	init_count_data(t_count_data *count)
+{
+	count->front = 0;
+	count->back = 0;
+	count->split = 0;
+	count->total_splits = 0;
+	count->tree_depth = 0;
+	count->max_depth = 0;
+}
+
 /*
 ** Calculate balance score for a partition line
 ** Based on distribution of lines and potential splits
@@ -25,6 +39,9 @@ static t_fixed32	calculate_balance_score(t_bsp_node *node, t_bsp_line *line)
 	count.front = 0;
 	count.back = 0;
 	count.split = 0;
+    count.total_splits = 0;
+    count.tree_depth = 0;
+    count.max_depth = 0;
 	i = 0;
 	while (i < node->num_lines)
 	{
