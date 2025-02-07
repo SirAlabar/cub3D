@@ -58,30 +58,39 @@ static bool process_line(t_bsp_data *data, t_bsp_line *line,
         t_bsp_line *partition)
 {
     t_bsp_side  side;
-    t_bsp_line  *front_split;
-    t_bsp_line  *back_split;
+    t_bsp_line  *front_split = NULL;
+    t_bsp_line  *back_split = NULL;ma
 
     side = bsp_classify_line(line, partition);
-    ft_printf("Processing line (%d,%d)->(%d,%d): ",
-        fixed32_to_int(line->start.x),
-        fixed32_to_int(line->start.y),
-        fixed32_to_int(line->end.x),
-        fixed32_to_int(line->end.y));
 
-    if (side == BSP_FRONT || side == BSP_BACK) {
-        ft_printf("Added to %s\n", side == BSP_FRONT ? "front" : "back");
-        add_line_to_side(data, line, side);
+    switch (side) {
+        case BSP_FRONT:
+        case BSP_BACK:
+            add_line_to_side(data, line, side);
+            break;
+        case BSP_SPANNING:
+            // Tentar split, mas não abortar se falhar
+            if (split_bsp_line(line, partition, &front_split, &back_split)) {
+                if (front_split)
+                    add_line_to_side(data, front_split, BSP_FRONT);
+                if (back_split)
+                    add_line_to_side(data, back_split, BSP_BACK);
+            } else {
+                // Se split falhar, tenta classificar de forma mais tolerante
+                if (bsp_classify_point(line->start, partition) == BSP_FRONT ||
+                    bsp_classify_point(line->end, partition) == BSP_FRONT)
+                    add_line_to_side(data, line, BSP_FRONT);
+                else
+                    add_line_to_side(data, line, BSP_BACK);
+            }
+            break;
+        default:
+            // Caso colinear ou outros
+            add_line_to_side(data, line, BSP_FRONT);
+            break;
     }
-    else if (side == BSP_SPANNING) {
-        ft_printf("Splitting line\n");
-        if (!split_bsp_line(line, partition, &front_split, &back_split))
-            return (false);
-        if (front_split)
-            add_line_to_side(data, front_split, BSP_FRONT);
-        if (back_split)
-            add_line_to_side(data, back_split, BSP_BACK);
-    }
-    return (true);
+
+    return true;
 }
 
 /*

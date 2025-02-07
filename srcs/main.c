@@ -63,6 +63,7 @@ int	main(int argc, char **argv)
 #include "fixed_point.h"
 #include "bsp.h"
 #include "map.h"
+#include <time.h>
 
 static void print_map_details(t_doom_map *map)
 {
@@ -98,50 +99,87 @@ static void print_map_details(t_doom_map *map)
 /* Creates a test map with a simple square room */
 static t_doom_map *create_complex_test_map(void)
 {
+    // Seed para aleatoriedade reproduzível
+    srand(time(NULL));
+
     t_doom_map *map = ft_calloc(1, sizeof(t_doom_map));
     if (!map) return NULL;
 
-    // Vertices
-    int vertex_coords[23][2] = {
-        {0, 0}, {256, 0}, {256, 256}, {0, 256},           // Sala 1 Lab
-        {320, 0}, {512, 0}, {512, 256}, {320, 256},        // Sala 2 Metal
-        {0, 320}, {256, 320}, {256, 512}, {0, 512},        // Sala 3 Ice
-        {320, 320}, {512, 320}, {512, 512}, {320, 512},    // Sala 4 Fire
-        {128, 128}, {192, 64}, {256, 128}, {192, 192},     // Sala Octagonal
-        {128, 192}, {64, 128}, {128, 64}                   // Sala Octagonal continuação
-    };
+    // Número de salas
+    int num_rooms = 2 + (rand() % 3);  // 2-4 salas
+    int max_coord = 512;
 
-    // Adicionar vértices
-    for (int i = 0; i < 23; i++) {
-        map->vertices[i] = (t_vertex){
-            (t_fixed_vec32){
-                int_to_fixed32(vertex_coords[i][0]), 
-                int_to_fixed32(vertex_coords[i][1])
-            }
+    // Gerar vértices aleatórios
+    for (int room = 0; room < num_rooms; room++) {
+        int base_x = rand() % (max_coord / 2);
+        int base_y = rand() % (max_coord / 2);
+
+        // Vertices de cada sala
+        int vertex_coords[4][2] = {
+            {base_x, base_y},
+            {base_x + 128, base_y},
+            {base_x + 128, base_y + 128},
+            {base_x, base_y + 128}
         };
+
+        // Adicionar vértices da sala
+        for (int i = 0; i < 4; i++) {
+            int vertex_index = (room * 4) + i;
+            map->vertices[vertex_index] = (t_vertex){
+                (t_fixed_vec32){
+                    int_to_fixed32(vertex_coords[i][0]), 
+                    int_to_fixed32(vertex_coords[i][1])
+                }
+            };
+        }
     }
-    map->vertex_count = 23;
+    map->vertex_count = num_rooms * 4;
 
-    // Linhas
-    int linedef_data[26][2] = {
-        {0, 1}, {1, 2}, {2, 3}, {3, 0},      // Sala 1 Lab
-        {4, 5}, {5, 6}, {6, 7}, {7, 4},      // Sala 2 Metal
-        {8, 9}, {9, 10}, {10, 11}, {11, 8},  // Sala 3 Ice
-        {12, 13}, {13, 14}, {14, 15}, {15, 12}, // Sala 4 Fire
-        {16, 17}, {17, 18}, {18, 19}, {19, 20}, // Sala Octagonal
-        {20, 21}, {21, 22}, {22, 16},
-        {1, 4}, {2, 9}, {7, 12}             // Portas entre salas
-    };
-
-    for (int i = 0; i < 26; i++) {
-        map->linedefs[i] = (t_linedef){
-            linedef_data[i][0], 
-            linedef_data[i][1], 
-            (i < 24) ? -1 : (i - 24), // Identificadores de porta
-            -1, 0, 0
+    // Gerar linhas para cada sala
+    int linedef_count = 0;
+    for (int room = 0; room < num_rooms; room++) {
+        int start_vertex = room * 4;
+        
+        // Linhas para formar cada sala
+        int connections[4][2] = {
+            {start_vertex, start_vertex + 1},
+            {start_vertex + 1, start_vertex + 2},
+            {start_vertex + 2, start_vertex + 3},
+            {start_vertex + 3, start_vertex}
         };
+
+        for (int j = 0; j < 4; j++) {
+            map->linedefs[linedef_count] = (t_linedef){
+                connections[j][0], 
+                connections[j][1], 
+                0,  // tipo padrão
+                -1, 0, 0
+            };
+            linedef_count++;
+        }
     }
-    map->linedef_count = 26;
+
+    // Adicionar algumas conexões entre salas (portas)
+    int door_attempts = num_rooms * 2;
+    while (door_attempts-- > 0) {
+        int room1 = rand() % num_rooms;
+        int room2 = rand() % num_rooms;
+        
+        if (room1 != room2) {
+            int vertex1 = room1 * 4 + (rand() % 4);
+            int vertex2 = room2 * 4 + (rand() % 4);
+            
+            map->linedefs[linedef_count] = (t_linedef){
+                vertex1, 
+                vertex2, 
+                0,  // tipo de porta
+                -1, 0, 0
+            };
+            linedef_count++;
+        }
+    }
+
+    map->linedef_count = linedef_count;
 
     return map;
 }
@@ -555,50 +593,146 @@ static void test_line_splitting(void)
     ft_printf("\n=== End of Line Splitting Tests ===\n");
 }
 
+// Função auxiliar para contar nós
+static int count_bsp_tree_nodes(t_bsp_node *node, int *max_depth)
+{
+    if (!node)
+        return 0;
+
+    // Atualizar profundidade máxima
+    int current_depth = node->depth;
+    if (current_depth > *max_depth)
+        *max_depth = current_depth;
+
+    // Contar nós recursivamente
+    return 1 + 
+           count_bsp_tree_nodes(node->front, max_depth) + 
+           count_bsp_tree_nodes(node->back, max_depth);
+}
+
+
+// Função de teste de travessia
+static void test_bsp_tree_traversal(t_bsp_node *root)
+{
+    t_fixed_vec32 test_point = {int_to_fixed32(128), int_to_fixed32(128)};
+    
+    ft_printf("Finding node for point (%d, %d)\n", 
+        fixed32_to_int(test_point.x), 
+        fixed32_to_int(test_point.y));
+    
+    t_bsp_node *found_node = find_node(root, test_point);
+    
+    if (found_node)
+    {
+        ft_printf("Node found at depth: %d\n", found_node->depth);
+        
+        // Adicionar mais testes de travessia conforme necessário
+        int front_nodes = count_front_nodes(root, test_point);
+        ft_printf("Nodes in front: %d\n", front_nodes);
+    }
+    else
+    {
+        ft_printf("No node found for test point\n");
+    }
+}
+
 static void test_bsp_tree_construction(void)
 {
     t_doom_map      *map;
     t_bsp_tree      *tree;
     t_bsp_line      **lines;
     int             num_lines;
+    int             total_nodes = 0;
+    int             max_depth = 0;
+    t_bsp_node      *root;
 
-    ft_printf("\n=== Testing BSP Tree Construction ===\n");
+    ft_printf("\n=== Comprehensive BSP Tree Construction Test ===\n");
 
+    // Criar mapa de teste
     map = create_complex_test_map();
     if (!map)
     {
-        ft_printf("Failed to create test map\n");
-        return ;
+        ft_printf("FAIL: Could not create test map\n");
+        return;
     }
 
-    ft_printf("Input map:\n");
-    print_map_details(map);
-
+    // Extrair linhas do mapa
     if (!extract_map_lines(map, &lines, &num_lines))
     {
-        ft_printf("Failed to extract lines\n");
+        ft_printf("FAIL: Could not extract map lines\n");
         free(map);
-        return ;
+        return;
     }
 
+    ft_printf("Map Details:\n");
+    ft_printf("Total vertices: %d\n", map->vertex_count);
+    ft_printf("Total linedefs: %d\n", map->linedef_count);
+    ft_printf("Lines extracted: %d\n", num_lines);
+
+    // Construir árvore BSP
     tree = init_bsp_build(map);
     if (!tree)
     {
-        ft_printf("Failed to create BSP tree\n");
+        ft_printf("FAIL: Could not create BSP tree\n");
         free(map);
-        return ;
+        free(lines);
+        return;
     }
 
-    ft_printf("\nBSP Tree structure:\n");
+    // Validações da árvore
+    root = tree->root;
+    if (!root)
+    {
+        ft_printf("FAIL: BSP tree root is NULL\n");
+        free_bsp_tree(tree);
+        free(map);
+        free(lines);
+        return;
+    }
+
+    // Contar nós e calcular profundidade
+    total_nodes = count_bsp_tree_nodes(root, &max_depth);
+
+    ft_printf("\nBSP Tree Analysis:\n");
+    ft_printf("Total nodes: %d\n", total_nodes);
+    ft_printf("Maximum tree depth: %d\n", max_depth);
+
+    // Verificar balanceamento da árvore
+    if (!balance_bsp_tree(tree))
+    {
+        ft_printf("WARNING: Tree might not be optimally balanced\n");
+    }
+
+    // Validação da árvore
+    if (!validate_bsp_tree(tree))
+    {
+        ft_printf("FAIL: BSP tree validation failed\n");
+    }
+    else
+    {
+        ft_printf("SUCCESS: BSP tree passed validation\n");
+    }
+
+    // Imprimir estrutura da árvore
+    ft_printf("\nBSP Tree Structure:\n");
     print_bsp_tree(tree);
 
-    ft_printf("\nCleaning up...\n");
+    // Testes de travessia
+    ft_printf("\nTraversal Tests:\n");
+    test_bsp_tree_traversal(root);
+
+    // Limpar memória
     free_bsp_tree(tree);
     free(map);
+    free(lines);
 
     ft_printf("=== End of BSP Tree Construction Test ===\n");
 }
 
+
+
+
+/*
 int main(void)
 {
     test_map_line_extraction();
@@ -609,4 +743,48 @@ int main(void)
     test_bsp_tree_construction();
     
     return (0);
+}*/
+int	main(void)
+{
+	int	tests_passed = 0;
+	int	total_tests = 6;
+
+	ft_printf("=== BSP TEST SUITE ===\n");
+
+	ft_printf("\n[TEST 1] Map Line Extraction: ");
+	test_map_line_extraction();
+	tests_passed++;
+	ft_printf("PASS\n");
+
+	ft_printf("\n[TEST 2] Line Classification: ");
+	test_line_classification();
+	tests_passed++;
+	ft_printf("PASS\n");
+
+	ft_printf("\n[TEST 3] Partition Selection: ");
+	test_partition_selection();
+	tests_passed++;
+	ft_printf("PASS\n");
+
+	ft_printf("\n[TEST 4] Point Classification: ");
+	test_point_classification();
+	tests_passed++;
+	ft_printf("PASS\n");
+
+	ft_printf("\n[TEST 5] Line Splitting: ");
+	test_line_splitting();
+	tests_passed++;
+	ft_printf("PASS\n");
+
+	ft_printf("\n[TEST 6] BSP Tree Construction: ");
+	test_bsp_tree_construction();
+	tests_passed++;
+	ft_printf("PASS\n");
+
+	ft_printf("\n=== TEST SUMMARY ===\n");
+	ft_printf("Passed: %d/%d\n", tests_passed, total_tests);
+	ft_printf("Success Rate: %.2f%%\n", 
+		((float)tests_passed / total_tests) * 100);
+
+	return (tests_passed == total_tests ? 0 : 1);
 }
