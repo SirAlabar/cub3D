@@ -64,6 +64,7 @@ int	main(int argc, char **argv)
 #include "bsp.h"
 #include "map.h"
 #include <time.h>
+void test_bsp_traversal(void);
 
 static void print_map_details(t_doom_map *map)
 {
@@ -612,27 +613,81 @@ static int count_bsp_tree_nodes(t_bsp_node *node, int *max_depth)
 
 
 // Função de teste de travessia
-static void test_bsp_tree_traversal(t_bsp_node *root)
+static void test_bsp_tree_traversal(t_bsp_node *root, t_bsp_line **lines, int num_lines)
 {
-    t_fixed_vec32 test_point = {int_to_fixed32(128), int_to_fixed32(128)};
+    if (!root || !lines || num_lines == 0)
+        return;
+
+    // Calculate test points slightly offset from centers
+    t_fixed_vec32 test_points[3];
+    t_fixed32 offset = int_to_fixed32(1);  // Small offset to avoid exactly on lines
     
-    ft_printf("Finding node for point (%d, %d)\n", 
-        fixed32_to_int(test_point.x), 
-        fixed32_to_int(test_point.y));
+    // First room center + offset
+    test_points[0] = (t_fixed_vec32){
+        fixed32_div(fixed32_add(lines[0]->start.x, lines[2]->end.x), int_to_fixed32(2)),
+        fixed32_add(fixed32_div(fixed32_add(lines[0]->start.y, lines[2]->end.y), int_to_fixed32(2)), offset)
+    };
     
-    t_bsp_node *found_node = find_node(root, test_point);
+    // Middle room center + offset
+    int mid = num_lines / 2;
+    test_points[1] = (t_fixed_vec32){
+        fixed32_add(fixed32_div(fixed32_add(lines[mid]->start.x, lines[mid]->end.x), int_to_fixed32(2)), offset),
+        fixed32_div(fixed32_add(lines[mid]->start.y, lines[mid]->end.y), int_to_fixed32(2))
+    };
     
-    if (found_node)
+    // Last room center + offset
+    test_points[2] = (t_fixed_vec32){
+        fixed32_div(fixed32_add(lines[num_lines-4]->start.x, lines[num_lines-2]->end.x), int_to_fixed32(2)),
+        fixed32_sub(fixed32_div(fixed32_add(lines[num_lines-4]->start.y, lines[num_lines-2]->end.y), int_to_fixed32(2)), offset)
+    };
+
+    for (int i = 0; i < 3; i++)
     {
-        ft_printf("Node found at depth: %d\n", found_node->depth);
-        
-        // Adicionar mais testes de travessia conforme necessário
-        int front_nodes = count_front_nodes(root, test_point);
-        ft_printf("Nodes in front: %d\n", front_nodes);
-    }
-    else
-    {
-        ft_printf("No node found for test point\n");
+        ft_printf("\nTesting point %d: (%d,%d)\n", i + 1,
+            fixed32_to_int(test_points[i].x),
+            fixed32_to_int(test_points[i].y));
+
+        t_bsp_node *current = root;
+        int depth = 0;
+
+        ft_printf("Traversal path:\n");
+        while (current && current->partition)
+        {
+            ft_printf("Level %d: (%d,%d) -> (%d,%d)",
+                depth,
+                fixed32_to_int(current->partition->start.x),
+                fixed32_to_int(current->partition->start.y),
+                fixed32_to_int(current->partition->end.x),
+                fixed32_to_int(current->partition->end.y));
+
+            t_bsp_side side = bsp_classify_point(test_points[i], current->partition);
+            ft_printf(" - Point is %s\n", 
+                side == BSP_FRONT ? "FRONT" : 
+                side == BSP_BACK ? "BACK" : 
+                side == BSP_COLINEAR ? "ON LINE" : "SPANNING");
+
+            if (!current->front && !current->back)
+                break;
+
+            // Para pontos ON LINE, escolher FRONT por padrão
+            if (side == BSP_COLINEAR && current->front)
+                current = current->front;
+            else if (side == BSP_FRONT && current->front)
+                current = current->front;
+            else if (current->back)
+                current = current->back;
+            else
+                break;
+
+            depth++;
+        }
+
+        if (current && !current->partition)
+            ft_printf("Found leaf node at depth %d\n", depth);
+        else if (current)
+            ft_printf("Found terminal node at depth %d\n", depth);
+        else
+            ft_printf("No node found after %d levels\n", depth);
     }
 }
 
@@ -719,7 +774,7 @@ static void test_bsp_tree_construction(void)
 
     // Testes de travessia
     ft_printf("\nTraversal Tests:\n");
-    test_bsp_tree_traversal(root);
+    test_bsp_tree_traversal(root, lines, num_lines);
 
     // Limpar memória
     free_bsp_tree(tree);
@@ -728,7 +783,6 @@ static void test_bsp_tree_construction(void)
 
     ft_printf("=== End of BSP Tree Construction Test ===\n");
 }
-
 
 
 
@@ -780,6 +834,7 @@ int	main(void)
 	test_bsp_tree_construction();
 	tests_passed++;
 	ft_printf("PASS\n");
+
 
 	ft_printf("\n=== TEST SUMMARY ===\n");
 	ft_printf("Passed: %d/%d\n", tests_passed, total_tests);

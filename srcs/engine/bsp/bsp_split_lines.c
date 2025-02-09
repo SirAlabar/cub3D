@@ -59,7 +59,7 @@ static bool process_line(t_bsp_data *data, t_bsp_line *line,
 {
     t_bsp_side  side;
     t_bsp_line  *front_split = NULL;
-    t_bsp_line  *back_split = NULL;ma
+    t_bsp_line  *back_split = NULL;
 
     side = bsp_classify_line(line, partition);
 
@@ -69,14 +69,12 @@ static bool process_line(t_bsp_data *data, t_bsp_line *line,
             add_line_to_side(data, line, side);
             break;
         case BSP_SPANNING:
-            // Tentar split, mas não abortar se falhar
             if (split_bsp_line(line, partition, &front_split, &back_split)) {
                 if (front_split)
                     add_line_to_side(data, front_split, BSP_FRONT);
                 if (back_split)
                     add_line_to_side(data, back_split, BSP_BACK);
             } else {
-                // Se split falhar, tenta classificar de forma mais tolerante
                 if (bsp_classify_point(line->start, partition) == BSP_FRONT ||
                     bsp_classify_point(line->end, partition) == BSP_FRONT)
                     add_line_to_side(data, line, BSP_FRONT);
@@ -85,11 +83,9 @@ static bool process_line(t_bsp_data *data, t_bsp_line *line,
             }
             break;
         default:
-            // Caso colinear ou outros
             add_line_to_side(data, line, BSP_FRONT);
             break;
     }
-
     return true;
 }
 

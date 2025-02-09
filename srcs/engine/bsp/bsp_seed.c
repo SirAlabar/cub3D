@@ -58,10 +58,10 @@ void	shuffle_lines(t_bsp_line **lines, int count, unsigned int seed)
 t_fixed32	evaluate_seed(t_bsp_line **lines, int count, 
 						unsigned int seed, int depth)
 {
-	t_bsp_line		**test_lines;
-	t_fixed32		total_score;
-	int				i;
-	int				test_count;
+	t_bsp_line	**test_lines;
+	t_fixed32	total_score;
+	int			i;
+	int			test_count;
 
 	test_lines = ft_calloc(count, sizeof(t_bsp_line *));
 	if (!test_lines)
@@ -69,7 +69,9 @@ t_fixed32	evaluate_seed(t_bsp_line **lines, int count,
 	ft_memcpy(test_lines, lines, sizeof(t_bsp_line *) * count);
 	shuffle_lines(test_lines, count, seed);
 	total_score = 0;
-	test_count = (count < 5) ? count : 5;
+	test_count = count;
+	if (count >= 5)
+		test_count = 5;
 	i = 0;
 	while (i < test_count)
 	{
@@ -91,7 +93,7 @@ unsigned int	find_best_seed(t_bsp_line **lines, int count, int depth)
 
 	best_seed = generate_random_seed();
 	best_score = evaluate_seed(lines, count, best_seed, depth);
-	attempts = 10;
+	attempts = 30;
 	while (attempts-- > 0)
 	{
 		current_seed = generate_random_seed();
