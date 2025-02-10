@@ -14,8 +14,8 @@
 # define CUB3D_H
 
 /* Window settings */
-# define WINDOW_WIDTH 1000
-# define WINDOW_HEIGHT 800
+# define WINDOW_WIDTH 1200
+# define WINDOW_HEIGHT 900
 # define FOV 60
 # define MOVE_SPEED 0.02
 # define ROTATION_SPEED 0.04
@@ -116,13 +116,8 @@ typedef struct s_game
 	int				bits_per_pixel;
 	int				line_length;
 	int				endian;
-	int				fd_map;
-	char			*map_path;
+	t_doom_map		*map;
 	t_player		p1;
-	t_texture		north;
-	t_texture		south;
-	t_texture		east;
-	t_texture		west;
 	t_vector		last_mouse;
 	double			mouse_sensi;
 	double			fps;

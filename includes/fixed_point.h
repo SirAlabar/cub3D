@@ -98,6 +98,10 @@ t_fixed32			fixed32_atan2(t_fixed32 y, t_fixed32 x);
 /*
 ** Vector operations (fixed32_vec_operations.c)
 */
+t_fixed_vec32		vector_add_fixed32(t_fixed_vec32 v1, t_fixed_vec32 v2);
+t_fixed_vec32		vector_sub_fixed32(t_fixed_vec32 v1, t_fixed_vec32 v2);
+t_fixed_vec32		vector_mult_fixed32(t_fixed_vec32 v, t_fixed32 n);
+t_fixed_vec32		vector_div_fixed32(t_fixed_vec32 v, t_fixed32 n);
 t_fixed32			fixed32_vec_dot(t_fixed_vec32 v1, t_fixed_vec32 v2);
 t_fixed32			fixed32_vec_mag_sq(t_fixed_vec32 v);
 t_fixed32			fixed32_vec_mag(t_fixed_vec32 v);

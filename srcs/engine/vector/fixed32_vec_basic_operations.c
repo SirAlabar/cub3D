@@ -1,88 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fixed32_vec_basic_operations.c                     :+:      :+:    :+:   */
+/*   fixed32_angular_operations.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/29 20:06:37 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/29 20:08:57 by hluiz-ma         ###   ########.fr       */
+/*   Created: 2025/01/29 20:08:27 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/01/29 20:09:37 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-/*
-  Basic addition of two fixed point numbers
-  Simply adds the raw values since fixed point maintains position
-  Returns INT32_MAX/MIN on overflow
- */
-t_fixed32	fixed32_add(t_fixed32 a, t_fixed32 b)
+t_fixed_vec32 vector_add_fixed32(t_fixed_vec32 v1, t_fixed_vec32 v2)
 {
-	if (b > 0 && a > INT32_MAX - b)
-		return (INT32_MAX);
-	if (b < 0 && a < INT32_MIN - b)
-		return (INT32_MIN);
-	return (a + b);
+    return ((t_fixed_vec32){
+        fixed32_add(v1.x, v2.x),
+        fixed32_add(v1.y, v2.y)
+    });
 }
 
-/*
-  Basic subtraction of two fixed point numbers
-  Simply subtracts the raw values since fixed point maintains position
-  Returns INT32_MAX/MIN on overflow
- */
-t_fixed32	fixed32_sub(t_fixed32 a, t_fixed32 b)
+t_fixed_vec32 vector_sub_fixed32(t_fixed_vec32 v1, t_fixed_vec32 v2)
 {
-	if (b < 0 && a > INT32_MAX + b)
-		return (INT32_MAX);
-	if (b > 0 && a < INT32_MIN + b)
-		return (INT32_MIN);
-	return (a - b);
+    return ((t_fixed_vec32){
+        fixed32_sub(v1.x, v2.x),
+        fixed32_sub(v1.y, v2.y)
+    });
 }
 
-/*
-  Multiplication of two fixed point numbers
-  Uses int64_t for intermediate calculation to prevent overflow
-  Shifts right by FIXED32_BITS to align decimal point
- */
-t_fixed32	fixed32_mul(t_fixed32 a, t_fixed32 b)
+t_fixed_vec32 vector_mult_fixed32(t_fixed_vec32 v, t_fixed32 n)
 {
-	int64_t	result;
-
-	result = ((int64_t)a * (int64_t)b) >> FIXED_POINT_BITS;
-	if (result > INT32_MAX)
-		return (INT32_MAX);
-	if (result < INT32_MIN)
-		return (INT32_MIN);
-	return ((t_fixed32)result);
+    return ((t_fixed_vec32){
+        fixed32_mul(v.x, n),
+        fixed32_mul(v.y, n)
+    });
 }
 
-/*
-  Division of two fixed point numbers
-  Uses int64_t and shifts left first to preserve precision
-  Handles division by zero and overflow
- */
-t_fixed32	fixed32_div(t_fixed32 a, t_fixed32 b)
+t_fixed_vec32 vector_div_fixed32(t_fixed_vec32 v, t_fixed32 n)
 {
-	int64_t	temp;
-
-	if (b == 0)
-	{
-		if (a >= 0)
-			return (INT32_MAX);
-		return (INT32_MIN);
-	}
-	temp = ((int64_t)a << FIXED_POINT_BITS) / b;
-	if (temp > INT32_MAX)
-		return (INT32_MAX);
-	if (temp < INT32_MIN)
-		return (INT32_MIN);
-	return ((t_fixed32)temp);
-}
-
-t_fixed32    fixed32_abs(t_fixed32 value)
-{
-    if (value < 0)
-        return (-value);
-    return (value);
+    if (n != 0)
+        return ((t_fixed_vec32){
+            fixed32_div(v.x, n),
+            fixed32_div(v.y, n)
+        });
+    return (v);
 }

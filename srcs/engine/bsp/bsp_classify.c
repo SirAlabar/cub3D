@@ -12,37 +12,16 @@
 
 #include <bsp.h>
 
-/*
-** Determines which side of a partition line a point lies on using fixed-point
-	math.
-** Returns:
-** - BSP_FRONT if point is in front of the line
-** - BSP_BACK if point is behind the line
-** - BSP_ON if point lies on the line
-** Uses cross product in fixed-point for efficient classification
-*/
-t_bsp_side bsp_classify_point(t_fixed_vec32 point, t_bsp_line *partition)
+t_bsp_side bsp_get_side(t_fixed_vec32 vec_to_point, t_fixed_vec32 line_vec,
+	t_fixed32 line_length_sq)
 {
-	t_fixed_vec32 vec_to_point;
-	t_fixed_vec32 line_vec;
 	t_fixed32 cross_product;
-	t_fixed32 line_length_sq;
 	t_fixed32 epsilon;
 	t_fixed32 dot_product;
 
-	if (!partition)
-		return (BSP_COLINEAR);
-	vec_to_point.x = fixed32_sub(point.x, partition->start.x);
-	vec_to_point.y = fixed32_sub(point.y, partition->start.y);
-	line_vec.x = fixed32_sub(partition->end.x, partition->start.x);
-	line_vec.y = fixed32_sub(partition->end.y, partition->start.y);
 	cross_product = fixed32_sub(
 		fixed32_mul(line_vec.x, vec_to_point.y),
 		fixed32_mul(line_vec.y, vec_to_point.x)
-	);
-	line_length_sq = fixed32_add(
-		fixed32_mul(line_vec.x, line_vec.x),
-		fixed32_mul(line_vec.y, line_vec.y)
 	);
 	epsilon = fixed32_mul(
 		fixed32_sqrt(line_length_sq),
@@ -60,6 +39,33 @@ t_bsp_side bsp_classify_point(t_fixed_vec32 point, t_bsp_line *partition)
 		return (BSP_COLINEAR);
 	return (BSP_COLINEAR);
 }
+
+/*
+** Determines which side of a partition line a point lies on using fixed-point
+	math.
+** Returns:
+** - BSP_FRONT if point is in front of the line
+** - BSP_BACK if point is behind the line
+** - BSP_ON if point lies on the line
+** Uses cross product in fixed-point for efficient classification
+*/
+t_bsp_side bsp_classify_point(t_fixed_vec32 point, t_bsp_line *partition)
+{
+	t_fixed_vec32 vec_to_point;
+	t_fixed_vec32 line_vec;
+	t_fixed32 line_length_sq;
+
+	if (!partition)
+		return (BSP_COLINEAR);
+	vec_to_point = vector_sub_fixed32(point, partition->start);
+	line_vec = vector_sub_fixed32(partition->end, partition->start);
+	line_length_sq = fixed32_add(
+		fixed32_mul(line_vec.x, line_vec.x),
+		fixed32_mul(line_vec.y, line_vec.y)
+	);
+	return (bsp_get_side(vec_to_point, line_vec, line_length_sq));
+}
+
 /*
 ** Classifies a line segment relative to a partition line
 ** Returns:

@@ -84,8 +84,8 @@ s2 = -5,15,128,assets/texture/tile_floor3.xpm,assets/texture/ice3.xpm        # F
 s3 = 0,25,220,assets/texture/tile_floor4.xpm,assets/texture/marmore.xpm      # Pillar (marble)
 
 [THINGS]
-# type (1:player, 2:enemy, 3:item) x,y,angle,texture
-1,3,3,90      # Player
+# type (1:player, 2:enemy, 3:item) x,y,angle
+1,5,5,90      # Player
 2,16,3,0      # Enemy 1
 2,15,5,0      # Enemy 2
 3,10,3,0      # Ammo
