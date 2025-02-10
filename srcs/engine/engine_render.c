@@ -6,47 +6,51 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:55:14 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/27 20:51:43 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/02/10 20:44:50 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-/*
-void	engine_prepare_frame(t_game *game)
+
+void	init_double_buffer(t_game *game)
 {
-	if (!game || !game->mlx)
-		return ;
-	if (game->img)
-	{
-		mlx_destroy_image(game->mlx, game->img);
-		game->img = NULL;
-	}
-	game->img = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
-	if (!game->img)
-		return ;
-	game->addr = mlx_get_data_addr(game->img, &game->bits_per_pixel,
+	game->buffer[0] = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	game->buffer[1] = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	if (!game->buffer[0] || !game->buffer[1])
+		cleanup_game(game);
+	game->addr[0] = mlx_get_data_addr(game->buffer[0], &game->bits_per_pixel,
 			&game->line_length, &game->endian);
+	game->addr[1] = mlx_get_data_addr(game->buffer[1], &game->bits_per_pixel,
+			&game->line_length, &game->endian);
+	game->current_buffer = 0;
 }
 
-int	engine_render_frame(t_game *game)
+void	swap_buffers(t_game *game)
 {
-	int			x;
-	t_ray		rays[WINDOW_WIDTH];
-	t_scanline	scanline_buffer;
+	mlx_put_image_to_window(game->mlx, game->win,
+		game->buffer[game->current_buffer], 0, 0);
+	game->current_buffer = !game->current_buffer;
+}
 
-	engine_prepare_frame(game);
-	draw_background(game);
-	init_scanline_buffer(&scanline_buffer);
+void	cleanup_double_buffer(t_game *game)
+{
+	if (game->buffer[0])
+		mlx_destroy_image(game->mlx, game->buffer[0]);
+	if (game->buffer[1])
+		mlx_destroy_image(game->mlx, game->buffer[1]);
+}
+
+int	render_frame(t_game *game)
+{
+	t_ray		*rays;
+	t_scanline	buffer;
+
+	mlx_sync(MLX_SYNC_IMAGE_WRITABLE, game->buffer[game->current_buffer]);
+	rays = ft_calloc(1, (sizeof(t_ray) * WINDOW_WIDTH));
+	if (!rays)
+		return (0);
+	init_scanline_buffer(&buffer);
 	cast_rays(game, rays);
-	x = -1;
-	while (++x < WINDOW_WIDTH)
-	{
-		draw_wall_scanline(game, &rays[x], x, &scanline_buffer);
-	}
-	handle_movement(game);
-	update_weapon_animation(game);
-	draw_weapon(game);
-	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
+	free(rays);
 	return (0);
 }
-*/

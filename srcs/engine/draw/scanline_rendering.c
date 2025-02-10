@@ -6,12 +6,12 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 19:10:01 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/27 20:32:51 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/02/10 20:33:56 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-/*
+
 void	init_scanline_buffer(t_scanline *buffer)
 {
 	int	x;

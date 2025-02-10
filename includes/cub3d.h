@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:34 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/27 20:48:12 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/02/10 21:05:41 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,40 +89,43 @@
 
 /* Structs */
 
+/* Player structure for DOOM-like engine */
 typedef struct s_player
 {
-	t_vector	pos;
-	t_vector	dir;
-	t_vector	plane;
-	double		move_speed;
-	double		rot_speed;
-	t_keys		keys;
-	t_texture	*gun_anim;
-	int			current_frame;
-	int			is_firing;
-	double		last_step;
-	double		last_fire;
-	int			gun_width;
-	int			gun_height;
-	int			health;
-}				t_player;
+    // Position and movement
+    t_fixed_vec32   pos;        // Position in fixed-point format
+    t_fixed_vec32   dir;        // Direction vector
+    t_fixed_vec32   plane;      // Camera plane vector
+    t_fixed32       angle;      // Angle in BAM (Binary Angular Measurement)
+    t_fixed32       move_speed; // Movement speed in fixed-point
+    t_fixed32       rot_speed;  // Rotation speed in fixed-point
+    t_keys          keys;
+    t_texture       *gun_anim;
+    int             current_frame;
+    int             is_firing;
+    t_fixed32       last_fire;
+    int             health;
+    int             sector;
+} t_player;
+
 
 typedef struct s_game
 {
-	void			*mlx;
-	void			*win;
-	void			*img;
-	char			*addr;
-	int				bits_per_pixel;
-	int				line_length;
-	int				endian;
-	t_doom_map		*map;
-	t_player		p1;
-	t_vector		last_mouse;
-	double			mouse_sensi;
-	double			fps;
-    t_bsp_tree      *bsp_tree;	
-}				t_game;
+    void        *mlx;
+    void        *win;
+    void        *buffer[2];
+    char        *addr[2];
+    int         current_buffer;
+    int         bits_per_pixel;
+    int         line_length;
+    int         endian;
+    t_doom_map  *map;
+    t_player    p1;
+    t_vector    last_mouse;
+    double      mouse_sensi;
+    double      fps;
+    t_bsp_tree  *bsp_tree;
+}               t_game;
 
 void			cleanup_game(t_game *game);
 // parse

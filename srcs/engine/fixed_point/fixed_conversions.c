@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 22:06:37 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/29 22:08:57 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:43:06 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,16 @@
 t_fixed32	float_to_fixed32(float value)
 {
 	float	temp;
+	float	max_float;
+	float	min_float;
 
+	max_float = (float)INT32_MAX;
+	min_float = (float)INT32_MIN;
 	temp = value * FIXED_POINT_SCALE;
-	if (temp > INT32_MAX)
+	
+	if (temp > max_float)
 		return (INT32_MAX);
-	if (temp < INT32_MIN)
+	if (temp < min_float)
 		return (INT32_MIN);
 	return ((t_fixed32)temp);
 }

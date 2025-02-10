@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/29 19:50:21 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/02/10 20:46:11 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,54 +46,41 @@ typedef struct s_texture
 
 typedef struct s_scanline
 {
-	int					y_top[WINDOW_WIDTH];
-	int					y_bottom[WINDOW_WIDTH];
-}						t_scanline;
-
-typedef struct s_line
-{
-	int					x;
-	int					start;
-	int					end;
-}						t_line;
+    t_fixed32   y_ceil[WINDOW_WIDTH];
+    t_fixed32   y_floor[WINDOW_WIDTH];
+    t_fixed32   y_top[WINDOW_WIDTH];
+    t_fixed32   y_bottom[WINDOW_WIDTH];
+}               t_scanline;
 
 typedef struct s_ray
 {
-	t_vector			dir;
-	t_vector			side_dist;
-	t_vector			delta_dist;
-	double				perp_wall_dist;
-	double				step;
-	int					tex_x;
-	int					line_height;
-	int					map_x;
-	int					map_y;
-	int					step_x;
-	int					step_y;
-	bool				hit;
-	int					side;
-	int					draw_start;
-	int					draw_end;
-}						t_ray;
+    t_fixed_vec32   start;
+    t_fixed_vec32   dir;
+    t_sector        *current_sector;
+    t_hit_info      hit;
+    double          perp_wall_dist;
+    bool            hit;
+    int             buffer_index;
+} t_ray;
 
 typedef struct s_wall
 {
-	t_vector			pos;
-	t_vector			tex;
-	t_vector_i			screen;
-	double				step;
-	double				tex_pos;
-	double				perp_wall_dist;
-	int					height;
-	int					start;
-	int					end;
-	int					color;
-	t_texture			*texture;
-	t_game				*game;
-	t_ray				*ray;
-	t_scanline			*buffer;
-	int					x;
-}						t_wall;
+    t_fixed_vec32       pos;
+    t_fixed_vec32       tex;
+    t_vector_i          screen;
+    t_fixed32           step;
+    t_fixed32           tex_pos;
+    t_fixed32           height;
+    t_fixed32           start;
+    t_fixed32           end;
+    int                 color;
+    int                 buffer_index;
+    t_texture          *texture;
+    t_game             *game;
+    t_ray              *ray;
+    t_scanline         *buffer;
+    int                 x;
+}                      t_wall;
 
 /*
  * Core Engine Functions
