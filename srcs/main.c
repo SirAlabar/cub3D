@@ -27,57 +27,25 @@ static void setup_hooks(t_game *game)
 }
 int main(int argc, char **argv)
 {
-    t_game      *game;
-    t_doom_map  *map;
-    t_bsp_tree  *tree;
+    t_game *game;
 
-    game = malloc(sizeof(t_game));
-    ft_bzero(game, sizeof(t_game));
+    game = ft_calloc(1, sizeof(t_game));
     if (!game)
         return (1);
-
-    // Carregar o mapa a partir de um arquivo
-    map = malloc(sizeof(t_doom_map));
-    if (!map)
-        return (1);
-    if (!load_map(argc, argv, map))
-    {
-        free(map);
-        return (1);
-    }
-
-    // Construir a árvore BSP a partir do mapa
-    tree = init_bsp_build(map);
-    if (!tree)
-    {
-        free(map);
-        return (1);
-    }
-
-    // Inicializar a janela do jogo
-    game->mlx = mlx_init();
-    game->win = mlx_new_window(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "BSP Visualization");
-    if (!game->win)
-    {
-        //cleanup_game(game);
-        free_bsp_tree(tree);
-        free(map);
-        return (1);
-    }
-
-    // Atribuir o mapa e a árvore BSP ao jogo
-    game->map = map;
-    game->bsp_tree = tree;
-
-    // Iniciar o loop do jogo
-    mlx_loop_hook(game->mlx, &render_frame, game);
+    if (!validate_map_extension(argc, argv))
+        return (cleanup_game(game), 1);
+    game->map = ft_calloc(1, (sizeof(t_doom_map)));
+    if (!game->map || !load_map(argc, argv, game->map))
+        return (cleanup_game(game), 1);
+    game->bsp_tree = init_bsp_build(game->map);
+    if (!game->bsp_tree)
+        return (cleanup_game(game), 1);
+    if (!init_window(game))
+        return (cleanup_game(game), 1);
+    init_game(game);
+    setup_hooks(game);
     mlx_loop(game->mlx);
-
-    // Liberar recursos
-    //cleanup_game(game);
-    free_bsp_tree(tree);
-    free(map);
-
+    cleanup_game(game);
     return (0);
 }
 
