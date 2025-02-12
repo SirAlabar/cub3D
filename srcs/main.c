@@ -17,6 +17,23 @@ int	close_window(t_game *game)
 	mlx_loop_end(game->mlx);
 	return (0);
 }
+/*
+** Sets up MLX window and initializes double buffer
+** Returns false if any initialization fails
+*/
+bool	init_window(t_game *game)
+{
+	game->mlx = mlx_init();
+	if (!game->mlx)
+		return (false);
+	game->win = mlx_new_window(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "BSP Doom");
+	if (!game->win)
+		return (false);
+	init_double_buffer(game);
+	if (!game->buffer[0] || !game->buffer[1])
+		return (false);
+	return (true);
+}
 static void setup_hooks(t_game *game)
 {
     mlx_hook(game->win, 2, 1L << 0, key_press, game);

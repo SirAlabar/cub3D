@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:37:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/29 20:06:00 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/02/12 17:57:25 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int					fixed32_to_int(t_fixed32 value);
 /*
 ** Basic arithmetic operations (fixed32_vec_basic_operations.c)
 */
+t_fixed_vec32		fixed_vec_create(t_fixed32 x, t_fixed32 y);
 t_fixed32			fixed32_add(t_fixed32 a, t_fixed32 b);
 t_fixed32			fixed32_sub(t_fixed32 a, t_fixed32 b);
 t_fixed32			fixed32_mul(t_fixed32 a, t_fixed32 b);

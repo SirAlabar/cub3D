@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:55:14 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/02/10 20:44:50 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/02/12 17:55:36 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	render_frame(t_game *game)
 	t_ray		*rays;
 	t_scanline	buffer;
 
-	mlx_sync(MLX_SYNC_IMAGE_WRITABLE, game->buffer[game->current_buffer]);
 	rays = ft_calloc(1, (sizeof(t_ray) * WINDOW_WIDTH));
 	if (!rays)
 		return (0);

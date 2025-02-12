@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/02/10 20:46:11 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:28:24 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,21 @@ typedef struct s_scanline
     t_fixed32   y_bottom[WINDOW_WIDTH];
 }               t_scanline;
 
+typedef struct s_hit_info
+{
+    t_fixed32       distance;
+    t_fixed_vec32   point;
+    t_bsp_line     *line;
+    t_fixed32       offset;
+    int             side;
+}               t_hit_info;
+
 typedef struct s_ray
 {
     t_fixed_vec32   start;
     t_fixed_vec32   dir;
     t_sector        *current_sector;
-    t_hit_info      hit;
+    t_hit_info      hit_info;
     double          perp_wall_dist;
     bool            hit;
     int             buffer_index;
@@ -109,7 +118,6 @@ void					update_ray_position(t_ray *ray);
 
 // scanline_rendering.c
 void					init_scanline_buffer(t_scanline *buffer);
-void					draw_vertical_line(t_game *g, t_line line, int color);
 void					set_wall_tex_coords(t_wall *wall);
 void					draw_wall_scanline(t_game *game, t_ray *ray, int x,
 							t_scanline *buffer);
@@ -163,16 +171,27 @@ t_vector				vector_limit(t_vector v, double max);
 /*
  * Raycasting
  */
-// raycast_dda.c
-void					init_ray(t_ray *ray, t_game *game, int x);
-void					step_side_dist(t_ray *ray, t_game *game);
-void					perform_dda(t_ray *ray, t_game *game);
-void					wall_height(t_ray *ray);
-void					cast_rays(t_game *game, t_ray *rays);
-void					check_collisions(t_ray *ray, t_game *game);
-void					handle_wall_collision(t_ray *ray);
-void					handle_door_collision(t_ray *ray, t_game *game);
-double					get_wall_x(t_ray *ray, t_game *game, double orig_dist);
-void					set_door_hit(t_ray *ray, double orig_dist);
+// raycast_bsp.c
+void    cast_rays(t_game *game, t_ray *rays);
+void	init_hit_info(t_hit_info *hit);
+void	init_ray(t_ray *ray, t_game *game, int x);
+bool	check_ray_partition(t_ray *ray, t_bsp_line *partition, t_hit_info *hit);
+void	process_bsp_node(t_ray *ray, t_bsp_node *node, t_game *game);
+
+void	init_double_buffer(t_game *game);
+int	render_frame(t_game *game);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif

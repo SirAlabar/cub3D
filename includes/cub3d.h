@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:34 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/02/10 21:05:41 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:38:37 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,26 +87,47 @@
 # define GUN_F3 "./assets/sprites/pistol/PIS2.xpm"
 # define GUN_F4 "./assets/sprites/pistol/PISFA0.xpm"
 
+#define PLAYER_HEIGHT 41
+#define PLAYER_RADIUS 16
+#define PLAYER_VIEW_HEIGHT 41
+#define MAXMOVE 30
+#define STOPSPEED 4
+#define FRICTION 0xE800
+#define GRAVITY 1
+#define JUMPSPEED 8
+
 /* Structs */
 
-/* Player structure for DOOM-like engine */
+typedef struct s_cmd
+{
+        int     forward;
+        int     side;
+        int     turn;
+        int     attack;
+        int     use;
+        int     jump;        
+} t_cmd;
+    
 typedef struct s_player
 {
-    // Position and movement
-    t_fixed_vec32   pos;        // Position in fixed-point format
-    t_fixed_vec32   dir;        // Direction vector
-    t_fixed_vec32   plane;      // Camera plane vector
-    t_fixed32       angle;      // Angle in BAM (Binary Angular Measurement)
-    t_fixed32       move_speed; // Movement speed in fixed-point
-    t_fixed32       rot_speed;  // Rotation speed in fixed-point
-    t_keys          keys;
-    t_texture       *gun_anim;
-    int             current_frame;
-    int             is_firing;
-    t_fixed32       last_fire;
-    int             health;
-    int             sector;
-} t_player;
+    t_fixed_vec32    pos;
+    t_fixed32       z;
+    t_fixed32     view_z;
+    t_fixed32     momx;
+    t_fixed32     momy; 
+    t_fixed32     momz;
+    t_fixed32     angle;
+    int         on_ground;
+    t_cmd       cmd;
+    t_keys      keys;
+    int         health;
+    int         armor;
+    t_texture   *gun_anim;
+    int         current_frame;
+    int         is_firing;
+    t_fixed32     last_fire;
+    t_sector    *sector;
+}               t_player;
 
 
 typedef struct s_game
@@ -127,7 +148,6 @@ typedef struct s_game
     t_bsp_tree  *bsp_tree;
 }               t_game;
 
-void			cleanup_game(t_game *game);
 // parse
 void			init_player(t_game *game);
 void			init_game(t_game *game);
@@ -149,13 +169,12 @@ void			print_map(t_game *game);
 //
 void			read_error(t_game *game);
 //error/cleanup
-/*
-void			cleanup_gun(t_game *game);
-void			cleanup_textures(t_game *game);
-void			cleanup_map(t_game *game);
-void			cleanup_game(t_game *game);
-void			cleanup_door_system(t_game *game);
-*/
+
+void	cleanup_bsp_tree(t_bsp_tree *tree);
+void	cleanup_doom_map(t_doom_map *map);
+void	cleanup_textures(t_game *game);
+void	cleanup_game(t_game *game);
+
 //
 void			init_test_map(t_game *game);
 int				close_window(t_game *game);

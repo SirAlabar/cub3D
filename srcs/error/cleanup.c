@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:26:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/02/10 21:06:46 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:22:26 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ void	cleanup_textures(t_game *game)
 {
 	if (game->mlx)
 	{
-		cleanup_skybox(game);
-		cleanup_sector_textures(game);
-		cleanup_weapon_textures(game);
+//		cleanup_skybox(game);
+//		cleanup_sector_textures(game);
+//		cleanup_weapon_textures(game);
 	}
 }
 
@@ -54,15 +54,15 @@ void	cleanup_game(t_game *game)
 {
 	if (!game)
 		return ;
-	cleanup_textures(game);
+//	cleanup_textures(game);
 	if (game->win && game->mlx)
 		mlx_destroy_window(game->mlx, game->win);
-	cleanup_double_buffer(game);
+//	cleanup_double_buffer(game);
 	if (game->mlx)
 		cleanup_mlx(game->mlx);
 	cleanup_doom_map(game->map);
 	cleanup_bsp_tree(game->bsp_tree);
-	if (game->fd_map != -1)
-		close(game->fd_map);
+//	if (game->fd_map != -1)
+//		close(game->fd_map);
 	free(game);
 }

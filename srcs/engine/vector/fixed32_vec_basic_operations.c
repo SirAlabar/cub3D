@@ -12,6 +12,15 @@
 
 #include <cub3d.h>
 
+t_fixed_vec32	fixed_vec_create(t_fixed32 x, t_fixed32 y)
+{
+	t_fixed_vec32	vec;
+
+	vec.x = x;
+	vec.y = y;
+	return (vec);
+}
+
 t_fixed_vec32 vector_add_fixed32(t_fixed_vec32 v1, t_fixed_vec32 v2)
 {
     return ((t_fixed_vec32){
