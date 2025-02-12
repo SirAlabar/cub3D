@@ -14,7 +14,7 @@
 # define BSP_H
 
 # include <fixed_point.h>
-# include <map.h>
+# include <types.h>
 # include <stddef.h>
 # include <libft.h>
 

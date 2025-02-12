@@ -58,9 +58,14 @@ void	cleanup_game(t_game *game)
 	if (game->win && game->mlx)
 		mlx_destroy_window(game->mlx, game->win);
 //	cleanup_double_buffer(game);
-	if (game->mlx)
-		cleanup_mlx(game->mlx);
+//	if (game->mlx)
+//		cleanup_mlx(game->mlx);
 	cleanup_doom_map(game->map);
+	if (game->fixed_tables)
+    {
+        destroy_fixed_tables_8192(game->fixed_tables);
+        game->fixed_tables = NULL;
+    }
 	cleanup_bsp_tree(game->bsp_tree);
 //	if (game->fd_map != -1)
 //		close(game->fd_map);

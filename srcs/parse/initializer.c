@@ -13,40 +13,58 @@
 #include <cub3d.h>
 
 /*
+** Find player starting position in map thing data
+** Returns pointer to player thing or NULL if not found
+*/
+static t_thing	*find_player_thing(t_doom_map *map)
+{
+	int	i;
+
+	i = 0;
+	while (i < map->thing_count)
+	{
+		if (map->things[i].type == 1)
+			return (&map->things[i]);
+		i++;
+	}
+	return (NULL);
+}
+/*
 ** Initialize player state with position and movement parameters
 ** Sets up initial sector location and movement variables
 */
-static bool	init_player(t_game *game)
+bool    init_player(t_game *game)
 {
-	t_player	*p;
-	t_thing		*thing;
-	t_bsp_node	*node;
+    t_thing     *thing;
 
-	p = &game->p1;
-	thing = find_player_thing(game->map);
-	if (!thing)
-		return (ft_putendl_fd("Error: No player start found", 2), false);
-	ft_bzero(p, sizeof(t_player));
-	p->pos.x = thing->pos.x;
-	p->pos.y = thing->pos.y;
-	p->angle = thing->angle;
-	p->health = 100;
-	p->armor = 0;
-	node = find_bsp_node(game->bsp_tree->root, p->pos.x, p->pos.y);
-	if (!node || !node->is_leaf || !node->sector)
-		return (false);
-	p->sector = node->sector;
-	p->z = p->sector->floor_height;
-	p->view_z = p->z + PLAYER_VIEW_HEIGHT;
-	p->on_ground = 1;
-	return (true);
+    thing = find_player_thing(game->map);
+    if (!thing)
+        return (ft_putendl_fd("Error: No player start found", 2), false);
+    ft_bzero(&game->p1, sizeof(t_player));
+    game->p1.pos = fixed_vec_create(thing->pos.x, thing->pos.y);
+    game->p1.momx = 0;
+    game->p1.momy = 0;
+    game->p1.momz = 0;
+    game->p1.angle = thing->angle;
+    game->p1.on_ground = 1;
+    ft_bzero(&game->p1.cmd, sizeof(t_cmd));
+    ft_bzero(&game->p1.keys, sizeof(t_keys));
+    game->p1.health = 100;
+    game->p1.armor = 0;
+    game->p1.current_frame = 0;
+    game->p1.is_firing = 0;
+    game->p1.last_fire = 0;
+    game->p1.sector = 0;
+    game->p1.z = game->p1.sector->floor_height;
+    game->p1.view_z = game->p1.z + PLAYER_VIEW_HEIGHT;
+    return (true);
 }
 
 /*
 ** Initialize weapon textures and animation frames
 ** Loads gun sprites for player weapon
 */
-static bool	init_textures(t_game *game)
+bool	init_textures(t_game *game)
 {
 	t_texture	*temp;
 
@@ -73,24 +91,6 @@ static bool	init_textures(t_game *game)
 }
 
 /*
-** Find player starting position in map thing data
-** Returns pointer to player thing or NULL if not found
-*/
-static t_thing	*find_player_thing(t_doom_map *map)
-{
-	int	i;
-
-	i = 0;
-	while (i < map->thing_count)
-	{
-		if (map->things[i].type == 1)
-			return (&map->things[i]);
-		i++;
-	}
-	return (NULL);
-}
-
-/*
 ** Main game initialization function
 ** Sets up subsystems after map and BSP are loaded
 */
@@ -98,9 +98,11 @@ bool	init_game(t_game *game)
 {
 	if (!game)
 		return (false);
-	game->tables = init_fixed_tables_8192();
-	if (!game->tables)
-		return (false);
+    game->fixed_tables = init_fixed_tables_8192();
+    if (!game->fixed_tables)
+	{
+        return (false);
+	}
 	if (!init_player(game))
 		return (false);
 	if (!init_textures(game))

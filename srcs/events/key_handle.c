@@ -47,62 +47,61 @@ void	build_player_cmd(t_player *player)
 ** Handles key press events, updating player input state
 ** Returns 0 to keep MLX event loop running
 */
-int	handle_key_press(int keycode, t_game *game)
+int handle_key_press(int keycode, t_game *game)
 {
-	t_player	*p;
-
-	p = &game->p1;
-	if (keycode == KEY_ESC)
-		return (close_window(game));
-	if (keycode == KEY_W)
-		p->keys.w = 1;
-	if (keycode == KEY_S)
-		p->keys.s = 1;
-	if (keycode == KEY_D)
-		p->keys.d = 1;
-	if (keycode == KEY_A)
-		p->keys.a = 1;
-	if (keycode == KEY_LEFT)
-		p->keys.left = 1;
-	if (keycode == KEY_RIGHT)
-		p->keys.right = 1;
-	if (keycode == KEY_SPACE)
-		p->keys.jump = 1;
-	if (keycode == KEY_E)
-		p->keys.use = 1;
-	if (keycode == MOUSE_LEFT)
-		p->keys.attack = 1;
-	return (0);
+    t_player    *p;
+    p = &game->p1;
+    if (keycode == KEY_ESC)
+        return (close_window(game));
+    if (keycode == KEY_W)
+        p->keys.w = 1;
+    if (keycode == KEY_S)
+        p->keys.s = 1;
+    if (keycode == KEY_D)
+        p->keys.d = 1;
+    if (keycode == KEY_A)
+        p->keys.a = 1;
+    if (keycode == KEY_LEFT)
+        p->keys.left = 1;
+    if (keycode == KEY_RIGHT)
+        p->keys.right = 1;
+    if (keycode == KEY_SPACE)
+        p->cmd.jump = 1;
+    if (keycode == KEY_E)
+        p->cmd.use = 1;
+    if (keycode == MOUSE_LEFT)
+        p->cmd.attack = 1;
+    return (0);
 }
 
 /*
 ** Handles key release events, clearing player input state
 ** Returns 0 to keep MLX event loop running
 */
-int	handle_key_release(int keycode, t_game *game)
-{
-	t_player	*p;
 
-	p = &game->p1;
-	if (keycode == KEY_W)
-		p->keys.w = 0;
-	if (keycode == KEY_S)
-		p->keys.s = 0;
-	if (keycode == KEY_D)
-		p->keys.d = 0;
-	if (keycode == KEY_A)
-		p->keys.a = 0;
-	if (keycode == KEY_LEFT)
-		p->keys.left = 0;
-	if (keycode == KEY_RIGHT)
-		p->keys.right = 0;
-	if (keycode == KEY_SPACE)
-		p->keys.jump = 0;
-	if (keycode == KEY_E)
-		p->keys.use = 0;
-	if (keycode == MOUSE_LEFT)
-		p->keys.attack = 0;
-	return (0);
+int handle_key_release(int keycode, t_game *game)
+{
+    t_player    *p;
+    p = &game->p1;
+    if (keycode == KEY_W)
+        p->keys.w = 0;
+    if (keycode == KEY_S)
+        p->keys.s = 0;
+    if (keycode == KEY_D)
+        p->keys.d = 0;
+    if (keycode == KEY_A)
+        p->keys.a = 0;
+    if (keycode == KEY_LEFT)
+        p->keys.left = 0;
+    if (keycode == KEY_RIGHT)
+        p->keys.right = 0;
+    if (keycode == KEY_SPACE)
+        p->cmd.jump = 0;
+    if (keycode == KEY_E)
+        p->cmd.use = 0;
+    if (keycode == MOUSE_LEFT)
+        p->cmd.attack = 0;
+    return (0);
 }
 
 /*
@@ -133,7 +132,7 @@ int	handle_mouse_move(int x, int y, t_game *game)
 			rotation = MAX_ROTATION;
 		if (rotation < -MAX_ROTATION)
 			rotation = -MAX_ROTATION;
-		p->angle += (angle_t)(rotation * ANG90);
+		p->angle += (t_fixed32)(rotation * ANG90);
 		p->angle &= ANGLEMASK;
 		game->last_mouse = pos;
 	}

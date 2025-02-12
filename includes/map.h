@@ -13,8 +13,8 @@
 #ifndef MAP_H
 # define MAP_H
 
+# include <types.h>
 # include <fixed_point.h>
-//# include <bsp.h>
 
 /*
  * Maximum limits for map elements

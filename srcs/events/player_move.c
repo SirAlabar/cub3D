@@ -12,70 +12,85 @@
 
 #include <cub3d.h>
 
+static bool check_sector_move(t_game *game, t_player *player, t_fixed32 new_x, t_fixed32 new_y)
+{
+    t_fixed_vec32 new_pos;
+    t_fixed_vec32 start_pos;
+    new_pos.x = new_x;
+    new_pos.y = new_y;
+    start_pos = player->pos;
+    return check_movement_valid(game->bsp_tree, start_pos, new_pos);
+}
+
 /*
 ** Attempts to move player along a wall when direct movement is blocked
 ** Uses separate X and Y movement checks to find valid sliding direction
 */
-static void	slide_along_wall(t_game *game, fixed_t newx, fixed_t newy)
+void slide_along_wall(t_game *game, t_fixed32 newx, t_fixed32 newy)
 {
-	t_player	*p;
-
-	p = &game->p1;
-	if (check_sector_move(p, newx, p->pos.y))
-	{
-		p->pos.x = newx;
-		p->momy = 0;
-	}
-	else if (check_sector_move(p, p->pos.x, newy))
-	{
-		p->pos.y = newy;
-		p->momx = 0;
-	}
-	else
-	{
-		p->momx = 0;
-		p->momy = 0;
-	}
+    t_fixed_vec32 new_pos;
+    new_pos.x = newx;
+    new_pos.y = newy;
+    
+    if (check_sector_move(game, &game->p1, new_pos.x, game->p1.pos.y))
+    {
+        game->p1.pos.x = new_pos.x;
+        game->p1.momy = 0;
+    }
+    else if (check_sector_move(game, &game->p1, game->p1.pos.x, new_pos.y))
+    {
+        game->p1.pos.y = new_pos.y;
+        game->p1.momx = 0;
+    }
+    else
+    {
+        game->p1.momx = 0;
+        game->p1.momy = 0;
+    }
 }
 
 /*
 ** Updates player position based on current momentum and angle
 ** Handles collision detection and sliding movement when blocked
 */
-void	move_player(t_game *game)
+void move_player(t_game *game)
 {
-	t_player	*p;
-	fixed_t		newx;
-	fixed_t		newy;
-	angle_t		angle;
+    t_fixed_vec32 new_pos;
+    t_fixed32 angle;
 
-	p = &game->p1;
-	build_player_cmd(p);
-	if (p->cmd.forward)
-	{
-		angle = p->angle >> ANGLETOFINESHIFT;
-		p->momx += fixed_mul(p->cmd.forward, finecosine[angle & FINEMASK]);
-		p->momy += fixed_mul(p->cmd.forward, finesine[angle & FINEMASK]);
-	}
-	if (p->cmd.side)
-	{
-		angle = (p->angle - ANG90) >> ANGLETOFINESHIFT;
-		p->momx += fixed_mul(p->cmd.side, finecosine[angle & FINEMASK]);
-		p->momy += fixed_mul(p->cmd.side, finesine[angle & FINEMASK]);
-	}
-	apply_momentum(p);
-	apply_friction(p);
-	limit_momentum(p);
-	newx = p->pos.x + p->momx;
-	newy = p->pos.y + p->momy;
-	if (check_sector_move(p, newx, newy))
-	{
-		p->pos.x = newx;
-		p->pos.y = newy;
-		update_player_sector(game);
-	}
-	else
-		slide_along_wall(game, newx, newy);
+    build_player_cmd(&game->p1);
+
+    if (game->p1.cmd.forward)
+    {
+        angle = game->p1.angle >> ANGLETOFINESHIFT;
+        game->p1.momx += fixed32_mul(game->p1.cmd.forward, 
+            get_cos_8192(game->fixed_tables, angle));
+        game->p1.momy += fixed32_mul(game->p1.cmd.forward, 
+            get_sin_8192(game->fixed_tables, angle));
+    }
+    
+    if (game->p1.cmd.side)
+    {
+        angle = (game->p1.angle - ANG90) >> ANGLETOFINESHIFT;
+        game->p1.momx += fixed32_mul(game->p1.cmd.side, 
+            get_cos_8192(game->fixed_tables, angle));
+        game->p1.momy += fixed32_mul(game->p1.cmd.side, 
+            get_sin_8192(game->fixed_tables, angle));
+    }
+
+    apply_momentum(&game->p1);
+    apply_friction(&game->p1);
+    limit_momentum(&game->p1);
+    
+    new_pos.x = game->p1.pos.x + game->p1.momx;
+    new_pos.y = game->p1.pos.y + game->p1.momy;
+
+    if (check_movement_valid(game->bsp_tree, game->p1.pos, new_pos))
+    {
+        game->p1.pos = new_pos;
+    }
+    else
+        slide_along_wall(game, new_pos.x, new_pos.y);
 }
 
 /*

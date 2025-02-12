@@ -23,15 +23,17 @@ void	init_hit_info(t_hit_info *hit)
 
 void    init_ray(t_ray *ray, t_game *game, int x)
 {
-    double  camera_x;
+    double      camera_x;
+    t_fixed32   ray_angle;
 
     ft_bzero(ray, sizeof(t_ray));
     ray->dir = (t_fixed_vec32){0, 0};
     ray->start = (t_fixed_vec32){0, 0};
     init_hit_info(&ray->hit_info);
     camera_x = 2 * x / (double)WINDOW_WIDTH - 1;
-    ray->dir.x = float_to_fixed32(game->p1.dir.x + game->p1.plane.x * camera_x);
-    ray->dir.y = float_to_fixed32(game->p1.dir.y + game->p1.plane.y * camera_x);
+    ray_angle = game->p1.angle + float_to_fixed32(FOV * 0.5 * camera_x);
+    ray->dir.x = fixed32_cos(ray_angle);
+    ray->dir.y = fixed32_sin(ray_angle);
     ray->start.x = game->p1.pos.x;
     ray->start.y = game->p1.pos.y;
     ray->hit = false;

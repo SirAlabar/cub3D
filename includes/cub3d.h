@@ -22,11 +22,13 @@
 # define MAX_ROTATION 0.045
 
 # include <colors.h>
+# include <types.h>
 # include <fixed_point.h>
 # include <bsp.h>
 # include <engine.h>
 # include <map.h>
 # include <events.h>
+
 # include <fcntl.h>
 # include <libft.h>
 # include <math.h>
@@ -54,6 +56,7 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <mlx.h>
+
 # define KEY_ESC XK_Escape
 # define KEY_W XK_w
 # define KEY_A XK_a
@@ -98,16 +101,6 @@
 
 /* Structs */
 
-typedef struct s_cmd
-{
-        int     forward;
-        int     side;
-        int     turn;
-        int     attack;
-        int     use;
-        int     jump;        
-} t_cmd;
-    
 typedef struct s_player
 {
     t_fixed_vec32    pos;
@@ -146,11 +139,12 @@ typedef struct s_game
     double      mouse_sensi;
     double      fps;
     t_bsp_tree  *bsp_tree;
+    t_fixed_tables_8192     *fixed_tables;	
 }               t_game;
 
 // parse
-void			init_player(t_game *game);
-void			init_game(t_game *game);
+bool			init_player(t_game *game);
+bool			init_game(t_game *game);
 //events/
 void			*keys_else(t_game *game, double *dir_x, double *dir_y);
 //initialize/init_colors.c
@@ -163,7 +157,7 @@ int				rgb_to_hex(char *color);
 
 
 //initialize/textures.c
-void			init_textures(t_game *game);
+bool			init_textures(t_game *game);
 //initialize/printers.c
 void			print_map(t_game *game);
 //

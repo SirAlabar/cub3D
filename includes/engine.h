@@ -13,12 +13,10 @@
 #ifndef ENGINE_H
 # define ENGINE_H
 
-# include <cub3d.h>
 # include <math.h>
 # include <stdbool.h>
 # include <sys/time.h>
-
-typedef struct s_game	t_game;
+# include <types.h>
 
 typedef struct s_vector_i
 {
@@ -112,7 +110,6 @@ unsigned int			get_texture_pixel(t_texture *tex, int x, int y);
 unsigned int			apply_shade(unsigned int color, double shade);
 
 // draw_room.c
-int						draw_background(t_game *game);
 void					draw_wall(t_game *game, t_ray *ray, int x);
 void					update_ray_position(t_ray *ray);
 

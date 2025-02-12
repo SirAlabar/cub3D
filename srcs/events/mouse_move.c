@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <cub3d.h>
-/*
+
 int	mouse_wrapper(int x, int y, void *param)
 {
 	t_game	*game;
@@ -29,7 +29,7 @@ static void	handle_mouse_rotation(t_game *game, t_vector pos)
 		rotation = MAX_ROTATION;
 	if (rotation < -MAX_ROTATION)
 		rotation = -MAX_ROTATION;
-	rotate_player(game, rotation);
+	move_player(game);
 	game->last_mouse = pos;
 }
 
@@ -54,4 +54,3 @@ int	mouse_move(t_game *game, t_vector pos)
 	}
 	return (0);
 }
-*/

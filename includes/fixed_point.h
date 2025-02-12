@@ -15,6 +15,7 @@
 
 # include <stdbool.h>
 # include <stdint.h>
+# include <types.h>
 
 /*
 Fixed point configuration
@@ -36,6 +37,7 @@ Common constants in fixed point representation
 # define FINEMASK 8191
 # define FINEANGLEBITS 13
 # define ANGLETOFINESHIFT 19
+# define ANGLEMASK    0xFFFFFFFF
 
 # define ANG90 1073741824  /* 0x40000000 */
 # define ANG180 2147483648 /* 0x80000000 */

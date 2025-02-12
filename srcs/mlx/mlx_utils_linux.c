@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <cub3d.h>
+/*
 
 void	cleanup_mlx(void *mlx)
 {
@@ -31,3 +32,4 @@ void	*init_window(void *mlx, int width, int height, char *title)
 	win = mlx_new_window(mlx, width, height, title);
 	return (win);
 }
+*/

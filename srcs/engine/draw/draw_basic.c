@@ -33,24 +33,3 @@ void draw_texture_pixel(t_texture *tex, int x, int y, int color)
     *(unsigned int *)dst = color;
 }
 
-void draw_background(t_game *game)
-{
-    int x, y;
-    int ceiling_color = game->map->ceiling_color;
-    int floor_color = game->map->floor_color;
-    
-    y = 0;
-    while (y < WINDOW_HEIGHT)
-    {
-        x = 0;
-        while (x < WINDOW_WIDTH)
-        {
-            if (y < WINDOW_HEIGHT / 2)
-                draw_pixel(game, x, y, ceiling_color);
-            else
-                draw_pixel(game, x, y, floor_color);
-            x++;
-        }
-        y++;
-    }
-}

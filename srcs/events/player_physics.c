@@ -20,8 +20,8 @@ void	apply_momentum(t_player *player)
 {
 	if (player->cmd.forward == 0 && player->cmd.side == 0)
 		return ;
-	player->momx = fixed_mul(player->momx, MAXMOVE);
-	player->momy = fixed_mul(player->momy, MAXMOVE);
+	player->momx = fixed32_mul(player->momx, MAXMOVE);
+	player->momy = fixed32_mul(player->momy, MAXMOVE);
 }
 
 /*
@@ -42,8 +42,8 @@ void	apply_friction(t_player *player)
 		player->momy = 0;
 		return ;
 	}
-	player->momx = fixed_mul(player->momx, FRICTION);
-	player->momy = fixed_mul(player->momy, FRICTION);
+	player->momx = fixed32_mul(player->momx, FRICTION);
+	player->momy = fixed32_mul(player->momy, FRICTION);
 }
 
 /*

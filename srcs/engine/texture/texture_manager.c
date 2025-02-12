@@ -11,7 +11,25 @@
 /* ************************************************************************** */
 
 #include <cub3d.h>
-/*
+
+unsigned int	apply_shade(unsigned int color, double shade)
+{
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+
+	r = ((color >> 16) & 0xFF) * shade;
+	g = ((color >> 8) & 0xFF) * shade;
+	b = (color & 0xFF) * shade;
+	return ((0xFF << 24) | (r << 16) | (g << 8) | b);
+}
+
+unsigned int	get_texture_pixel(t_texture *tex, int x, int y)
+{
+	return (*(unsigned int *)(tex->addr + (y * tex->line_len + x * (tex->bpp
+				/ 8))));
+}
+
 t_texture	*texture_create(t_game *game, char *texture_path)
 {
 	t_texture	*texture;
@@ -34,7 +52,7 @@ t_texture	*texture_create(t_game *game, char *texture_path)
 			&texture->line_len, &texture->endian);
 	return (texture);
 }
-
+/*
 void	resize_texture(t_texture *src, t_texture *dst)
 {
 	t_vector_i	pos;
