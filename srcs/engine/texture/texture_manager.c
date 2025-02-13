@@ -52,7 +52,27 @@ t_texture	*texture_create(t_game *game, char *texture_path)
 			&texture->line_len, &texture->endian);
 	return (texture);
 }
+
 /*
+t_texture *get_wall_texture(t_ray *ray, t_game *game)
+{
+    t_linedef *linedef;
+    t_sidedef *sidedef;
+    int sidedef_index;
+
+
+    if (ray->hit_info.linedef < 0 || ray->hit_info.linedef >= game->map->linedef_count)
+        return NULL;
+
+    linedef = &game->map->linedefs[ray->hit_info.linedef];
+    sidedef_index = linedef->front_sidedef;
+    if (sidedef_index < 0 || sidedef_index >= game->map->sidedef_count)
+        return NULL;
+
+    sidedef = &game->map->sidedefs[sidedef_index];
+    return texture_create(game, sidedef->middle_texture);
+}
+
 void	resize_texture(t_texture *src, t_texture *dst)
 {
 	t_vector_i	pos;

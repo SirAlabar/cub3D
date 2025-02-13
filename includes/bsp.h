@@ -122,7 +122,7 @@ typedef enum e_bsp_side
 /*
 ** Function prototypes
 */
-
+void debug_print_lines(t_bsp_line **lines, int num_lines);
 /* bsp_build.c */
 t_bsp_node	*build_bsp_tree(t_bsp_line **lines, int num_lines, int depth);
 t_bsp_node	*build_subtrees(t_bsp_node *node, t_bsp_data *data);

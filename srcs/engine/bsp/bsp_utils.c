@@ -23,21 +23,29 @@ t_bsp_tree *init_bsp_build(t_doom_map *map)
     t_bsp_line **lines;
     int num_lines;
 
+    ft_printf("Initializing BSP tree construction\n");
+    
     tree = ft_calloc(1, sizeof(t_bsp_tree));
     if (!tree)
         return (NULL);
+
     if (!extract_map_lines(map, &lines, &num_lines))
     {
         free(tree);
         return (NULL);
     }
+
+    ft_printf("Extracted %d lines from map\n", num_lines);
+    debug_print_lines(lines, num_lines);
+
     tree->root = build_bsp_tree(lines, num_lines, 0);
-    free(lines);
     if (!tree->root)
     {
+        free(lines);
         free(tree);
         return (NULL);
     }
+
     return (tree);
 }
 /*
@@ -86,19 +94,20 @@ t_bsp_line	*create_bsp_line(t_fixed_vec32 start, t_fixed_vec32 end, int type)
 ** Sets all pointers to NULL and initializes other values to defaults
 ** @return: newly allocated and initialized node, or NULL if allocation fails
 */
-t_bsp_node	*create_bsp_node(void)
+t_bsp_node *create_bsp_node(void)
 {
-	t_bsp_node	*node;
+    t_bsp_node *node;
 
-	node = (t_bsp_node *)ft_calloc(1, sizeof(t_bsp_node));
-	if (!node)
-		return (NULL);
-	node->front = NULL;
-	node->back = NULL;
-	node->lines = NULL;
-	node->num_lines = 0;
-	node->depth = 0;	
-	return (node);
+    node = ft_calloc(1, sizeof(t_bsp_node));
+    if (!node)
+        return (NULL);
+    node->lines = NULL;
+    node->partition = NULL;
+    node->front = NULL;
+    node->back = NULL;
+    node->num_lines = 0;
+    node->depth = 0;
+    return (node);
 }
 
 /*

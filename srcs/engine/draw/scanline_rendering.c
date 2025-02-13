@@ -9,92 +9,131 @@
 /*   Updated: 2025/02/13 19:20:04 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include <cub3d.h>
 
-void	init_scanline_buffer(t_scanline *buffer)
+void init_scanline_buffer(t_scanline *buffer)
 {
-	int	x;
+    int x;
 
-	x = -1;
-	while (++x < WINDOW_WIDTH)
-	{
-		buffer->y_ceil[x] = 0;
-		buffer->y_floor[x] = WINDOW_HEIGHT - 1;
-		buffer->y_top[x] = 0;
-		buffer->y_bottom[x] = WINDOW_HEIGHT - 1;
-	}
+    x = -1;
+    while (++x < WINDOW_WIDTH)
+    {
+        buffer->y_ceil[x] = 0;
+        buffer->y_floor[x] = WINDOW_HEIGHT - 1;
+        buffer->y_top[x] = 0;
+        buffer->y_bottom[x] = WINDOW_HEIGHT - 1;
+    }
 }
 
-static void	put_pixel(t_game *game, int x, int y, unsigned int color)
+static t_fixed_vec32 transform_point(t_fixed_vec32 p, t_game *game)
 {
-	int	pixel_pos;
+    t_fixed_vec32 result;
+    t_fixed32 cos_angle = fixed32_cos(game->p1.angle);
+    t_fixed32 sin_angle = fixed32_sin(game->p1.angle);
+    
+    t_fixed32 dx = fixed32_sub(p.x, game->p1.pos.x);
+    t_fixed32 dy = fixed32_sub(p.y, game->p1.pos.y);
 
-	if (x < 0 || x >= WINDOW_WIDTH || y < 0 || y >= WINDOW_HEIGHT)
-		return ;
-	pixel_pos = (y * game->line_length) + (x * (game->bits_per_pixel / 8));
-	*(unsigned int *)(game->addr[game->current_buffer] + pixel_pos) = color;
+    // Scale adjustment for transformation
+    dx = fixed32_mul(dx, FIXED_POINT_SCALE);
+    dy = fixed32_mul(dy, FIXED_POINT_SCALE);
+
+    result.x = fixed32_div(
+        fixed32_sub(fixed32_mul(dx, cos_angle), fixed32_mul(dy, sin_angle)),
+        FIXED_POINT_SCALE
+    );
+    result.y = fixed32_div(
+        fixed32_add(fixed32_mul(dx, sin_angle), fixed32_mul(dy, cos_angle)),
+        FIXED_POINT_SCALE
+    );
+
+    return result;
 }
 
-void	draw_scanline(t_game *game, t_fixed_vec32 start, t_fixed_vec32 end,
-		t_scanline *buffer)
+void render_wall_segment(t_game *game, t_bsp_line *line, t_scanline *buffer)
 {
-	t_fixed32	dx;
-	t_fixed32	dy;
-	t_fixed32	step;
-	t_fixed32	x;
-	t_fixed32	height;
+    t_fixed_vec32 v1, v2;
+    int x1, x2, h1, h2;
+    int start, end;
+    int x, y;
 
-	dx = fixed32_sub(end.x, start.x);
-	dy = fixed32_sub(end.y, start.y);
-	
-	if (fixed32_abs(dx) > fixed32_abs(dy))
-		step = fixed32_abs(dx);
-	else
-		step = fixed32_abs(dy);
+    // Transform both endpoints
+    v1 = transform_point(line->start, game);
+    v2 = transform_point(line->end, game);
 
-	dx = fixed32_div(dx, step);
-	dy = fixed32_div(dy, step);
+    // Debug log transformed points
+    ft_printf("Transformed points: (%d,%d) -> (%d,%d)\n",
+        fixed32_to_int(v1.x), fixed32_to_int(v1.y),
+        fixed32_to_int(v2.x), fixed32_to_int(v2.y));
 
-	x = start.x;
-	height = start.y;
+    // Early frustum culling
+    if (v1.y < COLLISION_THRESHOLD && v2.y < COLLISION_THRESHOLD)
+        return;
 
-	while (step > 0)
-	{
-		if (fixed32_to_int(x) >= 0 && fixed32_to_int(x) < WINDOW_WIDTH)
-		{
-			t_fixed32 wall_height = fixed32_div(int_to_fixed32(WINDOW_HEIGHT), 
-				height);
-			t_fixed32 screen_y = fixed32_div(
-				fixed32_sub(int_to_fixed32(WINDOW_HEIGHT / 2), wall_height), 
-				int_to_fixed32(2));
+    // Project to screen space with FOV and fixed point scaling
+    x1 = WINDOW_WIDTH/2 + fixed32_to_int(fixed32_div(
+        fixed32_mul(v1.x, int_to_fixed32(WINDOW_WIDTH/2)),
+        fixed32_div(v1.y, int_to_fixed32(FOV))
+    ));
+    x2 = WINDOW_WIDTH/2 + fixed32_to_int(fixed32_div(
+        fixed32_mul(v2.x, int_to_fixed32(WINDOW_WIDTH/2)),
+        fixed32_div(v2.y, int_to_fixed32(FOV))
+    ));
 
-			if (screen_y < buffer->y_top[fixed32_to_int(x)])
-			{
-				put_pixel(game, fixed32_to_int(x), fixed32_to_int(screen_y), 
-					0xFFFFFF);
-				buffer->y_top[fixed32_to_int(x)] = fixed32_to_int(screen_y);
-			}
-		}
-		x = fixed32_add(x, dx);
-		height = fixed32_add(height, dy);
-		step = fixed32_sub(step, FIXED_POINT_SCALE);
-	}
-}
+    // Calculate wall heights with fixed point scaling
+    h1 = fixed32_to_int(fixed32_mul(
+        fixed32_div(int_to_fixed32(WINDOW_HEIGHT),
+        fixed32_div(v1.y, FIXED_POINT_SCALE)),
+        int_to_fixed32(2)
+    ));
+    h2 = fixed32_to_int(fixed32_mul(
+        fixed32_div(int_to_fixed32(WINDOW_HEIGHT),
+        fixed32_div(v2.y, FIXED_POINT_SCALE)),
+        int_to_fixed32(2)
+    ));
 
-void	draw_line_segment(t_game *game, t_bsp_line *line, t_scanline *buffer)
-{
-	t_fixed_vec32	view_start;
-	t_fixed_vec32	view_end;
+    // Debug log projected points
+    ft_printf("Projected points: (%d,%d) -> (%d,%d) heights: %d,%d\n",
+        x1, h1, x2, h2);
 
-	view_start = vector_sub_fixed32(line->start, game->p1.pos);
-	view_end = vector_sub_fixed32(line->end, game->p1.pos);
+    // Order points from left to right
+    if (x1 > x2)
+    {
+        int tmp;
+        tmp = x1; x1 = x2; x2 = tmp;
+        tmp = h1; h1 = h2; h2 = tmp;
+    }
 
-	view_start = fixed32_vec_rotate(view_start, game->p1.angle);
-	view_end = fixed32_vec_rotate(view_end, game->p1.angle);
+    // Clip to screen bounds
+    start = x1;
+    end = x2;
+    if (start < 0) start = 0;
+    if (end >= WINDOW_WIDTH) end = WINDOW_WIDTH - 1;
 
-	if (view_start.y <= 0 && view_end.y <= 0)
-		return ;
+    // Draw wall slice by slice
+    for (x = start; x <= end; x++)
+    {
+        // Interpolate height
+        int h = h1;
+        if (x2 != x1)
+            h = h1 + ((h2 - h1) * (x - x1)) / (x2 - x1);
 
-	draw_scanline(game, view_start, view_end, buffer);
+        int wall_top = (WINDOW_HEIGHT - h) / 2;
+        int wall_bottom = (WINDOW_HEIGHT + h) / 2;
+
+        // Clip vertical bounds
+        if (wall_top < 0) wall_top = 0;
+        if (wall_bottom >= WINDOW_HEIGHT) wall_bottom = WINDOW_HEIGHT - 1;
+
+        // Draw wall slice
+        for (y = wall_top; y <= wall_bottom; y++)
+        {
+            if (y >= buffer->y_top[x] && y <= buffer->y_bottom[x])
+            {
+                draw_pixel(game, x, y, 0x888888);
+            }
+        }
+
+        buffer->y_top[x] = wall_bottom + 1;
+    }
 }

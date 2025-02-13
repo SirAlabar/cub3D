@@ -63,6 +63,20 @@ t_fixed32	eval_partition(t_bsp_line *partition, t_bsp_line **lines,
 	return (fixed32_add(fixed32_add(balance_score, split_score), depth_penalty));
 }
 
+void debug_print_lines(t_bsp_line **lines, int num_lines)
+{
+    int i;
+
+    ft_printf("Lines to process (%d):\n", num_lines);
+    for (i = 0; i < num_lines; i++)
+    {
+        ft_printf("  Line %d: (%d,%d) -> (%d,%d)\n", i,
+            fixed32_to_int(lines[i]->start.x),
+            fixed32_to_int(lines[i]->start.y),
+            fixed32_to_int(lines[i]->end.x),
+            fixed32_to_int(lines[i]->end.y));
+    }
+}
 /*
 ** Finds best partition line using multiple random seeds
 ** Tests different configurations for optimal balance
@@ -76,9 +90,13 @@ t_bsp_line	*choose_partition(t_bsp_line **lines, int num_lines)
 	int			i;
 	int			attempt;
 
+	if (!lines || num_lines <= 0)
+	return (NULL);
 	best_line = NULL;
 	best_score = INT32_MAX;
 	attempt = 0;
+	ft_printf("Choosing partition from %d lines\n", num_lines);
+    debug_print_lines(lines, num_lines);
 	while (attempt++ < BSP_MAX_SEED)
 	{
 		shuffle_lines(lines, num_lines, generate_random_seed());
@@ -120,23 +138,46 @@ t_bsp_node	*build_subtrees(t_bsp_node *node, t_bsp_data *data)
 ** Uses balanced partition selection at each level
 ** Returns NULL if max depth reached or build fails
 */
-t_bsp_node	*build_bsp_tree(t_bsp_line **lines, int num_lines, int depth)
+t_bsp_node *build_bsp_tree(t_bsp_line **lines, int num_lines, int depth)
 {
-	t_bsp_node	*node;
-	t_bsp_data	split_data;
-	t_bsp_line	*partition;
+    t_bsp_node *node;
+  //  t_bsp_line *partition;
+    t_bsp_data split_data;
 
-	if (!lines || !num_lines || depth >= BSP_MAX_DEPTH)
-		return (NULL);
-	node = create_bsp_node();
-	if (!node)
-		return (NULL);
-	node->depth = depth;
-	partition = choose_partition(lines, num_lines);
-	if (!partition)
-		return (free_and_return(node, NULL));
-	if (!split_lines(partition, lines, num_lines, &split_data))
-		return (free_and_return(node, NULL));
-	node->partition = partition;
-	return (build_subtrees(node, &split_data));
+    ft_printf("\nBuilding BSP node at depth %d with %d lines\n", depth, num_lines);
+
+    if (!lines || num_lines <= 0)
+        return (NULL);
+
+    node = create_bsp_node();
+    if (!node)
+        return (NULL);
+
+    node->depth = depth;
+    node->partition = choose_partition(lines, num_lines);
+    if (!node->partition)
+    {
+        ft_printf("No partition found, creating leaf node\n");
+        node->lines = lines;
+        node->num_lines = num_lines;
+        return (node);
+    }
+
+    if (!split_lines(node->partition, lines, num_lines, &split_data))
+    {
+        free(node);
+        return (NULL);
+    }
+
+    // Keep lines in current node
+    node->lines = lines;
+    node->num_lines = num_lines;
+
+    // Build subtrees
+    if (split_data.num_front > 0)
+        node->front = build_bsp_tree(split_data.front_lines, split_data.num_front, depth + 1);
+    if (split_data.num_back > 0)
+        node->back = build_bsp_tree(split_data.back_lines, split_data.num_back, depth + 1);
+
+    return (node);
 }
