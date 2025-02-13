@@ -9,7 +9,7 @@
 /*   Updated: 2025/02/12 18:14:32 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+/*
 #include <cub3d.h>
 
 void	init_hit_info(t_hit_info *hit)
@@ -146,3 +146,4 @@ void    cast_rays(t_game *game, t_ray *rays)
         process_bsp_node(&rays[i], game->bsp_tree->root, game);
     }
 }
+*/

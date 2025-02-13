@@ -108,6 +108,7 @@ void					draw_texture_pixel(t_texture *tex, int x, int y,
 							int color);
 unsigned int			get_texture_pixel(t_texture *tex, int x, int y);
 unsigned int			apply_shade(unsigned int color, double shade);
+void	draw_line_segment(t_game *game, t_bsp_line *line, t_scanline *buffer);
 
 // draw_room.c
 void					draw_wall(t_game *game, t_ray *ray, int x);

@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:55:14 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/02/12 17:55:36 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:06:00 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,48 @@ void	cleanup_double_buffer(t_game *game)
 		mlx_destroy_image(game->mlx, game->buffer[1]);
 }
 
+static void	render_node_geometry(t_game *game, t_bsp_node *node, t_scanline *buffer)
+{
+	int	i;
+
+	i = -1;
+	while (++i < node->num_lines)
+		draw_line_segment(game, node->lines[i], buffer);
+}
+
+void	render_bsp_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
+{
+	t_bsp_side	side;
+
+	if (!node)
+		return ;
+	if (!node->partition)
+	{
+		render_node_geometry(game, node, buffer);
+		return ;
+	}
+	side = bsp_classify_point(game->p1.pos, node->partition);
+	if (side == BSP_FRONT)
+	{
+		render_bsp_node(game, node->back, buffer);
+		render_node_geometry(game, node, buffer);
+		render_bsp_node(game, node->front, buffer);
+	}
+	else
+	{
+		render_bsp_node(game, node->front, buffer);
+		render_node_geometry(game, node, buffer);
+		render_bsp_node(game, node->back, buffer);
+	}
+}
+
 int	render_frame(t_game *game)
 {
-	t_ray		*rays;
 	t_scanline	buffer;
 
-	rays = ft_calloc(1, (sizeof(t_ray) * WINDOW_WIDTH));
-	if (!rays)
-		return (0);
 	init_scanline_buffer(&buffer);
-	cast_rays(game, rays);
-	free(rays);
+	render_bsp_node(game, game->bsp_tree->root, &buffer);
+	draw_weapon(game);
+	swap_buffers(game);
 	return (0);
 }
