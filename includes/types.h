@@ -17,5 +17,7 @@ typedef struct s_cmd t_cmd;
 typedef struct s_bsp_tree t_bsp_tree;
 typedef struct s_bsp_line t_bsp_line;
 typedef struct s_bsp_node t_bsp_node;
+typedef int32_t		t_fixed32;
+typedef int64_t		t_fixed64;
 
 #endif

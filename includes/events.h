@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:11 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 13:49:11 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/02/14 19:19:11 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ typedef struct s_keys
 
 typedef struct s_cmd
 {
-        int     forward;
-        int     side;
-        int     turn;
+        t_fixed32 forward;
+        t_fixed32 side;
+        t_fixed32 turn;
         int     attack;
         int     use;
         int     jump;        

@@ -6,9 +6,10 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 19:10:01 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/02/13 19:20:04 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/02/14 19:34:56 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <cub3d.h>
 
 void init_scanline_buffer(t_scanline *buffer)
@@ -24,27 +25,28 @@ void init_scanline_buffer(t_scanline *buffer)
         buffer->y_bottom[x] = WINDOW_HEIGHT - 1;
     }
 }
-
 static t_fixed_vec32 transform_point(t_fixed_vec32 p, t_game *game)
 {
     t_fixed_vec32 result;
-    t_fixed32 cos_angle = fixed32_cos(game->p1.angle);
-    t_fixed32 sin_angle = fixed32_sin(game->p1.angle);
+    t_fixed32 cos_val, sin_val;
     
+    // Translate point relative to player
     t_fixed32 dx = fixed32_sub(p.x, game->p1.pos.x);
     t_fixed32 dy = fixed32_sub(p.y, game->p1.pos.y);
-
-    // Scale adjustment for transformation
-    dx = fixed32_mul(dx, FIXED_POINT_SCALE);
-    dy = fixed32_mul(dy, FIXED_POINT_SCALE);
-
-    result.x = fixed32_div(
-        fixed32_sub(fixed32_mul(dx, cos_angle), fixed32_mul(dy, sin_angle)),
-        FIXED_POINT_SCALE
+    
+    // Get sine and cosine from tables
+    cos_val = get_cos_8192(game->fixed_tables, game->p1.angle);
+    sin_val = get_sin_8192(game->fixed_tables, game->p1.angle);
+    
+    // Rotate point around player
+    result.x = fixed32_sub(
+        fixed32_mul(dx, cos_val),
+        fixed32_mul(dy, sin_val)
     );
-    result.y = fixed32_div(
-        fixed32_add(fixed32_mul(dx, sin_angle), fixed32_mul(dy, cos_angle)),
-        FIXED_POINT_SCALE
+    
+    result.y = fixed32_add(
+        fixed32_mul(dx, sin_val),
+        fixed32_mul(dy, cos_val)
     );
 
     return result;
@@ -53,87 +55,70 @@ static t_fixed_vec32 transform_point(t_fixed_vec32 p, t_game *game)
 void render_wall_segment(t_game *game, t_bsp_line *line, t_scanline *buffer)
 {
     t_fixed_vec32 v1, v2;
-    int x1, x2, h1, h2;
-    int start, end;
-    int x, y;
-
-    // Transform both endpoints
+    
+    // Transform vertices to view space
     v1 = transform_point(line->start, game);
     v2 = transform_point(line->end, game);
 
-    // Debug log transformed points
-    ft_printf("Transformed points: (%d,%d) -> (%d,%d)\n",
-        fixed32_to_int(v1.x), fixed32_to_int(v1.y),
-        fixed32_to_int(v2.x), fixed32_to_int(v2.y));
-
-    // Early frustum culling
-    if (v1.y < COLLISION_THRESHOLD && v2.y < COLLISION_THRESHOLD)
+    // Skip if behind player
+    if (v1.y <= 0 && v2.y <= 0)
         return;
 
-    // Project to screen space with FOV and fixed point scaling
-    x1 = WINDOW_WIDTH/2 + fixed32_to_int(fixed32_div(
-        fixed32_mul(v1.x, int_to_fixed32(WINDOW_WIDTH/2)),
-        fixed32_div(v1.y, int_to_fixed32(FOV))
-    ));
-    x2 = WINDOW_WIDTH/2 + fixed32_to_int(fixed32_div(
-        fixed32_mul(v2.x, int_to_fixed32(WINDOW_WIDTH/2)),
-        fixed32_div(v2.y, int_to_fixed32(FOV))
-    ));
+    // Project to screen space
+    int x1 = WINDOW_WIDTH/2;
+    int x2 = WINDOW_WIDTH/2;
+    int h1 = 0, h2 = 0;
+    
+    if (v1.y > 0) {
+        x1 += fixed32_to_int(fixed32_mul(v1.x, FIXED_POINT_SCALE) / v1.y);
+        h1 = fixed32_to_int(fixed32_mul(int_to_fixed32(WINDOW_HEIGHT), 
+             FIXED_POINT_SCALE) / v1.y);
+    }
+    
+    if (v2.y > 0) {
+        x2 += fixed32_to_int(fixed32_mul(v2.x, FIXED_POINT_SCALE) / v2.y);
+        h2 = fixed32_to_int(fixed32_mul(int_to_fixed32(WINDOW_HEIGHT), 
+             FIXED_POINT_SCALE) / v2.y);
+    }
 
-    // Calculate wall heights with fixed point scaling
-    h1 = fixed32_to_int(fixed32_mul(
-        fixed32_div(int_to_fixed32(WINDOW_HEIGHT),
-        fixed32_div(v1.y, FIXED_POINT_SCALE)),
-        int_to_fixed32(2)
-    ));
-    h2 = fixed32_to_int(fixed32_mul(
-        fixed32_div(int_to_fixed32(WINDOW_HEIGHT),
-        fixed32_div(v2.y, FIXED_POINT_SCALE)),
-        int_to_fixed32(2)
-    ));
-
-    // Debug log projected points
-    ft_printf("Projected points: (%d,%d) -> (%d,%d) heights: %d,%d\n",
-        x1, h1, x2, h2);
-
-    // Order points from left to right
-    if (x1 > x2)
-    {
+    // Order points left to right
+    if (x1 > x2) {
         int tmp;
         tmp = x1; x1 = x2; x2 = tmp;
         tmp = h1; h1 = h2; h2 = tmp;
+        t_fixed_vec32 temp = v1;
+        v1 = v2;
+        v2 = temp;
     }
 
     // Clip to screen bounds
-    start = x1;
-    end = x2;
-    if (start < 0) start = 0;
-    if (end >= WINDOW_WIDTH) end = WINDOW_WIDTH - 1;
+    int start = (x1 < 0) ? 0 : x1;
+    int end = (x2 >= WINDOW_WIDTH) ? WINDOW_WIDTH - 1 : x2;
 
-    // Draw wall slice by slice
-    for (x = start; x <= end; x++)
-    {
-        // Interpolate height
-        int h = h1;
-        if (x2 != x1)
-            h = h1 + ((h2 - h1) * (x - x1)) / (x2 - x1);
-
+    // Draw wall slices
+    for (int x = start; x <= end; x++) {
+        float t = (x2 == x1) ? 0.0f : (float)(x - x1) / (float)(x2 - x1);
+        int h = h1 + (int)(t * (float)(h2 - h1));
+        
         int wall_top = (WINDOW_HEIGHT - h) / 2;
         int wall_bottom = (WINDOW_HEIGHT + h) / 2;
+        
+        wall_top = (wall_top < 0) ? 0 : wall_top;
+        wall_bottom = (wall_bottom >= WINDOW_HEIGHT) ? WINDOW_HEIGHT - 1 : wall_bottom;
 
-        // Clip vertical bounds
-        if (wall_top < 0) wall_top = 0;
-        if (wall_bottom >= WINDOW_HEIGHT) wall_bottom = WINDOW_HEIGHT - 1;
-
-        // Draw wall slice
-        for (y = wall_top; y <= wall_bottom; y++)
-        {
-            if (y >= buffer->y_top[x] && y <= buffer->y_bottom[x])
-            {
-                draw_pixel(game, x, y, 0x888888);
+        for (int y = wall_top; y <= wall_bottom; y++) {
+            if (y >= buffer->y_top[x] && y <= buffer->y_bottom[x]) {
+                // Basic distance shading
+                t_fixed32 dist = fixed32_add(v1.y, 
+                    fixed32_mul(fixed32_sub(v2.y, v1.y), int_to_fixed32(t * FIXED_POINT_SCALE)));
+                
+                int shade = 0xFF - fixed32_to_int(fixed32_mul(dist, int_to_fixed32(1)));
+                shade = (shade < 0x40) ? 0x40 : (shade > 0xFF) ? 0xFF : shade;
+                
+                int color = (shade << 16) | (shade << 8) | shade;
+                draw_pixel(game, x, y, color);
             }
         }
-
         buffer->y_top[x] = wall_bottom + 1;
     }
 }

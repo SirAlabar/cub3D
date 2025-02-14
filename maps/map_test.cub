@@ -1,0 +1,133 @@
+[VERTICES]
+# Octágono externo
+v0 = 0,32      # Norte
+v1 = 18,0      # Noroeste
+v2 = 46,0      # Nordeste
+v3 = 64,32     # Leste
+v4 = 46,64     # Sudeste
+v5 = 18,64     # Sudoeste
+v6 = 0,32      # Sul
+v7 = 64,32     # Oeste
+
+# Janelas nas paredes (recuadas)
+v8 = 18,4      # Janela Norte
+v9 = 46,4
+v10 = 60,32    # Janela Leste
+v11 = 46,60
+v12 = 18,60    # Janela Sul
+v13 = 4,32     # Janela Oeste
+
+# Pilastras (4 cantos)
+v14 = 24,16    # Pilastra Noroeste
+v15 = 28,16
+v16 = 28,20
+v17 = 24,20
+
+v18 = 36,16    # Pilastra Nordeste
+v19 = 40,16
+v20 = 40,20
+v21 = 36,20
+
+v22 = 24,44    # Pilastra Sudoeste
+v23 = 28,44
+v24 = 28,48
+v25 = 24,48
+
+v26 = 36,44    # Pilastra Sudeste
+v27 = 40,44
+v28 = 40,48
+v29 = 36,48
+
+# Degrau octagonal central
+v30 = 28,28    # Octágono interno
+v31 = 30,26
+v32 = 34,26
+v33 = 36,28
+v34 = 36,32
+v35 = 34,34
+v36 = 30,34
+v37 = 28,32
+
+[SIDEDEFS]
+# Paredes externas
+sd0 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Norte
+sd1 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Nordeste
+sd2 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Leste
+sd3 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Sudeste
+sd4 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Sul
+sd5 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Sudoeste
+sd6 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Oeste
+sd7 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Noroeste
+
+# Janelas
+sd8 = 0,0,-,assets/texture/ice1.xpm,-,s1  # Norte
+sd9 = 0,0,-,assets/texture/ice1.xpm,-,s1  # Leste
+sd10 = 0,0,-,assets/texture/ice1.xpm,-,s1 # Sul
+sd11 = 0,0,-,assets/texture/ice1.xpm,-,s1 # Oeste
+
+# Pilastras
+sd12 = 0,0,-,assets/texture/stone2.xpm,-,s2  # Pilastra NO
+sd13 = 0,0,-,assets/texture/stone2.xpm,-,s2  # Pilastra NE
+sd14 = 0,0,-,assets/texture/stone2.xpm,-,s2  # Pilastra SO
+sd15 = 0,0,-,assets/texture/stone2.xpm,-,s2  # Pilastra SE
+
+# Degrau central
+sd16 = 0,0,-,assets/texture/stone3.xpm,-,s3  # Degrau
+
+[LINEDEFS]
+# Paredes externas com janelas
+l0 = v0,v1,s0,-1,0
+l1 = v1,v8,s0,-1,0
+l2 = v8,v9,s1,-1,0    # Janela Norte
+l3 = v9,v2,s0,-1,0
+l4 = v2,v3,s0,-1,0
+l5 = v3,v10,s0,-1,0
+l6 = v10,v11,s1,-1,0  # Janela Leste
+l7 = v11,v4,s0,-1,0
+l8 = v4,v5,s0,-1,0
+l9 = v5,v12,s0,-1,0
+l10 = v12,v13,s1,-1,0 # Janela Sul
+l11 = v13,v6,s0,-1,0
+l12 = v6,v7,s0,-1,0
+l13 = v7,v13,s0,-1,0
+l14 = v13,v0,s1,-1,0  # Janela Oeste
+
+# Pilastras
+l15 = v14,v15,s2,-1,0
+l16 = v15,v16,s2,-1,0
+l17 = v16,v17,s2,-1,0
+l18 = v17,v14,s2,-1,0
+
+l19 = v18,v19,s2,-1,0
+l20 = v19,v20,s2,-1,0
+l21 = v20,v21,s2,-1,0
+l22 = v21,v18,s2,-1,0
+
+l23 = v22,v23,s2,-1,0
+l24 = v23,v24,s2,-1,0
+l25 = v24,v25,s2,-1,0
+l26 = v25,v22,s2,-1,0
+
+l27 = v26,v27,s2,-1,0
+l28 = v27,v28,s2,-1,0
+l29 = v28,v29,s2,-1,0
+l30 = v29,v26,s2,-1,0
+
+# Degrau octagonal
+l31 = v30,v31,s3,-1,0
+l32 = v31,v32,s3,-1,0
+l33 = v32,v33,s3,-1,0
+l34 = v33,v34,s3,-1,0
+l35 = v34,v35,s3,-1,0
+l36 = v35,v36,s3,-1,0
+l37 = v36,v37,s3,-1,0
+l38 = v37,v30,s3,-1,0
+
+[SECTORS]
+s0 = 0,128,160,assets/texture/stone1.xpm,assets/texture/fire4.xpm    # Sala principal
+s1 = 0,96,160,assets/texture/stone1.xpm,assets/texture/fire4.xpm     # Janelas
+s2 = 0,128,160,assets/texture/stone2.xpm,assets/texture/fire4.xpm    # Pilastras
+s3 = 16,32,160,assets/texture/stone3.xpm,assets/texture/fire4.xpm    # Degrau central
+
+[THINGS]
+1,30,30,45
