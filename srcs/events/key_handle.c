@@ -16,31 +16,41 @@
 ** Converts keyboard state into movement commands
 ** Handles movement, turning, and action inputs
 */
-void	build_player_cmd(t_player *player)
+void build_player_cmd(t_player *player)
 {
-	t_keys	*keys;
-	t_cmd	*cmd;
+    t_keys *keys;
+    t_cmd *cmd;
 
-	keys = &player->keys;
-	cmd = &player->cmd;
-	cmd->forward = 0;
-	cmd->side = 0;
-	cmd->turn = 0;
-	cmd->attack = 0;
-	cmd->use = 0;
-	cmd->jump = 0;
-	if (keys->w)
-		cmd->forward += FIXED_POINT_SCALE;
-	if (keys->s)
-		cmd->forward -= FIXED_POINT_SCALE;
-	if (keys->d)
-		cmd->side += FIXED_POINT_SCALE;
-	if (keys->a)
-		cmd->side -= FIXED_POINT_SCALE;
-	if (keys->left)
-		cmd->turn -= ANG90 / 32;
-	if (keys->right)
-		cmd->turn += ANG90 / 32;
+    ft_printf(CYAN"\n=== Building Player Commands ===\n"DEFAULT);
+    ft_printf("Current key states - W:%d S:%d A:%d D:%d LEFT:%d RIGHT:%d\n",
+        player->keys.w, player->keys.s, player->keys.a, player->keys.d,
+        player->keys.left, player->keys.right);
+
+    keys = &player->keys;
+    cmd = &player->cmd;
+    cmd->forward = 0;
+    cmd->side = 0;
+    cmd->turn = 0;
+    cmd->attack = 0;
+    cmd->use = 0;
+    cmd->jump = 0;
+
+    if (keys->w)
+        cmd->forward += FIXED_POINT_SCALE;
+    if (keys->s)
+        cmd->forward -= FIXED_POINT_SCALE;
+    if (keys->d)
+        cmd->side += FIXED_POINT_SCALE;
+    if (keys->a)
+        cmd->side -= FIXED_POINT_SCALE;
+    if (keys->left)
+        cmd->turn -= ANG90 / 32;
+    if (keys->right)
+        cmd->turn += ANG90 / 32;
+
+    ft_printf("Resulting commands:\n");
+    ft_printf("Forward: %d Side: %d Turn: %d\n", 
+        cmd->forward, cmd->side, cmd->turn);
 }
 
 /*
@@ -49,28 +59,26 @@ void	build_player_cmd(t_player *player)
 */
 int handle_key_press(int keycode, t_game *game)
 {
-    t_player    *p;
-    p = &game->p1;
     if (keycode == KEY_ESC)
         return (close_window(game));
     if (keycode == KEY_W)
-        p->keys.w = 1;
+		game->p1.keys.w = 1;
     if (keycode == KEY_S)
-        p->keys.s = 1;
+		game->p1.keys.s = 1;
     if (keycode == KEY_D)
-        p->keys.d = 1;
+		game->p1.keys.d = 1;
     if (keycode == KEY_A)
-        p->keys.a = 1;
+		game->p1.keys.a = 1;
     if (keycode == KEY_LEFT)
-        p->keys.left = 1;
+		game->p1.keys.left = 1;
     if (keycode == KEY_RIGHT)
-        p->keys.right = 1;
+		game->p1.keys.right = 1;
     if (keycode == KEY_SPACE)
-        p->cmd.jump = 1;
+		game->p1.cmd.jump = 1;
     if (keycode == KEY_E)
-        p->cmd.use = 1;
+		game->p1.cmd.use = 1;
     if (keycode == MOUSE_LEFT)
-        p->cmd.attack = 1;
+		game->p1.cmd.attack = 1;
     return (0);
 }
 
@@ -81,26 +89,24 @@ int handle_key_press(int keycode, t_game *game)
 
 int handle_key_release(int keycode, t_game *game)
 {
-    t_player    *p;
-    p = &game->p1;
     if (keycode == KEY_W)
-        p->keys.w = 0;
+		game->p1.keys.w = 0;
     if (keycode == KEY_S)
-        p->keys.s = 0;
+		game->p1.keys.s = 0;
     if (keycode == KEY_D)
-        p->keys.d = 0;
+		game->p1.keys.d = 0;
     if (keycode == KEY_A)
-        p->keys.a = 0;
+		game->p1.keys.a = 0;
     if (keycode == KEY_LEFT)
-        p->keys.left = 0;
+		game->p1.keys.left = 0;
     if (keycode == KEY_RIGHT)
-        p->keys.right = 0;
+		game->p1.keys.right = 0;
     if (keycode == KEY_SPACE)
-        p->cmd.jump = 0;
+		game->p1.cmd.jump = 0;
     if (keycode == KEY_E)
-        p->cmd.use = 0;
+		game->p1.cmd.use = 0;
     if (keycode == MOUSE_LEFT)
-        p->cmd.attack = 0;
+		game->p1.cmd.attack = 0;
     return (0);
 }
 
@@ -110,13 +116,11 @@ int handle_key_release(int keycode, t_game *game)
 */
 int	handle_mouse_move(int x, int y, t_game *game)
 {
-	t_player	*p;
 	t_vector	pos;
 	t_vector	center;
 	int			reset_needed;
 	double		rotation;
 
-	p = &game->p1;
 	if (game->last_mouse.x == -1)
 	{
 		game->last_mouse = vector_create(x, y);
@@ -132,8 +136,8 @@ int	handle_mouse_move(int x, int y, t_game *game)
 			rotation = MAX_ROTATION;
 		if (rotation < -MAX_ROTATION)
 			rotation = -MAX_ROTATION;
-		p->angle += (t_fixed32)(rotation * ANG90);
-		p->angle &= ANGLEMASK;
+		game->p1.angle += (t_fixed32)(rotation * ANG90);
+		game->p1.angle &= ANGLEMASK;
 		game->last_mouse = pos;
 	}
 	else

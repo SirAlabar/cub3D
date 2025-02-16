@@ -76,38 +76,41 @@ void render_bsp_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
     if (!node)
         return;
 
+    // Se não é um nó folha, usa a partição para determinar a ordem
     if (node->partition)
+    {
         side = bsp_classify_point(game->p1.pos, node->partition);
-    else
-        side = BSP_FRONT;
-
-    if (side == BSP_FRONT || side == BSP_COLINEAR)
-    {
-        if (node->back)
-            render_bsp_node(game, node->back, buffer);
-
-        for (i = 0; i < node->num_lines; i++)
+        
+        // Renderiza de trás pra frente
+        if (side == BSP_FRONT)
         {
-            if (node->lines[i])
-                render_wall_segment(game, node->lines[i], buffer);
-        }
-
-        if (node->front)
+            render_bsp_node(game, node->back, buffer);
+            
+            // Renderiza linhas do nó atual
+            for (i = 0; i < node->num_lines; i++)
+                if (node->lines[i])
+                    render_wall_segment(game, node->lines[i], buffer);
+            
             render_bsp_node(game, node->front, buffer);
+        }
+        else // BSP_BACK ou BSP_COLINEAR
+        {
+            render_bsp_node(game, node->front, buffer);
+            
+            // Renderiza linhas do nó atual
+            for (i = 0; i < node->num_lines; i++)
+                if (node->lines[i])
+                    render_wall_segment(game, node->lines[i], buffer);
+            
+            render_bsp_node(game, node->back, buffer);
+        }
     }
+    // Nó folha - apenas renderiza suas linhas
     else
     {
-        if (node->front)
-            render_bsp_node(game, node->front, buffer);
-
         for (i = 0; i < node->num_lines; i++)
-        {
             if (node->lines[i])
                 render_wall_segment(game, node->lines[i], buffer);
-        }
-
-        if (node->back)
-            render_bsp_node(game, node->back, buffer);
     }
 }
 
@@ -120,15 +123,9 @@ int render_frame(t_game *game)
 
     if (game->bsp_tree && game->bsp_tree->root)
     {
-        ft_printf("Player position: (%d,%d)\n", 
-            fixed32_to_int(game->p1.pos.x),
-            fixed32_to_int(game->p1.pos.y));
-        ft_printf("Player angle: %d\n", 
-            fixed32_to_int(game->p1.angle));
-            
         render_bsp_node(game, game->bsp_tree->root, &buffer);
     }
-
+	move_player(game);
     draw_weapon(game);
     update_fps(game);
     swap_buffers(game);

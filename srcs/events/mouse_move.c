@@ -20,17 +20,18 @@ int	mouse_wrapper(int x, int y, void *param)
 	return (mouse_move(game, vector_create(x, y)));
 }
 
-static void	handle_mouse_rotation(t_game *game, t_vector pos)
+static void    handle_mouse_rotation(t_game *game, t_vector pos)
 {
-	double	rotation;
+    double    rotation;
 
-	rotation = (pos.x - game->last_mouse.x) * game->mouse_sensi;
-	if (rotation > MAX_ROTATION)
-		rotation = MAX_ROTATION;
-	if (rotation < -MAX_ROTATION)
-		rotation = -MAX_ROTATION;
-	move_player(game);
-	game->last_mouse = pos;
+    rotation = (pos.x - game->last_mouse.x) * game->mouse_sensi;
+    if (rotation > MAX_ROTATION)
+        rotation = MAX_ROTATION;
+    if (rotation < -MAX_ROTATION)
+        rotation = -MAX_ROTATION;
+    game->p1.angle += (t_fixed32)(rotation * ANG90);
+    game->p1.angle &= ANGLEMASK;
+    game->last_mouse = pos;
 }
 
 int	mouse_move(t_game *game, t_vector pos)

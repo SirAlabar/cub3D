@@ -16,83 +16,178 @@ static bool check_sector_move(t_game *game, t_player *player, t_fixed32 new_x, t
 {
     t_fixed_vec32 new_pos;
     t_fixed_vec32 start_pos;
+    
+    // Se não há movimento, retorna true
+    if (new_x == player->pos.x && new_y == player->pos.y)
+        return (true);
+    
     new_pos.x = new_x;
     new_pos.y = new_y;
     start_pos = player->pos;
+    
+    ft_printf(BLUE"Checking move:\n"DEFAULT);
+    ft_printf("From: (%d,%d) [fixed: (%d,%d)]\n",
+        fixed32_to_int(start_pos.x), fixed32_to_int(start_pos.y),
+        start_pos.x, start_pos.y);
+    ft_printf("To: (%d,%d) [fixed: (%d,%d)]\n",
+        fixed32_to_int(new_pos.x), fixed32_to_int(new_pos.y),
+        new_pos.x, new_pos.y);
+        
     return check_movement_valid(game->bsp_tree, start_pos, new_pos);
 }
-
 /*
 ** Attempts to move player along a wall when direct movement is blocked
 ** Uses separate X and Y movement checks to find valid sliding direction
 */
 void slide_along_wall(t_game *game, t_fixed32 newx, t_fixed32 newy)
 {
-    t_fixed_vec32 new_pos;
-    new_pos.x = newx;
-    new_pos.y = newy;
+    bool moved;
     
-    if (check_sector_move(game, &game->p1, new_pos.x, game->p1.pos.y))
+    // Se não há movimento proposto, retorna
+    if (newx == game->p1.pos.x && newy == game->p1.pos.y)
+        return;
+    
+    ft_printf(YELLOW"Attempting to slide along wall\n"DEFAULT);
+    moved = false;
+    
+    // Tenta mover só no eixo X
+    if (newx != game->p1.pos.x)
     {
-        game->p1.pos.x = new_pos.x;
-        game->p1.momy = 0;
+        if (check_sector_move(game, &game->p1, newx, game->p1.pos.y))
+        {
+            ft_printf(GREEN"Sliding along X axis\n"DEFAULT);
+            game->p1.pos.x = newx;
+            game->p1.momy = 0;
+            moved = true;
+        }
     }
-    else if (check_sector_move(game, &game->p1, game->p1.pos.x, new_pos.y))
+    
+    // Tenta mover só no eixo Y se não moveu em X
+    if (!moved && newy != game->p1.pos.y)
     {
-        game->p1.pos.y = new_pos.y;
-        game->p1.momx = 0;
+        if (check_sector_move(game, &game->p1, game->p1.pos.x, newy))
+        {
+            ft_printf(GREEN"Sliding along Y axis\n"DEFAULT);
+            game->p1.pos.y = newy;
+            game->p1.momx = 0;
+            moved = true;
+        }
     }
-    else
+    
+    // Se não conseguiu mover em nenhum eixo, zera o momentum
+    if (!moved)
     {
+        ft_printf(RED"Could not slide - zeroing momentum\n"DEFAULT);
         game->p1.momx = 0;
         game->p1.momy = 0;
     }
 }
+
 
 /*
 ** Updates player position based on current momentum and angle
 ** Handles collision detection and sliding movement when blocked
 */
+
 void move_player(t_game *game)
 {
     t_fixed_vec32 new_pos;
     t_fixed32 angle;
+    bool has_movement;
 
     build_player_cmd(&game->p1);
-
-    if (game->p1.cmd.forward)
-    {
-        angle = game->p1.angle >> ANGLETOFINESHIFT;
-        game->p1.momx += fixed32_mul(game->p1.cmd.forward, 
-            get_cos_8192(game->fixed_tables, angle));
-        game->p1.momy += fixed32_mul(game->p1.cmd.forward, 
-            get_sin_8192(game->fixed_tables, angle));
-    }
     
-    if (game->p1.cmd.side)
+    ft_printf(CYAN"\n=== Player Movement Debug ===\n"DEFAULT);
+    ft_printf("Current Position: (%d,%d) [fixed: (%d,%d)]\n", 
+        fixed32_to_int(game->p1.pos.x), fixed32_to_int(game->p1.pos.y),
+        game->p1.pos.x, game->p1.pos.y);
+    ft_printf("Current Angle: %d [fixed: %d]\n", 
+        fixed32_to_int(game->p1.angle), game->p1.angle);
+    ft_printf("Commands - Forward: %d, Side: %d\n", 
+        fixed32_to_int(game->p1.cmd.forward),
+        fixed32_to_int(game->p1.cmd.side));
+
+    // Se não há input, aplica fricção
+    if (game->p1.cmd.forward == 0 && game->p1.cmd.side == 0)
     {
-        angle = (game->p1.angle - ANG90) >> ANGLETOFINESHIFT;
-        game->p1.momx += fixed32_mul(game->p1.cmd.side, 
-            get_cos_8192(game->fixed_tables, angle));
-        game->p1.momy += fixed32_mul(game->p1.cmd.side, 
-            get_sin_8192(game->fixed_tables, angle));
+        apply_friction(&game->p1);
+    }
+    else 
+    {
+        // Calcula o movimento frontal
+        if (game->p1.cmd.forward)
+        {
+            angle = game->p1.angle >> ANGLETOFINESHIFT;
+            t_fixed32 cos_val = get_cos_8192(game->fixed_tables, angle);
+            t_fixed32 sin_val = get_sin_8192(game->fixed_tables, angle);
+            
+            ft_printf("Forward angle: %d, cos: %d, sin: %d\n",
+                angle, fixed32_to_int(cos_val), fixed32_to_int(sin_val));
+                
+            game->p1.momx = fixed32_mul(game->p1.cmd.forward, cos_val);
+            game->p1.momy = fixed32_mul(game->p1.cmd.forward, sin_val);
+        }
+        
+        // Calcula o movimento lateral
+        if (game->p1.cmd.side)
+        {
+            angle = (game->p1.angle - ANG90) >> ANGLETOFINESHIFT;
+            t_fixed32 cos_val = get_cos_8192(game->fixed_tables, angle);
+            t_fixed32 sin_val = get_sin_8192(game->fixed_tables, angle);
+            
+            ft_printf("Side angle: %d, cos: %d, sin: %d\n",
+                angle, fixed32_to_int(cos_val), fixed32_to_int(sin_val));
+                
+            // Adiciona o movimento lateral ao momentum existente
+            game->p1.momx = fixed32_add(game->p1.momx, 
+                fixed32_mul(game->p1.cmd.side, cos_val));
+            game->p1.momy = fixed32_add(game->p1.momy, 
+                fixed32_mul(game->p1.cmd.side, sin_val));
+        }
     }
 
-    apply_momentum(&game->p1);
-    apply_friction(&game->p1);
-    limit_momentum(&game->p1);
-    
-    new_pos.x = game->p1.pos.x + game->p1.momx;
-    new_pos.y = game->p1.pos.y + game->p1.momy;
-
-    if (check_movement_valid(game->bsp_tree, game->p1.pos, new_pos))
+    // Aplica limite de velocidade se necessário
+    if (game->p1.momx != 0 || game->p1.momy != 0)
     {
-        game->p1.pos = new_pos;
+        t_fixed32 speed_sq = fixed32_add(
+            fixed32_mul(game->p1.momx, game->p1.momx),
+            fixed32_mul(game->p1.momy, game->p1.momy)
+        );
+
+        if (speed_sq > fixed32_mul(MAXMOVE, MAXMOVE))
+        {
+            t_fixed32 scale = fixed32_div(MAXMOVE, fixed32_sqrt(speed_sq));
+            game->p1.momx = fixed32_mul(game->p1.momx, scale);
+            game->p1.momy = fixed32_mul(game->p1.momy, scale);
+        }
     }
-    else
-        slide_along_wall(game, new_pos.x, new_pos.y);
+
+    ft_printf("Final momentum: (%d,%d) [fixed: (%d,%d)]\n", 
+        fixed32_to_int(game->p1.momx), fixed32_to_int(game->p1.momy),
+        game->p1.momx, game->p1.momy);
+
+    // Aplica o movimento apenas se houver momentum
+    has_movement = (game->p1.momx != 0 || game->p1.momy != 0);
+    if (has_movement)
+    {
+        new_pos.x = fixed32_add(game->p1.pos.x, game->p1.momx);
+        new_pos.y = fixed32_add(game->p1.pos.y, game->p1.momy);
+
+        ft_printf("Attempted new position: (%d,%d) [fixed: (%d,%d)]\n",
+            fixed32_to_int(new_pos.x), fixed32_to_int(new_pos.y),
+            new_pos.x, new_pos.y);
+
+        if (check_sector_move(game, &game->p1, new_pos.x, new_pos.y))
+        {
+            game->p1.pos = new_pos;
+            ft_printf(GREEN"Movement valid - Position updated\n"DEFAULT);
+        }
+        else
+        {
+            slide_along_wall(game, new_pos.x, new_pos.y);
+        }
+    }
 }
-
 /*
 ** Initiates player jump if currently on ground
 ** Sets vertical momentum and updates ground contact state
