@@ -60,6 +60,11 @@ void	cleanup_game(t_game *game)
 //	cleanup_double_buffer(game);
 //	if (game->mlx)
 //		cleanup_mlx(game->mlx);
+	if (game->map->skybox_texture)
+	{
+		texture_destroy(&game->map->skybox_texture, game->mlx);
+		free(game->map->skybox_path);
+	}
 	cleanup_doom_map(game->map);
 	if (game->fixed_tables)
     {

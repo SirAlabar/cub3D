@@ -27,6 +27,10 @@
 # define MAX_SECTORS 256
 # define MAX_THINGS 512
 # define MAX_TEXTURE_NAME 32
+# define TILE_SIZE           16
+# define WALL_HEIGHT_SCALE   128
+# define MAP_COORD_MIN      -32768
+# define MAP_COORD_MAX       32767
 
 # define ERROR_USAGE "Game usage: ./cub3d maps/valid_map.cub\n"
 # define ERROR_MAPTYPE "Invalid map extension\n"
@@ -39,7 +43,8 @@ typedef enum e_section
 	SIDEDEFS,	
 	LINEDEFS,
 	SECTORS,
-	THINGS
+	THINGS,
+	SKYBOX
 }	t_section;
 
 /*
@@ -129,6 +134,7 @@ typedef struct s_doom_map
 	int				sector_count;
 	t_thing			things[MAX_THINGS];
 	int				thing_count;
+	char			*skybox_path;
 }	t_doom_map;
 
 /*
@@ -158,11 +164,15 @@ bool    parse_vertices_section(char *line, t_doom_map *map);
 bool    parse_linedefs_section(char *line, t_doom_map *map);
 bool    parse_sectors_section(char *line, t_doom_map *map);
 bool    parse_things_section(char *line, t_doom_map *map);
+bool    parse_skybox_section(char *line, t_doom_map *map);
 
 /* map_utils.c */
 void    init_map(t_doom_map *map);
 void    cleanup_map(t_doom_map *map);
 void    free_split(char **split);
+t_fixed_vec32    get_map_center(t_doom_map *map);
+int    map_to_world(int x);
+int    world_to_map(int x);
 
 /* map_section_utils.c */
 bool    get_sector_number(char *str, int *number);

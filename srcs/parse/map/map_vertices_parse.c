@@ -30,31 +30,45 @@ static bool	get_vertex_number(char *str, int *number)
 	return (true);
 }
 
+bool validate_vertex_coords(t_fixed_vec32 pos)
+{
+    int x = fixed32_to_int(pos.x);
+    int y = fixed32_to_int(pos.y);
+    
+    if (x < MAP_COORD_MIN || x > MAP_COORD_MAX ||
+        y < MAP_COORD_MIN || y > MAP_COORD_MAX)
+    {
+        ft_printf("Vertex coordinates out of bounds: (%d,%d)\n", x, y);
+        return false;
+    }
+    return true;
+}
+
 /*
  * Parses coordinates string into fixed point values
  * Format: x,y
  * Returns false if format is invalid
  */
-static bool	parse_vertex_coords(char *coords, t_fixed_vec32 *pos)
+static bool parse_vertex_coords(char *coords, t_fixed_vec32 *pos, t_doom_map *map)
 {
-    char	**parts;
-    char    *trimmed;
-    bool	success;
+    char    **parts;
+    int     input_x, input_y;
+    bool    success;
 
     success = false;
     parts = ft_split(coords, ',');
     if (!parts)
         return (false);
+
     if (parts[0] && parts[1] && !parts[2])
     {
-        trimmed = ft_strtrim(parts[0], " \t");
-        pos->x = int_to_fixed32(ft_atoi(trimmed));
-        free(trimmed);
-        
-        trimmed = ft_strtrim(parts[1], " \t");
-        pos->y = int_to_fixed32(ft_atoi(trimmed));
-        free(trimmed);
-        
+        input_x = ft_atoi(parts[0]);
+        input_y = ft_atoi(parts[1]);
+        pos->x = int_to_fixed32(input_x - get_map_center(map).x);
+        pos->y = int_to_fixed32(input_y - get_map_center(map).y);
+        pos->x = fixed32_mul(pos->x, int_to_fixed32(TILE_SIZE));
+        pos->y = fixed32_mul(pos->y, int_to_fixed32(TILE_SIZE));
+
         success = true;
     }
     free_split(parts);
@@ -84,7 +98,7 @@ bool	parse_vertices_section(char *line, t_doom_map *map)
 		{
 			free(trimmed);
 			trimmed = ft_strtrim(tokens[1], " \t");
-			if (parse_vertex_coords(trimmed, &map->vertices[vertex_num].pos))
+			if (parse_vertex_coords(trimmed, &map->vertices[vertex_num].pos, map))
 			{
 				if (vertex_num >= map->vertex_count)
 					map->vertex_count = vertex_num + 1;

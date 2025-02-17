@@ -227,6 +227,8 @@ static void	print_section_debug(t_section section)
 		ft_printf(YELLOW"Found SECTORS section\n"DEFAULT);
 	else if (section == THINGS)
 		ft_printf(YELLOW"Found THINGS section\n"DEFAULT);
+	else if (section == SKYBOX)
+        ft_printf(YELLOW"Found SKYBOX section\n"DEFAULT);
 	else if (section == NONE)
 		ft_printf(RED"Section not recognized\n"DEFAULT);
 }
@@ -258,7 +260,8 @@ static t_section identify_section(char *line)
         section = SECTORS;
     else if (ft_strcmp(cleaned, "[THINGS]") == 0)
         section = THINGS;
-
+	else if (ft_strcmp(cleaned, "[SKYBOX]") == 0)
+        section = SKYBOX;
     free(cleaned);
     print_section_debug(section);
     return (section);
@@ -292,6 +295,8 @@ static bool	parse_section(char *line, t_doom_map *map, t_section section)
 		result = parse_sectors_section(cleaned, map);
 	else if (section == THINGS)
 		result = parse_things_section(cleaned, map);
+	else if (section == SKYBOX)
+        result = parse_skybox_section(cleaned, map);
 
 	if (!result)
 		ft_printf(RED"Failed to parse line: '%s'\n"DEFAULT, cleaned);
@@ -334,6 +339,22 @@ bool	parse_map(int fd, t_doom_map *map)
 	return (true);
 }
 
+void    adjust_vertices_to_center(t_doom_map *map, t_fixed_vec32 center)
+{
+    int i;
+
+    i = 0;
+    while (i < map->vertex_count)
+    {
+        map->vertices[i].pos.x = fixed32_sub(map->vertices[i].pos.x, center.x);
+        map->vertices[i].pos.y = fixed32_sub(map->vertices[i].pos.y, center.y);
+        map->vertices[i].pos.x = fixed32_mul(map->vertices[i].pos.x, 
+            int_to_fixed32(TILE_SIZE));
+        map->vertices[i].pos.y = fixed32_mul(map->vertices[i].pos.y, 
+            int_to_fixed32(TILE_SIZE));
+        i++;
+    }
+}
 /*
  * Entry point for map loading process
  * Opens file, initializes map structure, triggers parsing
@@ -343,6 +364,7 @@ bool	parse_map(int fd, t_doom_map *map)
 bool	load_map(int argc, char **argv, t_doom_map *map)
 {
 	int	fd;
+    t_fixed_vec32 center;	
 
 	fd = open_map(argc, argv);
 	if (fd == -1)
@@ -357,6 +379,8 @@ bool	load_map(int argc, char **argv, t_doom_map *map)
 		return (false);
 	}
 	close(fd);
+	center = get_map_center(map);
+    adjust_vertices_to_center(map, center);
 	if (!validate_map(map))
 	{
 		cleanup_map(map);

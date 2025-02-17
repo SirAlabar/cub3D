@@ -69,3 +69,6 @@ s1 = 32,128,192,floor2,ceil1   # Room 2: raised floor
 # angle   = Direction (0-359 degrees, 0=east, 90=north)
 1,32,32,90    # Player in room 1
 2,160,32,180  # Enemy in room 2
+
+[SKYBOX]
+assets/texture/metal.xpm

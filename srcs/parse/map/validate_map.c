@@ -146,6 +146,12 @@ bool	validate_map(t_doom_map *map)
 		return (false);
 	}
 
+    ft_printf("Validating skybox...\n");
+    if (!map->skybox_path)
+    {
+        ft_putendl_fd("Error\nNo skybox texture defined", 2);
+        return (false);
+    }
 	ft_printf("Map validation complete!\n");
 	return (true);
 }

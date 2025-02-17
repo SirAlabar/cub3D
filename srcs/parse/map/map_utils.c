@@ -24,6 +24,68 @@ void	init_map(t_doom_map *map)
 	map->linedef_count = 0;    
 	map->sector_count = 0;
 	map->thing_count = 0;
+	map->skybox_path = NULL;
+    map->skybox_texture = NULL;
+}
+
+int    world_to_map(int x)
+{
+    return (x / MAP_SCALE);
+}
+
+int    map_to_world(int x)
+{
+    return (x * MAP_SCALE);
+}
+
+t_fixed_vec32    get_map_center(t_doom_map *map)
+{
+    t_fixed_vec32 center;
+    int i;
+    int min_x, max_x;
+    int min_y, max_y;
+
+    min_x = fixed32_to_int(map->vertices[0].pos.x);
+    max_x = min_x;
+    min_y = fixed32_to_int(map->vertices[0].pos.y);
+    max_y = min_y;
+
+    i = 1;
+    while (i < map->vertex_count)
+    {
+        int x = fixed32_to_int(map->vertices[i].pos.x);
+        int y = fixed32_to_int(map->vertices[i].pos.y);
+
+        if (x < min_x)
+            min_x = x;
+        if (x > max_x)
+            max_x = x;
+        if (y < min_y)
+            min_y = y;
+        if (y > max_y)
+            max_y = y;
+        i++;
+    }
+
+    center.x = int_to_fixed32((max_x + min_x) / 2);
+    center.y = int_to_fixed32((max_y + min_y) / 2);
+    
+    return (center);
+}
+
+t_fixed_vec32    center_coords(t_fixed_vec32 pos, t_doom_map *map)
+{
+    t_fixed_vec32 center;
+    t_fixed_vec32 centered_pos;
+
+    center = get_map_center(map);
+    centered_pos.x = fixed32_sub(pos.x, center.x);
+    centered_pos.y = fixed32_sub(pos.y, center.y);
+
+    centered_pos.x = fixed32_mul(centered_pos.x, int_to_fixed32(MAP_SCALE));
+    centered_pos.y = fixed32_mul(centered_pos.y, int_to_fixed32(MAP_SCALE));
+
+    return (centered_pos);
 }
 
 /*

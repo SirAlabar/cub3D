@@ -50,26 +50,6 @@ typedef struct s_scanline
     t_fixed32   y_bottom[WINDOW_WIDTH];
 }               t_scanline;
 
-typedef struct s_hit_info
-{
-    t_fixed32       distance;
-    t_fixed_vec32   point;
-    t_bsp_line     *line;
-    t_fixed32       offset;
-    int             side;
-}               t_hit_info;
-
-typedef struct s_ray
-{
-    t_fixed_vec32   start;
-    t_fixed_vec32   dir;
-    t_sector        *current_sector;
-    t_hit_info      hit_info;
-    double          perp_wall_dist;
-    bool            hit;
-    int             buffer_index;
-} t_ray;
-
 typedef struct s_wall
 {
     t_fixed_vec32       pos;

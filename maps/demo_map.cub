@@ -90,3 +90,6 @@ s3 = 0,25,220,assets/texture/tile_floor4.xpm,assets/texture/marmore.xpm      # P
 2,15,5,0      # Enemy 2
 3,10,3,0      # Ammo
 3,12,3,0      # Medkit
+
+[SKYBOX]
+assets/texture/metal.xpm
