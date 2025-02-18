@@ -214,15 +214,6 @@ static void debug_player_scale(t_game *game) {
 void init_scanline_buffer(t_scanline *buffer)
 {
     int x;
-	// No início do programa:
-	printf("\n=== Constants Debug ===\n");
-	printf("TILE_SIZE: %d\n", TILE_SIZE);
-	printf("DOOM_UNITS_PER_TILE: %d\n", DOOM_UNITS_PER_TILE);
-	printf("SCALE_FACTOR: %d\n", SCALE_FACTOR);
-	printf("FOV_ANGLE: %d\n", FOV_ANGLE);
-	printf("FOV_SCALE: %d\n", FOV_SCALE);
-	printf("WINDOW_WIDTH: %d\n", WINDOW_WIDTH);
-	printf("WINDOW_HEIGHT: %d\n", WINDOW_HEIGHT);
     x = -1;
     while (++x < WINDOW_WIDTH)
     {

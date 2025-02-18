@@ -13,6 +13,24 @@
 #include <cub3d.h>
 
 /*
+ * Wraps an angle to ensure it stays within 0 to 360 degrees (or equivalent in BAM)
+ * BAM (Binary Angle Measurement) uses 32-bit representation
+ */
+t_fixed32 wrap_angle(t_fixed32 angle)
+{
+    return angle & ANGLEMASK;
+}
+
+/*
+ * Safely increment or decrement angle with wrapping
+ */
+t_fixed32 increment_angle(t_fixed32 current_angle, t_fixed32 increment)
+{
+    return wrap_angle(current_angle + increment);
+}
+
+
+/*
 ** Converts keyboard state into movement commands
 ** Handles movement, turning, and action inputs
 */
@@ -44,9 +62,9 @@ void build_player_cmd(t_player *player)
     if (keys->a)
         cmd->side -= FIXED_POINT_SCALE;
     if (keys->left)
-        cmd->turn -= ANG90 / 32;
+        cmd->turn -= ANG15 / 64;
     if (keys->right)
-        cmd->turn += ANG90 / 32;
+        cmd->turn += ANG15 / 64;
 
  //   ft_printf("Resulting commands:\n");
  //   ft_printf("Forward: %d Side: %d Turn: %d\n", 
@@ -125,7 +143,7 @@ int	handle_mouse_move(int x, int y, t_game *game)
 	t_vector	pos;
 	t_vector	center;
 	int			reset_needed;
-	double		rotation;
+	t_fixed32	rotation;
 
 	if (game->last_mouse.x == -1)
 	{
@@ -137,12 +155,11 @@ int	handle_mouse_move(int x, int y, t_game *game)
 	reset_needed = (pos.x < WINDOW_WIDTH / 4 || pos.x > WINDOW_WIDTH * 3 / 4);
 	if (!reset_needed)
 	{
-		rotation = (pos.x - game->last_mouse.x) * game->mouse_sensi;
-		if (rotation > MAX_ROTATION)
-			rotation = MAX_ROTATION;
-		if (rotation < -MAX_ROTATION)
-			rotation = -MAX_ROTATION;
-		game->p1.angle += (t_fixed32)(rotation * ANG90);
+		rotation = fixed32_mul(int_to_fixed32(game->last_mouse.x - pos.x), 
+		float_to_fixed32(MOUSE_SENSITIVITY));
+		rotation = fix_min(rotation, float_to_fixed32(MAX_MOUSE_ROTATION));
+		rotation = fix_max(rotation, -float_to_fixed32(MAX_MOUSE_ROTATION));
+		game->p1.angle += fixed32_mul(rotation, int_to_fixed32(ANG45));
 		game->p1.angle &= ANGLEMASK;
 		game->last_mouse = pos;
 	}

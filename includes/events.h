@@ -66,6 +66,7 @@ int	handle_mouse_move(int x, int y, t_game *game);
 /*
  * Utility Functions
  */
-
+t_fixed32 increment_angle(t_fixed32 current_angle, t_fixed32 increment);
+t_fixed32 wrap_angle(t_fixed32 angle);
 
 #endif
