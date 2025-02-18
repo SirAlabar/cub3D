@@ -93,3 +93,6 @@ s4 = 64,128,160,./assets/textures/tech3.xpm,./assets/textures/tech5.xpm
 2,384,64,180
 2,128,384,0
 3,448,384,90
+
+[SKYBOX]
+assets/texture/skybox5.xpm

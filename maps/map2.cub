@@ -112,3 +112,6 @@ s4 = 64,128,160,./assets/texture/tech3.xpm,./assets/texture/tech5.xpm
 2,384,64,180    # Inimigo na Sala Metal
 2,128,384,0     # Inimigo na Sala Ice
 3,448,384,90    # Item na Sala Fire
+
+[SKYBOX]
+assets/texture/skybox5.xpm

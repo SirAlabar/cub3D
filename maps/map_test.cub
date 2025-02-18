@@ -131,3 +131,6 @@ s3 = 16,32,160,assets/texture/stone3.xpm,assets/texture/fire4.xpm    # Degrau ce
 
 [THINGS]
 1,30,30,45
+
+[SKYBOX]
+assets/texture/skybox5.xpm

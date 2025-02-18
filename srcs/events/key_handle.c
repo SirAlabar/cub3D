@@ -21,10 +21,10 @@ void build_player_cmd(t_player *player)
     t_keys *keys;
     t_cmd *cmd;
 
-    ft_printf(CYAN"\n=== Building Player Commands ===\n"DEFAULT);
+ /*   ft_printf(CYAN"\n=== Building Player Commands ===\n"DEFAULT);
     ft_printf("Current key states - W:%d S:%d A:%d D:%d LEFT:%d RIGHT:%d\n",
         player->keys.w, player->keys.s, player->keys.a, player->keys.d,
-        player->keys.left, player->keys.right);
+        player->keys.left, player->keys.right);*/
 
     keys = &player->keys;
     cmd = &player->cmd;
@@ -48,9 +48,9 @@ void build_player_cmd(t_player *player)
     if (keys->right)
         cmd->turn += ANG90 / 32;
 
-    ft_printf("Resulting commands:\n");
-    ft_printf("Forward: %d Side: %d Turn: %d\n", 
-        cmd->forward, cmd->side, cmd->turn);
+ //   ft_printf("Resulting commands:\n");
+ //   ft_printf("Forward: %d Side: %d Turn: %d\n", 
+ //       cmd->forward, cmd->side, cmd->turn);
 }
 
 /*
@@ -79,6 +79,12 @@ int handle_key_press(int keycode, t_game *game)
 		game->p1.cmd.use = 1;
     if (keycode == MOUSE_LEFT)
 		game->p1.cmd.attack = 1;
+	if (keycode == KEY_B)  // Adiciona toggle do debug
+		{
+			g_debug.enabled = !g_debug.enabled;
+			g_debug.current_wall = 0;
+			printf("Render debug: %s\n", g_debug.enabled ? "ON" : "OFF");
+		}		
     return (0);
 }
 

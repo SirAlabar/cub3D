@@ -25,17 +25,16 @@ void	init_map(t_doom_map *map)
 	map->sector_count = 0;
 	map->thing_count = 0;
 	map->skybox_path = NULL;
-    map->skybox_texture = NULL;
 }
 
 int    world_to_map(int x)
 {
-    return (x / MAP_SCALE);
+    return (x / TILE_SIZE);
 }
 
 int    map_to_world(int x)
 {
-    return (x * MAP_SCALE);
+    return (x * TILE_SIZE);
 }
 
 t_fixed_vec32    get_map_center(t_doom_map *map)
@@ -82,8 +81,8 @@ t_fixed_vec32    center_coords(t_fixed_vec32 pos, t_doom_map *map)
     centered_pos.x = fixed32_sub(pos.x, center.x);
     centered_pos.y = fixed32_sub(pos.y, center.y);
 
-    centered_pos.x = fixed32_mul(centered_pos.x, int_to_fixed32(MAP_SCALE));
-    centered_pos.y = fixed32_mul(centered_pos.y, int_to_fixed32(MAP_SCALE));
+    centered_pos.x = fixed32_mul(centered_pos.x, int_to_fixed32(TILE_SIZE));
+    centered_pos.y = fixed32_mul(centered_pos.y, int_to_fixed32(TILE_SIZE));
 
     return (centered_pos);
 }

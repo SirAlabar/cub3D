@@ -70,6 +70,28 @@
 # define KEY_SPACE XK_space
 # define MOUSE_LEFT 1
 # define MOUSE_RIGHT 3
+# define KEY_B XK_b
+
+
+// Adicione isto junto com as outras definições de estruturas
+typedef struct {
+    bool enabled;
+    int current_wall;
+    struct {
+        t_fixed_vec32 v1_world;
+        t_fixed_vec32 v1_view;
+        t_fixed_vec32 v2_world;
+        t_fixed_vec32 v2_view;
+        int x1_screen;
+        int x2_screen;
+        int h1_screen;
+        int h2_screen;
+    } wall_debug;
+} t_render_debug;
+
+// Adicione esta declaração externa junto com outras variáveis globais
+extern t_render_debug g_debug;
+
 //# endif
 
 /* Map characters */
@@ -90,14 +112,17 @@
 # define GUN_F3 "./assets/sprites/pistol/PIS2.xpm"
 # define GUN_F4 "./assets/sprites/pistol/PISFA0.xpm"
 
-#define PLAYER_HEIGHT 41
-#define PLAYER_RADIUS 16
-#define PLAYER_VIEW_HEIGHT 41
-#define MAXMOVE 30
-#define STOPSPEED 4
-#define FRICTION 0xE800
-#define GRAVITY 1
-#define JUMPSPEED 8
+#define PLAYER_HEIGHT        41
+#define PLAYER_RADIUS        16
+#define PLAYER_VIEW_HEIGHT   41
+#define MAXMOVE             16
+#define STOPSPEED            4 
+#define FRICTION         0xE800
+#define GRAVITY              1
+#define JUMPSPEED           8  
+#define USERANGE         1024
+#define MELEERANGE      1024
+#define MISSILERANGE    32768
 
 /* Structs */
 
@@ -135,6 +160,7 @@ typedef struct s_game
     int         endian;
     t_doom_map  *map;
     t_player    p1;
+    t_texture   *skybox_tex;
     t_vector    last_mouse;
     double      mouse_sensi;
     double      fps;
@@ -176,5 +202,22 @@ void			handle_movement(t_game *game);
 int				key_release(int keycode, t_game *game);
 int				key_press(int keycode, t_game *game);
 int				key_handler(int keycode, t_game *game);
+
+
+
+void debug_render_wall_segment(t_game *game, t_bsp_line *line);
+void debug_after_wall_transform(t_fixed_vec32 v1, t_fixed_vec32 v2);
+void debug_after_wall_projection(int x1, int x2, int h1, int h2);
+
+void debug_transform_details(t_fixed_vec32 p, t_game *game,
+    t_fixed32 dx, t_fixed32 dy,
+    t_fixed32 cos_val, t_fixed32 sin_val,
+    t_fixed_vec32 result);
+void debug_projection_details(t_fixed_vec32 view_pos, int screen_x, int height);
+void debug_scanline_details(int x, int top, int bottom, int h, t_fixed32 depth);
+
+
+
+
 
 #endif

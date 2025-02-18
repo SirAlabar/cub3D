@@ -71,4 +71,4 @@ s1 = 32,128,192,floor2,ceil1   # Room 2: raised floor
 2,160,32,180  # Enemy in room 2
 
 [SKYBOX]
-assets/texture/metal.xpm
+assets/texture/skybox9.xpm
