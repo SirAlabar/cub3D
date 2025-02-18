@@ -16,7 +16,7 @@
 /* Window settings */
 # define WINDOW_WIDTH 1200
 # define WINDOW_HEIGHT 900
-# define FOV 60
+# define FOV_BAM 715827882  /* 60 graus in BAM */
 # define MOVE_SPEED 0.02
 # define ROTATION_SPEED 0.04
 # define MAX_ROTATION 0.045

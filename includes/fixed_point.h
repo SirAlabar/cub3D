@@ -39,6 +39,11 @@ Common constants in fixed point representation
 # define ANGLETOFINESHIFT 19
 # define ANGLEMASK    0xFFFFFFFF
 
+# define ANG15  178956970  /* 0x0AAAAAAA */
+# define ANG30  357913941  /* 0x15555555 */
+# define ANG45  536870912  /* 0x20000000 */
+# define ANG60  715827882  /* 0x2AAAAAAA */
+# define ANG75  894784853  /* 0x35555555 */
 # define ANG90 1073741824  /* 0x40000000 */
 # define ANG180 2147483648 /* 0x80000000 */
 # define ANG270 3221225472 /* 0xc0000000 */
