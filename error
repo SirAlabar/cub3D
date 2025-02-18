@@ -1,0 +1,1058 @@
+[0;92mFile opened successfully
+[0;39m[0;94mRead line: '[VERTICES]
+'[0;39m[0;96mChecking section header: '[VERTICES]'
+[0;39m[0;93mFound VERTICES section
+[0;39m[0;94mRead line: '# Octágono externo
+'[0;39m[0;94mRead line: 'v0 = 0,32      # Norte
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v0 = 0,32' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v1 = 18,0      # Noroeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v1 = 18,0' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v2 = 46,0      # Nordeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v2 = 46,0' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v3 = 64,32     # Leste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v3 = 64,32' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v4 = 46,64     # Sudeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v4 = 46,64' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v5 = 18,64     # Sudoeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v5 = 18,64' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v6 = 0,32      # Sul
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v6 = 0,32' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v7 = 64,32     # Oeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v7 = 64,32' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: '
+'[0;39m[0;94mRead line: '# Janelas nas paredes (recuadas)
+'[0;39m[0;94mRead line: 'v8 = 18,4      # Janela Norte
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v8 = 18,4' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v9 = 46,4
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v9 = 46,4' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v10 = 60,32    # Janela Leste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v10 = 60,32' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v11 = 46,60
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v11 = 46,60' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v12 = 18,60    # Janela Sul
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v12 = 18,60' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v13 = 4,32     # Janela Oeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v13 = 4,32' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: '
+'[0;39m[0;94mRead line: '# Pilastras (4 cantos)
+'[0;39m[0;94mRead line: 'v14 = 24,16    # Pilastra Noroeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v14 = 24,16' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v15 = 28,16
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v15 = 28,16' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v16 = 28,20
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v16 = 28,20' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v17 = 24,20
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v17 = 24,20' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: '
+'[0;39m[0;94mRead line: 'v18 = 36,16    # Pilastra Nordeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v18 = 36,16' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v19 = 40,16
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v19 = 40,16' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v20 = 40,20
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v20 = 40,20' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v21 = 36,20
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v21 = 36,20' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: '
+'[0;39m[0;94mRead line: 'v22 = 24,44    # Pilastra Sudoeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v22 = 24,44' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v23 = 28,44
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v23 = 28,44' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v24 = 28,48
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v24 = 28,48' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v25 = 24,48
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v25 = 24,48' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: '
+'[0;39m[0;94mRead line: 'v26 = 36,44    # Pilastra Sudeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v26 = 36,44' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v27 = 40,44
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v27 = 40,44' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v28 = 40,48
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v28 = 40,48' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v29 = 36,48
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v29 = 36,48' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: '
+'[0;39m[0;94mRead line: '# Degrau octagonal central
+'[0;39m[0;94mRead line: 'v30 = 28,28    # Octágono interno
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v30 = 28,28' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v31 = 30,26
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v31 = 30,26' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v32 = 34,26
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v32 = 34,26' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v33 = 36,28
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v33 = 36,28' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v34 = 36,32
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v34 = 36,32' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v35 = 34,34
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v35 = 34,34' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v36 = 30,34
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v36 = 30,34' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: 'v37 = 28,32
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v37 = 28,32' in section [0;93mFound VERTICES section
+[0;39m[0;94mRead line: '
+'[0;39m[0;94mRead line: '[SIDEDEFS]
+'[0;39m[0;96mChecking section header: '[SIDEDEFS]'
+[0;39m[0;94mRead line: '# Paredes externas
+'[0;39m[0;94mRead line: 'sd0 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Norte
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd0 = 0,0,-,assets/texture/stone1.xpm,-,s0' in section [0;94mRead line: 'sd1 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Nordeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd1 = 0,0,-,assets/texture/stone1.xpm,-,s0' in section [0;94mRead line: 'sd2 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Leste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd2 = 0,0,-,assets/texture/stone1.xpm,-,s0' in section [0;94mRead line: 'sd3 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Sudeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd3 = 0,0,-,assets/texture/stone1.xpm,-,s0' in section [0;94mRead line: 'sd4 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Sul
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd4 = 0,0,-,assets/texture/stone1.xpm,-,s0' in section [0;94mRead line: 'sd5 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Sudoeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd5 = 0,0,-,assets/texture/stone1.xpm,-,s0' in section [0;94mRead line: 'sd6 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Oeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd6 = 0,0,-,assets/texture/stone1.xpm,-,s0' in section [0;94mRead line: 'sd7 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Noroeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd7 = 0,0,-,assets/texture/stone1.xpm,-,s0' in section [0;94mRead line: '
+'[0;39m[0;94mRead line: '# Janelas
+'[0;39m[0;94mRead line: 'sd8 = 0,0,-,assets/texture/ice1.xpm,-,s1  # Norte
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd8 = 0,0,-,assets/texture/ice1.xpm,-,s1' in section [0;94mRead line: 'sd9 = 0,0,-,assets/texture/ice1.xpm,-,s1  # Leste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd9 = 0,0,-,assets/texture/ice1.xpm,-,s1' in section [0;94mRead line: 'sd10 = 0,0,-,assets/texture/ice1.xpm,-,s1 # Sul
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd10 = 0,0,-,assets/texture/ice1.xpm,-,s1' in section [0;94mRead line: 'sd11 = 0,0,-,assets/texture/ice1.xpm,-,s1 # Oeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd11 = 0,0,-,assets/texture/ice1.xpm,-,s1' in section [0;94mRead line: '
+'[0;39m[0;94mRead line: '# Pilastras
+'[0;39m[0;94mRead line: 'sd12 = 0,0,-,assets/texture/stone2.xpm,-,s2  # Pilastra NO
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd12 = 0,0,-,assets/texture/stone2.xpm,-,s2' in section [0;94mRead line: 'sd13 = 0,0,-,assets/texture/stone2.xpm,-,s2  # Pilastra NE
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd13 = 0,0,-,assets/texture/stone2.xpm,-,s2' in section [0;94mRead line: 'sd14 = 0,0,-,assets/texture/stone2.xpm,-,s2  # Pilastra SO
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd14 = 0,0,-,assets/texture/stone2.xpm,-,s2' in section [0;94mRead line: 'sd15 = 0,0,-,assets/texture/stone2.xpm,-,s2  # Pilastra SE
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd15 = 0,0,-,assets/texture/stone2.xpm,-,s2' in section [0;94mRead line: '
+'[0;39m[0;94mRead line: '# Degrau central
+'[0;39m[0;94mRead line: 'sd16 = 0,0,-,assets/texture/stone3.xpm,-,s3  # Degrau
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd16 = 0,0,-,assets/texture/stone3.xpm,-,s3' in section [0;94mRead line: '
+'[0;39m[0;94mRead line: '[LINEDEFS]
+'[0;39m[0;96mChecking section header: '[LINEDEFS]'
+[0;39m[0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: '# Paredes externas com janelas
+'[0;39m[0;94mRead line: 'l0 = v0,v1,s0,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l0 = v0,v1,s0,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l1 = v1,v8,s0,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l1 = v1,v8,s0,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l2 = v8,v9,s1,-1,0    # Janela Norte
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l2 = v8,v9,s1,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l3 = v9,v2,s0,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l3 = v9,v2,s0,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l4 = v2,v3,s0,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l4 = v2,v3,s0,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l5 = v3,v10,s0,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l5 = v3,v10,s0,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l6 = v10,v11,s1,-1,0  # Janela Leste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l6 = v10,v11,s1,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l7 = v11,v4,s0,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l7 = v11,v4,s0,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l8 = v4,v5,s0,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l8 = v4,v5,s0,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l9 = v5,v12,s0,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l9 = v5,v12,s0,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l10 = v12,v13,s1,-1,0 # Janela Sul
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l10 = v12,v13,s1,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l11 = v13,v6,s0,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l11 = v13,v6,s0,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l12 = v6,v7,s0,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l12 = v6,v7,s0,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l13 = v7,v13,s0,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l13 = v7,v13,s0,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l14 = v13,v0,s1,-1,0  # Janela Oeste
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l14 = v13,v0,s1,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: '
+'[0;39m[0;94mRead line: '# Pilastras
+'[0;39m[0;94mRead line: 'l15 = v14,v15,s2,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l15 = v14,v15,s2,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l16 = v15,v16,s2,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l16 = v15,v16,s2,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l17 = v16,v17,s2,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l17 = v16,v17,s2,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l18 = v17,v14,s2,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l18 = v17,v14,s2,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: '
+'[0;39m[0;94mRead line: 'l19 = v18,v19,s2,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l19 = v18,v19,s2,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l20 = v19,v20,s2,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l20 = v19,v20,s2,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l21 = v20,v21,s2,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l21 = v20,v21,s2,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l22 = v21,v18,s2,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l22 = v21,v18,s2,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: '
+'[0;39m[0;94mRead line: 'l23 = v22,v23,s2,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l23 = v22,v23,s2,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l24 = v23,v24,s2,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l24 = v23,v24,s2,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l25 = v24,v25,s2,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l25 = v24,v25,s2,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l26 = v25,v22,s2,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l26 = v25,v22,s2,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: '
+'[0;39m[0;94mRead line: 'l27 = v26,v27,s2,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l27 = v26,v27,s2,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l28 = v27,v28,s2,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l28 = v27,v28,s2,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l29 = v28,v29,s2,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l29 = v28,v29,s2,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l30 = v29,v26,s2,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l30 = v29,v26,s2,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: '
+'[0;39m[0;94mRead line: '# Degrau octagonal
+'[0;39m[0;94mRead line: 'l31 = v30,v31,s3,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l31 = v30,v31,s3,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l32 = v31,v32,s3,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l32 = v31,v32,s3,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l33 = v32,v33,s3,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l33 = v32,v33,s3,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l34 = v33,v34,s3,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l34 = v33,v34,s3,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l35 = v34,v35,s3,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l35 = v34,v35,s3,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l36 = v35,v36,s3,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l36 = v35,v36,s3,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l37 = v36,v37,s3,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l37 = v36,v37,s3,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: 'l38 = v37,v30,s3,-1,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l38 = v37,v30,s3,-1,0' in section [0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: '
+'[0;39m[0;94mRead line: '[SECTORS]
+'[0;39m[0;96mChecking section header: '[SECTORS]'
+[0;39m[0;93mFound SECTORS section
+[0;39m[0;94mRead line: 's0 = 0,128,160,assets/texture/stone1.xpm,assets/texture/fire4.xpm    # Sala principal
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 's0 = 0,128,160,assets/texture/stone1.xpm,assets/texture/fire4.xpm' in section [0;93mFound SECTORS section
+[0;39mParsing sector: 's0 = 0,128,160,assets/texture/stone1.xpm,assets/texture/fire4.xpm'
+Parsing sector data: '0,128,160,assets/texture/stone1.xpm,assets/texture/fire4.xpm'
+Floor height: 0
+Ceiling height: 128
+Light: 160
+Floor texture: 'assets/texture/stone1.xpm'
+Ceiling texture: 'assets/texture/fire4.xpm'
+[0;94mRead line: 's1 = 0,96,160,assets/texture/stone1.xpm,assets/texture/fire4.xpm     # Janelas
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 's1 = 0,96,160,assets/texture/stone1.xpm,assets/texture/fire4.xpm' in section [0;93mFound SECTORS section
+[0;39mParsing sector: 's1 = 0,96,160,assets/texture/stone1.xpm,assets/texture/fire4.xpm'
+Parsing sector data: '0,96,160,assets/texture/stone1.xpm,assets/texture/fire4.xpm'
+Floor height: 0
+Ceiling height: 96
+Light: 160
+Floor texture: 'assets/texture/stone1.xpm'
+Ceiling texture: 'assets/texture/fire4.xpm'
+[0;94mRead line: 's2 = 0,128,160,assets/texture/stone2.xpm,assets/texture/fire4.xpm    # Pilastras
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 's2 = 0,128,160,assets/texture/stone2.xpm,assets/texture/fire4.xpm' in section [0;93mFound SECTORS section
+[0;39mParsing sector: 's2 = 0,128,160,assets/texture/stone2.xpm,assets/texture/fire4.xpm'
+Parsing sector data: '0,128,160,assets/texture/stone2.xpm,assets/texture/fire4.xpm'
+Floor height: 0
+Ceiling height: 128
+Light: 160
+Floor texture: 'assets/texture/stone2.xpm'
+Ceiling texture: 'assets/texture/fire4.xpm'
+[0;94mRead line: 's3 = 16,32,160,assets/texture/stone3.xpm,assets/texture/fire4.xpm    # Degrau central
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 's3 = 16,32,160,assets/texture/stone3.xpm,assets/texture/fire4.xpm' in section [0;93mFound SECTORS section
+[0;39mParsing sector: 's3 = 16,32,160,assets/texture/stone3.xpm,assets/texture/fire4.xpm'
+Parsing sector data: '16,32,160,assets/texture/stone3.xpm,assets/texture/fire4.xpm'
+Floor height: 16
+Ceiling height: 32
+Light: 160
+Floor texture: 'assets/texture/stone3.xpm'
+Ceiling texture: 'assets/texture/fire4.xpm'
+[0;94mRead line: '
+'[0;39m[0;94mRead line: '[THINGS]
+'[0;39m[0;96mChecking section header: '[THINGS]'
+[0;39m[0;93mFound THINGS section
+[0;39m[0;94mRead line: '1,30,30,45'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: '1,30,30,45' in section [0;93mFound THINGS section
+[0;39mParsing thing: '1,30,30,45'
+Validating thing type: 1
+[0;92mAdding thing: type=1 pos=(30,30) angle=45
+[0;39mStarting map validation...
+Checking map basics:
+- Vertices: 38
+- Sidedefs: 17
+- Linedefs: 39
+- Sectors: 4
+- Things: 1
+Validating sidedefs...
+Validating sectors...
+Starting sector validation (count: 4)...
+Validating sector 0...
+Validating sector basics:
+- Floor height: 0
+- Ceiling height: 128
+- Light level: 160
+Validating sector 1...
+Validating sector basics:
+- Floor height: 0
+- Ceiling height: 96
+- Light level: 160
+Validating sector 2...
+Validating sector basics:
+- Floor height: 0
+- Ceiling height: 128
+- Light level: 160
+Validating sector 3...
+Validating sector basics:
+- Floor height: 16
+- Ceiling height: 32
+- Light level: 160
+All sectors validated successfully!
+Validating references...
+Validating textures...
+Validating things...
+Map validation complete!
+Initializing BSP tree construction
+
+=== Detailed Map Line Extraction ===
+Total vertices: 38
+Total linedefs: 39
+
+Processing Linedef 0:
+  Vertex1 index: 0
+  Vertex2 index: 1
+  Start: (0, 32)
+  End: (18, 0)
+
+Processing Linedef 1:
+  Vertex1 index: 1
+  Vertex2 index: 8
+  Start: (18, 0)
+  End: (18, 4)
+
+Processing Linedef 2:
+  Vertex1 index: 8
+  Vertex2 index: 9
+  Start: (18, 4)
+  End: (46, 4)
+
+Processing Linedef 3:
+  Vertex1 index: 9
+  Vertex2 index: 2
+  Start: (46, 4)
+  End: (46, 0)
+
+Processing Linedef 4:
+  Vertex1 index: 2
+  Vertex2 index: 3
+  Start: (46, 0)
+  End: (64, 32)
+
+Processing Linedef 5:
+  Vertex1 index: 3
+  Vertex2 index: 10
+  Start: (64, 32)
+  End: (60, 32)
+
+Processing Linedef 6:
+  Vertex1 index: 10
+  Vertex2 index: 11
+  Start: (60, 32)
+  End: (46, 60)
+
+Processing Linedef 7:
+  Vertex1 index: 11
+  Vertex2 index: 4
+  Start: (46, 60)
+  End: (46, 64)
+
+Processing Linedef 8:
+  Vertex1 index: 4
+  Vertex2 index: 5
+  Start: (46, 64)
+  End: (18, 64)
+
+Processing Linedef 9:
+  Vertex1 index: 5
+  Vertex2 index: 12
+  Start: (18, 64)
+  End: (18, 60)
+
+Processing Linedef 10:
+  Vertex1 index: 12
+  Vertex2 index: 13
+  Start: (18, 60)
+  End: (4, 32)
+
+Processing Linedef 11:
+  Vertex1 index: 13
+  Vertex2 index: 6
+  Start: (4, 32)
+  End: (0, 32)
+
+Processing Linedef 12:
+  Vertex1 index: 6
+  Vertex2 index: 7
+  Start: (0, 32)
+  End: (64, 32)
+
+Processing Linedef 13:
+  Vertex1 index: 7
+  Vertex2 index: 13
+  Start: (64, 32)
+  End: (4, 32)
+
+Processing Linedef 14:
+  Vertex1 index: 13
+  Vertex2 index: 0
+  Start: (4, 32)
+  End: (0, 32)
+
+Processing Linedef 15:
+  Vertex1 index: 14
+  Vertex2 index: 15
+  Start: (24, 16)
+  End: (28, 16)
+
+Processing Linedef 16:
+  Vertex1 index: 15
+  Vertex2 index: 16
+  Start: (28, 16)
+  End: (28, 20)
+
+Processing Linedef 17:
+  Vertex1 index: 16
+  Vertex2 index: 17
+  Start: (28, 20)
+  End: (24, 20)
+
+Processing Linedef 18:
+  Vertex1 index: 17
+  Vertex2 index: 14
+  Start: (24, 20)
+  End: (24, 16)
+
+Processing Linedef 19:
+  Vertex1 index: 18
+  Vertex2 index: 19
+  Start: (36, 16)
+  End: (40, 16)
+
+Processing Linedef 20:
+  Vertex1 index: 19
+  Vertex2 index: 20
+  Start: (40, 16)
+  End: (40, 20)
+
+Processing Linedef 21:
+  Vertex1 index: 20
+  Vertex2 index: 21
+  Start: (40, 20)
+  End: (36, 20)
+
+Processing Linedef 22:
+  Vertex1 index: 21
+  Vertex2 index: 18
+  Start: (36, 20)
+  End: (36, 16)
+
+Processing Linedef 23:
+  Vertex1 index: 22
+  Vertex2 index: 23
+  Start: (24, 44)
+  End: (28, 44)
+
+Processing Linedef 24:
+  Vertex1 index: 23
+  Vertex2 index: 24
+  Start: (28, 44)
+  End: (28, 48)
+
+Processing Linedef 25:
+  Vertex1 index: 24
+  Vertex2 index: 25
+  Start: (28, 48)
+  End: (24, 48)
+
+Processing Linedef 26:
+  Vertex1 index: 25
+  Vertex2 index: 22
+  Start: (24, 48)
+  End: (24, 44)
+
+Processing Linedef 27:
+  Vertex1 index: 26
+  Vertex2 index: 27
+  Start: (36, 44)
+  End: (40, 44)
+
+Processing Linedef 28:
+  Vertex1 index: 27
+  Vertex2 index: 28
+  Start: (40, 44)
+  End: (40, 48)
+
+Processing Linedef 29:
+  Vertex1 index: 28
+  Vertex2 index: 29
+  Start: (40, 48)
+  End: (36, 48)
+
+Processing Linedef 30:
+  Vertex1 index: 29
+  Vertex2 index: 26
+  Start: (36, 48)
+  End: (36, 44)
+
+Processing Linedef 31:
+  Vertex1 index: 30
+  Vertex2 index: 31
+  Start: (28, 28)
+  End: (30, 26)
+
+Processing Linedef 32:
+  Vertex1 index: 31
+  Vertex2 index: 32
+  Start: (30, 26)
+  End: (34, 26)
+
+Processing Linedef 33:
+  Vertex1 index: 32
+  Vertex2 index: 33
+  Start: (34, 26)
+  End: (36, 28)
+
+Processing Linedef 34:
+  Vertex1 index: 33
+  Vertex2 index: 34
+  Start: (36, 28)
+  End: (36, 32)
+
+Processing Linedef 35:
+  Vertex1 index: 34
+  Vertex2 index: 35
+  Start: (36, 32)
+  End: (34, 34)
+
+Processing Linedef 36:
+  Vertex1 index: 35
+  Vertex2 index: 36
+  Start: (34, 34)
+  End: (30, 34)
+
+Processing Linedef 37:
+  Vertex1 index: 36
+  Vertex2 index: 37
+  Start: (30, 34)
+  End: (28, 32)
+
+Processing Linedef 38:
+  Vertex1 index: 37
+  Vertex2 index: 30
+  Start: (28, 32)
+  End: (28, 28)
+Extracted 39 lines from map
+Lines to process (39):
+  Line 0: (0,32) -> (18,0)
+  Line 1: (18,0) -> (18,4)
+  Line 2: (18,4) -> (46,4)
+  Line 3: (46,4) -> (46,0)
+  Line 4: (46,0) -> (64,32)
+  Line 5: (64,32) -> (60,32)
+  Line 6: (60,32) -> (46,60)
+  Line 7: (46,60) -> (46,64)
+  Line 8: (46,64) -> (18,64)
+  Line 9: (18,64) -> (18,60)
+  Line 10: (18,60) -> (4,32)
+  Line 11: (4,32) -> (0,32)
+  Line 12: (0,32) -> (64,32)
+  Line 13: (64,32) -> (4,32)
+  Line 14: (4,32) -> (0,32)
+  Line 15: (24,16) -> (28,16)
+  Line 16: (28,16) -> (28,20)
+  Line 17: (28,20) -> (24,20)
+  Line 18: (24,20) -> (24,16)
+  Line 19: (36,16) -> (40,16)
+  Line 20: (40,16) -> (40,20)
+  Line 21: (40,20) -> (36,20)
+  Line 22: (36,20) -> (36,16)
+  Line 23: (24,44) -> (28,44)
+  Line 24: (28,44) -> (28,48)
+  Line 25: (28,48) -> (24,48)
+  Line 26: (24,48) -> (24,44)
+  Line 27: (36,44) -> (40,44)
+  Line 28: (40,44) -> (40,48)
+  Line 29: (40,48) -> (36,48)
+  Line 30: (36,48) -> (36,44)
+  Line 31: (28,28) -> (30,26)
+  Line 32: (30,26) -> (34,26)
+  Line 33: (34,26) -> (36,28)
+  Line 34: (36,28) -> (36,32)
+  Line 35: (36,32) -> (34,34)
+  Line 36: (34,34) -> (30,34)
+  Line 37: (30,34) -> (28,32)
+  Line 38: (28,32) -> (28,28)
+
+Building BSP node at depth 0 with 39 lines
+Choosing partition from 39 lines
+Lines to process (39):
+  Line 0: (0,32) -> (18,0)
+  Line 1: (18,0) -> (18,4)
+  Line 2: (18,4) -> (46,4)
+  Line 3: (46,4) -> (46,0)
+  Line 4: (46,0) -> (64,32)
+  Line 5: (64,32) -> (60,32)
+  Line 6: (60,32) -> (46,60)
+  Line 7: (46,60) -> (46,64)
+  Line 8: (46,64) -> (18,64)
+  Line 9: (18,64) -> (18,60)
+  Line 10: (18,60) -> (4,32)
+  Line 11: (4,32) -> (0,32)
+  Line 12: (0,32) -> (64,32)
+  Line 13: (64,32) -> (4,32)
+  Line 14: (4,32) -> (0,32)
+  Line 15: (24,16) -> (28,16)
+  Line 16: (28,16) -> (28,20)
+  Line 17: (28,20) -> (24,20)
+  Line 18: (24,20) -> (24,16)
+  Line 19: (36,16) -> (40,16)
+  Line 20: (40,16) -> (40,20)
+  Line 21: (40,20) -> (36,20)
+  Line 22: (36,20) -> (36,16)
+  Line 23: (24,44) -> (28,44)
+  Line 24: (28,44) -> (28,48)
+  Line 25: (28,48) -> (24,48)
+  Line 26: (24,48) -> (24,44)
+  Line 27: (36,44) -> (40,44)
+  Line 28: (40,44) -> (40,48)
+  Line 29: (40,48) -> (36,48)
+  Line 30: (36,48) -> (36,44)
+  Line 31: (28,28) -> (30,26)
+  Line 32: (30,26) -> (34,26)
+  Line 33: (34,26) -> (36,28)
+  Line 34: (36,28) -> (36,32)
+  Line 35: (36,32) -> (34,34)
+  Line 36: (34,34) -> (30,34)
+  Line 37: (30,34) -> (28,32)
+  Line 38: (28,32) -> (28,28)
+Splitting lines using partition (4,32) -> (0,32)
+Split result: 22 front lines, 16 back lines
+
+Building BSP node at depth 1 with 22 lines
+Choosing partition from 22 lines
+Lines to process (22):
+  Line 0: (0,32) -> (64,32)
+  Line 1: (28,32) -> (28,28)
+  Line 2: (34,26) -> (36,28)
+  Line 3: (46,0) -> (64,32)
+  Line 4: (40,20) -> (36,20)
+  Line 5: (36,20) -> (36,16)
+  Line 6: (30,26) -> (34,26)
+  Line 7: (24,20) -> (24,16)
+  Line 8: (64,32) -> (60,32)
+  Line 9: (4,32) -> (0,32)
+  Line 10: (28,16) -> (28,20)
+  Line 11: (28,20) -> (24,20)
+  Line 12: (64,32) -> (4,32)
+  Line 13: (36,16) -> (40,16)
+  Line 14: (24,16) -> (28,16)
+  Line 15: (40,16) -> (40,20)
+  Line 16: (46,4) -> (46,0)
+  Line 17: (36,28) -> (36,32)
+  Line 18: (28,28) -> (30,26)
+  Line 19: (18,0) -> (18,4)
+  Line 20: (18,4) -> (46,4)
+  Line 21: (0,32) -> (18,0)
+Splitting lines using partition (28,20) -> (24,20)
+Split result: 12 front lines, 9 back lines
+
+Building BSP node at depth 2 with 12 lines
+Choosing partition from 12 lines
+Lines to process (12):
+  Line 0: (24,16) -> (28,16)
+  Line 1: (18,0) -> (18,4)
+  Line 2: (0,32) -> (18,0)
+  Line 3: (40,20) -> (36,20)
+  Line 4: (18,4) -> (46,4)
+  Line 5: (36,20) -> (36,16)
+  Line 6: (36,16) -> (40,16)
+  Line 7: (46,0) -> (64,32)
+  Line 8: (28,16) -> (28,20)
+  Line 9: (46,4) -> (46,0)
+  Line 10: (24,20) -> (24,16)
+  Line 11: (40,16) -> (40,20)
+Splitting lines using partition (36,20) -> (36,16)
+Split result: 6 front lines, 5 back lines
+
+Building BSP node at depth 3 with 6 lines
+Choosing partition from 6 lines
+Lines to process (6):
+  Line 0: (40,16) -> (40,20)
+  Line 1: (36,16) -> (40,16)
+  Line 2: (40,20) -> (36,20)
+  Line 3: (18,4) -> (46,4)
+  Line 4: (46,0) -> (64,32)
+  Line 5: (46,4) -> (46,0)
+Splitting lines using partition (40,16) -> (40,20)
+Split result: 3 front lines, 2 back lines
+
+Building BSP node at depth 4 with 3 lines
+Choosing partition from 3 lines
+Lines to process (3):
+  Line 0: (18,4) -> (46,4)
+  Line 1: (40,20) -> (36,20)
+  Line 2: (36,16) -> (40,16)
+Splitting lines using partition (36,16) -> (40,16)
+Split result: 1 front lines, 1 back lines
+
+Building BSP node at depth 5 with 1 lines
+Choosing partition from 1 lines
+Lines to process (1):
+  Line 0: (40,20) -> (36,20)
+Splitting lines using partition (40,20) -> (36,20)
+Split result: 0 front lines, 0 back lines
+
+Building BSP node at depth 5 with 1 lines
+Choosing partition from 1 lines
+Lines to process (1):
+  Line 0: (18,4) -> (46,4)
+Splitting lines using partition (18,4) -> (46,4)
+Split result: 0 front lines, 0 back lines
+
+Building BSP node at depth 4 with 2 lines
+Choosing partition from 2 lines
+Lines to process (2):
+  Line 0: (46,4) -> (46,0)
+  Line 1: (46,0) -> (64,32)
+Splitting lines using partition (46,0) -> (64,32)
+Split result: 1 front lines, 0 back lines
+
+Building BSP node at depth 5 with 1 lines
+Choosing partition from 1 lines
+Lines to process (1):
+  Line 0: (46,4) -> (46,0)
+Splitting lines using partition (46,4) -> (46,0)
+Split result: 0 front lines, 0 back lines
+
+Building BSP node at depth 3 with 5 lines
+Choosing partition from 5 lines
+Lines to process (5):
+  Line 0: (18,0) -> (18,4)
+  Line 1: (24,16) -> (28,16)
+  Line 2: (24,20) -> (24,16)
+  Line 3: (28,16) -> (28,20)
+  Line 4: (0,32) -> (18,0)
+Splitting lines using partition (24,20) -> (24,16)
+Split result: 2 front lines, 2 back lines
+
+Building BSP node at depth 4 with 2 lines
+Choosing partition from 2 lines
+Lines to process (2):
+  Line 0: (28,16) -> (28,20)
+  Line 1: (24,16) -> (28,16)
+Splitting lines using partition (24,16) -> (28,16)
+Split result: 1 front lines, 0 back lines
+
+Building BSP node at depth 5 with 1 lines
+Choosing partition from 1 lines
+Lines to process (1):
+  Line 0: (28,16) -> (28,20)
+Splitting lines using partition (28,16) -> (28,20)
+Split result: 0 front lines, 0 back lines
+
+Building BSP node at depth 4 with 2 lines
+Choosing partition from 2 lines
+Lines to process (2):
+  Line 0: (18,0) -> (18,4)
+  Line 1: (0,32) -> (18,0)
+Splitting lines using partition (18,0) -> (18,4)
+Split result: 1 front lines, 0 back lines
+
+Building BSP node at depth 5 with 1 lines
+Choosing partition from 1 lines
+Lines to process (1):
+  Line 0: (0,32) -> (18,0)
+Splitting lines using partition (0,32) -> (18,0)
+Split result: 0 front lines, 0 back lines
+
+Building BSP node at depth 2 with 9 lines
+Choosing partition from 9 lines
+Lines to process (9):
+  Line 0: (30,26) -> (34,26)
+  Line 1: (0,32) -> (64,32)
+  Line 2: (64,32) -> (60,32)
+  Line 3: (36,28) -> (36,32)
+  Line 4: (64,32) -> (4,32)
+  Line 5: (34,26) -> (36,28)
+  Line 6: (28,32) -> (28,28)
+  Line 7: (28,28) -> (30,26)
+  Line 8: (4,32) -> (0,32)
+Splitting lines using partition (4,32) -> (0,32)
+Split result: 8 front lines, 0 back lines
+
+Building BSP node at depth 3 with 8 lines
+Choosing partition from 8 lines
+Lines to process (8):
+  Line 0: (64,32) -> (4,32)
+  Line 1: (64,32) -> (60,32)
+  Line 2: (36,28) -> (36,32)
+  Line 3: (34,26) -> (36,28)
+  Line 4: (0,32) -> (64,32)
+  Line 5: (28,28) -> (30,26)
+  Line 6: (30,26) -> (34,26)
+  Line 7: (28,32) -> (28,28)
+Splitting lines using partition (64,32) -> (4,32)
+Split result: 7 front lines, 0 back lines
+
+Building BSP node at depth 4 with 7 lines
+Choosing partition from 7 lines
+Lines to process (7):
+  Line 0: (30,26) -> (34,26)
+  Line 1: (64,32) -> (60,32)
+  Line 2: (34,26) -> (36,28)
+  Line 3: (0,32) -> (64,32)
+  Line 4: (28,28) -> (30,26)
+  Line 5: (36,28) -> (36,32)
+  Line 6: (28,32) -> (28,28)
+Splitting lines using partition (64,32) -> (60,32)
+Split result: 6 front lines, 0 back lines
+
+Building BSP node at depth 5 with 6 lines
+Choosing partition from 6 lines
+Lines to process (6):
+  Line 0: (28,32) -> (28,28)
+  Line 1: (34,26) -> (36,28)
+  Line 2: (28,28) -> (30,26)
+  Line 3: (0,32) -> (64,32)
+  Line 4: (36,28) -> (36,32)
+  Line 5: (30,26) -> (34,26)
+Splitting lines using partition (0,32) -> (64,32)
+Split result: 0 front lines, 5 back lines
+
+Building BSP node at depth 6 with 5 lines
+Choosing partition from 5 lines
+Lines to process (5):
+  Line 0: (34,26) -> (36,28)
+  Line 1: (36,28) -> (36,32)
+  Line 2: (30,26) -> (34,26)
+  Line 3: (28,32) -> (28,28)
+  Line 4: (28,28) -> (30,26)
+Splitting lines using partition (34,26) -> (36,28)
+Split result: 4 front lines, 0 back lines
+
+Building BSP node at depth 7 with 4 lines
+Choosing partition from 4 lines
+Lines to process (4):
+  Line 0: (28,28) -> (30,26)
+  Line 1: (30,26) -> (34,26)
+  Line 2: (36,28) -> (36,32)
+  Line 3: (28,32) -> (28,28)
+Splitting lines using partition (36,28) -> (36,32)
+Split result: 3 front lines, 0 back lines
+
+Building BSP node at depth 8 with 3 lines
+Choosing partition from 3 lines
+Lines to process (3):
+  Line 0: (28,28) -> (30,26)
+  Line 1: (28,32) -> (28,28)
+  Line 2: (30,26) -> (34,26)
+Splitting lines using partition (28,32) -> (28,28)
+Split result: 2 front lines, 0 back lines
+
+Building BSP node at depth 9 with 2 lines
+Choosing partition from 2 lines
+Lines to process (2):
+  Line 0: (28,28) -> (30,26)
+  Line 1: (30,26) -> (34,26)
+Splitting lines using partition (28,28) -> (30,26)
+Split result: 1 front lines, 0 back lines
+
+Building BSP node at depth 10 with 1 lines
+Choosing partition from 1 lines
+Lines to process (1):
+  Line 0: (30,26) -> (34,26)
+Splitting lines using partition (30,26) -> (34,26)
+Split result: 0 front lines, 0 back lines
+
+Building BSP node at depth 1 with 16 lines
+Choosing partition from 16 lines
+Lines to process (16):
+  Line 0: (46,60) -> (46,64)
+  Line 1: (28,48) -> (24,48)
+  Line 2: (34,34) -> (30,34)
+  Line 3: (24,48) -> (24,44)
+  Line 4: (30,34) -> (28,32)
+  Line 5: (18,60) -> (4,32)
+  Line 6: (28,44) -> (28,48)
+  Line 7: (46,64) -> (18,64)
+  Line 8: (36,32) -> (34,34)
+  Line 9: (40,48) -> (36,48)
+  Line 10: (40,44) -> (40,48)
+  Line 11: (24,44) -> (28,44)
+  Line 12: (36,44) -> (40,44)
+  Line 13: (18,64) -> (18,60)
+  Line 14: (60,32) -> (46,60)
+  Line 15: (36,48) -> (36,44)
+Splitting lines using partition (28,44) -> (28,48)
+Split result: 6 front lines, 9 back lines
+
+Building BSP node at depth 2 with 6 lines
+Choosing partition from 6 lines
+Lines to process (6):
+  Line 0: (18,64) -> (18,60)
+  Line 1: (18,60) -> (4,32)
+  Line 2: (46,64) -> (18,64)
+  Line 3: (28,48) -> (24,48)
+  Line 4: (24,48) -> (24,44)
+  Line 5: (24,44) -> (28,44)
+Splitting lines using partition (24,48) -> (24,44)
+Split result: 3 front lines, 2 back lines
+
+Building BSP node at depth 3 with 3 lines
+Choosing partition from 3 lines
+Lines to process (3):
+  Line 0: (28,48) -> (24,48)
+  Line 1: (24,44) -> (28,44)
+  Line 2: (46,64) -> (18,64)
+Splitting lines using partition (28,48) -> (24,48)
+Split result: 1 front lines, 1 back lines
+
+Building BSP node at depth 4 with 1 lines
+Choosing partition from 1 lines
+Lines to process (1):
+  Line 0: (24,44) -> (28,44)
+Splitting lines using partition (24,44) -> (28,44)
+Split result: 0 front lines, 0 back lines
+
+Building BSP node at depth 4 with 1 lines
+Choosing partition from 1 lines
+Lines to process (1):
+  Line 0: (46,64) -> (18,64)
+Splitting lines using partition (46,64) -> (18,64)
+Split result: 0 front lines, 0 back lines
+
+Building BSP node at depth 3 with 2 lines
+Choosing partition from 2 lines
+Lines to process (2):
+  Line 0: (18,60) -> (4,32)
+  Line 1: (18,64) -> (18,60)
+Splitting lines using partition (18,64) -> (18,60)
+Split result: 0 front lines, 1 back lines
+
+Building BSP node at depth 4 with 1 lines
+Choosing partition from 1 lines
+Lines to process (1):
+  Line 0: (18,60) -> (4,32)
+Splitting lines using partition (18,60) -> (4,32)
+Split result: 0 front lines, 0 back lines
+
+Building BSP node at depth 2 with 9 lines
+Choosing partition from 9 lines
+Lines to process (9):
+  Line 0: (30,34) -> (28,32)
+  Line 1: (40,44) -> (40,48)
+  Line 2: (60,32) -> (46,60)
+  Line 3: (40,48) -> (36,48)
+  Line 4: (36,32) -> (34,34)
+  Line 5: (36,44) -> (40,44)
+  Line 6: (46,60) -> (46,64)
+  Line 7: (34,34) -> (30,34)
+  Line 8: (36,48) -> (36,44)
+Splitting lines using partition (36,48) -> (36,44)
+Split result: 5 front lines, 3 back lines
+
+Building BSP node at depth 3 with 5 lines
+Choosing partition from 5 lines
+Lines to process (5):
+  Line 0: (60,32) -> (46,60)
+  Line 1: (46,60) -> (46,64)
+  Line 2: (36,44) -> (40,44)
+  Line 3: (40,48) -> (36,48)
+  Line 4: (40,44) -> (40,48)
+Splitting lines using partition (40,44) -> (40,48)
+Split result: 2 front lines, 2 back lines
+
+Building BSP node at depth 4 with 2 lines
+Choosing partition from 2 lines
+Lines to process (2):
+  Line 0: (40,48) -> (36,48)
+  Line 1: (36,44) -> (40,44)
+Splitting lines using partition (40,48) -> (36,48)
+Split result: 1 front lines, 0 back lines
+
+Building 

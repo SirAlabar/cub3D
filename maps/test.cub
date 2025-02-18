@@ -21,3 +21,6 @@ s0 = 0,128,160, assets/texture/stone1.xpm,assets/texture/fire4.xpm
 
 [THINGS]
 1,32,32,90
+
+[SKYBOX]
+assets/texture/skybox5.xpm

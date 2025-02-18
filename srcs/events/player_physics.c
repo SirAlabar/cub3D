@@ -31,15 +31,15 @@ void	apply_momentum(t_player *player)
 
 void apply_friction(t_player *player)
 {
-    ft_printf(CYAN"Applying friction:\n"DEFAULT);
+/*    ft_printf(CYAN"Applying friction:\n"DEFAULT);
     ft_printf("Current momentum: (%d,%d) [fixed: (%d,%d)]\n",
         fixed32_to_int(player->momx), fixed32_to_int(player->momy),
-        player->momx, player->momy);
+        player->momx, player->momy);*/
 
     // Se há input ativo, não aplica fricção
     if (player->cmd.forward || player->cmd.side)
     {
-        ft_printf(YELLOW"Movement input detected - skipping friction\n"DEFAULT);
+        //ft_printf(YELLOW"Movement input detected - skipping friction\n"DEFAULT);
         return;
     }
 
@@ -52,7 +52,7 @@ void apply_friction(t_player *player)
     // Se a velocidade é muito baixa, para completamente
     if (speed_sq < STOPSPEED)
     {
-        ft_printf(GREEN"Below stop speed - zeroing momentum\n"DEFAULT);
+        //ft_printf(GREEN"Below stop speed - zeroing momentum\n"DEFAULT);
         player->momx = 0;
         player->momy = 0;
         return;
@@ -70,11 +70,10 @@ void apply_friction(t_player *player)
         player->momy = fixed32_mul(player->momy, FRICTION);
     }
     
-    ft_printf("After friction: (%d,%d) [fixed: (%d,%d)]\n",
+/*    ft_printf("After friction: (%d,%d) [fixed: (%d,%d)]\n",
         fixed32_to_int(player->momx), fixed32_to_int(player->momy),
-        player->momx, player->momy);
+        player->momx, player->momy);*/
 }
-
 /*
 ** Applies gravitational force to player when not on ground
 ** Reduces vertical momentum by gravity constant
@@ -94,10 +93,10 @@ void limit_momentum(t_player *player)
     t_fixed32 speed_sq;
     t_fixed32 scale;
     
-    ft_printf("Limiting momentum:\n");
+/*    ft_printf("Limiting momentum:\n");
     ft_printf("Before limit: (%d,%d) [fixed: (%d,%d)]\n",
         fixed32_to_int(player->momx), fixed32_to_int(player->momy),
-        player->momx, player->momy);
+        player->momx, player->momy);*/
 
     // Calcula velocidade total
     speed_sq = fixed32_add(
@@ -113,7 +112,7 @@ void limit_momentum(t_player *player)
         player->momy = fixed32_mul(player->momy, scale);
     }
 
-    ft_printf("After limit: (%d,%d) [fixed: (%d,%d)]\n",
+/*    ft_printf("After limit: (%d,%d) [fixed: (%d,%d)]\n",
         fixed32_to_int(player->momx), fixed32_to_int(player->momy),
-        player->momx, player->momy);
+        player->momx, player->momy);*/
 }

@@ -346,12 +346,9 @@ void    adjust_vertices_to_center(t_doom_map *map, t_fixed_vec32 center)
     i = 0;
     while (i < map->vertex_count)
     {
+
         map->vertices[i].pos.x = fixed32_sub(map->vertices[i].pos.x, center.x);
         map->vertices[i].pos.y = fixed32_sub(map->vertices[i].pos.y, center.y);
-        map->vertices[i].pos.x = fixed32_mul(map->vertices[i].pos.x, 
-            int_to_fixed32(TILE_SIZE));
-        map->vertices[i].pos.y = fixed32_mul(map->vertices[i].pos.y, 
-            int_to_fixed32(TILE_SIZE));
         i++;
     }
 }

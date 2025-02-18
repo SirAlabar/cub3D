@@ -92,4 +92,4 @@ s3 = 0,25,220,assets/texture/tile_floor4.xpm,assets/texture/marmore.xpm      # P
 3,12,3,0      # Medkit
 
 [SKYBOX]
-assets/texture/metal.xpm
+assets/texture/skybox9.xpm

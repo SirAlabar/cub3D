@@ -49,7 +49,7 @@ bool validate_vertex_coords(t_fixed_vec32 pos)
  * Format: x,y
  * Returns false if format is invalid
  */
-static bool parse_vertex_coords(char *coords, t_fixed_vec32 *pos, t_doom_map *map)
+static bool parse_vertex_coords(char *coords, t_fixed_vec32 *pos)
 {
     char    **parts;
     int     input_x, input_y;
@@ -64,11 +64,10 @@ static bool parse_vertex_coords(char *coords, t_fixed_vec32 *pos, t_doom_map *ma
     {
         input_x = ft_atoi(parts[0]);
         input_y = ft_atoi(parts[1]);
-        pos->x = int_to_fixed32(input_x - get_map_center(map).x);
-        pos->y = int_to_fixed32(input_y - get_map_center(map).y);
-        pos->x = fixed32_mul(pos->x, int_to_fixed32(TILE_SIZE));
-        pos->y = fixed32_mul(pos->y, int_to_fixed32(TILE_SIZE));
-
+        input_x *= TILE_SIZE;
+        input_y *= TILE_SIZE;
+        pos->x = int_to_fixed32(input_x);
+        pos->y = int_to_fixed32(input_y);
         success = true;
     }
     free_split(parts);
@@ -80,33 +79,33 @@ static bool parse_vertex_coords(char *coords, t_fixed_vec32 *pos, t_doom_map *ma
  * Format: vN = x,y
  * Returns false if parsing fails
  */
-bool	parse_vertices_section(char *line, t_doom_map *map)
+bool    parse_vertices_section(char *line, t_doom_map *map)
 {
-	char		**tokens;
-	int			vertex_num;
-	char		*trimmed;
-	bool		success;
+    char        **tokens;
+    int         vertex_num;
+    char        *trimmed;
+    bool        success;
 
-	tokens = ft_split(line, '=');
-	if (!tokens)
-		return (false);
-	success = false;
-	if (tokens[0] && tokens[1])
-	{
-		trimmed = ft_strtrim(tokens[0], " \t");
-		if (get_vertex_number(trimmed, &vertex_num))
-		{
-			free(trimmed);
-			trimmed = ft_strtrim(tokens[1], " \t");
-			if (parse_vertex_coords(trimmed, &map->vertices[vertex_num].pos, map))
-			{
-				if (vertex_num >= map->vertex_count)
-					map->vertex_count = vertex_num + 1;
-				success = true;
-			}
-		}
-		free(trimmed);
-	}
-	free_split(tokens);
-	return (success);
+    tokens = ft_split(line, '=');
+    if (!tokens)
+        return (false);
+    success = false;
+    if (tokens[0] && tokens[1])
+    {
+        trimmed = ft_strtrim(tokens[0], " \t");
+        if (get_vertex_number(trimmed, &vertex_num))
+        {
+            free(trimmed);
+            trimmed = ft_strtrim(tokens[1], " \t");
+            if (parse_vertex_coords(trimmed, &map->vertices[vertex_num].pos))
+            {
+                if (vertex_num >= map->vertex_count)
+                    map->vertex_count = vertex_num + 1;
+                success = true;
+            }
+        }
+        free(trimmed);
+    }
+    free_split(tokens);
+    return (success);
 }

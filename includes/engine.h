@@ -64,7 +64,6 @@ typedef struct s_wall
     int                 buffer_index;
     t_texture          *texture;
     t_game             *game;
-    t_ray              *ray;
     t_scanline         *buffer;
     int                 x;
 }                      t_wall;
@@ -95,14 +94,11 @@ void render_wall_segment(t_game *game, t_bsp_line *line, t_scanline *buffer);
 
 
 // draw_room.c
-void					draw_wall(t_game *game, t_ray *ray, int x);
-void					update_ray_position(t_ray *ray);
+
 
 // scanline_rendering.c
 void					init_scanline_buffer(t_scanline *buffer);
 void					set_wall_tex_coords(t_wall *wall);
-void					draw_wall_scanline(t_game *game, t_ray *ray, int x,
-							t_scanline *buffer);
 void					init_wall_drawing(t_wall *wall);
 
 // draw_weapon
@@ -113,7 +109,6 @@ void					draw_weapon(t_game *game);
  */
 // texture_manager.c
 t_texture				*texture_create(t_game *game, char *texture_path);
-t_texture				*get_wall_texture(t_ray *ray, t_game *game);
 void					texture_destroy(t_texture **texture, void *mlx);
 void					update_weapon_animation(t_game *game);
 void					resize_texture(t_texture *src, t_texture *dst);
@@ -149,16 +144,6 @@ t_vector				vector_rotate(t_vector v, double angle);
 t_vector				vector_lerp(t_vector start, t_vector end, double amt);
 double					vector_dist(t_vector v1, t_vector v2);
 t_vector				vector_limit(t_vector v, double max);
-
-/*
- * Raycasting
- */
-// raycast_bsp.c
-void    cast_rays(t_game *game, t_ray *rays);
-void	init_hit_info(t_hit_info *hit);
-void	init_ray(t_ray *ray, t_game *game, int x);
-bool	check_ray_partition(t_ray *ray, t_bsp_line *partition, t_hit_info *hit);
-void	process_bsp_node(t_ray *ray, t_bsp_node *node, t_game *game);
 
 void	init_double_buffer(t_game *game);
 int	render_frame(t_game *game);
