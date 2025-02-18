@@ -81,7 +81,7 @@ bool    init_player(t_game *game)
     game->p1.momx = 0;
     game->p1.momy = 0;
     game->p1.momz = 0;
-    game->p1.angle = thing->angle;
+    game->p1.angle = (thing->angle * ANG360) / FIXED_POINT_SCALE;
     game->p1.on_ground = 1;
     ft_bzero(&game->p1.cmd, sizeof(t_cmd));
     ft_bzero(&game->p1.keys, sizeof(t_keys));
