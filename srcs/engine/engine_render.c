@@ -128,7 +128,7 @@ void draw_skybox(t_game *game)
     angle = game->p1.angle & ANGLEMASK;
     
     // Conversão de ângulo para graus
-    current_angle = (angle * 360) >> FIXED_POINT_BITS;
+    current_angle = ((unsigned int)angle * 360) >> FIXED_POINT_BITS;
 
     ft_printf("\n=== SKYBOX DEBUG START ===\n");
     ft_printf("Raw Player Angle: %u\n", angle);
