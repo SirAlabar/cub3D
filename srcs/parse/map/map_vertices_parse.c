@@ -49,30 +49,32 @@ bool validate_vertex_coords(t_fixed_vec32 pos)
  * Format: x,y
  * Returns false if format is invalid
  */
-static bool parse_vertex_coords(char *coords, t_fixed_vec32 *pos)
-{
-    char    **parts;
-    int     input_x, input_y;
-    bool    success;
-
-    success = false;
-    parts = ft_split(coords, ',');
-    if (!parts)
-        return (false);
-
-    if (parts[0] && parts[1] && !parts[2])
-    {
-        input_x = ft_atoi(parts[0]);
-        input_y = ft_atoi(parts[1]);
-        input_x *= TILE_SIZE;
-        input_y *= TILE_SIZE;
-        pos->x = int_to_fixed32(input_x);
-        pos->y = int_to_fixed32(input_y);
-        success = true;
-    }
-    free_split(parts);
-    return (success);
-}
+ static bool parse_vertex_coords(char *coords, t_fixed_vec32 *pos)
+ {
+     char    **parts;
+     int     input_x, input_y;
+     bool    success;
+ 
+     success = false;
+     parts = ft_split(coords, ',');
+     if (!parts)
+         return (false);
+ 
+     if (parts[0] && parts[1] && !parts[2])
+     {
+         input_x = ft_atoi(parts[0]);
+         input_y = ft_atoi(parts[1]);
+         pos->x = int_to_fixed32(input_x);
+         pos->y = int_to_fixed32(input_y);
+         if (input_x >= MAP_COORD_MIN && input_x <= MAP_COORD_MAX &&
+             input_y >= MAP_COORD_MIN && input_y <= MAP_COORD_MAX)
+         {
+             success = true;
+         }
+     }
+     free_split(parts);
+     return (success);
+ }
 
 /*
  * Parses a vertex definition line

@@ -68,6 +68,50 @@ void draw_background(t_game *game)
     }
 }
 
+void debug_bsp_render(t_bsp_node *node, int depth) {
+    int i;
+    
+    printf("\n=== BSP Node at depth %d ===\n", depth);
+    
+    if (!node) {
+        printf("Null node\n");
+        return;
+    }
+
+    // Imprimir informações do nó
+    printf("Number of lines: %d\n", node->num_lines);
+    
+    // Se há uma partição, imprimir seus detalhes
+    if (node->partition) {
+        printf("Partition line: (%d,%d) -> (%d,%d)\n",
+            fixed32_to_int(node->partition->start.x),
+            fixed32_to_int(node->partition->start.y),
+            fixed32_to_int(node->partition->end.x),
+            fixed32_to_int(node->partition->end.y));
+    }
+
+    // Imprimir todas as linhas do nó
+    printf("Lines in node:\n");
+    for (i = 0; i < node->num_lines; i++) {
+        if (node->lines[i]) {
+            printf("  Line %d: (%d,%d) -> (%d,%d)\n", i,
+                fixed32_to_int(node->lines[i]->start.x),
+                fixed32_to_int(node->lines[i]->start.y),
+                fixed32_to_int(node->lines[i]->end.x),
+                fixed32_to_int(node->lines[i]->end.y));
+        }
+    }
+
+    // Recursive debug para nós filhos
+    if (node->front) {
+        printf("\nFront child at depth %d:\n", depth + 1);
+        debug_bsp_render(node->front, depth + 1);
+    }
+    if (node->back) {
+        printf("\nBack child at depth %d:\n", depth + 1);
+        debug_bsp_render(node->back, depth + 1);
+    }
+}
 void render_bsp_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
 {
     t_bsp_side side;
@@ -76,10 +120,16 @@ void render_bsp_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
     if (!node)
         return;
 
+    debug_bsp_render(node, 0);  // Adicionar aqui o debug
+
     // Se não é um nó folha, usa a partição para determinar a ordem
     if (node->partition)
     {
         side = bsp_classify_point(game->p1.pos, node->partition);
+        printf("Player classified as %s relative to partition\n",
+            side == BSP_FRONT ? "FRONT" :
+            side == BSP_BACK ? "BACK" :
+            side == BSP_COLINEAR ? "COLINEAR" : "SPANNING");
         
         // Renderiza de trás pra frente
         if (side == BSP_FRONT)
@@ -88,8 +138,10 @@ void render_bsp_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
             
             // Renderiza linhas do nó atual
             for (i = 0; i < node->num_lines; i++)
-                if (node->lines[i])
+                if (node->lines[i]) {
+                    printf("Rendering line %d in FRONT node\n", i);
                     render_wall_segment(game, node->lines[i], buffer);
+                }
             
             render_bsp_node(game, node->front, buffer);
         }
@@ -99,8 +151,10 @@ void render_bsp_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
             
             // Renderiza linhas do nó atual
             for (i = 0; i < node->num_lines; i++)
-                if (node->lines[i])
+                if (node->lines[i]) {
+                    printf("Rendering line %d in BACK node\n", i);
                     render_wall_segment(game, node->lines[i], buffer);
+                }
             
             render_bsp_node(game, node->back, buffer);
         }
@@ -108,6 +162,7 @@ void render_bsp_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
     // Nó folha - apenas renderiza suas linhas
     else
     {
+        printf("Rendering leaf node with %d lines\n", node->num_lines);
         for (i = 0; i < node->num_lines; i++)
             if (node->lines[i])
                 render_wall_segment(game, node->lines[i], buffer);
@@ -175,7 +230,7 @@ int render_frame(t_game *game)
     }
     if (game->bsp_tree && game->bsp_tree->root)
     {
-    //    render_bsp_node(game, game->bsp_tree->root, &buffer);
+	    render_bsp_node(game, game->bsp_tree->root, &buffer);
     }
     move_player(game);
     draw_weapon(game);

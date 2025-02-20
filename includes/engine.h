@@ -52,21 +52,24 @@ typedef struct s_scanline
 
 typedef struct s_wall
 {
-    t_fixed_vec32       pos;
-    t_fixed_vec32       tex;
-    t_vector_i          screen;
-    t_fixed32           step;
-    t_fixed32           tex_pos;
-    t_fixed32           height;
-    t_fixed32           start;
-    t_fixed32           end;
-    int                 color;
-    int                 buffer_index;
-    t_texture          *texture;
-    t_game             *game;
-    t_scanline         *buffer;
-    int                 x;
-}                      t_wall;
+    // Coordenadas da coluna na tela
+    int             screen_x;    // Posição x na tela
+    int             screen_y1;   // Topo da coluna na tela
+    int             screen_y2;   // Base da coluna na tela
+    
+    // Dados de profundidade e escala
+    t_fixed32       scale;      // Fator de escala da coluna
+    t_fixed32       distance;   // Distância da coluna ao jogador
+    
+    // Propriedades da textura
+    t_texture      *texture;    // Ponteiro para a textura
+    t_fixed32       tex_u;      // Coordenada U da textura
+    t_fixed32       tex_step;   // Passo da textura por pixel
+    
+    // Referências necessárias
+    t_scanline     *buffer;     // Buffer de scanline
+    t_game         *game;       // Referência ao estado do jogo
+}                  t_wall;
 
 /*
  * Core Engine Functions

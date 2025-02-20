@@ -1,8 +1,8 @@
 [VERTICES]
 v0 = 0,0
-v1 = 64,0
-v2 = 64,64
-v3 = 0,64
+v1 = 640,0
+v2 = 640,640
+v3 = 0,640
 
 [SIDEDEFS]
 sd0 = 0,0,-,assets/texture/stone1.xpm,-,s0  # Outer walls north
@@ -20,7 +20,7 @@ l3 = v3,v0,s0,-1,0
 s0 = 0,128,160, assets/texture/stone1.xpm,assets/texture/fire4.xpm
 
 [THINGS]
-1,32,32,90
+1,300,300,90
 
 [SKYBOX]
-assets/texture/skybox5.xpm
+assets/texture/skybox10.xpm

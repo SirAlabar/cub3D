@@ -59,8 +59,8 @@ l7 = v1,v4,s0,s1,1    # Door between room 1 and 2
 # light          = Light level (0-255)
 # floor_texture  = Floor texture name
 # ceiling_texture = Ceiling texture name
-s0 = 0,128,160,floor1,ceil1    # Room 1: base level
-s1 = 32,128,192,floor2,ceil1   # Room 2: raised floor
+s0 = 0,128,160,assets/texture/tech5.xpm,assets/texture/tech3.xpm    # Room 1: base level
+s1 = 32,128,192,assets/texture/tech5.xpm,assets/texture/tech3.xpm   # Room 2: raised floor
 
 [THINGS]
 # Format: type,x,y,angle

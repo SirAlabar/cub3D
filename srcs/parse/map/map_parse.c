@@ -282,7 +282,6 @@ static bool	parse_section(char *line, t_doom_map *map, t_section section)
 		return (true);
 
 	ft_printf(CYAN"Parsing line: '%s' in section ", cleaned);
-	print_section_debug(section);
 
 	result = false;
 	if (section == VERTICES)
