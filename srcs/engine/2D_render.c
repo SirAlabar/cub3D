@@ -1,0 +1,317 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_debug_2d.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/21 18:30:00 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/02/21 18:30:00 by hluiz-ma         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <cub3d.h>
+
+// Colors for debug rendering
+#define DEBUG_BACKGROUND 0x000000  // Black
+#define DEBUG_WALL_HIDDEN 0x00FF00 // Green
+#define DEBUG_WALL_VISIBLE 0xFF0000 // Red
+#define DEBUG_PLAYER 0x0000FF     // Blue
+#define DEBUG_SCALE 0.25          // Scale factor for map rendering
+#define DIRECTION_INDICATOR_LENGTH (PLAYER_RADIUS * 2)  // Length of player direction line
+#define DEBUG_GRID_COLOR 0x222222   // Dark gray for grid
+
+/*
+** Convert world coordinates to screen coordinates
+** Takes into account scaling and screen centering
+*/
+static t_vector_i world_to_screen(t_fixed_vec32 world_pos)
+{
+    t_vector_i screen_pos;
+    double scale = DEBUG_SCALE;
+    
+    screen_pos.x = (WINDOW_WIDTH / 2) + (int)(fixed32_to_float(world_pos.x) * scale);
+    screen_pos.y = (WINDOW_HEIGHT / 2) + (int)(fixed32_to_float(world_pos.y) * scale);
+    
+    ft_printf("World pos (%d,%d) -> Screen pos (%d,%d)\n",
+        fixed32_to_int(world_pos.x), fixed32_to_int(world_pos.y),
+        screen_pos.x, screen_pos.y);
+    
+    return screen_pos;
+}
+
+/*
+** Draw a line between two points using Bresenham's algorithm
+*/
+static void draw_line(t_game *game, t_vector_i start, t_vector_i end, int color)
+{
+    int dx = abs(end.x - start.x);
+    int dy = abs(end.y - start.y);
+    int sx = start.x < end.x ? 1 : -1;
+    int sy = start.y < end.y ? 1 : -1;
+    int err = (dx > dy ? dx : -dy) / 2;
+    int e2;
+    t_vector_i curr = start;
+
+    ft_printf("Drawing line from (%d,%d) to (%d,%d) with color 0x%06X\n",
+        start.x, start.y, end.x, end.y, color);
+
+    while (true)
+    {
+        if (curr.x >= 0 && curr.x < WINDOW_WIDTH && 
+            curr.y >= 0 && curr.y < WINDOW_HEIGHT)
+            draw_pixel(game, curr.x, curr.y, color);
+            
+        if (curr.x == end.x && curr.y == end.y)
+            break;
+            
+        e2 = err;
+        if (e2 > -dx)
+        {
+            err -= dy;
+            curr.x += sx;
+        }
+        if (e2 < dy)
+        {
+            err += dx;
+            curr.y += sy;
+        }
+    }
+}
+
+/*
+** Draw the player position and direction indicator
+*/
+static void draw_player(t_game *game)
+{
+    t_vector_i player_pos = world_to_screen(game->p1.pos);
+    const int radius = 5;
+    int x, y;
+
+    ft_printf("Drawing player at screen pos (%d,%d)\n", player_pos.x, player_pos.y);
+
+    // Draw player circle
+    for (y = -radius; y <= radius; y++)
+    {
+        for (x = -radius; x <= radius; x++)
+        {
+            if (x*x + y*y <= radius*radius)
+            {
+                draw_pixel(game, player_pos.x + x, player_pos.y + y, DEBUG_PLAYER);
+            }
+        }
+    }
+
+    // Draw direction indicator using lookup tables
+    t_fixed32 angle = (game->p1.angle >> ANGLETOFINESHIFT) & FINEMASK;
+    t_fixed_vec32 dir;
+    dir.x = fixed32_mul(int_to_fixed32(DIRECTION_INDICATOR_LENGTH), 
+        get_cos_8192(game->fixed_tables, game->p1.angle));
+    dir.y = fixed32_mul(int_to_fixed32(DIRECTION_INDICATOR_LENGTH), 
+        get_sin_8192(game->fixed_tables, game->p1.angle));
+    
+    ft_printf("Player angle: %d, cos: %d, sin: %d\n", 
+        angle, 
+        fixed32_to_int(get_cos_8192(game->fixed_tables, game->p1.angle)),
+        fixed32_to_int(get_sin_8192(game->fixed_tables, game->p1.angle)));
+    
+    t_vector_i dir_end;
+    dir_end.x = player_pos.x + fixed32_to_int(dir.x);
+    dir_end.y = player_pos.y + fixed32_to_int(dir.y);
+    
+    draw_line(game, player_pos, dir_end, DEBUG_PLAYER);
+}
+
+/*
+** Check if a line is potentially visible to the player
+** Uses basic angle and dot product checks
+*/
+static bool is_line_visible(t_game *game, t_bsp_line *line)
+{
+    t_fixed_vec32 to_start, to_end;
+    t_fixed32 dot_start, dot_end;
+    t_fixed32 angle_cos;
+    
+    // Vector from player to line endpoints
+    to_start.x = fixed32_sub(line->start.x, game->p1.pos.x);
+    to_start.y = fixed32_sub(line->start.y, game->p1.pos.y);
+    to_end.x = fixed32_sub(line->end.x, game->p1.pos.x);
+    to_end.y = fixed32_sub(line->end.y, game->p1.pos.y);
+    
+    // Get player's viewing direction using lookup tables
+    angle_cos = get_cos_8192(game->fixed_tables, game->p1.angle);
+    t_fixed32 angle_sin = get_sin_8192(game->fixed_tables, game->p1.angle);
+    
+    ft_printf("Visibility check - angle: %d, cos: %d, sin: %d\n",
+        (game->p1.angle >> ANGLETOFINESHIFT) & FINEMASK,
+        fixed32_to_int(angle_cos),
+        fixed32_to_int(angle_sin));
+    
+    // Calculate dot products
+    dot_start = fixed32_add(
+        fixed32_mul(to_start.x, angle_cos),
+        fixed32_mul(to_start.y, angle_sin)
+    );
+    dot_end = fixed32_add(
+        fixed32_mul(to_end.x, angle_cos),
+        fixed32_mul(to_end.y, angle_sin)
+    );
+    
+    // Line is potentially visible if at least one endpoint is in front
+    return (dot_start > 0 || dot_end > 0);
+}
+
+/*
+** Draw a single BSP line with appropriate color based on visibility
+*/
+static void draw_bsp_line(t_game *game, t_bsp_line *line)
+{
+    t_vector_i start = world_to_screen(line->start);
+    t_vector_i end = world_to_screen(line->end);
+    int color;
+
+    bool visible = is_line_visible(game, line);
+    color = visible ? DEBUG_WALL_VISIBLE : DEBUG_WALL_HIDDEN;
+
+    ft_printf("Drawing BSP line: (%d,%d) -> (%d,%d) [%s]\n",
+        fixed32_to_int(line->start.x), fixed32_to_int(line->start.y),
+        fixed32_to_int(line->end.x), fixed32_to_int(line->end.y),
+        visible ? "visible" : "hidden");
+
+    draw_line(game, start, end, color);
+}
+
+/*
+** Recursively draw all lines in the BSP tree
+*/
+static void draw_bsp_node(t_game *game, t_bsp_node *node)
+{
+    if (!node)
+        return;
+
+    // Draw lines in this node
+    for (int i = 0; i < node->num_lines; i++)
+    {
+        if (node->lines[i])
+            draw_bsp_line(game, node->lines[i]);
+    }
+
+    // Draw partition line if it exists
+    if (node->partition)
+        draw_bsp_line(game, node->partition);
+
+    // Recursively draw child nodes
+    if (node->front)
+        draw_bsp_node(game, node->front);
+    if (node->back)
+        draw_bsp_node(game, node->back);
+}
+
+/*
+** Calculate map bounds from vertices
+*/
+static void get_map_bounds(t_doom_map *map, t_fixed32 *min_x, t_fixed32 *max_x, 
+                         t_fixed32 *min_y, t_fixed32 *max_y)
+{
+    *min_x = map->vertices[0].pos.x;
+    *max_x = map->vertices[0].pos.x;
+    *min_y = map->vertices[0].pos.y;
+    *max_y = map->vertices[0].pos.y;
+
+    for (int i = 1; i < map->vertex_count; i++)
+    {
+        if (map->vertices[i].pos.x < *min_x) *min_x = map->vertices[i].pos.x;
+        if (map->vertices[i].pos.x > *max_x) *max_x = map->vertices[i].pos.x;
+        if (map->vertices[i].pos.y < *min_y) *min_y = map->vertices[i].pos.y;
+        if (map->vertices[i].pos.y > *max_y) *max_y = map->vertices[i].pos.y;
+    }
+
+    ft_printf("Map bounds: X(%d to %d) Y(%d to %d)\n",
+        fixed32_to_int(*min_x), fixed32_to_int(*max_x),
+        fixed32_to_int(*min_y), fixed32_to_int(*max_y));
+}
+
+/*
+** Draw grid to show tile size
+*/
+static void draw_grid(t_game *game)
+{
+    t_fixed32 min_x, max_x, min_y, max_y;
+    get_map_bounds(game->map, &min_x, &max_x, &min_y, &max_y);
+
+    // Convert to tile coordinates and add one tile padding
+    int start_tile_x = fixed32_to_int(min_x) / TILE_SIZE - 1;
+    int end_tile_x = fixed32_to_int(max_x) / TILE_SIZE + 1;
+    int start_tile_y = fixed32_to_int(min_y) / TILE_SIZE - 1;
+    int end_tile_y = fixed32_to_int(max_y) / TILE_SIZE + 1;
+    
+    int tile_pixels = (int)(TILE_SIZE * DEBUG_SCALE);
+    
+    ft_printf("Grid tiles: X(%d to %d) Y(%d to %d), Tile size: %d pixels\n",
+        start_tile_x, end_tile_x, start_tile_y, end_tile_y, tile_pixels);
+
+    // Draw vertical grid lines
+    for (int x = start_tile_x; x <= end_tile_x; x++)
+    {
+        t_fixed_vec32 world_start = {int_to_fixed32(x * TILE_SIZE), min_y};
+        t_fixed_vec32 world_end = {int_to_fixed32(x * TILE_SIZE), max_y};
+        t_vector_i screen_start = world_to_screen(world_start);
+        t_vector_i screen_end = world_to_screen(world_end);
+        draw_line(game, screen_start, screen_end, DEBUG_GRID_COLOR);
+    }
+
+    // Draw horizontal grid lines
+    for (int y = start_tile_y; y <= end_tile_y; y++)
+    {
+        t_fixed_vec32 world_start = {min_x, int_to_fixed32(y * TILE_SIZE)};
+        t_fixed_vec32 world_end = {max_x, int_to_fixed32(y * TILE_SIZE)};
+        t_vector_i screen_start = world_to_screen(world_start);
+        t_vector_i screen_end = world_to_screen(world_end);
+        draw_line(game, screen_start, screen_end, DEBUG_GRID_COLOR);
+    }
+
+    // Draw center lines
+    t_fixed_vec32 center_world = {0, 0};
+    t_vector_i center_screen = world_to_screen(center_world);
+    
+    t_vector_i center_h1 = {0, center_screen.y};
+    t_vector_i center_h2 = {WINDOW_WIDTH, center_screen.y};
+    t_vector_i center_v1 = {center_screen.x, 0};
+    t_vector_i center_v2 = {center_screen.x, WINDOW_HEIGHT};
+    
+    draw_line(game, center_h1, center_h2, 0x444444);
+    draw_line(game, center_v1, center_v2, 0x444444);
+}
+int render_frame(t_game *game)
+{
+    ft_printf("\n=== Starting Debug Render Frame ===\n");
+
+    // Clear the buffer
+    draw_background(game);
+    
+    // Draw grid first so it's behind everything
+    draw_grid(game);
+    
+    // Draw BSP tree if it exists
+    if (game->bsp_tree && game->bsp_tree->root)
+    {
+        ft_printf("Drawing BSP tree...\n");
+        draw_bsp_node(game, game->bsp_tree->root);
+    }
+    else
+    {
+        ft_printf("Warning: No BSP tree to render!\n");
+    }
+
+    // Draw player last so it's always visible
+    draw_player(game);
+
+    // Handle player movement
+    move_player(game);
+
+    // Swap buffers
+    swap_buffers(game);
+
+    ft_printf("=== Debug Render Frame Complete ===\n\n");
+    return (0);
+}

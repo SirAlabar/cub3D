@@ -150,7 +150,7 @@ t_vector				vector_limit(t_vector v, double max);
 
 void	init_double_buffer(t_game *game);
 int	render_frame(t_game *game);
-
+void swap_buffers(t_game *game);
 
 
 
