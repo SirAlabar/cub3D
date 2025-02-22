@@ -58,9 +58,9 @@ void build_player_cmd(t_player *player)
 	if (keys->s)
 		cmd->forward -= SPEED;
 	if (keys->d)
-		cmd->side += SPEED;
-	if (keys->a)
 		cmd->side -= SPEED;
+	if (keys->a)
+		cmd->side += SPEED;
     if (keys->left)
         cmd->turn -= ANG15 / 64;
     if (keys->right)
