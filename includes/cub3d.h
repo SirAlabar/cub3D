@@ -117,9 +117,10 @@ extern t_render_debug g_debug;
 #define PLAYER_HEIGHT        41
 #define PLAYER_RADIUS        16
 #define PLAYER_VIEW_HEIGHT   41
-#define MAXMOVE             16
-#define STOPSPEED            4 
-#define FRICTION         0xE800
+#define MAXMOVE             32768
+#define STOPSPEED            4096
+#define SPEED            16384
+#define FRICTION         59392
 #define GRAVITY              1
 #define JUMPSPEED           8  
 #define USERANGE         1024
@@ -136,7 +137,7 @@ typedef struct s_player
     t_fixed32     momx;
     t_fixed32     momy; 
     t_fixed32     momz;
-    t_fixed32     angle;
+    unsigned int     angle;
     int         on_ground;
     t_cmd       cmd;
     t_keys      keys;

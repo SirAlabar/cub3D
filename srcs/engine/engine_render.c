@@ -45,7 +45,7 @@ void cleanup_double_buffer(t_game *game)
     game->buffer[0] = NULL;
     game->buffer[1] = NULL;
 }
-
+/*
 void draw_background(t_game *game)
 {
     int pixel_pos;
@@ -66,7 +66,7 @@ void draw_background(t_game *game)
         }
         y++;
     }
-}
+}*/
 
 void debug_bsp_render(t_bsp_node *node, int depth) {
     int i;

@@ -72,12 +72,14 @@ static int find_player_sector(t_doom_map *map, t_fixed_vec32 pos)
 bool    init_player(t_game *game)
 {
     t_thing     *thing;
+	t_fixed_vec32 center;
 
     thing = find_player_thing(game->map);
     if (!thing)
         return (ft_putendl_fd("Error: No player start found", 2), false);
     ft_bzero(&game->p1, sizeof(t_player));
-    game->p1.pos = fixed_vec_create(thing->pos.x, thing->pos.y);
+    center = get_map_center(game->map);
+    game->p1.pos = vector_sub_fixed32(thing->pos, center);
     game->p1.momx = 0;
     game->p1.momy = 0;
     game->p1.momz = 0;

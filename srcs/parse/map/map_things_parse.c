@@ -69,7 +69,7 @@ static bool	get_thing_data(char *line, t_thing *thing, t_doom_map *map)
 			thing->type = type;
 			thing->pos.x = int_to_fixed32(ft_atoi(parts[1]));
 			thing->pos.y = int_to_fixed32(ft_atoi(parts[2]));
-			thing->angle = int_to_fixed32(ft_atoi(parts[3]));
+			thing->angle = (ft_atoi(parts[3]) * ANG360) / 360;
 			success = true;
 		}
 	}

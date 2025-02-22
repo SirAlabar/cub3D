@@ -114,7 +114,7 @@ typedef struct s_thing
 {
 	int				type;
 	t_fixed_vec32	pos;
-	t_fixed32		angle;
+	unsigned int		angle;
 }	t_thing;
 
 /*

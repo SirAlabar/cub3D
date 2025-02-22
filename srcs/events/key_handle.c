@@ -53,14 +53,14 @@ void build_player_cmd(t_player *player)
     cmd->use = 0;
     cmd->jump = 0;
 
-    if (keys->w)
-        cmd->forward += FIXED_POINT_SCALE;
-    if (keys->s)
-        cmd->forward -= FIXED_POINT_SCALE;
-    if (keys->d)
-        cmd->side += FIXED_POINT_SCALE;
-    if (keys->a)
-        cmd->side -= FIXED_POINT_SCALE;
+	if (keys->w)
+		cmd->forward += SPEED;
+	if (keys->s)
+		cmd->forward -= SPEED;
+	if (keys->d)
+		cmd->side += SPEED;
+	if (keys->a)
+		cmd->side -= SPEED;
     if (keys->left)
         cmd->turn -= ANG15 / 64;
     if (keys->right)

@@ -91,7 +91,7 @@ void slide_along_wall(t_game *game, t_fixed32 newx, t_fixed32 newy)
 void move_player(t_game *game)
 {
     t_fixed_vec32 new_pos;
-    t_fixed32 angle;
+    // t_fixed32 angle;
     bool has_movement;
 
     build_player_cmd(&game->p1);
@@ -104,22 +104,21 @@ void move_player(t_game *game)
     else 
     {
         // Calcula o movimento frontal
+        // Calcula o movimento frontal
         if (game->p1.cmd.forward)
         {
-            angle = game->p1.angle >> ANGLETOFINESHIFT;
-            t_fixed32 cos_val = get_cos_8192(game->fixed_tables, angle);
-            t_fixed32 sin_val = get_sin_8192(game->fixed_tables, angle);
-            
+            t_fixed32 cos_val = get_cos_8192(game->fixed_tables, game->p1.angle);
+            t_fixed32 sin_val = get_sin_8192(game->fixed_tables, game->p1.angle);
             game->p1.momx = fixed32_mul(game->p1.cmd.forward, cos_val);
             game->p1.momy = fixed32_mul(game->p1.cmd.forward, sin_val);
         }
-        
+
         // Calcula o movimento lateral
         if (game->p1.cmd.side)
         {
-            angle = (game->p1.angle - ANG90) >> ANGLETOFINESHIFT;
-            t_fixed32 cos_val = get_cos_8192(game->fixed_tables, angle);
-            t_fixed32 sin_val = get_sin_8192(game->fixed_tables, angle);
+            t_fixed32 side_angle = (game->p1.angle - ANG90);
+            t_fixed32 cos_val = get_cos_8192(game->fixed_tables, side_angle);
+            t_fixed32 sin_val = get_sin_8192(game->fixed_tables, side_angle);
             
             // Adiciona o movimento lateral ao momentum existente
             game->p1.momx = fixed32_add(game->p1.momx, 
