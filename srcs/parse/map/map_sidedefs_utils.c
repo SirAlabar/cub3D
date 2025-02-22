@@ -71,8 +71,8 @@ bool    validate_sidedef_textures(t_sidedef *sidedef)
     if (!sidedef->upper_texture && !sidedef->middle_texture 
         && !sidedef->lower_texture)
     {
-        ft_putendl_fd("Error\nSidedef must have at least one texture", 2);
-        return (false);
+        ft_putendl_fd("Warning: Sidedef has no textures", 2);
+        return (true);
     }
 
     if (sidedef->upper_texture && !texture_exists(sidedef->upper_texture))

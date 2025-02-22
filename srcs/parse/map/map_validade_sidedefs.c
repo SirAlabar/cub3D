@@ -16,12 +16,17 @@
  * Validates initial sidedef properties during parsing
  * Only checks texture specifications at this stage
  */
-bool    validate_sidedef(t_sidedef *sidedef, t_doom_map *map)
+bool    validate_sidedef(t_sidedef *sidedef)
 {
-    (void)map;
-    return (sidedef->upper_texture || 
-            sidedef->middle_texture || 
-            sidedef->lower_texture);
+    if (!sidedef->upper_texture && !sidedef->middle_texture
+        && !sidedef->lower_texture)
+    {
+        ft_putendl_fd("Warning: Sidedef has no textures", 2);
+        return (true);
+    }
+    
+
+    return (true);
 }
 
 /*
@@ -60,7 +65,7 @@ bool	validate_all_sidedefs(t_doom_map *map)
 	i = -1;
 	while (++i < map->sidedef_count)
 	{
-		if (!validate_sidedef(&map->sidedefs[i], map))
+		if (!validate_sidedef(&map->sidedefs[i]))
 		{
 			ft_printf(RED"Validation failed for sidedef %d\n"DEFAULT, i);
 			return (false);

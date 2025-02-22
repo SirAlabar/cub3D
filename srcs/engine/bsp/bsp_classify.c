@@ -56,6 +56,7 @@ t_bsp_side bsp_classify_point(t_fixed_vec32 point, t_bsp_line *partition)
     t_fixed32 line_length_sq;
     t_fixed32 cross_product;
     t_fixed32 epsilon;
+    t_fixed32 dot_product;
 
     if (!partition)
         return (BSP_COLINEAR);
@@ -71,23 +72,31 @@ t_bsp_side bsp_classify_point(t_fixed_vec32 point, t_bsp_line *partition)
         fixed32_mul(line_vec.x, line_vec.x),
         fixed32_mul(line_vec.y, line_vec.y));
 
+    // Define uma margem de erro mais generosa proporcional ao tamanho da linha
+    epsilon = fixed32_mul(
+        fixed32_sqrt(line_length_sq),
+        int_to_fixed32(1) >> 4);  // Aumentada tolerância
+
     // Calcula o produto vetorial
     cross_product = fixed32_sub(
         fixed32_mul(line_vec.x, vec_to_point.y),
         fixed32_mul(line_vec.y, vec_to_point.x));
 
-    // Define uma margem de erro proporcional ao tamanho da linha
-    epsilon = fixed32_mul(
-        fixed32_sqrt(line_length_sq),
-        int_to_fixed32(1) >> 8); // Ajuste esse valor conforme necessário
-
     // Se o ponto está muito próximo da linha, considera colinear
     if (fixed32_abs(cross_product) < epsilon)
-        return (BSP_COLINEAR);
+    {
+        // Verifica se o ponto está dentro do segmento de linha
+        dot_product = fixed32_add(
+            fixed32_mul(vec_to_point.x, line_vec.x),
+            fixed32_mul(vec_to_point.y, line_vec.y));
+            
+        if (dot_product >= 0 && dot_product <= line_length_sq)
+            return BSP_COLINEAR;
+    }
 
-    // Retorna FRONT se o produto vetorial é positivo, BACK se negativo
     return (cross_product > 0 ? BSP_FRONT : BSP_BACK);
 }
+
 /*
 ** Classifies a line segment relative to a partition line
 ** Returns:

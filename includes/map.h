@@ -189,7 +189,7 @@ int     open_map(int argc, char **argv);
 bool	validate_map(t_doom_map *map);
 
 /* map_validate_sidedefs.c */
-bool    validate_sidedef(t_sidedef *sidedef, t_doom_map *map);
+bool    validate_sidedef(t_sidedef *sidedef);
 bool	validate_sidedef_references(t_doom_map *map);
 bool    validate_all_sidedefs(t_doom_map *map);
 

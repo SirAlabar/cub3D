@@ -17,7 +17,7 @@
 #define DEBUG_WALL_HIDDEN 0x006400 // Dark green
 #define DEBUG_WALL_VISIBLE 0xFF0000 // Pure red
 #define DEBUG_PLAYER 0x0000FF     // Blue
-#define DEBUG_SCALE 0.65          // Scale factor for map rendering
+#define DEBUG_SCALE 0.25          // Scale factor for map rendering
 #define DIRECTION_INDICATOR_LENGTH (PLAYER_RADIUS * 3)  // Length of player direction line
 #define DEBUG_GRID_COLOR 0x1A1A1A  // Very dark gray for grid
 

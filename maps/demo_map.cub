@@ -85,7 +85,7 @@ s3 = 0,25,220,assets/texture/tile_floor4.xpm,assets/texture/marmore.xpm      # P
 
 [THINGS]
 # type (1:player, 2:enemy, 3:item) x,y,angle
-1,320,320,90  # Player
+1,80,80,90  # Player
 2,1024,192,0      # Enemy 1
 2,960,320,0      # Enemy 2
 3,640,192,0      # Ammo

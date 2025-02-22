@@ -57,29 +57,71 @@ bool    parse_sidedefs_section(char *line, t_doom_map *map)
     t_sidedef   new_sidedef;
     bool        success;
 
+    // Debug: imprimir linha original
+    ft_printf(YELLOW"Parsing sidedef line: [%s]\n"DEFAULT, line);
+
     tokens = ft_split(line, '=');
     if (!tokens || !tokens[0] || !tokens[1])
+    {
+        ft_printf(RED"Failed to split line. Tokens are NULL or incomplete.\n"DEFAULT);
         return (free_split(tokens), false);
+    }
+
+    // Debug: imprimir tokens
+    ft_printf("Token 0: [%s]\n", tokens[0]);
+    ft_printf("Token 1: [%s]\n", tokens[1]);
 
     success = false;
     trimmed = ft_strtrim(tokens[0], " \t\n\r");
+
+    // Debug: imprimir token após trim
+    ft_printf("Trimmed token 0: [%s]\n", trimmed);
+
     if (get_sidedef_number(trimmed, &sidedef_num))
     {
+        ft_printf("Sidedef number: %d\n", sidedef_num);
+        
         free(trimmed);
         trimmed = ft_strtrim(tokens[1], " \t\n\r");
-        ft_bzero(&new_sidedef, sizeof(t_sidedef));
         
+        // Debug: imprimir token 1 após trim
+        ft_printf("Trimmed token 1: [%s]\n", trimmed);
+
+        ft_bzero(&new_sidedef, sizeof(t_sidedef));
+       
         if (get_sidedef_data(trimmed, &new_sidedef))
         {
-            if (validate_sidedef(&new_sidedef, map))
+            // Debug: imprimir detalhes do sidedef
+            ft_printf("Sidedef data parsed successfully\n");
+            ft_printf("X offset: %d\n", new_sidedef.x_offset);
+            ft_printf("Y offset: %d\n", new_sidedef.y_offset);
+            ft_printf("Upper texture: %s\n", new_sidedef.upper_texture ? new_sidedef.upper_texture : "NULL");
+            ft_printf("Middle texture: %s\n", new_sidedef.middle_texture ? new_sidedef.middle_texture : "NULL");
+            ft_printf("Lower texture: %s\n", new_sidedef.lower_texture ? new_sidedef.lower_texture : "NULL");
+            ft_printf("Sector: %d\n", new_sidedef.sector);
+
+            if (validate_sidedef(&new_sidedef))
             {
                 map->sidedefs[sidedef_num] = new_sidedef;
                 if (sidedef_num >= map->sidedef_count)
                     map->sidedef_count = sidedef_num + 1;
                 success = true;
             }
+            else
+            {
+                ft_printf(RED"Sidedef validation failed\n"DEFAULT);
+            }
+        }
+        else
+        {
+            ft_printf(RED"Failed to parse sidedef data\n"DEFAULT);
         }
     }
+    else
+    {
+        ft_printf(RED"Failed to get sidedef number\n"DEFAULT);
+    }
+
     free(trimmed);
     free_split(tokens);
     return (success);
