@@ -61,6 +61,7 @@
     "cub3d.h": "c",
     "bsp.h": "c",
     "fixed_point.h": "c",
-    "map.h": "c"
+    "map.h": "c",
+    "types.h": "c"
   }
 }

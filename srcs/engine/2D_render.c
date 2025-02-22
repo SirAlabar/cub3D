@@ -21,9 +21,7 @@
 #define DIRECTION_INDICATOR_LENGTH (PLAYER_RADIUS * 3)  // Length of player direction line
 #define DEBUG_GRID_COLOR 0x1A1A1A  // Very dark gray for grid
 
-/*
-** Clear background and draw solid color
-*/
+
 void draw_background(t_game *game)
 {
     for (int y = 0; y < WINDOW_HEIGHT; y++)
@@ -35,10 +33,7 @@ void draw_background(t_game *game)
     }
 }
 
-/*
-** Convert world coordinates to screen coordinates
-** Takes into account scaling and screen centering
-*/
+
 static t_vector_i world_to_screen(t_fixed_vec32 world_pos)
 {
     t_vector_i screen_pos;
@@ -54,9 +49,6 @@ static t_vector_i world_to_screen(t_fixed_vec32 world_pos)
     return screen_pos;
 }
 
-/*
-** Draw a line between two points using Bresenham's algorithm
-*/
 static void draw_line(t_game *game, t_vector_i start, t_vector_i end, int color)
 {
     int dx = abs(end.x - start.x);
@@ -93,9 +85,7 @@ static void draw_line(t_game *game, t_vector_i start, t_vector_i end, int color)
     }
 }
 
-/*
-** Draw the player position and direction indicator
-*/
+
 static void draw_player(t_game *game)
 {
     t_vector_i player_pos = world_to_screen(game->p1.pos);
@@ -130,12 +120,12 @@ static void draw_player(t_game *game)
     }
 
     // Draw FOV lines
-    t_fixed32 fov_half = (FOV * FINEANGLES / 360) / 2;
+    t_fixed32 fov_half = FOV / 2;  // FOV/2 em BAM
     t_fixed32 base_angle = game->p1.angle;
     
     // Calculate left and right FOV angles
-    t_fixed32 left_angle = (base_angle - fov_half) & FINEMASK;
-    t_fixed32 right_angle = (base_angle + fov_half) & FINEMASK;
+    t_fixed32 left_angle = (base_angle - fov_half) & ANGLEMASK;   // Usando ANGLEMASK para BAM
+    t_fixed32 right_angle = (base_angle + fov_half) & ANGLEMASK; 
     
     // ft_printf("FOV angles - base: %d, left: %d, right: %d\n", 
     //     base_angle, left_angle, right_angle);
@@ -168,10 +158,7 @@ static void draw_player(t_game *game)
     draw_line(game, player_pos, right_end, DEBUG_WALL_VISIBLE); // Red for better visibility
 }
 
-/*
-** Check if a line is potentially visible to the player
-** Uses basic angle and dot product checks
-*/
+
 static bool is_line_visible(t_game *game, t_bsp_line *line)
 {
     t_fixed_vec32 to_start, to_end;
@@ -185,9 +172,9 @@ static bool is_line_visible(t_game *game, t_bsp_line *line)
     to_end.y = fixed32_sub(line->end.y, game->p1.pos.y);
     
     // Get player's viewing direction using lookup tables
-    angle_cos = get_cos_8192(game->fixed_tables, (game->p1.angle >> ANGLETOFINESHIFT) & FINEMASK);
-    angle_sin = get_sin_8192(game->fixed_tables, (game->p1.angle >> ANGLETOFINESHIFT) & FINEMASK);
-    
+    angle_cos = get_cos_8192(game->fixed_tables, game->p1.angle);
+    angle_sin = get_sin_8192(game->fixed_tables, game->p1.angle);
+        
     // ft_printf("Visibility check - angle: %d, cos: %d, sin: %d\n",
     //     (game->p1.angle >> ANGLETOFINESHIFT) & FINEMASK,
     //     fixed32_to_int(angle_cos),
@@ -207,9 +194,7 @@ static bool is_line_visible(t_game *game, t_bsp_line *line)
     return (dot_start > 0 || dot_end > 0);
 }
 
-/*
-** Draw a single BSP line with appropriate color based on visibility
-*/
+
 static void draw_bsp_line(t_game *game, t_bsp_line *line)
 {
     t_vector_i start = world_to_screen(line->start);
@@ -227,9 +212,7 @@ static void draw_bsp_line(t_game *game, t_bsp_line *line)
     draw_line(game, start, end, color);
 }
 
-/*
-** Recursively draw all lines in the BSP tree
-*/
+
 static void draw_bsp_node(t_game *game, t_bsp_node *node)
 {
     if (!node)
@@ -253,9 +236,7 @@ static void draw_bsp_node(t_game *game, t_bsp_node *node)
         draw_bsp_node(game, node->back);
 }
 
-/*
-** Calculate map bounds from vertices
-*/
+
 static void get_map_bounds(t_doom_map *map, t_fixed32 *min_x, t_fixed32 *max_x, 
                          t_fixed32 *min_y, t_fixed32 *max_y)
 {
@@ -277,9 +258,7 @@ static void get_map_bounds(t_doom_map *map, t_fixed32 *min_x, t_fixed32 *max_x,
  //       fixed32_to_int(*min_y), fixed32_to_int(*max_y));
 }
 
-/*
-** Draw grid to show tile size
-*/
+
 static void draw_grid(t_game *game)
 {
     t_fixed32 min_x, max_x, min_y, max_y;
@@ -330,6 +309,7 @@ static void draw_grid(t_game *game)
     draw_line(game, center_h1, center_h2, center_line_color);
     draw_line(game, center_v1, center_v2, center_line_color);
 }
+
 
 int render_frame(t_game *game)
 {

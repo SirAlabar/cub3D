@@ -168,54 +168,58 @@ void render_bsp_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
                 render_wall_segment(game, node->lines[i], buffer);
     }
 }
+
 void draw_skybox(t_game *game)
 {
     int x, y;
-    t_fixed32 angle;
-    unsigned int current_angle;
     float pixel_per_degree;
-   
-    pixel_per_degree = 1024.0f / 360.0f;
-    angle = game->p1.angle & ANGLEMASK;
-    current_angle = ((unsigned int)angle * 360) >> FIXED_POINT_BITS;
-   
+    unsigned int angle;
+    unsigned int total_angle;
+    
+    // O valor do FOV já está em BAM, assim como o ângulo do jogador
+    pixel_per_degree = 1024.0f / 360.0f; // Número de pixels por grau
+    
+    // Use o ângulo do jogador diretamente (já em BAM)
+    angle = game->p1.angle;
+
     y = -1;
     while (++y < WINDOW_HEIGHT)
     {
         x = -1;
         while (++x < WINDOW_WIDTH)
         {
+            // Projeção do X da tela para o ângulo da visão
             float screen_x_ratio = (float)x / WINDOW_WIDTH;
             float angle_offset = (screen_x_ratio - 0.5f) * FOV;
-           
-            // Garante que o ângulo_offset está nos limites
+
+            // Garante que o angle_offset não ultrapasse o FOV
             angle_offset = fminf(fmaxf(angle_offset, -FOV/2), FOV/2);
-           
-            if (fabs(angle_offset) <= FOV / 2)
+
+            // Calcula o ângulo total da visão
+            total_angle = angle + (unsigned int)(angle_offset * FIXED_POINT_SCALE); // em BAM
+
+            // Ajusta o total_angle para ficar entre 0 e 360 graus (BAM)
+            total_angle &= ANGLEMASK;
+
+            // Calcula a coordenada X da textura (em pixels)
+            float tex_x_float = (float)total_angle * pixel_per_degree;
+
+            // Garante que a coordenada X da textura está no intervalo correto
+            unsigned int tex_x = (unsigned int)floor(tex_x_float) % game->skybox_tex->width;
+            unsigned int tex_y = (y * game->skybox_tex->height) / WINDOW_HEIGHT;
+
+            // Verifica se as coordenadas da textura estão dentro dos limites
+            if (tex_x < (unsigned int)game->skybox_tex->width &&
+                tex_y < (unsigned int)game->skybox_tex->height)
             {
-                // Calcula o ângulo total
-                float total_angle = current_angle + angle_offset;
-                
-                // Garante que total_angle sempre esteja entre 0 e 360
-                total_angle = fmodf(total_angle + 360.0f, 360.0f);
-                
-                // Calcula a coordenada X da textura
-                float tex_x_float = total_angle * pixel_per_degree;
-               
-                // Usa floor para garantir mapeamento contínuo
-                unsigned int tex_x = (unsigned int)floor(tex_x_float) % game->skybox_tex->width;
-                unsigned int tex_y = (y * game->skybox_tex->height) / WINDOW_HEIGHT;
-               
-                if (tex_x < (unsigned int)game->skybox_tex->width &&
-                    tex_y < (unsigned int)game->skybox_tex->height)
-                {
-                    draw_pixel(game, x, y,
-                        get_texture_pixel(game->skybox_tex, tex_x, tex_y));
-                }
+                draw_pixel(game, x, y, 
+                           get_texture_pixel(game->skybox_tex, tex_x, tex_y));
             }
         }
     }
 }
+
+
 /*
 int render_frame(t_game *game)
 {

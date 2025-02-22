@@ -16,12 +16,12 @@
 /* Window settings */
 # define WINDOW_WIDTH 1200
 # define WINDOW_HEIGHT 900
-# define FOV 60
+# define FOV 715827882
 # define MOVE_SPEED 0.02
 # define ROTATION_SPEED 0.04
 # define MAX_ROTATION 0.045
-# define MOUSE_SENSITIVITY 0.00025
-# define MAX_MOUSE_ROTATION 0.0005
+# define MOUSE_SENSITIVITY 65536
+# define MAX_MOUSE_ROTATION 131072
 
 # include <colors.h>
 # include <types.h>
