@@ -1683,7 +1683,7 @@ s83 = -24,72,255,assets/texture/brick1.xpm,assets/texture/brick1.xpm
 s84 = -24,48,255,assets/texture/brick1.xpm,assets/texture/bricks2.xpm
 
 [THINGS]
-1,1056,-3616,90
+1,-300,-50,90
 
 [SKYBOX]
 assets/texture/skybox9.xpm

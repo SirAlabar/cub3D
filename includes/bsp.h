@@ -19,16 +19,16 @@
 # include <libft.h>
 
 /* BSP Configuration */
-# define BSP_WEIGHT_FACTOR     3
+# define BSP_WEIGHT_FACTOR     4
 # define BSP_MIN_SEED         0
-# define BSP_MAX_SEED         1000
-# define BSP_MAX_DEPTH        16
+# define BSP_MAX_SEED         100
+# define BSP_MAX_DEPTH        12
 # define BSP_MIN_NODE_SIZE    4096 
 
 /* Fixed point value for collision detection (1/16) */
 # define COLLISION_THRESHOLD   4096
 /* Penalty factor for each line split during partition */
-# define SPLIT_PENALTY        8
+# define SPLIT_PENALTY        16
 
 /*
  Structure representing a line/segment in the BSP tree

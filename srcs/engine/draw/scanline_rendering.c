@@ -11,10 +11,12 @@
 /* ************************************************************************** */
 #include <cub3d.h>
 // Base world to screen scale: 1 world unit = 64 screen pixels at 1 unit distance
-#define DOOM_UNITS_PER_TILE 64    // Unidades DOOM por tile
-#define SCALE_FACTOR        4
-#define FOV_ANGLE          90     // Campo de visão em graus
-#define FOV_SCALE          (WINDOW_WIDTH / 2)  
+// No topo do arquivo ou em um header
+#define PROJ_SCALE 39321600  
+#define VIEW_DIST 16777216   
+#define NEAR_PLANE 65536     
+#define FAR_PLANE 65536000
+
 
 // Inicialização corrigida
 t_render_debug g_debug = {
@@ -101,8 +103,8 @@ void debug_projection_details(t_fixed_vec32 view_pos, int screen_x, int height) 
     printf("View pos (fixed): (%d, %d) (int): (%d, %d)\n",
            view_pos.x, view_pos.y,
            fixed32_to_int(view_pos.x), fixed32_to_int(view_pos.y));
-	printf("FOV factor (fixed): %d (int): %d\n", 
-			DOOM_UNITS_PER_TILE, fixed32_to_int(DOOM_UNITS_PER_TILE));
+	// printf("FOV factor (fixed): %d (int): %d\n", 
+	// 		DOOM_UNITS_PER_TILE, fixed32_to_int(DOOM_UNITS_PER_TILE));
     printf("Screen center offset: %d\n", WINDOW_WIDTH/2);
     printf("Projected x: %d\n", screen_x);
     printf("Wall height: %d\n", height);
@@ -223,187 +225,176 @@ void init_scanline_buffer(t_scanline *buffer)
         buffer->y_bottom[x] = WINDOW_HEIGHT - 1;
     }
 }
-
+/*
 static t_fixed32 clamp(t_fixed32 val, t_fixed32 min, t_fixed32 max) {
     if (val <= min) return min;
     if (val >= max) return max;
     return val;
-}
+}*/
 
-t_fixed_vec32 transform_point(t_fixed_vec32 p, t_game *game)
+static t_fixed_vec32 transform_point(t_fixed_vec32 p, t_game *game)
 {
     t_fixed_vec32 result;
-    
+    t_fixed32 dx, dy;
+    t_fixed32 cos_val, sin_val;
+
     printf("\n=== Transform Point Debug ===\n");
-    printf("Input point - fixed: (%d,%d) int: (%d,%d)\n", 
-        p.x, p.y, fixed32_to_int(p.x), fixed32_to_int(p.y));
-    printf("Player pos - fixed: (%d,%d) int: (%d,%d)\n",
-        game->p1.pos.x, game->p1.pos.y, 
-        fixed32_to_int(game->p1.pos.x), fixed32_to_int(game->p1.pos.y));
-
-    t_fixed32 dx = fixed32_sub(p.x, game->p1.pos.x);
-    t_fixed32 dy = fixed32_sub(p.y, game->p1.pos.y);
-
-    printf("Delta - fixed: (%d,%d) int: (%d,%d)\n", 
-        dx, dy, fixed32_to_int(dx), fixed32_to_int(dy));
-
-    unsigned int angle_index = (game->p1.angle >> ANGLETOFINESHIFT) & FINEMASK;
-    t_fixed32 cos_val = get_cos_8192(game->fixed_tables, angle_index);
-    t_fixed32 sin_val = get_sin_8192(game->fixed_tables, angle_index);
     
-    printf("Angle: %d, cos: %d, sin: %d\n", 
-        angle_index, fixed32_to_int(cos_val), fixed32_to_int(sin_val));
-
+    dx = fixed32_sub(p.x, game->p1.pos.x);
+    dy = fixed32_sub(p.y, game->p1.pos.y);
+    
+    printf("Point: (%d,%d)\n", fixed32_to_int(p.x), fixed32_to_int(p.y));
+    printf("Player: (%d,%d)\n", fixed32_to_int(game->p1.pos.x), fixed32_to_int(game->p1.pos.y));
+    printf("Delta: (%d,%d)\n", fixed32_to_int(dx), fixed32_to_int(dy));
+    
+    cos_val = get_cos_8192(game->fixed_tables, game->p1.angle);
+    sin_val = get_sin_8192(game->fixed_tables, game->p1.angle);
+    
     result.x = fixed32_sub(
-        fixed32_mul(dx, cos_val),
-        fixed32_mul(dy, sin_val)
-    );
-    
-    result.y = fixed32_add(
         fixed32_mul(dx, sin_val),
         fixed32_mul(dy, cos_val)
     );
+    
+    result.y = fixed32_add(
+        fixed32_mul(dx, cos_val),
+        fixed32_mul(dy, sin_val)
+    );
 
+    printf("Result view-space: (%d,%d)\n", fixed32_to_int(result.x), fixed32_to_int(result.y));
+    
     return result;
 }
+/*
+static bool clip_wall(t_fixed_vec32 *v1, t_fixed_vec32 *v2)
+{
+    // Se ambos pontos estão fora do frustum
+    if (v1->y <= NEAR_PLANE && v2->y <= NEAR_PLANE)
+        return false;
+    if (v1->y >= FAR_PLANE && v2->y >= FAR_PLANE)
+        return false;
 
+    // Clipping contra near plane
+    if (v1->y < NEAR_PLANE)
+    {
+        t_fixed32 t = fixed32_div(
+            fixed32_sub(NEAR_PLANE, v1->y),
+            fixed32_sub(v2->y, v1->y)
+        );
+        v1->x = fixed32_add(v1->x, fixed32_mul(fixed32_sub(v2->x, v1->x), t));
+        v1->y = NEAR_PLANE;
+    }
 
-// Em scanline_rendering.c:
+    // Clipping contra far plane
+    if (v2->y > FAR_PLANE)
+    {
+        t_fixed32 t = fixed32_div(
+            fixed32_sub(FAR_PLANE, v1->y),
+            fixed32_sub(v2->y, v1->y)
+        );
+        v2->x = fixed32_add(v1->x, fixed32_mul(fixed32_sub(v2->x, v1->x), t));
+        v2->y = FAR_PLANE;
+    }
+
+    return true;
+}*/
+
 void render_wall_segment(t_game *game, t_bsp_line *line, t_scanline *buffer)
 {
-    printf("\n=== Render Wall Segment Debug ===\n");
-    printf("Wall from - fixed: (%d,%d) to (%d,%d)\n",
-        line->start.x, line->start.y, line->end.x, line->end.y);
-
     t_fixed_vec32 v1 = transform_point(line->start, game);
     t_fixed_vec32 v2 = transform_point(line->end, game);
 
-    printf("Transformed - v1: (%d,%d) v2: (%d,%d)\n",
-        fixed32_to_int(v1.x), fixed32_to_int(v1.y),
-        fixed32_to_int(v2.x), fixed32_to_int(v2.y));
+    debug_after_wall_transform(v1, v2);
 
-    // Early frustum culling
-	if (v1.y <= (FIXED_POINT_SCALE >> 8) || v2.y <= (FIXED_POINT_SCALE >> 8))
-	{
-		printf("Wall culled - too close to camera (y1=%d, y2=%d)\n", 
-			fixed32_to_int(v1.y), fixed32_to_int(v2.y));
-		return;
-	}
+    // Projeto mantendo fixed point
+    t_fixed32 z1 = fix_max(v1.y, FIXED_POINT_SCALE);
+    t_fixed32 z2 = fix_max(v2.y, FIXED_POINT_SCALE);
 
-    // Projeta para coordenadas de tela
-    int x1 = WINDOW_WIDTH/2 + fixed32_to_int(
-        fixed32_div(fixed32_mul(v1.x, int_to_fixed32(FOV_SCALE)),
-        v1.y)
-    );
-    
-    int x2 = WINDOW_WIDTH/2 + fixed32_to_int(
-        fixed32_div(fixed32_mul(v2.x, int_to_fixed32(FOV_SCALE)),
-        v2.y)
-    );
+    // Projeção X usando FOV
+    t_fixed32 px1 = fixed32_div(fixed32_mul(v1.x, int_to_fixed32(WINDOW_WIDTH/2)), z1);
+    t_fixed32 px2 = fixed32_div(fixed32_mul(v2.x, int_to_fixed32(WINDOW_WIDTH/2)), z2);
 
-    printf("Screen X coordinates: x1=%d x2=%d\n", x1, x2);
+    // Conversão para coordenadas de tela
+    int x1 = WINDOW_WIDTH/2 + fixed32_to_int(px1);
+    int x2 = WINDOW_WIDTH/2 + fixed32_to_int(px2);
 
-    // Calcula alturas usando a escala DOOM correta
-    int h1 = fixed32_to_int(
-        fixed32_div(
-            fixed32_mul(int_to_fixed32(WALL_HEIGHT_SCALE), FIXED_POINT_SCALE),
-            v1.y
-        )
-    );
-    
-    int h2 = fixed32_to_int(
-        fixed32_div(
-            fixed32_mul(int_to_fixed32(WALL_HEIGHT_SCALE), FIXED_POINT_SCALE),
-            v2.y
-        )
-    );
+    // Projeção altura 
+	t_fixed32 h1 = fixed32_div(int_to_fixed32(WINDOW_HEIGHT), z1);
+	t_fixed32 h2 = fixed32_div(int_to_fixed32(WINDOW_HEIGHT), z2);	
 
-    printf("Wall heights: h1=%d h2=%d\n", h1, h2);
-
-    // Clipping e renderização
-    if (x1 >= WINDOW_WIDTH || x2 < 0) {
-        printf("Wall culled - outside screen\n");
+    // Clipping contra bordas da tela
+    if (x1 >= WINDOW_WIDTH || x2 < 0 || x1 >= x2)
         return;
-    }
-        
-    x1 = clamp(x1, 0, WINDOW_WIDTH-1);
-    x2 = clamp(x2, 0, WINDOW_WIDTH-1);
 
-    printf("After clipping - x1=%d x2=%d\n", x1, x2);
+    x1 = fix_max(x1, 0);
+    x2 = fix_min(x2, WINDOW_WIDTH - 1);
 
-    // Para cada coluna da parede
+
+    // Interpolação e renderização
     for (int x = x1; x <= x2; x++)
     {
-        // Interpola altura
-        float t = (float)(x - x1) / (x2 - x1);
-		int h = fixed32_to_int(
-			fixed32_div(
-				fixed32_mul(int_to_fixed32(WALL_HEIGHT_SCALE), 
-						   int_to_fixed32(WINDOW_HEIGHT / 2)),
-				abs(v1.y)  // Usar valor absoluto aqui
-			)
-		);
-        
-        // Calcula topo e base considerando altura do jogador
-        int center_y = WINDOW_HEIGHT/2 - fixed32_to_int(
-            fixed32_mul(game->p1.view_z - game->p1.sector->floor_height,
-            int_to_fixed32(WINDOW_HEIGHT) / WALL_HEIGHT_SCALE)
+        // Interpolação baseada em fixed point
+        t_fixed32 t = fixed32_div(
+            int_to_fixed32(x - x1),
+            int_to_fixed32(x2 - x1)
         );
-        
+
+        // Altura interpolada
+        int h = fixed32_to_int(
+            fixed32_add(
+                int_to_fixed32(h1),
+                fixed32_mul(int_to_fixed32(h2 - h1), t)
+            )
+        );
+
+        // Cálculo das coordenadas Y na tela
+        int center_y = WINDOW_HEIGHT / 2;
         int top = center_y - (h >> 1);
         int bottom = center_y + (h >> 1);
 
-        if (x % 100 == 0) { // Debug apenas a cada 100 pixels para não sobrecarregar
-            printf("Column x=%d - height=%d center_y=%d top=%d bottom=%d\n", 
-                x, h, center_y, top, bottom);
-        }
-
         // Clipping vertical
+        top = top < 0 ? 0 : top;
+        bottom = bottom >= WINDOW_HEIGHT ? WINDOW_HEIGHT - 1 : bottom;
+
+        // Clipping contra scanline buffer
         if (top < buffer->y_top[x])
             top = buffer->y_top[x];
         if (bottom > buffer->y_bottom[x])
             bottom = buffer->y_bottom[x];
 
-        // Calcula profundidade para shading
-        t_fixed32 depth = fixed32_mul(
-            fixed32_add(
+        // Renderiza apenas se visível
+        if (top <= bottom)
+        {
+            // Cálculo de profundidade para shading
+            t_fixed32 depth = fixed32_add(
                 v1.y,
                 fixed32_mul(
                     fixed32_sub(v2.y, v1.y),
-                    float_to_fixed32(t)
+                    t
                 )
-            ),
-            int_to_fixed32(SCALE_FACTOR)
-        );
+            );
 
-        // Calcula shading baseado na distância
-        int shade = fixed32_to_int(
-            fixed32_div(FIXED_POINT_SCALE << 6, depth)
-        );
-        shade = clamp(shade, 32, 255);
+            // Cálculo de shading baseado em profundidade
+            int shade = fixed32_to_int(
+                fixed32_div(int_to_fixed32(255 << 6), depth)
+            );
+            shade = shade < 32 ? 32 : (shade > 255 ? 255 : shade);
 
-        if (x % 100 == 0) {
-            printf("Column x=%d - depth=%d shade=%d\n", 
-                x, fixed32_to_int(depth), shade);
+            debug_scanline_details(x, top, bottom, h, depth);
+
+            // Renderização da coluna vertical
+            for (int y = top; y <= bottom; y++)
+            {
+                // Gradiente vertical
+                float fy = (float)(y - top) / (bottom - top);
+                int gradient_shade = (int)(shade * (1.0f - fy * 0.3f));
+                gradient_shade = gradient_shade < 32 ? 32 : (gradient_shade > 255 ? 255 : gradient_shade);
+                
+                int color = (gradient_shade << 16) | (gradient_shade << 8) | gradient_shade;
+                draw_pixel(game, x, y, color);
+            }
+
+            // Atualiza scanline buffer
+            buffer->y_top[x] = bottom + 1;
         }
-
-        // Desenha a coluna da parede
-        for (int y = top; y <= bottom; y++)
-        {
-            // Adiciona gradiente vertical
-            float fy = (float)(y - top) / (bottom - top);
-            int gradient_shade = (int)(shade * (1.0f - fy * 0.3f));
-            gradient_shade = clamp(gradient_shade, 32, 255);
-            
-            int color = (gradient_shade << 16) | 
-                       (gradient_shade << 8) | 
-                       gradient_shade;
-                       
-            draw_pixel(game, x, y, color);
-        }
-
-        // Atualiza buffer de scanline
-        buffer->y_top[x] = bottom + 1;
     }
-    printf("=== End Wall Segment ===\n\n");
 }

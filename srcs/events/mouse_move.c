@@ -32,29 +32,29 @@ static void handle_mouse_rotation(t_game *game, t_vector pos)
     t_fixed32 mouse_diff = int_to_fixed32(pos.x - game->last_mouse.x) >> 6;
     t_fixed32 rotation = fixed32_mul(mouse_diff, MOUSE_SENSITIVITY);
     
-    ft_printf("\n=== Mouse Rotation Debug ===\n");
-    ft_printf("Current Mouse X: %d\n", (int)pos.x);
-    ft_printf("Last Mouse X: %d\n", (int)game->last_mouse.x);
-    ft_printf("Mouse Diff (fixed): %d\n", mouse_diff);
-    ft_printf("Rotation (fixed): %d\n", rotation);
+    // ft_printf("\n=== Mouse Rotation Debug ===\n");
+    // ft_printf("Current Mouse X: %d\n", (int)pos.x);
+    // ft_printf("Last Mouse X: %d\n", (int)game->last_mouse.x);
+    // ft_printf("Mouse Diff (fixed): %d\n", mouse_diff);
+    // ft_printf("Rotation (fixed): %d\n", rotation);
 
     // Limita rotação
     t_fixed32 max_rotation = MAX_MOUSE_ROTATION;
     rotation = fix_min(rotation, max_rotation);
     rotation = fix_max(rotation, -max_rotation);
 
-    ft_printf("Limited Rotation (fixed): %d\n", rotation);
+    // ft_printf("Limited Rotation (fixed): %d\n", rotation);
     
     // Converte rotação para incremento de ângulo
     t_fixed32 angle_increment = fixed32_mul(rotation, int_to_fixed32(ANG45));
     
-    ft_printf("Angle Increment: %u\n", angle_increment);
-    ft_printf("Before Rotation - Player Angle: %u\n", game->p1.angle);
+    // ft_printf("Angle Increment: %u\n", angle_increment);
+    // ft_printf("Before Rotation - Player Angle: %u\n", game->p1.angle);
 
     game->p1.angle += angle_increment;
   //  game->p1.angle &= ANGLEMASK;
     
-    ft_printf("After Rotation - Player Angle: %u\n", game->p1.angle);
+    // ft_printf("After Rotation - Player Angle: %u\n", game->p1.angle);
     
     game->last_mouse = pos;
 }

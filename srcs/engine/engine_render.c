@@ -68,50 +68,6 @@ void draw_background(t_game *game)
     }
 }*/
 
-void debug_bsp_render(t_bsp_node *node, int depth) {
-    int i;
-    
-    printf("\n=== BSP Node at depth %d ===\n", depth);
-    
-    if (!node) {
-        printf("Null node\n");
-        return;
-    }
-
-    // Imprimir informações do nó
-    printf("Number of lines: %d\n", node->num_lines);
-    
-    // Se há uma partição, imprimir seus detalhes
-    if (node->partition) {
-        printf("Partition line: (%d,%d) -> (%d,%d)\n",
-            fixed32_to_int(node->partition->start.x),
-            fixed32_to_int(node->partition->start.y),
-            fixed32_to_int(node->partition->end.x),
-            fixed32_to_int(node->partition->end.y));
-    }
-
-    // Imprimir todas as linhas do nó
-    printf("Lines in node:\n");
-    for (i = 0; i < node->num_lines; i++) {
-        if (node->lines[i]) {
-            printf("  Line %d: (%d,%d) -> (%d,%d)\n", i,
-                fixed32_to_int(node->lines[i]->start.x),
-                fixed32_to_int(node->lines[i]->start.y),
-                fixed32_to_int(node->lines[i]->end.x),
-                fixed32_to_int(node->lines[i]->end.y));
-        }
-    }
-
-    // Recursive debug para nós filhos
-    if (node->front) {
-        printf("\nFront child at depth %d:\n", depth + 1);
-        debug_bsp_render(node->front, depth + 1);
-    }
-    if (node->back) {
-        printf("\nBack child at depth %d:\n", depth + 1);
-        debug_bsp_render(node->back, depth + 1);
-    }
-}
 void render_bsp_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
 {
     t_bsp_side side;
@@ -120,16 +76,13 @@ void render_bsp_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
     if (!node)
         return;
 
-    debug_bsp_render(node, 0);  // Adicionar aqui o debug
-
-    // Se não é um nó folha, usa a partição para determinar a ordem
     if (node->partition)
     {
         side = bsp_classify_point(game->p1.pos, node->partition);
-        printf("Player classified as %s relative to partition\n",
-            side == BSP_FRONT ? "FRONT" :
-            side == BSP_BACK ? "BACK" :
-            side == BSP_COLINEAR ? "COLINEAR" : "SPANNING");
+        // printf("Player classified as %s relative to partition\n",
+        //     side == BSP_FRONT ? "FRONT" :
+        //     side == BSP_BACK ? "BACK" :
+        //     side == BSP_COLINEAR ? "COLINEAR" : "SPANNING");
         
         // Renderiza de trás pra frente
         if (side == BSP_FRONT)
@@ -139,7 +92,7 @@ void render_bsp_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
             // Renderiza linhas do nó atual
             for (i = 0; i < node->num_lines; i++)
                 if (node->lines[i]) {
-                    printf("Rendering line %d in FRONT node\n", i);
+                    // printf("Rendering line %d in FRONT node\n", i);
                     render_wall_segment(game, node->lines[i], buffer);
                 }
             
@@ -152,7 +105,7 @@ void render_bsp_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
             // Renderiza linhas do nó atual
             for (i = 0; i < node->num_lines; i++)
                 if (node->lines[i]) {
-                    printf("Rendering line %d in BACK node\n", i);
+                    // printf("Rendering line %d in BACK node\n", i);
                     render_wall_segment(game, node->lines[i], buffer);
                 }
             
@@ -162,7 +115,7 @@ void render_bsp_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
     // Nó folha - apenas renderiza suas linhas
     else
     {
-        printf("Rendering leaf node with %d lines\n", node->num_lines);
+        // printf("Rendering leaf node with %d lines\n", node->num_lines);
         for (i = 0; i < node->num_lines; i++)
             if (node->lines[i])
                 render_wall_segment(game, node->lines[i], buffer);
@@ -172,55 +125,43 @@ void render_bsp_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
 void draw_skybox(t_game *game)
 {
     int x, y;
-    float pixel_per_degree;
-    unsigned int angle;
-    unsigned int total_angle;
+    float pixel_per_angle;
+    unsigned int angle_offset;
+    unsigned int view_angle;
     
-    // O valor do FOV já está em BAM, assim como o ângulo do jogador
-    pixel_per_degree = 1024.0f / 360.0f; // Número de pixels por grau
+    // Pixels por ângulo BAM (valor float para precisão)
+    pixel_per_angle = (float)game->skybox_tex->width / ANG360;
     
-    // Use o ângulo do jogador diretamente (já em BAM)
-    angle = game->p1.angle;
-
     y = -1;
     while (++y < WINDOW_HEIGHT)
     {
         x = -1;
         while (++x < WINDOW_WIDTH)
         {
-            // Projeção do X da tela para o ângulo da visão
-            float screen_x_ratio = (float)x / WINDOW_WIDTH;
-            float angle_offset = (screen_x_ratio - 0.5f) * FOV;
-
-            // Garante que o angle_offset não ultrapasse o FOV
-            angle_offset = fminf(fmaxf(angle_offset, -FOV/2), FOV/2);
-
-            // Calcula o ângulo total da visão
-            total_angle = angle + (unsigned int)(angle_offset * FIXED_POINT_SCALE); // em BAM
-
-            // Ajusta o total_angle para ficar entre 0 e 360 graus (BAM)
-            total_angle &= ANGLEMASK;
-
-            // Calcula a coordenada X da textura (em pixels)
-            float tex_x_float = (float)total_angle * pixel_per_degree;
-
-            // Garante que a coordenada X da textura está no intervalo correto
-            unsigned int tex_x = (unsigned int)floor(tex_x_float) % game->skybox_tex->width;
+            // Calcula offset do ângulo BAM baseado na posição X
+            float screen_ratio = (float)(x - WINDOW_WIDTH/2) / (WINDOW_WIDTH/2);
+            angle_offset = (unsigned int)(screen_ratio * (FOV/2));
+            
+            // Ângulo total de visão em BAM
+            view_angle = (game->p1.angle + angle_offset) & ANGLEMASK;
+            
+            // Mapeia ângulo BAM para coordenada X da textura
+            unsigned int tex_x = (unsigned int)(view_angle * pixel_per_angle) % game->skybox_tex->width;
             unsigned int tex_y = (y * game->skybox_tex->height) / WINDOW_HEIGHT;
-
-            // Verifica se as coordenadas da textura estão dentro dos limites
+            
+            // Verifica limites e desenha
             if (tex_x < (unsigned int)game->skybox_tex->width &&
                 tex_y < (unsigned int)game->skybox_tex->height)
             {
                 draw_pixel(game, x, y, 
-                           get_texture_pixel(game->skybox_tex, tex_x, tex_y));
+                    get_texture_pixel(game->skybox_tex, tex_x, tex_y));
             }
         }
     }
 }
 
 
-/*
+
 int render_frame(t_game *game)
 {
 
@@ -241,4 +182,4 @@ int render_frame(t_game *game)
     update_fps(game);
     swap_buffers(game);
     return (0);
-}*/
+}

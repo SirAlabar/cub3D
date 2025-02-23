@@ -16,7 +16,7 @@
 /* Window settings */
 # define WINDOW_WIDTH 1200
 # define WINDOW_HEIGHT 900
-# define FOV 715827882
+# define FOV 1073741824
 # define MOVE_SPEED 0.02
 # define ROTATION_SPEED 0.04
 # define MAX_ROTATION 0.045
@@ -96,10 +96,6 @@ extern t_render_debug g_debug;
 
 //# endif
 
-/* Map characters */
-# define VALID_MAP_CHARS "01NSEWDM "
-# define PLAYER_CHARS "NSEW"
-
 /* Error messages */
 # define ERR_ARGS "Error\nInvalid number of arguments\n"
 # define ERR_FILE "Error\nInvalid file extension or unable to open file\n"
@@ -114,9 +110,9 @@ extern t_render_debug g_debug;
 # define GUN_F3 "./assets/sprites/pistol/PIS2.xpm"
 # define GUN_F4 "./assets/sprites/pistol/PISFA0.xpm"
 
-#define PLAYER_HEIGHT        41
-#define PLAYER_RADIUS        16
-#define PLAYER_VIEW_HEIGHT   41
+#define PLAYER_HEIGHT        2687576
+#define PLAYER_RADIUS        1048576
+#define PLAYER_VIEW_HEIGHT   2687576
 #define MAXMOVE             32768
 #define STOPSPEED            4096
 #define SPEED            16384
