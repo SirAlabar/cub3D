@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:20:50 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/26 17:42:37 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/22 21:32:22 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,11 @@ void	handle_movement(t_game *game)
 
 int	key_press(int keycode, t_game *game)
 {
+	printf("Key pressed: %d\n", keycode);
 	if (keycode == KEY_ESC)
 		close_window(game);
+	else if (keycode == KEY_E)
+		interact_with_door(game);
 	else if (keycode == KEY_W)
 		game->p1.keys.w = 1;
 	else if (keycode == KEY_S)
@@ -54,10 +57,7 @@ int	key_press(int keycode, t_game *game)
 	else if (keycode == KEY_RIGHT)
 		game->p1.keys.right = 1;
 	else if (keycode == KEY_SPACE || keycode == MOUSE_LEFT)
-	{
 		game->p1.is_firing = 1;
-		shoot_enemy(game);
-	}
 	return (0);
 }
 

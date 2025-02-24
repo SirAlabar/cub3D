@@ -6,42 +6,11 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:26:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/25 11:59:50 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/22 21:08:59 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-void	cleanup_gun(t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (i < 4)
-	{
-		if (game->p1.gun_anim && game->p1.gun_anim[i].img)
-		{
-			mlx_destroy_image(game->mlx, game->p1.gun_anim[i].img);
-		}
-		i++;
-	}
-	if (game->p1.gun_anim)
-		free(game->p1.gun_anim);
-	game->p1.gun_anim = NULL;
-}
-
-void	cleanup_textures(t_game *game)
-{
-	if (game->north.img)
-		mlx_destroy_image(game->mlx, game->north.img);
-	if (game->south.img)
-		mlx_destroy_image(game->mlx, game->south.img);
-	if (game->east.img)
-		mlx_destroy_image(game->mlx, game->east.img);
-	if (game->west.img)
-		mlx_destroy_image(game->mlx, game->west.img);
-	cleanup_gun(game);
-}
 
 void	cleanup_map(t_game *game)
 {
@@ -87,6 +56,7 @@ void	cleanup_game(t_game *game)
 		return ;
 	cleanup_textures(game);
 	cleanup_enemies(game);
+	cleanup_door_system(game);
 	if (game->win && game->mlx)
 		mlx_destroy_window(game->mlx, game->win);
 	if (game->img && game->mlx)

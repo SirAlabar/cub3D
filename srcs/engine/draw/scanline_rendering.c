@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 19:10:01 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/12 14:08:24 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:32:51 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	set_wall_tex_coords(t_wall *wall)
 			* wall->ray->dir.x;
 	wall->pos.x -= floor(wall->pos.x);
 	wall->tex.x = (int)(wall->pos.x * wall->texture->width);
+	if (wall->ray->is_door)
+		adjust_door_texture(wall);
 	if (wall->ray->side == 0 && wall->ray->dir.x < 0)
 		wall->tex.x = wall->texture->width - wall->tex.x - 1;
 	if (wall->ray->side == 1 && wall->ray->dir.y > 0)

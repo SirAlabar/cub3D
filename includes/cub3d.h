@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:34 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/26 14:12:15 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:48:12 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # define WINDOW_HEIGHT 800
 # define FOV 60
 # define MOVE_SPEED 0.02
-# define ROTATION_SPEED 0.015
-# define MAX_ROTATION 0.0025
+# define ROTATION_SPEED 0.04
+# define MAX_ROTATION 0.045
 
 # include <colors.h>
 # include <engine.h>
@@ -38,7 +38,7 @@
 # include <checker.h>
 # include <health.h>
 # include <enemy.h>
-
+/*
 # ifdef MAC_OS
 #  include <mlx.h>
 #  define KEY_ESC 53
@@ -46,30 +46,32 @@
 #  define KEY_A 0
 #  define KEY_S 1
 #  define KEY_D 2
+#  define KEY_E 14
 #  define KEY_LEFT 123
 #  define KEY_RIGHT 124
 #  define KEY_UP 126
 #  define KEY_DOWN 125
-# else
-#  include <X11/X.h>
-#  include <X11/keysym.h>
-#  include <mlx.h>
-#  define KEY_ESC XK_Escape
-#  define KEY_W XK_w
-#  define KEY_A XK_a
-#  define KEY_S XK_s
-#  define KEY_D XK_d
-#  define KEY_LEFT XK_Left
-#  define KEY_RIGHT XK_Right
-#  define KEY_UP XK_Up
-#  define KEY_DOWN XK_Down
-#  define KEY_SPACE XK_space
-#  define MOUSE_LEFT 1
-#  define MOUSE_RIGHT 3
-# endif
+# else*/
+# include <X11/X.h>
+# include <X11/keysym.h>
+# include <mlx.h>
+# define KEY_ESC XK_Escape
+# define KEY_W XK_w
+# define KEY_A XK_a
+# define KEY_S XK_s
+# define KEY_D XK_d
+# define KEY_E XK_e
+# define KEY_LEFT XK_Left
+# define KEY_RIGHT XK_Right
+# define KEY_UP XK_Up
+# define KEY_DOWN XK_Down
+# define KEY_SPACE XK_space
+# define MOUSE_LEFT 1
+# define MOUSE_RIGHT 3
+//# endif
 
 /* Map characters */
-# define VALID_MAP_CHARS "01NSEW "
+# define VALID_MAP_CHARS "01NSEWDM "
 # define PLAYER_CHARS "NSEW"
 
 /* Error messages */
@@ -138,6 +140,7 @@ typedef struct s_game
 	double			mouse_sensi;
 	double			fps;
 	t_enemy_list	*enemies;
+	t_door_system	*door_system;	
 }				t_game;
 
 void			cleanup_game(t_game *game);
@@ -169,6 +172,7 @@ void			cleanup_gun(t_game *game);
 void			cleanup_textures(t_game *game);
 void			cleanup_map(t_game *game);
 void			cleanup_game(t_game *game);
+void			cleanup_door_system(t_game *game);
 
 //
 void			init_test_map(t_game *game);

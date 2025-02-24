@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   door_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/22 21:46:08 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/22 21:46:10 by hluiz-ma         ###   ########.fr       */
+/*   Created: 2024/11/30 21:20:50 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/01/22 21:47:02 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	*keys_else(t_game *game, double *dir_x, double *dir_y)
+bool	is_door(char tile)
 {
-	if (game->p1.keys.d)
+	return (tile == 'D');
+}
+
+t_door	*find_door(t_game *game, int x, int y)
+{
+	int	i;
+
+	i = 0;
+	while (i < game->door_system->door_count)
 	{
-		*dir_x += game->p1.plane.x;
-		*dir_y += game->p1.plane.y;
-	}
-	if (game->p1.keys.a)
-	{
-		*dir_x -= game->p1.plane.x;
-		*dir_y -= game->p1.plane.y;
+		if (game->door_system->doors[i].position.x == x
+			&& game->door_system->doors[i].position.y == y)
+		{
+			return (&game->door_system->doors[i]);
+		}
+		i++;
 	}
 	return (NULL);
 }

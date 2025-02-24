@@ -64,8 +64,8 @@ void	draw_enemies(t_game *game)
 	double			fov;
 
 	current = game->enemies;
-	fov = 2 * atan2(vector_length(game->p1.plane), 1.0);
-	while (current)
+	fov = 2 * atan2(vector_mag(game->p1.plane), 1.0);
+	while (current && current->enemy.alive)
 	{
 		if (current->enemy.alive && is_enemy_visible(game, current->enemy.pos))
 		{

@@ -42,7 +42,7 @@ typedef struct s_enemy
 	bool		alive;
 	double		dist_to_player;
 	t_texture	*texture;
-	double		detection_radius; // Add this line
+	double		detection_radius;
 } t_enemy;
 
 typedef struct s_draw_params
@@ -59,7 +59,6 @@ typedef struct s_enemy_list
 	struct s_enemy_list	*next;
 }				t_enemy_list;
 
-double		vector_length(t_vector v);
 void		init_enemies(t_game *game);
 void		update_enemies(t_game *game);
 void		draw_enemies(t_game *game);

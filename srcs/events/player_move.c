@@ -12,64 +12,6 @@
 
 #include <cub3d.h>
 
-bool	can_move_x(t_game *g, t_vector new, t_vector dir, double buff)
-{
-	int		new_grid_x_pos;
-	int		grid_y_pos;
-	int		offset;
-	int		check_x;
-	double	dist_to_wall;
-
-	new_grid_x_pos = (int)new.x;
-	grid_y_pos = (int)g->p1.pos.y;
-	if (dir.x > 0)
-		offset = 1;
-	else
-		offset = -1;
-	if (g->map.grid[new_grid_x_pos + offset * (int)0.2][grid_y_pos] == '1')
-		return (false);
-	check_x = new_grid_x_pos + offset;
-	if (g->map.grid[check_x][grid_y_pos] == '1')
-	{
-		if (dir.x > 0)
-			dist_to_wall = check_x - new.x;
-		else
-			dist_to_wall = new.x - new_grid_x_pos;
-		if (dist_to_wall < buff)
-			return (false);
-	}
-	return (true);
-}
-
-bool	can_move_y(t_game *g, t_vector new, t_vector dir, double buff)
-{
-	int		new_grid_y_pos;
-	int		grid_x_pos;
-	int		offset;
-	int		check_y;
-	double	dist_to_wall;
-
-	new_grid_y_pos = (int)new.y;
-	grid_x_pos = (int)g->p1.pos.x;
-	if (dir.y > 0)
-		offset = 1;
-	else
-		offset = -1;
-	if (g->map.grid[grid_x_pos][new_grid_y_pos + offset * (int)0.2] == '1')
-		return (false);
-	check_y = new_grid_y_pos + offset;
-	if (g->map.grid[grid_x_pos][check_y] == '1')
-	{
-		if (dir.y > 0)
-			dist_to_wall = check_y - new.y;
-		else
-			dist_to_wall = new.y - new_grid_y_pos;
-		if (dist_to_wall < buff)
-			return (false);
-	}
-	return (true);
-}
-
 void	move_player(t_game *g, double dir_x, double dir_y)
 {
 	t_vector	new_pos;

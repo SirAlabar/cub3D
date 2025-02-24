@@ -12,11 +12,6 @@
 
 #include "cub3d.h"
 
-double	vector_length(t_vector v)
-{
-	return (sqrt(v.x * v.x + v.y * v.y));
-}
-
 t_texture	*load_enemy_texture(t_game *game)
 {
 	t_texture	*texture;

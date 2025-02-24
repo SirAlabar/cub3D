@@ -35,6 +35,7 @@ int	engine_render_frame(t_game *game)
 	t_scanline	scanline_buffer;
 
 	engine_prepare_frame(game);
+	update_doors(game);
 	draw_background(game);
 	init_scanline_buffer(&scanline_buffer);
 	cast_rays(game, rays);
