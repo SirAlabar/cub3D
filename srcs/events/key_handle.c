@@ -6,10 +6,9 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:20:50 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/22 21:32:22 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/02/24 20:40:15 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include <cub3d.h>
 
 void	handle_movement(t_game *game)
@@ -35,6 +34,13 @@ void	handle_movement(t_game *game)
 		rotate_player(game, -game->p1.rot_speed);
 	if (game->p1.keys.right)
 		rotate_player(game, game->p1.rot_speed);
+	
+	// Handle shooting if player is firing
+	if (game->p1.is_firing)
+	{
+		shoot_enemy(game);
+		// Firing animation will handle resetting is_firing to 0
+	}
 }
 
 int	key_press(int keycode, t_game *game)
@@ -57,7 +63,15 @@ int	key_press(int keycode, t_game *game)
 	else if (keycode == KEY_RIGHT)
 		game->p1.keys.right = 1;
 	else if (keycode == KEY_SPACE || keycode == MOUSE_LEFT)
+	{
+		// Set firing state
 		game->p1.is_firing = 1;
+		game->p1.current_frame = 1;
+		game->p1.last_fire = get_time_ms();
+		
+		// Directly call shoot_enemy to ensure immediate shooting
+		shoot_enemy(game);
+	}
 	return (0);
 }
 

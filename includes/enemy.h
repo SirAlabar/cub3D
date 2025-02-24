@@ -43,6 +43,7 @@ typedef struct s_enemy
 	double		dist_to_player;
 	t_texture	*texture;
 	double		detection_radius;
+	double		last_attack;
 }				t_enemy;
 
 typedef struct s_draw_params
@@ -80,5 +81,16 @@ bool		c_enemy_my(t_game *game, t_vector n_pos, t_vector dir, double padd);
 void		shoot_enemy(t_game *game);
 bool		is_in_bounds(t_game *game, int x, int y);
 bool		has_hit_wall(t_game *game, t_ray_data *ray);
+
+//add now
+bool		enemy_can_attack(t_enemy *enemy, t_game *game);
+void		enemy_attack_player(t_enemy *enemy, t_game *game);
+void		process_enemy_attacks(t_game *game);
+void		player_take_damage(t_game *game, int damage);
+
+void		init_damage_feedback(t_game *game);
+void		trigger_damage_effect(t_game *game);
+void		update_damage_effect(t_game *game);
+void		draw_damage_effect(t_game *game);
 
 #endif

@@ -41,6 +41,7 @@ void	add_enemy(t_game *game, t_vector pos)
 	new->enemy.dir = vector_create(0, 0);
 	new->enemy.texture = load_enemy_texture(game);
 	new->enemy.detection_radius = 5.0;
+	new->enemy.last_attack = 0.0; // Initialize last attack timestamp
 	new->next = NULL;
 	if (!game->enemies)
 		game->enemies = new;

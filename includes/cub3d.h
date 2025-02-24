@@ -90,6 +90,13 @@
 
 /* Structs */
 
+typedef struct s_damage_effect
+{
+	bool	active;
+	double	start_time;
+	double	duration;
+}	t_damage_effect;
+
 typedef struct s_player
 {
 	t_vector	pos;
@@ -141,6 +148,7 @@ typedef struct s_game
 	double			fps;
 	t_enemy_list	*enemies;
 	t_door_system	*door_system;	
+	t_damage_effect	damage_effect;
 }				t_game;
 
 void			cleanup_game(t_game *game);

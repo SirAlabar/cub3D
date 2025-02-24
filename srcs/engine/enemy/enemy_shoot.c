@@ -40,21 +40,40 @@ bool	is_shot_hitting_enemy(t_game *game, t_enemy *enemy)
 void	shoot_enemy(t_game *game)
 {
 	t_enemy_list	*current;
+	bool			hit_enemy;
 
+	hit_enemy = false;
 	current = game->enemies;
 	while (current != NULL)
 	{
-		if (current->enemy.alive
-			&& is_shot_hitting_enemy(game, &current->enemy))
+		if (current->enemy.alive && is_shot_hitting_enemy(game, &current->enemy))
 		{
+			hit_enemy = true;
 			current->enemy.health--;
+			
+			// Flash the enemy or provide visual feedback
+			// (could be implemented with a temporary color change)
+			
 			if (current->enemy.health <= 0)
 			{
 				current->enemy.alive = false;
 				current->enemy.health = 0;
+				
+				// Could add score increment here
+				// game->score += 100;
+				
+				// TODO: Add death animation or sound
 			}
-			return ;
+			
+			// Only hit one enemy per shot
+			return;
 		}
 		current = current->next;
+	}
+	
+	// If no enemy was hit, could play a miss sound or show a different effect
+	if (!hit_enemy)
+	{
+		// TODO: Add miss sound or effect
 	}
 }

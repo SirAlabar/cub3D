@@ -54,14 +54,20 @@ void	update_enemies(t_game *game)
 		if (current->enemy.alive)
 		{
 			calculate_enemy_distance(game, &current->enemy);
-			if (current->enemy.dist_to_player
-				<= current->enemy.detection_radius)
+			if (current->enemy.dist_to_player <= current->enemy.detection_radius)
 			{
 				update_enemy_position(&current->enemy, game, speed);
+				
+				// Check if enemy can attack player
+				if (enemy_can_attack(&current->enemy, game))
+				{
+					enemy_attack_player(&current->enemy, game);
+				}
 			}
 		}
 		else
 		{
+			// Handle dead enemy (could add animation, despawn timer, etc.)
 		}
 		current = current->next;
 	}
