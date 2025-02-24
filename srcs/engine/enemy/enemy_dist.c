@@ -28,9 +28,10 @@ void	calculate_enemy_distance(t_game *game, t_enemy *enemy)
 
 void	update_enemy_position(t_enemy *enemy, t_game *game, double speed)
 {
-	t_vector	movement;
-	t_vector	new_position;
-
+	t_vector movement;
+	t_vector new_position;
+	if (enemy->dist_to_player <= MIN_ENEMY_DISTANCE)
+		return;
 	movement = vector_mult(enemy->dir, speed);
 	new_position = enemy->pos;
 	new_position.x += movement.x;

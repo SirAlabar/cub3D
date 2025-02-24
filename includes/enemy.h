@@ -13,6 +13,8 @@
 #ifndef ENEMY_H
 # define ENEMY_H
 
+# define MIN_ENEMY_DISTANCE 1.5
+
 typedef struct s_sprite_data
 {
 	int		height;

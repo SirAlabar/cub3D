@@ -64,12 +64,9 @@ int	key_press(int keycode, t_game *game)
 		game->p1.keys.right = 1;
 	else if (keycode == KEY_SPACE || keycode == MOUSE_LEFT)
 	{
-		// Set firing state
 		game->p1.is_firing = 1;
 		game->p1.current_frame = 1;
 		game->p1.last_fire = get_time_ms();
-		
-		// Directly call shoot_enemy to ensure immediate shooting
 		shoot_enemy(game);
 	}
 	return (0);

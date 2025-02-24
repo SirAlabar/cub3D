@@ -13,30 +13,34 @@
 #include <cub3d.h>
 
 #define ENEMY_ATTACK_DAMAGE 10
-#define ENEMY_ATTACK_RANGE 1.0
+#define ENEMY_ATTACK_RANGE 2.0
 #define ENEMY_ATTACK_COOLDOWN 1000
 
-bool	enemy_can_attack(t_enemy *enemy, t_game *game)
+bool enemy_can_attack(t_enemy *enemy, t_game *game)
 {
-	double	current_time;
+    double current_time;
 
-	if (!enemy->alive)
-		return (false);
-		
-	// Check if enemy is within attack range
-	if (enemy->dist_to_player > ENEMY_ATTACK_RANGE)
-		return (false);
-		
-	// Check if cooldown has passed
-	current_time = get_time_ms();
-	if (current_time - enemy->last_attack < ENEMY_ATTACK_COOLDOWN)
-		return (false);
-		
-	// Check if enemy can see the player
-	if (!is_enemy_visible(game, enemy->pos))
-		return (false);
-		
-	return (true);
+    if (!enemy->alive)
+        return (false);
+        
+    // Check if enemy is within attack range
+    if (enemy->dist_to_player > ENEMY_ATTACK_RANGE)
+        return (false);
+    
+    // Only allow attack if enemy is at least MIN_ENEMY_DISTANCE away
+    if (enemy->dist_to_player < MIN_ENEMY_DISTANCE)
+        return (false);
+        
+    // Check if cooldown has passed
+    current_time = get_time_ms();
+    if (current_time - enemy->last_attack < ENEMY_ATTACK_COOLDOWN)
+        return (false);
+        
+    // Check if enemy can see the player
+    if (!is_enemy_visible(game, enemy->pos))
+        return (false);
+        
+    return (true);
 }
 
 void enemy_attack_player(t_enemy *enemy, t_game *game)
