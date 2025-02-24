@@ -44,10 +44,10 @@ typedef struct s_texture
 
 typedef struct s_scanline
 {
-    t_fixed32   y_ceil[WINDOW_WIDTH];
-    t_fixed32   y_floor[WINDOW_WIDTH];
-    t_fixed32   y_top[WINDOW_WIDTH];
-    t_fixed32   y_bottom[WINDOW_WIDTH];
+    int   y_ceil[WINDOW_WIDTH];
+    int   y_floor[WINDOW_WIDTH];
+    int   y_top[WINDOW_WIDTH];
+    int   y_bottom[WINDOW_WIDTH];
 }               t_scanline;
 
 typedef struct s_wall
