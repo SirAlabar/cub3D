@@ -6,16 +6,14 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:37:30 by marsoare          #+#    #+#             */
-/*   Updated: 2025/02/24 17:59:56 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:01:51 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include <cub3d.h>
 
 static t_bar	init_bar(void)
 {
 	t_bar	bar;
-
 	bar.width = MINIMAP_VIEW_SIZE * MINIMAP_CELL_SIZE + 20;
 	bar.height = 40;
 	bar.start_x = MINIMAP_PADDING + 770; // This positions it at the corner
@@ -31,7 +29,7 @@ void	draw_lifebar_hud(t_game *game, t_texture *image)
 	int		j;
 	int		x_offset;
 	int		y_offset;
-
+	
 	bar = init_bar();
 	
 	// Calculate offsets to position the HUD image correctly relative to the bar
@@ -56,7 +54,7 @@ static void	draw_health_bar_background(t_game *game)
 	t_bar	bar;
 	int		i;
 	int		j;
-
+	
 	bar = init_bar();
 	bar.color = 0x555555;
 	bar.width += 0;
@@ -77,15 +75,17 @@ static void	draw_health_bar_fill(t_game *game)
 	int		i;
 	int		j;
 	int		fill_width;
-
+	
 	bar = init_bar();
 	fill_width = (bar.width * game->p1.health) / 100;
 	
-	// Use original colors based on your code
-	if (game->p1.health > 50)
-		bar.color = 0xFF0000;
+	// Set color based on health percentage
+	if (game->p1.health > 70)
+		bar.color = 0x00FF00; // Green for high health
+	else if (game->p1.health > 30)
+		bar.color = 0xFFFF00; // Yellow for medium health
 	else
-		bar.color = 0x00FF00;
+		bar.color = 0xFF0000; // Red for low health
 	
 	i = -1;
 	while (++i < bar.height)
@@ -99,8 +99,8 @@ static void	draw_health_bar_fill(t_game *game)
 void	draw_health_bar(t_game *game)
 {
 	t_texture	*health;
-
-	(health = texture_create(game, "./assets/sprites/health/healthbar.xpm"));
+	
+	health = texture_create(game, "./assets/sprites/health/healthbar.xpm");
 	if (!health)
 	{
 		printf("Error\nFalha ao carregar a textura do HUD!\n");
