@@ -182,6 +182,6 @@ int				key_release(int keycode, t_game *game);
 int				key_press(int keycode, t_game *game);
 int				key_handler(int keycode, t_game *game);
 
-void	*validate_player_count(t_game *game);
+void			*validate_player_count(t_game *game);
 
 #endif
