@@ -43,7 +43,7 @@ typedef struct s_enemy
 	double		dist_to_player;
 	t_texture	*texture;
 	double		detection_radius;
-} t_enemy;
+}				t_enemy;
 
 typedef struct s_draw_params
 {
@@ -78,7 +78,7 @@ void		init_enemies(t_game *game);
 bool		c_enemy_mx(t_game *game, t_vector n_pos, t_vector dir, double padd);
 bool		c_enemy_my(t_game *game, t_vector n_pos, t_vector dir, double padd);
 void		shoot_enemy(t_game *game);
-bool	is_in_bounds(t_game *game, int x, int y);
-bool	has_hit_wall(t_game *game, t_ray_data *ray);
+bool		is_in_bounds(t_game *game, int x, int y);
+bool		has_hit_wall(t_game *game, t_ray_data *ray);
 
 #endif
