@@ -124,42 +124,33 @@ void render_bsp_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
 
 void draw_skybox(t_game *game)
 {
-    int x, y;
-    float pixel_per_angle;
-    unsigned int angle_offset;
+    t_vector_i pos;
     unsigned int view_angle;
+	unsigned int tex_x;
+	unsigned int tex_y;
+	int screen_pos;
+	unsigned int angle_offset;
     
-    // Pixels por ângulo BAM (valor float para precisão)
-    pixel_per_angle = (float)game->skybox_tex->width / ANG360;
-    
-    y = -1;
-    while (++y < WINDOW_HEIGHT)
+    pos.y = -1;
+    while (++pos.y < WINDOW_HEIGHT)
     {
-        x = -1;
-        while (++x < WINDOW_WIDTH)
+        pos.x = -1;
+        while (++pos.x < WINDOW_WIDTH)
         {
-            // Calcula offset do ângulo BAM baseado na posição X
-            float screen_ratio = (float)(x - WINDOW_WIDTH/2) / (WINDOW_WIDTH/2);
-            angle_offset = (unsigned int)(screen_ratio * (FOV/2));
-            
-            // Ângulo total de visão em BAM
+            screen_pos = pos.x - WINDOW_WIDTH/2;
+            angle_offset = (unsigned int)((long long)screen_pos * (FOV/2) / (WINDOW_WIDTH/2));
             view_angle = (game->p1.angle + angle_offset) & ANGLEMASK;
-            
-            // Mapeia ângulo BAM para coordenada X da textura
-            unsigned int tex_x = (unsigned int)(view_angle * pixel_per_angle) % game->skybox_tex->width;
-            unsigned int tex_y = (y * game->skybox_tex->height) / WINDOW_HEIGHT;
-            
-            // Verifica limites e desenha
+            tex_x = (unsigned int)((unsigned long long)view_angle * game->skybox_tex->width / ANG360) % game->skybox_tex->width;
+            tex_y = (pos.y * game->skybox_tex->height) / WINDOW_HEIGHT;
             if (tex_x < (unsigned int)game->skybox_tex->width &&
                 tex_y < (unsigned int)game->skybox_tex->height)
             {
-                draw_pixel(game, x, y, 
+                draw_pixel(game, pos.x, pos.y, 
                     get_texture_pixel(game->skybox_tex, tex_x, tex_y));
             }
         }
     }
 }
-
 
 
 int render_frame(t_game *game)
