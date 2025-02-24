@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:37:30 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/29 20:22:02 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:45:51 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,15 @@ static void	draw_health_bar_fill(t_game *game)
 	int		fill_width;
 
 	bar = init_bar();
+	// Calculate fill width based on player's current health percentage
 	fill_width = (bar.width * game->p1.health) / 100;
+	
+	// Use original colors based on your code
 	if (game->p1.health > 50)
 		bar.color = 0xFF0000;
 	else
 		bar.color = 0x00FF00;
+	
 	i = -1;
 	while (++i < bar.height)
 	{
@@ -102,4 +106,7 @@ void	draw_health_bar(t_game *game)
 	draw_health_bar_background(game);
 	draw_health_bar_fill(game);
 	draw_lifebar_hud(game, health);
+	
+	// Clean up the texture to prevent memory leaks
+	texture_destroy(&health, game->mlx);
 }
