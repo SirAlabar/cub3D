@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:37:30 by marsoare          #+#    #+#             */
-/*   Updated: 2025/02/24 17:45:51 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:59:56 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ static t_bar	init_bar(void)
 {
 	t_bar	bar;
 
-	bar.width = MINIMAP_VIEW_SIZE * MINIMAP_CELL_SIZE;
-	bar.height = 20;
-	bar.start_x = MINIMAP_PADDING;
-	bar.start_y = WINDOW_HEIGHT - MINIMAP_PADDING - bar.height;
+	bar.width = MINIMAP_VIEW_SIZE * MINIMAP_CELL_SIZE + 20;
+	bar.height = 40;
+	bar.start_x = MINIMAP_PADDING + 770; // This positions it at the corner
+	bar.start_y = WINDOW_HEIGHT - MINIMAP_PADDING - bar.height - 10;
 	return (bar);
 }
 
@@ -29,8 +29,15 @@ void	draw_lifebar_hud(t_game *game, t_texture *image)
 	int		color;
 	int		i;
 	int		j;
+	int		x_offset;
+	int		y_offset;
 
 	bar = init_bar();
+	
+	// Calculate offsets to position the HUD image correctly relative to the bar
+	x_offset = bar.start_x + bar.width - image->width + 4;
+	y_offset = bar.start_y - image->height + bar.height;
+	
 	i = -1;
 	while (++i < image->height)
 	{
@@ -39,8 +46,7 @@ void	draw_lifebar_hud(t_game *game, t_texture *image)
 		{
 			color = get_texture_pixel(image, j, i);
 			if (color != 0xFFC0CB)
-				draw_pixel(game, (WINDOW_WIDTH - image->width) - 30 + j,
-					bar.start_y - image->height + 30 + i, color);
+				draw_pixel(game, x_offset + j, y_offset + i, color);
 		}
 	}
 }
@@ -52,17 +58,16 @@ static void	draw_health_bar_background(t_game *game)
 	int		j;
 
 	bar = init_bar();
-	bar.color = 0xFF3000;
-	bar.start_y -= 40;
-	bar.start_x += 775;
-	bar.width += 20;
-	bar.height += 16;
+	bar.color = 0x555555;
+	bar.width += 0;
+	bar.height += 0;
+	
 	i = -1;
 	while (++i < bar.height)
 	{
 		j = -1;
 		while (++j < bar.width)
-			draw_pixel(game, bar.start_x + j, bar.start_y + i + 30, bar.color);
+			draw_pixel(game, bar.start_x + j, bar.start_y + i, bar.color);
 	}
 }
 
@@ -74,7 +79,6 @@ static void	draw_health_bar_fill(t_game *game)
 	int		fill_width;
 
 	bar = init_bar();
-	// Calculate fill width based on player's current health percentage
 	fill_width = (bar.width * game->p1.health) / 100;
 	
 	// Use original colors based on your code
@@ -88,7 +92,7 @@ static void	draw_health_bar_fill(t_game *game)
 	{
 		j = -1;
 		while (++j < fill_width)
-			draw_pixel(game, bar.start_x + j, bar.start_y + i + 30, bar.color);
+			draw_pixel(game, bar.start_x + j, bar.start_y + i, bar.color);
 	}
 }
 
