@@ -153,16 +153,16 @@ int	handle_mouse_move(int x, int y, t_game *game)
 	pos = vector_create(x, y);
 	center = vector_create(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 	reset_needed = (pos.x < WINDOW_WIDTH / 4 || pos.x > WINDOW_WIDTH * 3 / 4);
-	if (!reset_needed)
-	{
-		rotation = fixed32_mul(int_to_fixed32(game->last_mouse.x - pos.x), 
-		float_to_fixed32(MOUSE_SENSITIVITY));
-		rotation = fix_min(rotation, float_to_fixed32(MAX_MOUSE_ROTATION));
-		rotation = fix_max(rotation, -float_to_fixed32(MAX_MOUSE_ROTATION));
-		game->p1.angle += fixed32_mul(rotation, int_to_fixed32(ANG45));
-		game->p1.angle &= ANGLEMASK;
-		game->last_mouse = pos;
-	}
+    if (!reset_needed)
+    {
+        rotation = int_to_fixed32(game->last_mouse.x - pos.x);
+        rotation = fixed32_mul(rotation, MOUSE_SENSITIVITY);
+        rotation = fix_min(rotation, MAX_MOUSE_ROTATION);
+        rotation = fix_max(rotation, -MAX_MOUSE_ROTATION);
+        game->p1.angle += rotation;
+        game->p1.angle &= ANGLEMASK;
+        game->last_mouse = pos;
+    }
 	else
 	{
 		mlx_mouse_move(game->mlx, game->win, center.x, center.y);
