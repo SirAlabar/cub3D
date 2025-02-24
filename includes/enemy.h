@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:56:23 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/29 17:44:56 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:40:12 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,11 @@ bool		is_in_bounds(t_game *game, int x, int y);
 bool		has_hit_wall(t_game *game, t_ray_data *ray);
 
 //add now
+t_ray_data	init_ray_data(t_game *game, t_vector enemy_pos);
+void		draw_enemy_stripe(t_game *game, t_enemy *enemy,
+				t_sprite_data *s, int stripe);
+void		calculate_ray_step(t_ray_data *ray, t_vector ray_dir);
+void		draw_stripe_color(t_draw_params *p);
 bool		enemy_can_attack(t_enemy *enemy, t_game *game);
 void		enemy_attack_player(t_enemy *enemy, t_game *game);
 void		process_enemy_attacks(t_game *game);
