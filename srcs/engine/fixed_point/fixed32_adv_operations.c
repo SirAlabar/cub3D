@@ -32,7 +32,7 @@ t_fixed32	fixed32_sqrt(t_fixed32 value)
 	while (i > 0)
 	{
 		new_guess = fixed32_div(fixed32_add(fixed32_div(value, guess), guess),
-				int_to_fixed32(2));
+				1 << FIXED_POINT_BITS);
 		if (abs(new_guess - guess) <= 1)
 			break ;
 		guess = new_guess;
@@ -46,7 +46,7 @@ t_fixed32	fixed32_sqrt(t_fixed32 value)
   Angle is in binary angle measurement (BAM)
   Returns fixed point sine value between -1 and 1
  */
-t_fixed32	fixed32_sin(t_fixed32 angle)
+t_fixed32	fixed32_sin(unsigned int angle)
 {
 	double	float_angle;
 	double	sin_val;
@@ -61,7 +61,7 @@ t_fixed32	fixed32_sin(t_fixed32 angle)
   Angle is in binary angle measurement (BAM)
   Returns fixed point cosine value between -1 and 1
  */
-t_fixed32	fixed32_cos(t_fixed32 angle)
+t_fixed32	fixed32_cos(unsigned int angle)
 {
 	return (fixed32_sin(angle + ANG90));
 }
@@ -71,7 +71,7 @@ t_fixed32	fixed32_cos(t_fixed32 angle)
   Angle is in binary angle measurement (BAM)
   Returns fixed point tangent value
  */
-t_fixed32	fixed32_tan(t_fixed32 angle)
+t_fixed32	fixed32_tan(unsigned int angle)
 {
 	t_fixed32	cos_val;
 
@@ -85,14 +85,3 @@ t_fixed32	fixed32_tan(t_fixed32 angle)
 	return (fixed32_div(fixed32_sin(angle), cos_val));
 }
 
-t_fixed32	fixed32_atan2(t_fixed32 y, t_fixed32 x)
-{
-	float	float_y;
-	float	float_x;
-	float	result;
-
-	float_y = fixed32_to_float(y);
-	float_x = fixed32_to_float(x);
-	result = atan2(float_y, float_x);
-	return (float_to_fixed32(result));
-}

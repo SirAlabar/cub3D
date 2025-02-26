@@ -98,9 +98,9 @@ t_fixed32			fix_min(t_fixed32 a, t_fixed32 b);
 ** Advanced operations (fixed32_vec_adv_operations.c)
 */
 t_fixed32			fixed32_sqrt(t_fixed32 value);
-t_fixed32			fixed32_sin(t_fixed32 angle);
-t_fixed32			fixed32_cos(t_fixed32 angle);
-t_fixed32			fixed32_tan(t_fixed32 angle);
+t_fixed32			fixed32_sin(unsigned int angle);
+t_fixed32			fixed32_cos(unsigned int angle);
+t_fixed32			fixed32_tan(unsigned int angle);
 t_fixed32			fixed32_atan2(t_fixed32 y, t_fixed32 x);
 
 /*
@@ -130,8 +130,8 @@ t_fixed_vec32		fixed32_vec_limit(t_fixed_vec32 v, t_fixed32 max);
 */
 t_fixed_tables_8192	*init_fixed_tables_8192(void);
 void				destroy_fixed_tables_8192(t_fixed_tables_8192 *tables);
-t_fixed32			get_sin_8192(t_fixed_tables_8192 *tables, t_fixed32 angle);
-t_fixed32			get_cos_8192(t_fixed_tables_8192 *tables, t_fixed32 angle);
-t_fixed32			get_tan_8192(t_fixed_tables_8192 *tables, t_fixed32 angle);
+t_fixed32			get_sin_8192(t_fixed_tables_8192 *tables, unsigned int angle);
+t_fixed32			get_cos_8192(t_fixed_tables_8192 *tables, unsigned int angle);
+t_fixed32			get_tan_8192(t_fixed_tables_8192 *tables, unsigned int angle);
 
 #endif

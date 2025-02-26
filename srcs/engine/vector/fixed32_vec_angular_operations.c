@@ -12,15 +12,6 @@
 
 #include <cub3d.h>
 
-/*
- * Calculates heading (angle) of vector
- * Returns angle in binary angle measurement (BAM)
- * Uses atan2 lookup table for efficiency
- */
-t_fixed32	fixed32_vec_heading(t_fixed_vec32 v)
-{
-	return (fixed32_atan2(v.y, v.x));
-}
 
 /*
  * Rotates vector by given angle

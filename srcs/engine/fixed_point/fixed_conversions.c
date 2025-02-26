@@ -41,9 +41,9 @@ t_fixed32	float_to_fixed32(float value)
  */
 t_fixed32	int_to_fixed32(int value)
 {
-	int64_t	temp;
+	t_fixed64	temp;
 
-	temp = (int64_t)value * FIXED_POINT_SCALE;
+	temp = (t_fixed64)value << FIXED_POINT_BITS;
 	if (temp > INT32_MAX)
 		return (INT32_MAX);
 	if (temp < INT32_MIN)
@@ -57,7 +57,7 @@ t_fixed32	int_to_fixed32(int value)
  */
 float	fixed32_to_float(t_fixed32 value)
 {
-	return ((float)value / FIXED_POINT_SCALE);
+	return ((float)(value >> FIXED_POINT_BITS));
 }
 
 /*

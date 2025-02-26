@@ -17,7 +17,7 @@
  * Uses bit shifting for fast index calculation
  * Falls back to regular calculation if tables unavailable
  */
-t_fixed32	get_sin_8192(t_fixed_tables_8192 *tables, t_fixed32 angle)
+t_fixed32	get_sin_8192(t_fixed_tables_8192 *tables, unsigned int angle)
 {
 	int	index;
 
@@ -32,7 +32,7 @@ t_fixed32	get_sin_8192(t_fixed_tables_8192 *tables, t_fixed32 angle)
  * cos(x) = sin(x + π/2)
  * More efficient than separate cosine table
  */
-t_fixed32	get_cos_8192(t_fixed_tables_8192 *tables, t_fixed32 angle)
+t_fixed32	get_cos_8192(t_fixed_tables_8192 *tables, unsigned int angle)
 {
 	if (!tables || !tables->is_init)
 		return (fixed32_cos(angle));
@@ -44,7 +44,7 @@ t_fixed32	get_cos_8192(t_fixed_tables_8192 *tables, t_fixed32 angle)
  * Direct table lookup for better performance
  * Falls back to calculation if tables unavailable
  */
-t_fixed32	get_tan_8192(t_fixed_tables_8192 *tables, t_fixed32 angle)
+t_fixed32	get_tan_8192(t_fixed_tables_8192 *tables, unsigned int angle)
 {
 	int	index;
 
