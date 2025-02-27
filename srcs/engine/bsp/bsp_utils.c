@@ -75,18 +75,20 @@ static t_fixed_vec32	calculate_normal(t_fixed_vec32 start, t_fixed_vec32 end)
 ** Calculates and stores the normal vector
 ** Returns NULL if allocation fails
 */
-t_bsp_line	*create_bsp_line(t_fixed_vec32 start, t_fixed_vec32 end, int type)
+t_bsp_line *create_bsp_line(t_fixed_vec32 start, t_fixed_vec32 end, int type)
 {
-	t_bsp_line	*line;
-
-	line = ft_calloc(1, sizeof(t_bsp_line));
-	if (!line)
-		return (NULL);
-	line->start = start;
-	line->end = end;
-	line->type = type;
-	line->normal = calculate_normal(start, end);
-	return (line);
+    t_bsp_line *line;
+    line = ft_calloc(1, sizeof(t_bsp_line));
+    if (!line)
+        return (NULL);
+    line->start = start;
+    line->end = end;
+    line->type = type;
+    line->normal = calculate_normal(start, end);
+    line->linedef_index = 0;
+    line->sector_id = 0;
+    line->neighbor_sector_id = -1;
+    return (line);
 }
 
 /*

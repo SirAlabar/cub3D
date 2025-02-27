@@ -25,6 +25,8 @@
 # define BSP_MAX_DEPTH        12
 # define BSP_MIN_NODE_SIZE    4096
 # define NUM_THREADS		  8 
+# define MAX_PORTAL_QUEUE 32 
+# define MAX_PORTAL_DEPTH 8  
 
 /* Fixed point value for collision detection (1/16) */
 # define COLLISION_THRESHOLD   4096
@@ -42,6 +44,9 @@ typedef struct s_bsp_line
 	t_fixed_vec32		end;
 	t_fixed_vec32		normal;
 	int					type;
+	int              	linedef_index;
+    int              	sector_id;
+	int                 neighbor_sector_id; 
 }						t_bsp_line;
 
 /*
@@ -138,6 +143,20 @@ typedef struct s_bsp_metrics
 	int					back;
 	int					split;
 }						t_bsp_metrics;
+
+typedef struct s_view_data {
+    t_fixed_vec32 t1;
+    t_fixed_vec32 t2;
+    int screen_x1;
+    int screen_x2;
+} t_view_data;
+
+typedef struct s_portal_item {
+    int sector_id; 
+    int x_min;             
+    int x_max;
+    int depth; 
+} t_portal_item;
 
 /*
 ** Function prototypes

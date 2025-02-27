@@ -18,6 +18,8 @@
 # include <sys/time.h>
 # include <types.h>
 
+
+
 typedef struct s_vector_i
 {
 	int					x;
@@ -50,26 +52,27 @@ typedef struct s_scanline
     int   y_bottom[WINDOW_WIDTH];
 }               t_scanline;
 
-typedef struct s_wall
-{
-    // Coordenadas da coluna na tela
-    int             screen_x;    // Posição x na tela
-    int             screen_y1;   // Topo da coluna na tela
-    int             screen_y2;   // Base da coluna na tela
+
+// typedef struct s_wall
+// {
+//     // Coordenadas da coluna na tela
+//     int             screen_x;    // Posição x na tela
+//     int             screen_y1;   // Topo da coluna na tela
+//     int             screen_y2;   // Base da coluna na tela
     
-    // Dados de profundidade e escala
-    t_fixed32       scale;      // Fator de escala da coluna
-    t_fixed32       distance;   // Distância da coluna ao jogador
+//     // Dados de profundidade e escala
+//     t_fixed32       scale;      // Fator de escala da coluna
+//     t_fixed32       distance;   // Distância da coluna ao jogador
     
-    // Propriedades da textura
-    t_texture      *texture;    // Ponteiro para a textura
-    t_fixed32       tex_u;      // Coordenada U da textura
-    t_fixed32       tex_step;   // Passo da textura por pixel
+//     // Propriedades da textura
+//     t_texture      *texture;    // Ponteiro para a textura
+//     t_fixed32       tex_u;      // Coordenada U da textura
+//     t_fixed32       tex_step;   // Passo da textura por pixel
     
-    // Referências necessárias
-    t_scanline     *buffer;     // Buffer de scanline
-    t_game         *game;       // Referência ao estado do jogo
-}                  t_wall;
+//     // Referências necessárias
+//     t_scanline     *buffer;     // Buffer de scanline
+//     t_game         *game;       // Referência ao estado do jogo
+// }                  t_wall;
 
 /*
  * Core Engine Functions
@@ -101,8 +104,7 @@ void render_wall_segment(t_game *game, t_bsp_line *line, t_scanline *buffer);
 
 // scanline_rendering.c
 void					init_scanline_buffer(t_scanline *buffer);
-void					set_wall_tex_coords(t_wall *wall);
-void					init_wall_drawing(t_wall *wall);
+
 
 // draw_weapon
 void					draw_weapon(t_game *game);

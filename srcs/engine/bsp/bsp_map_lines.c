@@ -57,11 +57,13 @@ bool extract_map_lines(t_doom_map *map, t_bsp_line ***lines, int *num_lines)
     bsp_lines = ft_calloc(*num_lines, sizeof(t_bsp_line *));
     if (!bsp_lines)
         return (false);
-
     i = -1;
     while (++i < *num_lines)
     {
-        bsp_lines[i] = create_line_from_linedef(map, &map->linedefs[i]);
+        t_linedef *current = &map->linedefs[i];
+        bsp_lines[i] = create_bsp_line(map->vertices[current->vertex1].pos,
+                                      map->vertices[current->vertex2].pos, 
+                                      current->type);
         if (!bsp_lines[i])
         {
             while (--i >= 0)
@@ -69,12 +71,28 @@ bool extract_map_lines(t_doom_map *map, t_bsp_line ***lines, int *num_lines)
             free(bsp_lines);
             return (false);
         }
+        bsp_lines[i]->linedef_index = i;
+        set_sector_info(map, current, bsp_lines[i]);
     }
-
     *lines = bsp_lines;
     return (true);
 }
 */
+static void set_sector_info(t_doom_map *map, t_linedef *linedef, t_bsp_line *line)
+{
+    if (linedef->front_sidedef >= 0 && 
+        linedef->front_sidedef < map->sidedef_count)
+        line->sector_id = map->sidedefs[linedef->front_sidedef].sector;
+    else
+        line->sector_id = -1;
+    
+    if (linedef->back_sidedef >= 0 && 
+        linedef->back_sidedef < map->sidedef_count)
+        line->neighbor_sector_id = map->sidedefs[linedef->back_sidedef].sector;
+    else
+        line->neighbor_sector_id = -1;
+}
+
 bool extract_map_lines(t_doom_map *map, t_bsp_line ***lines, int *num_lines)
 {
     t_bsp_line **bsp_lines;
@@ -132,6 +150,8 @@ bool extract_map_lines(t_doom_map *map, t_bsp_line ***lines, int *num_lines)
             free(bsp_lines);
             return (false);
         }
+        bsp_lines[i]->linedef_index = i;
+        set_sector_info(map, current_linedef, bsp_lines[i]);
     }
 
     *lines = bsp_lines;

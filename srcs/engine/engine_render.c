@@ -193,7 +193,7 @@ void draw_skybox(t_game *game)
     }
 }
 
-
+/*
 int render_frame(t_game *game)
 {
 
@@ -214,4 +214,4 @@ int render_frame(t_game *game)
     update_fps(game);
     swap_buffers(game);
     return (0);
-}
+}*/

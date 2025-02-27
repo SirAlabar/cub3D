@@ -72,8 +72,8 @@ void debug_transform_details(t_fixed_vec32 p, t_game *game,
     printf("Player pos (fixed): (%d, %d) (int): (%d, %d)\n",
            game->p1.pos.x, game->p1.pos.y,
            fixed32_to_int(game->p1.pos.x), fixed32_to_int(game->p1.pos.y));
-    printf("Player angle (raw): %d (deg): %f\n",
-           game->p1.angle, (float)game->p1.angle * 360.0f / ANG360);
+    // printf("Player angle (raw): %d (deg): %f\n",
+    //        game->p1.angle, (float)game->p1.angle * 360.0f / ANG360);
     printf("Input point (fixed): (%d, %d) (int): (%d, %d)\n",
            p.x, p.y,
            fixed32_to_int(p.x), fixed32_to_int(p.y));

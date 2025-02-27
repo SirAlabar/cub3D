@@ -73,6 +73,12 @@ static bool	allocate_split_lines(t_bsp_line **front, t_bsp_line **back,
 		*back = NULL;
 		return (false);
 	}
+    (*front)->linedef_index = line->linedef_index;
+    (*front)->sector_id = line->sector_id;
+    (*front)->neighbor_sector_id = line->neighbor_sector_id;
+    (*back)->linedef_index = line->linedef_index;
+    (*back)->sector_id = line->sector_id;
+    (*back)->neighbor_sector_id = line->neighbor_sector_id;
 	return (true);
 }
 

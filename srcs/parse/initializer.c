@@ -173,7 +173,7 @@ bool	init_game(t_game *game)
 		return (false);
 	if (!init_skybox(game))
 		return (false);
-	game->mouse_sensi = float_to_fixed32(MOUSE_SENSITIVITY);
+	game->mouse_sensi = MOUSE_SENSITIVITY;
 	game->last_mouse = vector_create(-1, -1);
 	
 	return (true);
