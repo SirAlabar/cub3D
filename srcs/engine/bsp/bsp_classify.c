@@ -120,3 +120,57 @@ t_bsp_side	bsp_classify_line(t_bsp_line *line, t_bsp_line *partition)
 		return (start_side);
 	return (BSP_SPANNING);
 }
+
+/*
+** Finds best partition line using multiple random seeds
+** Tests different configurations for optimal balance
+** Returns line that creates most balanced tree
+*/
+t_bsp_line	*choose_partition(t_bsp_line **lines, int num_lines)
+{
+	t_bsp_line	*best_line;
+	t_fixed32	best_score;
+	t_fixed32	curr_score;
+	int			i;
+	unsigned int seed;
+
+	if (!lines || num_lines <= 0)
+		return (NULL);
+	seed = find_best_seed(lines, num_lines, 0);
+	shuffle_lines(lines, num_lines, seed);
+	best_line = lines[0];
+	best_score = eval_partition(best_line, lines, num_lines, 0);
+	i = 1;
+	while (i < num_lines)
+	{
+		curr_score = eval_partition(lines[i], lines, num_lines, 0);
+		if (curr_score < best_score)
+		{
+			best_score = curr_score;
+			best_line = lines[i];
+		}
+		i++;
+	}
+	return (best_line);
+}
+
+t_fixed32	eval_seed(unsigned int seed, t_bsp_line **lines,
+	int num_lines)
+{
+	t_bsp_line	**shuffled;
+	t_bsp_line	*partition;
+	t_fixed32	score;
+	int			i;
+
+	shuffled = (t_bsp_line **)malloc(sizeof(t_bsp_line *) * num_lines);
+	if (!shuffled)
+	return (INT32_MAX);
+	i = -1;
+	while (++i < num_lines)
+		shuffled[i] = lines[i];
+	shuffle_lines(shuffled, num_lines, seed);
+	partition = shuffled[0];
+	score = eval_partition(partition, shuffled, num_lines, 0);
+	free(shuffled);
+	return (score);
+}

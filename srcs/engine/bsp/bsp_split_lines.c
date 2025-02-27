@@ -15,7 +15,7 @@
 /*
 ** Initializes arrays for split operation
 ** Returns false if allocation fails
-*
+*/
 static bool	init_split_arrays(t_bsp_data *data, int num_lines)
 {
 	data->front_lines = malloc(sizeof(t_bsp_line *) * num_lines * 2);
@@ -31,14 +31,14 @@ static bool	init_split_arrays(t_bsp_data *data, int num_lines)
 	return (true);
 }
 
-*
+/*
 ** Handles line addition after classification or splitting
 ** Updates front and back line counts
-*
+*/
 static void	add_line_to_side(t_bsp_data *data, t_bsp_line *line,
 		t_bsp_side side)
 {
-	if (side == BSP_FRONT)
+	if (side == BSP_FRONT || side == BSP_COLINEAR)
 	{
 		data->front_lines[data->num_front] = line;
 		data->num_front++;
@@ -50,10 +50,10 @@ static void	add_line_to_side(t_bsp_data *data, t_bsp_line *line,
 	}
 }
 
-*
+/*
 ** Processes a single line during split operation
 ** Either adds the line to a side or splits it if spanning
-*
+*/
 static bool process_line(t_bsp_data *data, t_bsp_line *line,
         t_bsp_line *partition)
 {
@@ -62,37 +62,37 @@ static bool process_line(t_bsp_data *data, t_bsp_line *line,
     t_bsp_line  *back_split = NULL;
 
     side = bsp_classify_line(line, partition);
-
-    switch (side) {
-        case BSP_FRONT:
-        case BSP_BACK:
-            add_line_to_side(data, line, side);
-            break;
-        case BSP_SPANNING:
-            if (split_bsp_line(line, partition, &front_split, &back_split)) {
-                if (front_split)
-                    add_line_to_side(data, front_split, BSP_FRONT);
-                if (back_split)
-                    add_line_to_side(data, back_split, BSP_BACK);
-            } else {
-                if (bsp_classify_point(line->start, partition) == BSP_FRONT ||
-                    bsp_classify_point(line->end, partition) == BSP_FRONT)
-                    add_line_to_side(data, line, BSP_FRONT);
-                else
-                    add_line_to_side(data, line, BSP_BACK);
-            }
-            break;
-        default:
-            add_line_to_side(data, line, BSP_FRONT);
-            break;
+    if (side == BSP_FRONT || side == BSP_BACK || side == BSP_COLINEAR)
+    {
+        add_line_to_side(data, line, side);
+        return (true);
     }
-    return true;
+    else if (side == BSP_SPANNING)
+    {
+        if (split_bsp_line(line, partition, &front_split, &back_split))
+        {
+            if (front_split)
+                add_line_to_side(data, front_split, BSP_FRONT);
+            if (back_split)
+                add_line_to_side(data, back_split, BSP_BACK);
+            return (true);
+        }
+        else
+        {
+            if (bsp_classify_point(line->start, partition) == BSP_FRONT)
+                add_line_to_side(data, line, BSP_FRONT);
+            else
+                add_line_to_side(data, line, BSP_BACK);
+            return (true);
+        }
+    }
+    return (false);
 }
 
-*
+/*
 ** Splits a set of lines into front and back groups
 ** based on their position relative to partition
-*
+*/
 bool	split_lines(t_bsp_line *partition, t_bsp_line **lines, int num_lines,
 		t_bsp_data *data)
 {
@@ -111,53 +111,4 @@ bool	split_lines(t_bsp_line *partition, t_bsp_line **lines, int num_lines,
 		i++;
 	}
 	return (true);
-}*/
-
-bool split_lines(t_bsp_line *partition, t_bsp_line **lines, int num_lines, t_bsp_data *data)
-{
-    int i;
-    t_bsp_side side;
-
-    ft_printf("Splitting lines using partition (%d,%d) -> (%d,%d)\n",
-        fixed32_to_int(partition->start.x),
-        fixed32_to_int(partition->start.y),
-        fixed32_to_int(partition->end.x),
-        fixed32_to_int(partition->end.y));
-
-    // Allocate arrays
-    data->front_lines = malloc(sizeof(t_bsp_line *) * num_lines);
-    data->back_lines = malloc(sizeof(t_bsp_line *) * num_lines);
-    if (!data->front_lines || !data->back_lines)
-    {
-        free(data->front_lines);
-        free(data->back_lines);
-        return (false);
-    }
-
-    data->num_front = 0;
-    data->num_back = 0;
-
-    // Split lines
-    for (i = 0; i < num_lines; i++)
-    {
-        if (lines[i] == partition)
-            continue;
-
-        side = bsp_classify_line(lines[i], partition);
-        if (side == BSP_FRONT || side == BSP_COLINEAR)
-            data->front_lines[data->num_front++] = lines[i];
-        else if (side == BSP_BACK)
-            data->back_lines[data->num_back++] = lines[i];
-        else
-        {
-            // Handle spanning case if needed
-            // For now, put in front
-            data->front_lines[data->num_front++] = lines[i];
-        }
-    }
-
-    ft_printf("Split result: %d front lines, %d back lines\n",
-        data->num_front, data->num_back);
-
-    return (true);
 }

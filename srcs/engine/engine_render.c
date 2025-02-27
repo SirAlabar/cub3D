@@ -68,58 +68,99 @@ void draw_background(t_game *game)
     }
 }*/
 
+static bool	is_segment_visible(t_fixed_vec32 v1, t_fixed_vec32 v2)
+{
+	t_fixed32	angle1;
+	t_fixed32	angle2;
+	t_fixed32	half_fov;
+
+	// Se ambos pontos estão atrás da câmera, o segmento não é visível
+	if (v1.y <= 0 && v2.y <= 0)
+		return (false);
+	
+	// Se um ponto está atrás da câmera, precisamos recortar (simplificado)
+	if (v1.y <= 0 || v2.y <= 0)
+		return (true);
+	
+	// Verificação do campo de visão horizontal
+	half_fov = FOV >> 1;
+	angle1 = fixed32_mul(v1.y, fixed32_tan(FOV >> 1));
+	angle2 = fixed32_mul(v2.y, fixed32_tan(FOV >> 1));
+	
+	// Se ambos ângulos estão fora do FOV no mesmo lado, o segmento não é visível
+	if ((angle1 > half_fov && angle2 > half_fov) || 
+		(angle1 < -half_fov && angle2 < -half_fov))
+		return (false);
+	
+	return (true);
+}
+
+static void render_leaf_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
+{
+	int			i;
+	t_fixed_vec32 v1;
+	t_fixed_vec32 v2;
+
+	i = -1;
+	while (++i < node->num_lines)
+	{
+		if (node->lines[i])
+		{
+			v1 = transform_point(node->lines[i]->start, game);
+			v2 = transform_point(node->lines[i]->end, game);
+			if (is_segment_visible(v1, v2))
+				render_wall_segment(game, node->lines[i], buffer);
+		}
+	}
+}
 void render_bsp_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
 {
-    t_bsp_side side;
-    int i;
+	t_bsp_side	side;
+	t_fixed_vec32 v1;
+	t_fixed_vec32 v2;
 
-    if (!node)
-        return;
+	if (!node)
+		return;
 
-    if (node->partition)
-    {
-        side = bsp_classify_point(game->p1.pos, node->partition);
-        // printf("Player classified as %s relative to partition\n",
-        //     side == BSP_FRONT ? "FRONT" :
-        //     side == BSP_BACK ? "BACK" :
-        //     side == BSP_COLINEAR ? "COLINEAR" : "SPANNING");
-        
-        // Renderiza de trás pra frente
-        if (side == BSP_FRONT)
-        {
-            render_bsp_node(game, node->back, buffer);
-            
-            // Renderiza linhas do nó atual
-            for (i = 0; i < node->num_lines; i++)
-                if (node->lines[i]) {
-                    // printf("Rendering line %d in FRONT node\n", i);
-                    render_wall_segment(game, node->lines[i], buffer);
-                }
-            
-            render_bsp_node(game, node->front, buffer);
-        }
-        else // BSP_BACK ou BSP_COLINEAR
-        {
-            render_bsp_node(game, node->front, buffer);
-            
-            // Renderiza linhas do nó atual
-            for (i = 0; i < node->num_lines; i++)
-                if (node->lines[i]) {
-                    // printf("Rendering line %d in BACK node\n", i);
-                    render_wall_segment(game, node->lines[i], buffer);
-                }
-            
-            render_bsp_node(game, node->back, buffer);
-        }
-    }
-    // Nó folha - apenas renderiza suas linhas
-    else
-    {
-        // printf("Rendering leaf node with %d lines\n", node->num_lines);
-        for (i = 0; i < node->num_lines; i++)
-            if (node->lines[i])
-                render_wall_segment(game, node->lines[i], buffer);
-    }
+	// Se este é um nó interno com um segmento de partição
+	if (node->partition)
+	{
+		side = bsp_classify_point(game->p1.pos, node->partition);
+		
+		// Renderiza na ordem correta (de trás para frente)
+		if (side == BSP_FRONT)
+		{
+			// Primeiro renderiza o lado "back"
+			render_bsp_node(game, node->back, buffer);
+			
+			// Depois renderiza apenas o segmento de partição deste nó
+			v1 = transform_point(node->partition->start, game);
+			v2 = transform_point(node->partition->end, game);
+			if (is_segment_visible(v1, v2))
+				render_wall_segment(game, node->partition, buffer);
+			
+			// Por último, renderiza o lado "front"
+			render_bsp_node(game, node->front, buffer);
+		}
+		else // BSP_BACK ou BSP_COLINEAR
+		{
+			// Primeiro renderiza o lado "front"
+			render_bsp_node(game, node->front, buffer);
+			
+			// Depois renderiza apenas o segmento de partição deste nó
+			v1 = transform_point(node->partition->start, game);
+			v2 = transform_point(node->partition->end, game);
+			if (is_segment_visible(v1, v2))
+				render_wall_segment(game, node->partition, buffer);
+			
+			// Por último, renderiza o lado "back"
+			render_bsp_node(game, node->back, buffer);
+		}
+	}
+	else // Nó folha - renderiza todos os segmentos neste nó
+	{
+		render_leaf_node(game, node, buffer);
+	}
 }
 
 void draw_skybox(t_game *game)
@@ -132,7 +173,7 @@ void draw_skybox(t_game *game)
 	unsigned int angle_offset;
     
     pos.y = -1;
-    while (++pos.y < WINDOW_HEIGHT)
+    while (++pos.y < WINDOW_HEIGHT >> 1)
     {
         pos.x = -1;
         while (++pos.x < WINDOW_WIDTH)
@@ -140,8 +181,8 @@ void draw_skybox(t_game *game)
             screen_pos = pos.x - WINDOW_WIDTH/2;
             angle_offset = (unsigned int)((long long)screen_pos * (FOV/2) / (WINDOW_WIDTH/2));
             view_angle = (game->p1.angle + angle_offset) & ANGLEMASK;
-            tex_x = (unsigned int)((unsigned long long)view_angle * game->skybox_tex->width / ANG360) % game->skybox_tex->width;
-            tex_y = (pos.y * game->skybox_tex->height) / WINDOW_HEIGHT;
+			tex_x = ((view_angle * (unsigned long long)game->skybox_tex->width) / ANG360) % game->skybox_tex->width;
+            tex_y = (pos.y * game->skybox_tex->height) / (WINDOW_HEIGHT >> 1);
             if (tex_x < (unsigned int)game->skybox_tex->width &&
                 tex_y < (unsigned int)game->skybox_tex->height)
             {

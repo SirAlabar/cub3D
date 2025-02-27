@@ -19,11 +19,12 @@
 # include <libft.h>
 
 /* BSP Configuration */
-# define BSP_WEIGHT_FACTOR     4
+# define BSP_WEIGHT_FACTOR    4
 # define BSP_MIN_SEED         0
-# define BSP_MAX_SEED         100
+# define BSP_MAX_SEED         32000
 # define BSP_MAX_DEPTH        12
-# define BSP_MIN_NODE_SIZE    4096 
+# define BSP_MIN_NODE_SIZE    4096
+# define NUM_THREADS		  8 
 
 /* Fixed point value for collision detection (1/16) */
 # define COLLISION_THRESHOLD   4096
@@ -118,6 +119,25 @@ typedef enum e_bsp_side
 	BSP_SPANNING = 0,
 	BSP_COLINEAR = 2
 }						t_bsp_side;
+
+typedef struct s_seed_data
+{
+	unsigned int		start_seed;
+	unsigned int		end_seed;
+	t_bsp_line			**lines;
+	int					num_lines;
+	unsigned int		best_seed;
+	t_fixed32			best_score;
+	int					thread_id;
+	pthread_mutex_t		*mutex;
+}						t_seed_data;
+
+typedef struct s_bsp_metrics
+{
+	int					front;
+	int					back;
+	int					split;
+}						t_bsp_metrics;
 
 /*
 ** Function prototypes

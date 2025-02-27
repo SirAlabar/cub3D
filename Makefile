@@ -23,6 +23,7 @@ NAME      = cub3D
 CC      = cc
 FLAGS   = -Wall -Wextra -Werror -g -Iincludes
 IFLAGS  = -Iincludes/ -I${LIBFT_DIR}/src -I${MLX_DIR}
+ASANFLAGS = -fsanitize=address,leak,undefined -fno-omit-frame-pointer -g
 LIBFT   = ${LIBFT_DIR}/src/libft.a
 MLX     = ${MLX_DIR}/libmlx.a
 

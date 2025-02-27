@@ -55,54 +55,113 @@ void	shuffle_lines(t_bsp_line **lines, int count, unsigned int seed)
 }
 
 
-t_fixed32	evaluate_seed(t_bsp_line **lines, int count, 
-						unsigned int seed, int depth)
+static t_fixed32	eval_seed_quality(unsigned int seed, t_bsp_line **lines,
+	int num_lines)
 {
-	t_bsp_line	**test_lines;
-	t_fixed32	total_score;
-	int			i;
-	int			test_count;
+	t_bsp_line		**test_lines;
+	t_bsp_line		*partition;
+	t_count_data	count;
+	t_fixed32		score;
+	int				i;
 
-	test_lines = ft_calloc(count, sizeof(t_bsp_line *));
+	init_count_data(&count);
+	test_lines = ft_calloc(num_lines, sizeof(t_bsp_line *));
 	if (!test_lines)
 		return (INT32_MAX);
-	ft_memcpy(test_lines, lines, sizeof(t_bsp_line *) * count);
-	shuffle_lines(test_lines, count, seed);
-	total_score = 0;
-	test_count = count;
-	if (count >= 5)
-		test_count = 5;
-	i = 0;
-	while (i < test_count)
+	i = -1;
+	while (++i < num_lines)
+		test_lines[i] = lines[i];
+	shuffle_lines(test_lines, num_lines, seed);
+	partition = test_lines[0];
+	i = -1;
+	while (++i < num_lines)
 	{
-		total_score = fixed32_add(total_score,
-				eval_partition(test_lines[i], lines, count, depth));
-		i++;
+		if (test_lines[i] != partition)
+		count_line_sides(test_lines[i], partition, &count);
 	}
+	score = int_to_fixed32(abs(count.back - count.front) + 
+	count.split * SPLIT_PENALTY);
 	free(test_lines);
-	return (fixed32_div(total_score, int_to_fixed32(test_count)));
+	return (score);
+}
+
+static void	*find_seed_thread(void *arg)
+{
+	t_seed_data		*data;
+	unsigned int	seed;
+	t_fixed32		score;
+	t_fixed32		best_score;
+	unsigned int	best_seed;
+
+	data = (t_seed_data *)arg;
+	best_score = INT32_MAX;
+	best_seed = data->start_seed;
+	seed = data->start_seed - 1;
+	while (++seed < data->end_seed)
+	{
+		score = eval_seed_quality(seed, data->lines, data->num_lines);
+		if (score < best_score)
+		{
+			best_score = score;
+			best_seed = seed;
+		}
+	}
+	data->best_score = best_score;
+	data->best_seed = best_seed;
+	return (NULL);
+}
+
+static unsigned int	get_best_seed_from_threads(t_seed_data *thread_data,
+	int num_threads)
+{
+	int				i;
+	unsigned int	best_seed;
+	t_fixed32		best_score;
+
+	best_score = INT32_MAX;
+	best_seed = BSP_MIN_SEED;
+	i = -1;
+	while (++i < num_threads)
+	{
+		if (thread_data[i].best_score < best_score)
+		{
+			best_score = thread_data[i].best_score;
+			best_seed = thread_data[i].best_seed;
+		}
+	}
+	return (best_seed);
 }
 
 unsigned int	find_best_seed(t_bsp_line **lines, int count, int depth)
 {
-	unsigned int	best_seed;
-	t_fixed32		best_score;
-	int				attempts;
-	unsigned int	current_seed;
-	t_fixed32		current_score;
+	pthread_t		threads[NUM_THREADS];
+	t_seed_data		thread_data[NUM_THREADS];
+	int				i;
+	unsigned int	range;
+	pthread_mutex_t	mutex;
 
-	best_seed = generate_random_seed();
-	best_score = evaluate_seed(lines, count, best_seed, depth);
-	attempts = 30;
-	while (attempts-- > 0)
+	if (depth > 0)
+		return (generate_random_seed());
+	pthread_mutex_init(&mutex, NULL);
+	range = (BSP_MAX_SEED - BSP_MIN_SEED) / NUM_THREADS;
+	i = -1;
+	while (++i < NUM_THREADS)
 	{
-		current_seed = generate_random_seed();
-		current_score = evaluate_seed(lines, count, current_seed, depth);
-		if (current_score < best_score)
-		{
-			best_score = current_score;
-			best_seed = current_seed;
-		}
+		thread_data[i].start_seed = BSP_MIN_SEED + i * range;
+		thread_data[i].end_seed = (i == NUM_THREADS - 1) ? 
+			BSP_MAX_SEED : BSP_MIN_SEED + (i + 1) * range;
+		thread_data[i].lines = lines;
+		thread_data[i].num_lines = count;
+		thread_data[i].best_seed = thread_data[i].start_seed;
+		thread_data[i].best_score = INT32_MAX;
+		thread_data[i].thread_id = i;
+		thread_data[i].mutex = &mutex;
+		pthread_create(&threads[i], NULL, find_seed_thread, &thread_data[i]);
 	}
-	return (best_seed);
+	i = -1;
+	while (++i < NUM_THREADS)
+		pthread_join(threads[i], NULL);
+	pthread_mutex_destroy(&mutex);
+	ft_printf("Busca por seed concluída em %d threads\n", NUM_THREADS);
+	return (get_best_seed_from_threads(thread_data, NUM_THREADS));
 }

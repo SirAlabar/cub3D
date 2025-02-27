@@ -153,6 +153,7 @@ int	render_frame(t_game *game);
 void swap_buffers(t_game *game);
 
 
+t_fixed_vec32 transform_point(t_fixed_vec32 p, t_game *game);
 
 
 

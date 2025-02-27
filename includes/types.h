@@ -3,6 +3,7 @@
 
 # include <stdint.h>
 # include <stdbool.h>
+#include <pthread.h>
 
 /* Forward declarations of all major structs */
 typedef struct s_game t_game;

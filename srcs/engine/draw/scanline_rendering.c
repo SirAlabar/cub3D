@@ -124,18 +124,18 @@ void debug_scanline_details(int x, int top, int bottom, int h, t_fixed32 depth) 
     }
 }
 
-void debug_after_wall_projection(int x1, int x2, int h1, int h2) {
-    if (!g_debug.enabled) return;
+// void debug_after_wall_projection(int x1, int x2, int h1, int h2) {
+//     if (!g_debug.enabled) return;
    
-    g_debug.wall_debug.x1_screen = x1;
-    g_debug.wall_debug.x2_screen = x2;
-    g_debug.wall_debug.h1_screen = h1;
-    g_debug.wall_debug.h2_screen = h2;
+//     g_debug.wall_debug.x1_screen = x1;
+//     g_debug.wall_debug.x2_screen = x2;
+//     g_debug.wall_debug.h1_screen = h1;
+//     g_debug.wall_debug.h2_screen = h2;
    
-    printf("Screen space coordinates:\n");
-    printf("X range: %d to %d\n", x1, x2);
-    printf("Heights: start=%d end=%d\n", h1, h2);
-}
+//     printf("Screen space coordinates:\n");
+//     printf("X range: %d to %d\n", x1, x2);
+//     printf("Heights: start=%d end=%d\n", h1, h2);
+// }
 
 /*
 static void debug_scale_info(t_fixed_vec32 vertex, const char* point_name) {
@@ -232,7 +232,7 @@ static t_fixed32 clamp(t_fixed32 val, t_fixed32 min, t_fixed32 max) {
     return val;
 }*/
 
-static t_fixed_vec32 transform_point(t_fixed_vec32 p, t_game *game)
+t_fixed_vec32 transform_point(t_fixed_vec32 p, t_game *game)
 {
     t_fixed_vec32 result;
     t_fixed32 dx, dy;
