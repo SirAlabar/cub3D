@@ -160,6 +160,7 @@ typedef struct s_game
     t_doom_map  *map;
     t_player    p1;
     t_texture   *skybox_tex;
+    t_texture_cache    *tex_cache;
     t_vector    last_mouse;
     double      mouse_sensi;
     double      fps;

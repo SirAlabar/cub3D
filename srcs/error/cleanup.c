@@ -61,6 +61,7 @@ void	cleanup_game(t_game *game)
 //	if (game->mlx)
 //		cleanup_mlx(game->mlx);
 	cleanup_doom_map(game->map);
+	clear_texture_cache(game);
 	if (game->fixed_tables)
     {
         destroy_fixed_tables_8192(game->fixed_tables);

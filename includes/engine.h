@@ -44,6 +44,30 @@ typedef struct s_texture
 	char				*path;
 }						t_texture;
 
+enum e_wall_part
+{
+    WALL_UPPER = 0,
+    WALL_MIDDLE = 1,
+    WALL_LOWER = 2
+};
+
+typedef struct s_wall_textureset
+{
+	t_texture	*upper;
+	t_texture	*middle;
+	t_texture	*lower;
+}				t_wall_textureset;
+
+typedef struct s_texture_cache
+{
+	t_wall_textureset	*wall_textures;
+	t_texture			**floor_textures;
+	t_texture			**ceiling_textures;
+	int					wall_count;
+	int					floor_count;
+	int					ceiling_count;
+}						t_texture_cache;
+
 typedef struct s_scanline
 {
     int   y_ceil[WINDOW_WIDTH];
@@ -158,8 +182,26 @@ void swap_buffers(t_game *game);
 t_fixed_vec32 transform_point(t_fixed_vec32 p, t_game *game);
 
 
+/*
+** Texture cache initialization and cleanup
+*/
+bool		init_texture_cache(t_game *game);
+bool		setup_texture_arrays(t_game *game);
+void		clear_texture_cache(t_game *game);
 
+/*
+** Texture loading functions
+*/
+t_texture	*load_texture(t_game *game, char *path);
+bool        load_wall_textures(t_game *game, int sidedef_index);
+t_texture	*load_floor_texture(t_game *game, int sector_index);
+t_texture	*load_ceiling_texture(t_game *game, int sector_index);
 
+/*
+** Helper functions for texture access during rendering
+*/
+t_texture	*get_wall_texture(t_game *game, int linedef_index, bool front_side, int part);
+bool		preload_map_textures(t_game *game);
 
 
 

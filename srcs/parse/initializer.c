@@ -134,25 +134,26 @@ bool	init_textures(t_game *game)
 	return (true);
 }
 
-bool init_skybox(t_game *game)
-{
-    if (!game->map->skybox_path) {
-        ft_printf("ERROR: Skybox path is NULL\n");
-        return (false);
-    }
-    game->skybox_tex = texture_create(game, game->map->skybox_path);
-    if (!game->skybox_tex) {
-        ft_printf("CRITICAL: Failed to create skybox texture\n");
-        return (false);
-    }
-    ft_printf("Skybox texture created successfully\n");
-    ft_printf("Texture pointer: %p\n", (void*)game->skybox_tex);
-    ft_printf("Texture address: %p\n", (void*)game->skybox_tex->addr);
-    ft_printf("Texture dimensions: %dx%d\n", 
-              game->skybox_tex->width, game->skybox_tex->height);
+// bool init_skybox(t_game *game)
+// {
+//     if (!game->map->skybox_path) {
+//         ft_printf("ERROR: Skybox path is NULL\n");
+//         return (false);
+//     }
+//     game->skybox_tex = texture_create(game, game->map->skybox_path);
+//     if (!game->skybox_tex) {
+//         ft_printf("CRITICAL: Failed to create skybox texture\n");
+//         return (false);
+//     }
+//     ft_printf("Skybox texture created successfully\n");
+//     ft_printf("Texture pointer: %p\n", (void*)game->skybox_tex);
+//     ft_printf("Texture address: %p\n", (void*)game->skybox_tex->addr);
+//     ft_printf("Texture dimensions: %dx%d\n", 
+//               game->skybox_tex->width, game->skybox_tex->height);
     
-    return (true);
-}
+//     return (true);
+// }
+
 /*
 ** Main game initialization function
 ** Sets up subsystems after map and BSP are loaded
@@ -171,8 +172,12 @@ bool	init_game(t_game *game)
 		return (false);
 	if (!init_textures(game))
 		return (false);
-	if (!init_skybox(game))
+	if (!init_texture_cache(game)) {
 		return (false);
+	}
+	if (!preload_map_textures(game)) {
+		ft_printf("Warning: Some textures could not be loaded\n");
+	}
 	game->mouse_sensi = MOUSE_SENSITIVITY;
 	game->last_mouse = vector_create(-1, -1);
 	

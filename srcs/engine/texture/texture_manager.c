@@ -132,48 +132,27 @@ t_texture   *texture_create(t_game *game, char *texture_path)
     return (texture);
 }
 
-/*
-t_texture *get_wall_texture(t_ray *ray, t_game *game)
-{
-    t_linedef *linedef;
-    t_sidedef *sidedef;
-    int sidedef_index;
+// void	resize_texture(t_texture *src, t_texture *dst)
+// {
+// 	t_vector_i	pos;
+// 	t_vector_i	src_pos;
+// 	double		scale_x;
+// 	double		scale_y;
+// 	int			color;
 
-
-    if (ray->hit_info.linedef < 0 || ray->hit_info.linedef >= game->map->linedef_count)
-        return NULL;
-
-    linedef = &game->map->linedefs[ray->hit_info.linedef];
-    sidedef_index = linedef->front_sidedef;
-    if (sidedef_index < 0 || sidedef_index >= game->map->sidedef_count)
-        return NULL;
-
-    sidedef = &game->map->sidedefs[sidedef_index];
-    return texture_create(game, sidedef->middle_texture);
-}
-
-void	resize_texture(t_texture *src, t_texture *dst)
-{
-	t_vector_i	pos;
-	t_vector_i	src_pos;
-	double		scale_x;
-	double		scale_y;
-	int			color;
-
-	scale_x = get_scale_factor(src->width, dst->width);
-	scale_y = get_scale_factor(src->height, dst->height);
-	pos.y = -1;
-	while (++pos.y < dst->height)
-	{
-		pos.x = -1;
-		while (++pos.x < dst->width)
-		{
-			src_pos = get_scale_coords(pos, scale_x, scale_y);
-			color = get_texture_pixel(src, src_pos.x, src_pos.y);
-			if ((color & 0xFFC0CB) == 0)
-				continue ;
-			draw_texture_pixel(dst, pos.x, pos.y, color);
-		}
-	}
-}
-*/
+// 	scale_x = get_scale_factor(src->width, dst->width);
+// 	scale_y = get_scale_factor(src->height, dst->height);
+// 	pos.y = -1;
+// 	while (++pos.y < dst->height)
+// 	{
+// 		pos.x = -1;
+// 		while (++pos.x < dst->width)
+// 		{
+// 			src_pos = get_scale_coords(pos, scale_x, scale_y);
+// 			color = get_texture_pixel(src, src_pos.x, src_pos.y);
+// 			if ((color & 0xFFC0CB) == 0)
+// 				continue ;
+// 			draw_texture_pixel(dst, pos.x, pos.y, color);
+// 		}
+// 	}
+// }

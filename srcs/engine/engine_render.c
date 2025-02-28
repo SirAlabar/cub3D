@@ -193,7 +193,7 @@ void draw_skybox(t_game *game)
     }
 }
 
-/*
+
 int render_frame(t_game *game)
 {
 
@@ -207,11 +207,11 @@ int render_frame(t_game *game)
     }
     if (game->bsp_tree && game->bsp_tree->root)
     {
-	    render_bsp_node(game, game->bsp_tree->root, &buffer);
+	    // render_bsp_node(game, game->bsp_tree->root, &buffer);
     }
     move_player(game);
     draw_weapon(game);
     update_fps(game);
     swap_buffers(game);
     return (0);
-}*/
+}
