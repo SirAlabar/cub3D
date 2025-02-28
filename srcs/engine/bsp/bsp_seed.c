@@ -11,9 +11,16 @@
 /* ************************************************************************** */
 
 #include <bsp.h>
-#include <time.h>
-#include <stdlib.h>
-#include <unistd.h>
+
+/*
+ * Global seed tracking structure
+ */
+typedef struct s_global_best
+{
+	pthread_mutex_t	mutex;
+	t_fixed32		best_score;
+	unsigned int	best_seed;
+}	t_global_best;
 
 unsigned int	generate_random_seed(void)
 {
@@ -28,19 +35,14 @@ unsigned int	generate_random_seed(void)
 		+ BSP_MIN_SEED);
 }
 
-static void	swap_lines(t_bsp_line **lines, int i, int j)
-{
-	t_bsp_line	*temp;
-
-	temp = lines[i];
-	lines[i] = lines[j];
-	lines[j] = temp;
-}
-
+/*
+ * Swaps two lines in the array
+ */
 void	shuffle_lines(t_bsp_line **lines, int count, unsigned int seed)
 {
 	int				i;
 	unsigned int	j;
+	t_bsp_line		*temp;
 
 	if (!lines || count <= 1)
 		return ;
@@ -49,13 +51,36 @@ void	shuffle_lines(t_bsp_line **lines, int count, unsigned int seed)
 	while (i > 0)
 	{
 		j = (unsigned int)rand() % (i + 1);
-		swap_lines(lines, i, j);
+		temp = lines[i];
+		lines[i] = lines[j];
+		lines[j] = temp;
 		i--;
 	}
 }
 
+/*
+ * Initialize a seed task with the given parameters
+ */
+static void	init_seed_task(t_seed_data *task, t_bsp_line **lines,
+	int count, int index, unsigned int range, t_global_best *global)
+{
+	task->start_seed = BSP_MIN_SEED + index * range;
+	if (index == THREAD_COUNT - 1)
+		task->end_seed = BSP_MAX_SEED;
+	else
+		task->end_seed = BSP_MIN_SEED + (index + 1) * range;
+	task->lines = lines;
+	task->num_lines = count;
+	task->best_seed = task->start_seed;
+	task->best_score = INT32_MAX;
+	task->thread_id = index;
+	task->mutex = &global->mutex;
+}
 
-static t_fixed32	eval_seed_quality(unsigned int seed, t_bsp_line **lines,
+/*
+ * Evaluates a single seed's quality
+ */
+t_fixed32	eval_seed_quality(unsigned int seed, t_bsp_line **lines,
 	int num_lines)
 {
 	t_bsp_line		**test_lines;
@@ -77,14 +102,17 @@ static t_fixed32	eval_seed_quality(unsigned int seed, t_bsp_line **lines,
 	while (++i < num_lines)
 	{
 		if (test_lines[i] != partition)
-		count_line_sides(test_lines[i], partition, &count);
+			count_line_sides(test_lines[i], partition, &count);
 	}
-	score = int_to_fixed32(abs(count.back - count.front) + 
-	count.split * SPLIT_PENALTY);
+	score = int_to_fixed32(abs(count.back - count.front)
+			+ count.split * SPLIT_PENALTY);
 	free(test_lines);
 	return (score);
 }
 
+/*
+ * Worker function for evaluating a range of seeds
+ */
 static void	*find_seed_thread(void *arg)
 {
 	t_seed_data		*data;
@@ -108,60 +136,62 @@ static void	*find_seed_thread(void *arg)
 	}
 	data->best_score = best_score;
 	data->best_seed = best_seed;
-	return (NULL);
+	return (data);
 }
 
-static unsigned int	get_best_seed_from_threads(t_seed_data *thread_data,
-	int num_threads)
+/*
+ * Callback when a seed evaluation task completes
+ */
+static void	seed_task_complete(void *result, void *context)
 {
-	int				i;
-	unsigned int	best_seed;
-	t_fixed32		best_score;
+	t_seed_data		*task_result;
+	t_global_best	*global;
 
-	best_score = INT32_MAX;
-	best_seed = BSP_MIN_SEED;
-	i = -1;
-	while (++i < num_threads)
+	task_result = (t_seed_data *)result;
+	global = (t_global_best *)context;
+	pthread_mutex_lock(&global->mutex);
+	if (task_result->best_score < global->best_score)
 	{
-		if (thread_data[i].best_score < best_score)
-		{
-			best_score = thread_data[i].best_score;
-			best_seed = thread_data[i].best_seed;
-		}
+		global->best_score = task_result->best_score;
+		global->best_seed = task_result->best_seed;
 	}
-	return (best_seed);
+	pthread_mutex_unlock(&global->mutex);
 }
 
+/*
+ * Finds the best seed for BSP partitioning using thread pool
+ */
 unsigned int	find_best_seed(t_bsp_line **lines, int count, int depth)
 {
-	pthread_t		threads[NUM_THREADS];
-	t_seed_data		thread_data[NUM_THREADS];
+	t_thread_pool	*pool;
+	t_seed_data		*tasks;
+	t_global_best	global;
 	int				i;
 	unsigned int	range;
-	pthread_mutex_t	mutex;
 
 	if (depth > 0)
 		return (generate_random_seed());
-	pthread_mutex_init(&mutex, NULL);
-	range = (BSP_MAX_SEED - BSP_MIN_SEED) / NUM_THREADS;
+	pthread_mutex_init(&global.mutex, NULL);
+	global.best_score = INT32_MAX;
+	global.best_seed = BSP_MIN_SEED;
+	pool = thread_pool_create(THREAD_COUNT);
+	if (!pool)
+		return (generate_random_seed());
+	tasks = ft_calloc(THREAD_COUNT, sizeof(t_seed_data));
+	if (!tasks)
+		return (thread_pool_destroy(pool), generate_random_seed());
+	range = (BSP_MAX_SEED - BSP_MIN_SEED) / THREAD_COUNT;
 	i = -1;
-	while (++i < NUM_THREADS)
+	while (++i < THREAD_COUNT)
 	{
-		thread_data[i].start_seed = BSP_MIN_SEED + i * range;
-		thread_data[i].end_seed = (i == NUM_THREADS - 1) ? 
-			BSP_MAX_SEED : BSP_MIN_SEED + (i + 1) * range;
-		thread_data[i].lines = lines;
-		thread_data[i].num_lines = count;
-		thread_data[i].best_seed = thread_data[i].start_seed;
-		thread_data[i].best_score = INT32_MAX;
-		thread_data[i].thread_id = i;
-		thread_data[i].mutex = &mutex;
-		pthread_create(&threads[i], NULL, find_seed_thread, &thread_data[i]);
+		init_seed_task(&tasks[i], lines, count, i, range, &global);
+		thread_pool_add_task(pool, find_seed_thread, &tasks[i],
+			seed_task_complete, &global);
 	}
-	i = -1;
-	while (++i < NUM_THREADS)
-		pthread_join(threads[i], NULL);
-	pthread_mutex_destroy(&mutex);
-	ft_printf("Busca por seed concluída em %d threads\n", NUM_THREADS);
-	return (get_best_seed_from_threads(thread_data, NUM_THREADS));
+	thread_pool_wait(pool);
+	thread_pool_destroy(pool);
+	pthread_mutex_destroy(&global.mutex);
+	free(tasks);
+	ft_printf("Seed search completed using %d threads\n", THREAD_COUNT);
+	return (global.best_seed);
 }

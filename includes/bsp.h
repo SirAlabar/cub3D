@@ -13,10 +13,7 @@
 #ifndef BSP_H
 # define BSP_H
 
-# include <fixed_point.h>
 # include <types.h>
-# include <stddef.h>
-# include <libft.h>
 
 /* BSP Configuration */
 # define BSP_WEIGHT_FACTOR    4
@@ -24,7 +21,6 @@
 # define BSP_MAX_SEED         32000
 # define BSP_MAX_DEPTH        12
 # define BSP_MIN_NODE_SIZE    4096
-# define NUM_THREADS		  8 
 # define MAX_PORTAL_QUEUE 32 
 # define MAX_PORTAL_DEPTH 8  
 
@@ -73,8 +69,6 @@ typedef struct s_bsp_node
 typedef struct s_bsp_tree
 {
 	t_bsp_node			*root;
-    t_fixed32           best_score;
-    unsigned int        best_seed;
     int                 max_depth; 	
 }						t_bsp_tree;
 
@@ -136,13 +130,6 @@ typedef struct s_seed_data
 	int					thread_id;
 	pthread_mutex_t		*mutex;
 }						t_seed_data;
-
-typedef struct s_bsp_metrics
-{
-	int					front;
-	int					back;
-	int					split;
-}						t_bsp_metrics;
 
 typedef struct s_view_data {
     t_fixed_vec32 t1;

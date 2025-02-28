@@ -3,7 +3,18 @@
 
 # include <stdint.h>
 # include <stdbool.h>
-#include <pthread.h>
+# include <pthread.h>
+# include <stddef.h>
+# include <libft.h>
+# include <math.h>
+# include <stdbool.h>
+# include <sys/time.h>
+# include <fixed_point.h>
+# include <time.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <thread_pool.h>
+
 
 /* Forward declarations of all major structs */
 typedef struct s_game t_game;
