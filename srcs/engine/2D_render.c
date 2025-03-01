@@ -20,7 +20,7 @@
 #define DEBUG_SCALE 0.25          // Scale factor for map rendering
 #define DIRECTION_INDICATOR_LENGTH (PLAYER_RADIUS * 3)  // Length of player direction line
 #define DEBUG_GRID_COLOR 0x1A1A1A  // Very dark gray for grid
-/*
+
 void draw_background(t_game *game)
 {
     for (int y = 0; y < WINDOW_HEIGHT; y++)
@@ -343,4 +343,4 @@ int render_frame(t_game *game)
 
     ft_printf("=== Debug Render Frame Complete ===\n\n");
     return (0);
-}*/
+}
