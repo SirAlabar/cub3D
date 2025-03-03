@@ -101,7 +101,6 @@
 # define SKYBOX9 "./assets/texture/skybox9.xpm"
 # define SKYBOX10 "./assets/texture/skybox10.xpm"
 
-
 /* Structs */
 
 typedef struct s_player
@@ -184,6 +183,8 @@ int				count_lines(t_game *game);
 void			set_grid(t_game *game);
 //initialize/init_skybox_floor.c
 void			init_skybox(t_game *game);
+void			process_skybox_config(t_game *game, char *line);
+int				is_skybox_line(char *line);
 //initialize/textures.c
 void			init_textures(t_game *game);
 //initialize/printers.c

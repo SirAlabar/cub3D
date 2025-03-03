@@ -32,13 +32,13 @@ bool	init_window(t_game *game)
 	return (true);
 }
 
-static void setup_hooks(t_game *game)
+static void	setup_hooks(t_game *game)
 {
-    mlx_hook(game->win, 2, 1L << 0, key_press, game);
-    mlx_hook(game->win, 3, 1L << 1, key_release, game);
-    mlx_hook(game->win, 17, 0, close_window, game);
-    mlx_hook(game->win, 6, 1L << 6, mouse_wrapper, game);
-    mlx_loop_hook(game->mlx, engine_render_frame, game);
+	mlx_hook(game->win, 2, 1L << 0, key_press, game);
+	mlx_hook(game->win, 3, 1L << 1, key_release, game);
+	mlx_hook(game->win, 17, 0, close_window, game);
+	mlx_hook(game->win, 6, 1L << 6, mouse_wrapper, game);
+	mlx_loop_hook(game->mlx, engine_render_frame, game);
 }
 
 int	main(int argc, char **argv)
@@ -56,11 +56,11 @@ int	main(int argc, char **argv)
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		return (cleanup_game(game), 1);
-	if (!init_window(game))  
+	if (!init_window(game))
 	{
 		cleanup_game(game);
 		return (1);
-	}	
+	}
 	init_game(game);
 	setup_hooks(game);
 	mlx_loop(game->mlx);
