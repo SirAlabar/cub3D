@@ -56,10 +56,10 @@ void	draw_enemy_sprite(t_game *game, t_enemy *enemy,
 	s.height = sprite_height;
 	s.width = sprite_height;
 	s.screen_x = screen_x;
-	s.start_y = WINDOW_HEIGHT / 2 - sprite_height / 2;
-	s.end_y = WINDOW_HEIGHT / 2 + sprite_height / 2;
-	s.start_x = screen_x - s.width / 2;
-	s.end_x = screen_x + s.width / 2;
+	s.start_y = (WINDOW_HEIGHT >> 1) - (sprite_height >> 1);
+	s.end_y = (WINDOW_HEIGHT >> 1) + (sprite_height >> 1);
+	s.start_x = screen_x - (s.width >> 1);
+	s.end_x = screen_x + (s.width >> 1);
 	if (s.start_y < 0)
 		s.start_y = 0;
 	if (s.end_y >= WINDOW_HEIGHT)

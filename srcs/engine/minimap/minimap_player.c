@@ -36,11 +36,11 @@ void	draw_player_dot(t_game *game)
 	t_vector	center;
 	int			half_size;
 
-	center.x = MINIMAP_PADDING + ((MINIMAP_VIEW_SIZE / 2) * MINIMAP_CELL_SIZE)
-		+ (MINIMAP_CELL_SIZE / 2);
-	center.y = WINDOW_HEIGHT - MINIMAP_PADDING - ((MINIMAP_VIEW_SIZE / 2)
-			* MINIMAP_CELL_SIZE) - (MINIMAP_CELL_SIZE / 2);
-	half_size = PLAYER_DOT_SIZE / 2;
+	center.x = MINIMAP_PADDING + ((MINIMAP_VIEW_SIZE >> 1) * MINIMAP_CELL_SIZE)
+		+ (MINIMAP_CELL_SIZE >> 1);
+	center.y = WINDOW_HEIGHT - MINIMAP_PADDING - ((MINIMAP_VIEW_SIZE >> 1)
+			* MINIMAP_CELL_SIZE) - (MINIMAP_CELL_SIZE >> 1);
+	half_size = (PLAYER_DOT_SIZE >> 1);
 	draw_player_circle(game, center, half_size);
 	draw_direction_line(game, center, game->p1.dir, MINIMAP_CELL_SIZE);
 }

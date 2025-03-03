@@ -16,12 +16,15 @@ void	cleanup_gun(t_game *game)
 {
 	int	i;
 
+	if (!game || !game->p1.gun_anim)
+		return ;
 	i = 0;
 	while (i < 4)
 	{
 		if (game->p1.gun_anim[i].img)
 		{
 			mlx_destroy_image(game->mlx, game->p1.gun_anim[i].img);
+			game->p1.gun_anim[i].img = NULL;
 		}
 		i++;
 	}
@@ -31,6 +34,8 @@ void	cleanup_gun(t_game *game)
 
 void	cleanup_textures(t_game *game)
 {
+	if (!game)
+		return ;
 	if (game->north.img)
 		mlx_destroy_image(game->mlx, game->north.img);
 	if (game->south.img)
@@ -55,4 +60,19 @@ void	cleanup_door_system(t_game *game)
 	}
 	free(game->door_system);
 	game->door_system = NULL;
+}
+
+void	cleanup_double_buffer(t_game *game)
+{
+	if (!game)
+		return ;
+	if (game->mlx)
+	{
+		if (game->img[0])
+			mlx_destroy_image(game->mlx, game->img[0]);
+		if (game->img[1])
+			mlx_destroy_image(game->mlx, game->img[1]);
+	}
+	game->img[0] = NULL;
+	game->img[1] = NULL;
 }

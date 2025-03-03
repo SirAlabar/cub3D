@@ -142,9 +142,13 @@ typedef struct s_door_system
 // engine_render.c
 void					engine_prepare_frame(t_game *game);
 int						engine_render_frame(t_game *game);
-
 double					get_time_ms(void);
 void					update_fps(t_game *game);
+
+// double_buffer.c
+void					init_double_buffer(t_game *game);
+void					swap_buffers(t_game *game);
+void					cleanup_double_buffer(t_game *game);
 
 /*
  * Drawing Functions

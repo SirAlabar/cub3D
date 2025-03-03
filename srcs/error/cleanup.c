@@ -57,10 +57,16 @@ void	cleanup_game(t_game *game)
 	cleanup_textures(game);
 	cleanup_enemies(game);
 	cleanup_door_system(game);
+	cleanup_double_buffer(game);
 	if (game->win && game->mlx)
 		mlx_destroy_window(game->mlx, game->win);
-	if (game->img && game->mlx)
-		mlx_destroy_image(game->mlx, game->img);
+	if (game->mlx)
+	{
+		if (game->img[0])
+			mlx_destroy_image(game->mlx, game->img[0]);
+		if (game->img[1])
+			mlx_destroy_image(game->mlx, game->img[1]);
+	}
 	if (game->mlx)
 		cleanup_mlx(game->mlx);
 	cleanup_map(game);
