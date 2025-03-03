@@ -67,6 +67,13 @@ void	cleanup_game(t_game *game)
         destroy_fixed_tables_8192(game->fixed_tables);
         game->fixed_tables = NULL;
     }
+	if (game->thread_pool)
+    {
+        thread_pool_destroy(game->thread_pool);
+        game->thread_pool = NULL;
+        ft_printf("Thread pool destroyed\n");
+    }
+    
 	cleanup_bsp_tree(game->bsp_tree);
 //	if (game->fd_map != -1)
 //		close(game->fd_map);

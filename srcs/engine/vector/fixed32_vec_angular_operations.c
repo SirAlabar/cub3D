@@ -87,3 +87,4 @@ t_fixed_vec32	fixed32_vec_limit(t_fixed_vec32 v, t_fixed32 max)
 	}
 	return (v);
 }
+

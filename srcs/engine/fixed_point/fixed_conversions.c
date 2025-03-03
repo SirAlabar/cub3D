@@ -68,3 +68,8 @@ int	fixed32_to_int(t_fixed32 value)
 {
 	return ((int)(value >> FIXED_POINT_BITS));
 }
+
+t_fixed32 bam_to_fixed32(unsigned int angle_bam)
+{
+    return (t_fixed32)((int64_t)angle_bam * FIXED_POINT_SCALE / (1 << 31));
+}

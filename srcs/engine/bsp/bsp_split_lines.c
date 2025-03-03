@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <bsp.h>
+#include <colors.h>
 
 /*
 ** Initializes arrays for split operation
@@ -22,6 +23,7 @@ static bool	init_split_arrays(t_bsp_data *data, int num_lines)
 	data->back_lines = malloc(sizeof(t_bsp_line *) * num_lines * 2);
 	if (!data->front_lines || !data->back_lines)
 	{
+		ft_printf(RED"Failed to allocate memory for split arrays\n"DEFAULT);		
 		free(data->front_lines);
 		free(data->back_lines);
 		return (false);
@@ -35,18 +37,19 @@ static bool	init_split_arrays(t_bsp_data *data, int num_lines)
 ** Handles line addition after classification or splitting
 ** Updates front and back line counts
 */
-static void	add_line_to_side(t_bsp_data *data, t_bsp_line *line,
-		t_bsp_side side)
+static void add_line_to_side(t_bsp_data *data, t_bsp_line *line, t_bsp_side side)
 {
 	if (side == BSP_FRONT || side == BSP_COLINEAR)
 	{
 		data->front_lines[data->num_front] = line;
 		data->num_front++;
+		ft_printf(GREEN"Added line to FRONT side (count: %d)\n"DEFAULT, data->num_front);
 	}
 	else if (side == BSP_BACK)
 	{
 		data->back_lines[data->num_back] = line;
 		data->num_back++;
+		ft_printf(GREEN"Added line to BACK side (count: %d)\n"DEFAULT, data->num_back);
 	}
 }
 
@@ -62,6 +65,10 @@ static bool process_line(t_bsp_data *data, t_bsp_line *line,
     t_bsp_line  *back_split = NULL;
 
     side = bsp_classify_line(line, partition);
+	ft_printf(BLUE"Classifying line: (%d,%d) -> (%d,%d) = %d\n"DEFAULT,
+		fixed32_to_int(line->start.x), fixed32_to_int(line->start.y),
+		fixed32_to_int(line->end.x), fixed32_to_int(line->end.y),
+		side);
     if (side == BSP_FRONT || side == BSP_BACK || side == BSP_COLINEAR)
     {
         add_line_to_side(data, line, side);

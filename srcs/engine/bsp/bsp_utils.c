@@ -17,14 +17,17 @@
 ** Focuses solely on BSP creation from map lines
 */
 
-t_bsp_tree *init_bsp_build(t_doom_map *map)
+t_bsp_tree *init_bsp_build(t_doom_map *map, t_thread_pool *pool)
 {
     t_bsp_tree *tree;
     t_bsp_line **lines;
     int num_lines;
 
     ft_printf("Initializing BSP tree construction\n");
-    
+    if (!pool)
+    {
+        ft_printf("Warning: No thread pool provided for BSP construction\n");
+    }
     tree = ft_calloc(1, sizeof(t_bsp_tree));
     if (!tree)
         return (NULL);
@@ -34,18 +37,15 @@ t_bsp_tree *init_bsp_build(t_doom_map *map)
         free(tree);
         return (NULL);
     }
-
     ft_printf("Extracted %d lines from map\n", num_lines);
     debug_print_lines(lines, num_lines);
-
-    tree->root = build_bsp_tree(lines, num_lines, 0);
+    tree->root = build_bsp_tree(lines, num_lines, 0, pool);
     if (!tree->root)
     {
         free(lines);
         free(tree);
         return (NULL);
     }
-
     return (tree);
 }
 /*

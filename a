@@ -1,0 +1,949 @@
+[0;92mFile opened successfully
+[0;39m[0;94mRead line: '[VERTICES]
+'[0;39m[0;96mChecking section header: '[VERTICES]'
+[0;39m[0;93mFound VERTICES section
+[0;39m[0;94mRead line: '# List of vertices (X, Y coordinates)
+'[0;39m[0;94mRead line: 'v0 = 0,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v0 = 0,0' in section [0;94mRead line: 'v1 = 1280,0
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v1 = 1280,0' in section [0;94mRead line: 'v2 = 1280,768
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v2 = 1280,768' in section [0;94mRead line: 'v3 = 0,768
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v3 = 0,768' in section [0;94mRead line: 'v4 = 128,128
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v4 = 128,128' in section [0;94mRead line: 'v5 = 384,128
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v5 = 384,128' in section [0;94mRead line: 'v6 = 384,320
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v6 = 384,320' in section [0;94mRead line: 'v7 = 128,320
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v7 = 128,320' in section [0;94mRead line: 'v8 = 512,256
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v8 = 512,256' in section [0;94mRead line: 'v9 = 768,256
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v9 = 768,256' in section [0;94mRead line: 'v10 = 768,448
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v10 = 768,448' in section [0;94mRead line: 'v11 = 512,448
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v11 = 512,448' in section [0;94mRead line: 'v12 = 896,128
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v12 = 896,128' in section [0;94mRead line: 'v13 = 1152,128
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v13 = 1152,128' in section [0;94mRead line: 'v14 = 1152,384
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v14 = 1152,384' in section [0;94mRead line: 'v15 = 896,384
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v15 = 896,384' in section [0;94mRead line: 'v16 = 640,640
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v16 = 640,640' in section [0;94mRead line: 'v17 = 768,640
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v17 = 768,640' in section [0;94mRead line: 'v18 = 768,768
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v18 = 768,768' in section [0;94mRead line: 'v19 = 640,768
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'v19 = 640,768' in section [0;94mRead line: '
+'[0;39m[0;94mRead line: '[SIDEDEFS]
+'[0;39m[0;96mChecking section header: '[SIDEDEFS]'
+[0;39m[0;94mRead line: '# Initial room (sector 0) - Laboratory theme
+'[0;39m[0;94mRead line: 'sd0 = 0,0,-,assets/texture/lab1.xpm,-,s0               # Outer walls north
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd0 = 0,0,-,assets/texture/lab1.xpm,-,s0' in section [0;93mParsing sidedef line: [sd0 = 0,0,-,assets/texture/lab1.xpm,-,s0]
+[0;39mToken 0: [sd0 ]
+Token 1: [ 0,0,-,assets/texture/lab1.xpm,-,s0]
+Trimmed token 0: [sd0]
+Sidedef number: 0
+Trimmed token 1: [0,0,-,assets/texture/lab1.xpm,-,s0]
+Sidedef data parsed successfully
+X offset: 0
+Y offset: 0
+Upper texture: NULL
+Middle texture: assets/texture/lab1.xpm
+Lower texture: NULL
+Sector: 0
+[0;94mRead line: 'sd1 = 0,0,-,assets/texture/lab2.xpm,-,s0               # Outer walls east
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd1 = 0,0,-,assets/texture/lab2.xpm,-,s0' in section [0;93mParsing sidedef line: [sd1 = 0,0,-,assets/texture/lab2.xpm,-,s0]
+[0;39mToken 0: [sd1 ]
+Token 1: [ 0,0,-,assets/texture/lab2.xpm,-,s0]
+Trimmed token 0: [sd1]
+Sidedef number: 1
+Trimmed token 1: [0,0,-,assets/texture/lab2.xpm,-,s0]
+Sidedef data parsed successfully
+X offset: 0
+Y offset: 0
+Upper texture: NULL
+Middle texture: assets/texture/lab2.xpm
+Lower texture: NULL
+Sector: 0
+[0;94mRead line: 'sd2 = 0,0,-,assets/texture/lab3.xpm,-,s0               # Outer walls south
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd2 = 0,0,-,assets/texture/lab3.xpm,-,s0' in section [0;93mParsing sidedef line: [sd2 = 0,0,-,assets/texture/lab3.xpm,-,s0]
+[0;39mToken 0: [sd2 ]
+Token 1: [ 0,0,-,assets/texture/lab3.xpm,-,s0]
+Trimmed token 0: [sd2]
+Sidedef number: 2
+Trimmed token 1: [0,0,-,assets/texture/lab3.xpm,-,s0]
+Sidedef data parsed successfully
+X offset: 0
+Y offset: 0
+Upper texture: NULL
+Middle texture: assets/texture/lab3.xpm
+Lower texture: NULL
+Sector: 0
+[0;94mRead line: 'sd3 = 0,0,-,assets/texture/lab4.xpm,-,s0               # Outer walls west
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd3 = 0,0,-,assets/texture/lab4.xpm,-,s0' in section [0;93mParsing sidedef line: [sd3 = 0,0,-,assets/texture/lab4.xpm,-,s0]
+[0;39mToken 0: [sd3 ]
+Token 1: [ 0,0,-,assets/texture/lab4.xpm,-,s0]
+Trimmed token 0: [sd3]
+Sidedef number: 3
+Trimmed token 1: [0,0,-,assets/texture/lab4.xpm,-,s0]
+Sidedef data parsed successfully
+X offset: 0
+Y offset: 0
+Upper texture: NULL
+Middle texture: assets/texture/lab4.xpm
+Lower texture: NULL
+Sector: 0
+[0;94mRead line: 'sd4 = 0,0,assets/texture/tech1.xpm,assets/texture/doorlab.xpm,assets/texture/tech2.xpm,s0  # Door to corridor
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd4 = 0,0,assets/texture/tech1.xpm,assets/texture/doorlab.xpm,assets/texture/tech2.xpm,s0' in section [0;93mParsing sidedef line: [sd4 = 0,0,assets/texture/tech1.xpm,assets/texture/doorlab.xpm,assets/texture/tech2.xpm,s0]
+[0;39mToken 0: [sd4 ]
+Token 1: [ 0,0,assets/texture/tech1.xpm,assets/texture/doorlab.xpm,assets/texture/tech2.xpm,s0]
+Trimmed token 0: [sd4]
+Sidedef number: 4
+Trimmed token 1: [0,0,assets/texture/tech1.xpm,assets/texture/doorlab.xpm,assets/texture/tech2.xpm,s0]
+Sidedef data parsed successfully
+X offset: 0
+Y offset: 0
+Upper texture: assets/texture/tech1.xpm
+Middle texture: assets/texture/doorlab.xpm
+Lower texture: assets/texture/tech2.xpm
+Sector: 0
+[0;94mRead line: '
+'[0;39m[0;94mRead line: '# Corridor (sector 1) - Tech/Metal theme
+'[0;39m[0;94mRead line: 'sd5 = 0,0,-,assets/texture/metal.xpm,-,s1              # Corridor walls
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd5 = 0,0,-,assets/texture/metal.xpm,-,s1' in section [0;93mParsing sidedef line: [sd5 = 0,0,-,assets/texture/metal.xpm,-,s1]
+[0;39mToken 0: [sd5 ]
+Token 1: [ 0,0,-,assets/texture/metal.xpm,-,s1]
+Trimmed token 0: [sd5]
+Sidedef number: 5
+Trimmed token 1: [0,0,-,assets/texture/metal.xpm,-,s1]
+Sidedef data parsed successfully
+X offset: 0
+Y offset: 0
+Upper texture: NULL
+Middle texture: assets/texture/metal.xpm
+Lower texture: NULL
+Sector: 1
+[0;94mRead line: 'sd6 = 0,0,-,assets/texture/metal2.xpm,-,s1             # Corridor walls
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd6 = 0,0,-,assets/texture/metal2.xpm,-,s1' in section [0;93mParsing sidedef line: [sd6 = 0,0,-,assets/texture/metal2.xpm,-,s1]
+[0;39mToken 0: [sd6 ]
+Token 1: [ 0,0,-,assets/texture/metal2.xpm,-,s1]
+Trimmed token 0: [sd6]
+Sidedef number: 6
+Trimmed token 1: [0,0,-,assets/texture/metal2.xpm,-,s1]
+Sidedef data parsed successfully
+X offset: 0
+Y offset: 0
+Upper texture: NULL
+Middle texture: assets/texture/metal2.xpm
+Lower texture: NULL
+Sector: 1
+[0;94mRead line: 'sd7 = 0,0,assets/texture/metal3.xpm,-,assets/texture/metal4.xpm,s1    # Height transitions
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd7 = 0,0,assets/texture/metal3.xpm,-,assets/texture/metal4.xpm,s1' in section [0;93mParsing sidedef line: [sd7 = 0,0,assets/texture/metal3.xpm,-,assets/texture/metal4.xpm,s1]
+[0;39mToken 0: [sd7 ]
+Token 1: [ 0,0,assets/texture/metal3.xpm,-,assets/texture/metal4.xpm,s1]
+Trimmed token 0: [sd7]
+Sidedef number: 7
+Trimmed token 1: [0,0,assets/texture/metal3.xpm,-,assets/texture/metal4.xpm,s1]
+Sidedef data parsed successfully
+X offset: 0
+Y offset: 0
+Upper texture: assets/texture/metal3.xpm
+Middle texture: NULL
+Lower texture: assets/texture/metal4.xpm
+Sector: 1
+[0;94mRead line: 'sd8 = 0,0,assets/texture/tech3.xpm,assets/texture/doorlab.xpm,assets/texture/tech4.xpm,s1  # Door to final room
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd8 = 0,0,assets/texture/tech3.xpm,assets/texture/doorlab.xpm,assets/texture/tech4.xpm,s1' in section [0;93mParsing sidedef line: [sd8 = 0,0,assets/texture/tech3.xpm,assets/texture/doorlab.xpm,assets/texture/tech4.xpm,s1]
+[0;39mToken 0: [sd8 ]
+Token 1: [ 0,0,assets/texture/tech3.xpm,assets/texture/doorlab.xpm,assets/texture/tech4.xpm,s1]
+Trimmed token 0: [sd8]
+Sidedef number: 8
+Trimmed token 1: [0,0,assets/texture/tech3.xpm,assets/texture/doorlab.xpm,assets/texture/tech4.xpm,s1]
+Sidedef data parsed successfully
+X offset: 0
+Y offset: 0
+Upper texture: assets/texture/tech3.xpm
+Middle texture: assets/texture/doorlab.xpm
+Lower texture: assets/texture/tech4.xpm
+Sector: 1
+[0;94mRead line: '
+'[0;39m[0;94mRead line: '# Final room (sector 2) - Stone/Ice theme
+'[0;39m[0;94mRead line: 'sd9 = 0,0,-,assets/texture/stone1.xpm,-,s2             # Final room walls
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd9 = 0,0,-,assets/texture/stone1.xpm,-,s2' in section [0;93mParsing sidedef line: [sd9 = 0,0,-,assets/texture/stone1.xpm,-,s2]
+[0;39mToken 0: [sd9 ]
+Token 1: [ 0,0,-,assets/texture/stone1.xpm,-,s2]
+Trimmed token 0: [sd9]
+Sidedef number: 9
+Trimmed token 1: [0,0,-,assets/texture/stone1.xpm,-,s2]
+Sidedef data parsed successfully
+X offset: 0
+Y offset: 0
+Upper texture: NULL
+Middle texture: assets/texture/stone1.xpm
+Lower texture: NULL
+Sector: 2
+[0;94mRead line: 'sd10 = 0,0,-,assets/texture/stone2.xpm,-,s2            # Final room walls
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd10 = 0,0,-,assets/texture/stone2.xpm,-,s2' in section [0;93mParsing sidedef line: [sd10 = 0,0,-,assets/texture/stone2.xpm,-,s2]
+[0;39mToken 0: [sd10 ]
+Token 1: [ 0,0,-,assets/texture/stone2.xpm,-,s2]
+Trimmed token 0: [sd10]
+Sidedef number: 10
+Trimmed token 1: [0,0,-,assets/texture/stone2.xpm,-,s2]
+Sidedef data parsed successfully
+X offset: 0
+Y offset: 0
+Upper texture: NULL
+Middle texture: assets/texture/stone2.xpm
+Lower texture: NULL
+Sector: 2
+[0;94mRead line: 'sd11 = 0,0,-,assets/texture/stone3.xpm,-,s2            # Final room walls
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd11 = 0,0,-,assets/texture/stone3.xpm,-,s2' in section [0;93mParsing sidedef line: [sd11 = 0,0,-,assets/texture/stone3.xpm,-,s2]
+[0;39mToken 0: [sd11 ]
+Token 1: [ 0,0,-,assets/texture/stone3.xpm,-,s2]
+Trimmed token 0: [sd11]
+Sidedef number: 11
+Trimmed token 1: [0,0,-,assets/texture/stone3.xpm,-,s2]
+Sidedef data parsed successfully
+X offset: 0
+Y offset: 0
+Upper texture: NULL
+Middle texture: assets/texture/stone3.xpm
+Lower texture: NULL
+Sector: 2
+[0;94mRead line: 'sd12 = 0,0,-,assets/texture/stone4.xpm,-,s2            # Final room walls
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd12 = 0,0,-,assets/texture/stone4.xpm,-,s2' in section [0;93mParsing sidedef line: [sd12 = 0,0,-,assets/texture/stone4.xpm,-,s2]
+[0;39mToken 0: [sd12 ]
+Token 1: [ 0,0,-,assets/texture/stone4.xpm,-,s2]
+Trimmed token 0: [sd12]
+Sidedef number: 12
+Trimmed token 1: [0,0,-,assets/texture/stone4.xpm,-,s2]
+Sidedef data parsed successfully
+X offset: 0
+Y offset: 0
+Upper texture: NULL
+Middle texture: assets/texture/stone4.xpm
+Lower texture: NULL
+Sector: 2
+[0;94mRead line: 'sd13 = 0,0,assets/texture/ice1.xpm,-,assets/texture/ice2.xpm,s2       # Height transitions
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd13 = 0,0,assets/texture/ice1.xpm,-,assets/texture/ice2.xpm,s2' in section [0;93mParsing sidedef line: [sd13 = 0,0,assets/texture/ice1.xpm,-,assets/texture/ice2.xpm,s2]
+[0;39mToken 0: [sd13 ]
+Token 1: [ 0,0,assets/texture/ice1.xpm,-,assets/texture/ice2.xpm,s2]
+Trimmed token 0: [sd13]
+Sidedef number: 13
+Trimmed token 1: [0,0,assets/texture/ice1.xpm,-,assets/texture/ice2.xpm,s2]
+Sidedef data parsed successfully
+X offset: 0
+Y offset: 0
+Upper texture: assets/texture/ice1.xpm
+Middle texture: NULL
+Lower texture: assets/texture/ice2.xpm
+Sector: 2
+[0;94mRead line: '
+'[0;39m[0;94mRead line: '# Central pillar (sector 3) - Marble theme
+'[0;39m[0;94mRead line: 'sd14 = 0,0,assets/texture/marmore.xpm,-,assets/texture/metal_floor.xpm,s3  # Pillar sides
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'sd14 = 0,0,assets/texture/marmore.xpm,-,assets/texture/metal_floor.xpm,s3' in section [0;93mParsing sidedef line: [sd14 = 0,0,assets/texture/marmore.xpm,-,assets/texture/metal_floor.xpm,s3]
+[0;39mToken 0: [sd14 ]
+Token 1: [ 0,0,assets/texture/marmore.xpm,-,assets/texture/metal_floor.xpm,s3]
+Trimmed token 0: [sd14]
+Sidedef number: 14
+Trimmed token 1: [0,0,assets/texture/marmore.xpm,-,assets/texture/metal_floor.xpm,s3]
+Sidedef data parsed successfully
+X offset: 0
+Y offset: 0
+Upper texture: assets/texture/marmore.xpm
+Middle texture: NULL
+Lower texture: assets/texture/metal_floor.xpm
+Sector: 3
+[0;94mRead line: '
+'[0;39m[0;94mRead line: '
+'[0;39m[0;94mRead line: '[LINEDEFS]
+'[0;39m[0;96mChecking section header: '[LINEDEFS]'
+[0;39m[0;93mFound LINEDEFS section
+[0;39m[0;94mRead line: '# Defines walls and connections between vertices
+'[0;39m[0;94mRead line: 'l0 = v0,v1,sd0,-1,0         # Initial room outer wall (north)
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l0 = v0,v1,sd0,-1,0' in section [0;94mRead line: 'l1 = v1,v2,sd1,-1,0         # Initial room outer wall (east)
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l1 = v1,v2,sd1,-1,0' in section [0;94mRead line: 'l2 = v2,v3,sd2,-1,0         # Initial room outer wall (south)
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l2 = v2,v3,sd2,-1,0' in section [0;94mRead line: 'l3 = v3,v0,sd3,-1,0         # Initial room outer wall (west)
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l3 = v3,v0,sd3,-1,0' in section [0;94mRead line: '
+'[0;39m[0;94mRead line: 'l4 = v4,v5,sd4,-1,0         # Small room outer wall (north)
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l4 = v4,v5,sd4,-1,0' in section [0;94mRead line: 'l5 = v5,v6,sd5,-1,0         # Small room outer wall (east)
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l5 = v5,v6,sd5,-1,0' in section [0;94mRead line: 'l6 = v6,v7,sd6,-1,0         # Small room outer wall (south)
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l6 = v6,v7,sd6,-1,0' in section [0;94mRead line: 'l7 = v7,v4,sd7,-1,0         # Small room outer wall (west)
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l7 = v7,v4,sd7,-1,0' in section [0;94mRead line: '
+'[0;39m[0;94mRead line: 'l8 = v5,v8,sd8,sd9,1        # Door to corridor
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l8 = v5,v8,sd8,sd9,1' in section [0;94mRead line: 'l9 = v8,v9,sd10,-1,0        # Corridor wall north
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l9 = v8,v9,sd10,-1,0' in section [0;94mRead line: 'l10 = v9,v10,sd11,-1,0      # Corridor wall east
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l10 = v9,v10,sd11,-1,0' in section [0;94mRead line: 'l11 = v10,v11,sd12,-1,0     # Corridor wall south
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l11 = v10,v11,sd12,-1,0' in section [0;94mRead line: 'l12 = v11,v8,sd13,-1,0      # Corridor wall west
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l12 = v11,v8,sd13,-1,0' in section [0;94mRead line: '
+'[0;39m[0;94mRead line: 'l13 = v9,v12,sd14,sd15,1    # Door to final room
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l13 = v9,v12,sd14,sd15,1' in section [0;94mRead line: 'l14 = v12,v13,sd16,-1,0     # Final room wall north
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l14 = v12,v13,sd16,-1,0' in section [0;94mRead line: 'l15 = v13,v14,sd17,-1,0     # Final room wall east
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l15 = v13,v14,sd17,-1,0' in section [0;94mRead line: 'l16 = v14,v15,sd18,-1,0     # Final room wall south
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l16 = v14,v15,sd18,-1,0' in section [0;94mRead line: 'l17 = v15,v12,sd19,-1,0     # Final room wall west
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l17 = v15,v12,sd19,-1,0' in section [0;94mRead line: '
+'[0;39m[0;94mRead line: '# Central pillar
+'[0;39m[0;94mRead line: 'l18 = v16,v17,sd20,-1,0     # Pillar wall north
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l18 = v16,v17,sd20,-1,0' in section [0;94mRead line: 'l19 = v17,v18,sd20,-1,0     # Pillar wall east
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l19 = v17,v18,sd20,-1,0' in section [0;94mRead line: 'l20 = v18,v19,sd20,-1,0     # Pillar wall south
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l20 = v18,v19,sd20,-1,0' in section [0;94mRead line: 'l21 = v19,v16,sd20,-1,0     # Pillar wall west
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'l21 = v19,v16,sd20,-1,0' in section [0;94mRead line: '
+'[0;39m[0;94mRead line: '[SECTORS]
+'[0;39m[0;96mChecking section header: '[SECTORS]'
+[0;39m[0;93mFound SECTORS section
+[0;39m[0;94mRead line: '# Format: floor_height ceiling_height light floor_texture ceiling_texture
+'[0;39m[0;94mRead line: 's0 = 0,20,192,assets/texture/tile_floor1.xpm,assets/texture/tech5.xpm        # Initial room (lab)
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 's0 = 0,20,192,assets/texture/tile_floor1.xpm,assets/texture/tech5.xpm' in section Parsing sector: 's0 = 0,20,192,assets/texture/tile_floor1.xpm,assets/texture/tech5.xpm'
+Parsing sector data: '0,20,192,assets/texture/tile_floor1.xpm,assets/texture/tech5.xpm'
+Floor height: 0
+Ceiling height: 20
+Light: 192
+Floor texture: 'assets/texture/tile_floor1.xpm'
+Ceiling texture: 'assets/texture/tech5.xpm'
+[0;94mRead line: 's1 = -2,18,160,assets/texture/metal_floor2.xpm,assets/texture/tile_floor2.xpm # Corridor (metal)
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 's1 = -2,18,160,assets/texture/metal_floor2.xpm,assets/texture/tile_floor2.xpm' in section Parsing sector: 's1 = -2,18,160,assets/texture/metal_floor2.xpm,assets/texture/tile_floor2.xpm'
+Parsing sector data: '-2,18,160,assets/texture/metal_floor2.xpm,assets/texture/tile_floor2.xpm'
+Floor height: -2
+Ceiling height: 18
+Light: 160
+Floor texture: 'assets/texture/metal_floor2.xpm'
+Ceiling texture: 'assets/texture/tile_floor2.xpm'
+[0;94mRead line: 's2 = -5,15,128,assets/texture/tile_floor3.xpm,assets/texture/ice3.xpm        # Final room (ice)
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 's2 = -5,15,128,assets/texture/tile_floor3.xpm,assets/texture/ice3.xpm' in section Parsing sector: 's2 = -5,15,128,assets/texture/tile_floor3.xpm,assets/texture/ice3.xpm'
+Parsing sector data: '-5,15,128,assets/texture/tile_floor3.xpm,assets/texture/ice3.xpm'
+Floor height: -5
+Ceiling height: 15
+Light: 128
+Floor texture: 'assets/texture/tile_floor3.xpm'
+Ceiling texture: 'assets/texture/ice3.xpm'
+[0;94mRead line: 's3 = 0,25,220,assets/texture/tile_floor4.xpm,assets/texture/marmore.xpm      # Pillar (marble)
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 's3 = 0,25,220,assets/texture/tile_floor4.xpm,assets/texture/marmore.xpm' in section Parsing sector: 's3 = 0,25,220,assets/texture/tile_floor4.xpm,assets/texture/marmore.xpm'
+Parsing sector data: '0,25,220,assets/texture/tile_floor4.xpm,assets/texture/marmore.xpm'
+Floor height: 0
+Ceiling height: 25
+Light: 220
+Floor texture: 'assets/texture/tile_floor4.xpm'
+Ceiling texture: 'assets/texture/marmore.xpm'
+[0;94mRead line: '
+'[0;39m[0;94mRead line: '[THINGS]
+'[0;39m[0;96mChecking section header: '[THINGS]'
+[0;39m[0;93mFound THINGS section
+[0;39m[0;94mRead line: '# type (1:player, 2:enemy, 3:item) x,y,angle
+'[0;39m[0;94mRead line: '1,80,80,90  # Player
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: '1,80,80,90' in section Parsing thing: '1,80,80,90'
+Validating thing type: 1
+[0;92mAdding thing: type=1 pos=(80,80) angle=16383
+[0;39m[0;94mRead line: '2,1024,192,0      # Enemy 1
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: '2,1024,192,0' in section Parsing thing: '2,1024,192,0'
+Validating thing type: 2
+[0;92mAdding thing: type=2 pos=(1024,192) angle=0
+[0;39m[0;94mRead line: '2,960,320,0      # Enemy 2
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: '2,960,320,0' in section Parsing thing: '2,960,320,0'
+Validating thing type: 2
+[0;92mAdding thing: type=2 pos=(960,320) angle=0
+[0;39m[0;94mRead line: '3,640,192,0      # Ammo
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: '3,640,192,0' in section Parsing thing: '3,640,192,0'
+Validating thing type: 3
+[0;92mAdding thing: type=3 pos=(640,192) angle=0
+[0;39m[0;94mRead line: '3,768,192,0      # Medkit
+'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: '3,768,192,0' in section Parsing thing: '3,768,192,0'
+Validating thing type: 3
+[0;92mAdding thing: type=3 pos=(768,192) angle=0
+[0;39m[0;94mRead line: '
+'[0;39m[0;94mRead line: '[SKYBOX]
+'[0;39m[0;96mChecking section header: '[SKYBOX]'
+[0;39m[0;93mFound SKYBOX section
+[0;39m[0;94mRead line: 'assets/texture/skybox9.xpm'[0;39m[0;91mSection not recognized
+[0;39m[0;96mParsing line: 'assets/texture/skybox9.xpm' in section Starting map validation...
+Checking map basics:
+- Vertices: 20
+- Sidedefs: 15
+- Linedefs: 22
+- Sectors: 4
+- Things: 5
+Validating sidedefs...
+Validating sectors...
+Starting sector validation (count: 4)...
+Validating sector 0...
+Validating sector basics:
+- Floor height: 0
+- Ceiling height: 20
+- Light level: 192
+Validating sector 1...
+Validating sector basics:
+- Floor height: -2
+- Ceiling height: 18
+- Light level: 160
+Validating sector 2...
+Validating sector basics:
+- Floor height: -5
+- Ceiling height: 15
+- Light level: 128
+Validating sector 3...
+Validating sector basics:
+- Floor height: 0
+- Ceiling height: 25
+- Light level: 220
+All sectors validated successfully!
+Validating references...
+Validating textures...
+Validating things...
+Validating skybox...
+Map validation complete!
+[0;92mThread pool initialized with 8 threads
+[0;39mAttempting to load texture from path: ./assets/sprites/pistol/PIS0.xpm
+Attempting to load texture from path: ./assets/sprites/pistol/PIS1.xpm
+Attempting to load texture from path: ./assets/sprites/pistol/PIS2.xpm
+Attempting to load texture from path: ./assets/sprites/pistol/PISFA0.xpm
+Attempting to load texture from path: assets/texture/skybox9.xpm
+Attempting to load texture from path: assets/texture/lab1.xpm
+Attempting to load texture from path: assets/texture/lab2.xpm
+Attempting to load texture from path: assets/texture/lab3.xpm
+Attempting to load texture from path: assets/texture/lab4.xpm
+Attempting to load texture from path: assets/texture/tech1.xpm
+Attempting to load texture from path: assets/texture/doorlab.xpm
+Attempting to load texture from path: assets/texture/tech2.xpm
+Attempting to load texture from path: assets/texture/metal.xpm
+Attempting to load texture from path: assets/texture/metal2.xpm
+Attempting to load texture from path: assets/texture/metal3.xpm
+Attempting to load texture from path: assets/texture/metal4.xpm
+Attempting to load texture from path: assets/texture/tech3.xpm
+Attempting to load texture from path: assets/texture/doorlab.xpm
+Attempting to load texture from path: assets/texture/tech4.xpm
+Attempting to load texture from path: assets/texture/stone1.xpm
+Attempting to load texture from path: assets/texture/stone2.xpm
+Attempting to load texture from path: assets/texture/stone3.xpm
+Attempting to load texture from path: assets/texture/stone4.xpm
+Attempting to load texture from path: assets/texture/ice1.xpm
+Attempting to load texture from path: assets/texture/ice2.xpm
+Attempting to load texture from path: assets/texture/marmore.xpm
+Attempting to load texture from path: assets/texture/metal_floor.xpm
+Attempting to load texture from path: assets/texture/tile_floor1.xpm
+Attempting to load texture from path: assets/texture/metal_floor2.xpm
+Attempting to load texture from path: assets/texture/tile_floor3.xpm
+Attempting to load texture from path: assets/texture/tile_floor4.xpm
+Attempting to load texture from path: assets/texture/tech5.xpm
+Attempting to load texture from path: assets/texture/tile_floor2.xpm
+Attempting to load texture from path: assets/texture/ice3.xpm
+Attempting to load texture from path: assets/texture/marmore.xpm
+Preloaded 24 textures for the map
+Initializing BSP tree construction
+
+=== Detailed Map Line Extraction ===
+Total vertices: 20
+Total linedefs: 22
+
+Processing Linedef 0:
+  Vertex1 index: 0
+  Vertex2 index: 1
+  Start: (-640, -384)
+  End: (640, -384)
+
+Processing Linedef 1:
+  Vertex1 index: 1
+  Vertex2 index: 2
+  Start: (640, -384)
+  End: (640, 384)
+
+Processing Linedef 2:
+  Vertex1 index: 2
+  Vertex2 index: 3
+  Start: (640, 384)
+  End: (-640, 384)
+
+Processing Linedef 3:
+  Vertex1 index: 3
+  Vertex2 index: 0
+  Start: (-640, 384)
+  End: (-640, -384)
+
+Processing Linedef 4:
+  Vertex1 index: 4
+  Vertex2 index: 5
+  Start: (-512, -256)
+  End: (-256, -256)
+
+Processing Linedef 5:
+  Vertex1 index: 5
+  Vertex2 index: 6
+  Start: (-256, -256)
+  End: (-256, -64)
+
+Processing Linedef 6:
+  Vertex1 index: 6
+  Vertex2 index: 7
+  Start: (-256, -64)
+  End: (-512, -64)
+
+Processing Linedef 7:
+  Vertex1 index: 7
+  Vertex2 index: 4
+  Start: (-512, -64)
+  End: (-512, -256)
+
+Processing Linedef 8:
+  Vertex1 index: 5
+  Vertex2 index: 8
+  Start: (-256, -256)
+  End: (-128, -128)
+
+Processing Linedef 9:
+  Vertex1 index: 8
+  Vertex2 index: 9
+  Start: (-128, -128)
+  End: (128, -128)
+
+Processing Linedef 10:
+  Vertex1 index: 9
+  Vertex2 index: 10
+  Start: (128, -128)
+  End: (128, 64)
+
+Processing Linedef 11:
+  Vertex1 index: 10
+  Vertex2 index: 11
+  Start: (128, 64)
+  End: (-128, 64)
+
+Processing Linedef 12:
+  Vertex1 index: 11
+  Vertex2 index: 8
+  Start: (-128, 64)
+  End: (-128, -128)
+
+Processing Linedef 13:
+  Vertex1 index: 9
+  Vertex2 index: 12
+  Start: (128, -128)
+  End: (256, -256)
+
+Processing Linedef 14:
+  Vertex1 index: 12
+  Vertex2 index: 13
+  Start: (256, -256)
+  End: (512, -256)
+
+Processing Linedef 15:
+  Vertex1 index: 13
+  Vertex2 index: 14
+  Start: (512, -256)
+  End: (512, 0)
+
+Processing Linedef 16:
+  Vertex1 index: 14
+  Vertex2 index: 15
+  Start: (512, 0)
+  End: (256, 0)
+
+Processing Linedef 17:
+  Vertex1 index: 15
+  Vertex2 index: 12
+  Start: (256, 0)
+  End: (256, -256)
+
+Processing Linedef 18:
+  Vertex1 index: 16
+  Vertex2 index: 17
+  Start: (0, 256)
+  End: (128, 256)
+
+Processing Linedef 19:
+  Vertex1 index: 17
+  Vertex2 index: 18
+  Start: (128, 256)
+  End: (128, 384)
+
+Processing Linedef 20:
+  Vertex1 index: 18
+  Vertex2 index: 19
+  Start: (128, 384)
+  End: (0, 384)
+
+Processing Linedef 21:
+  Vertex1 index: 19
+  Vertex2 index: 16
+  Start: (0, 384)
+  End: (0, 256)
+Extracted 22 lines from map
+Lines to process (22):
+  Line 0: (-640,-384) -> (640,-384)
+  Line 1: (640,-384) -> (640,384)
+  Line 2: (640,384) -> (-640,384)
+  Line 3: (-640,384) -> (-640,-384)
+  Line 4: (-512,-256) -> (-256,-256)
+  Line 5: (-256,-256) -> (-256,-64)
+  Line 6: (-256,-64) -> (-512,-64)
+  Line 7: (-512,-64) -> (-512,-256)
+  Line 8: (-256,-256) -> (-128,-128)
+  Line 9: (-128,-128) -> (128,-128)
+  Line 10: (128,-128) -> (128,64)
+  Line 11: (128,64) -> (-128,64)
+  Line 12: (-128,64) -> (-128,-128)
+  Line 13: (128,-128) -> (256,-256)
+  Line 14: (256,-256) -> (512,-256)
+  Line 15: (512,-256) -> (512,0)
+  Line 16: (512,0) -> (256,0)
+  Line 17: (256,0) -> (256,-256)
+  Line 18: (0,256) -> (128,256)
+  Line 19: (128,256) -> (128,384)
+  Line 20: (128,384) -> (0,384)
+  Line 21: (0,384) -> (0,256)
+depth 0, linesize 23057006
+Seed search completed using 8 threads
+Selected partition with score 3
+[0;94mClassifying line: (512,0) -> (256,0) = 2
+[0;39m[0;92mAdded line to FRONT side (count: 1)
+[0;39m[0;94mClassifying line: (-128,-128) -> (128,-128) = -1
+[0;39m[0;92mAdded line to BACK side (count: 1)
+[0;39m[0;94mClassifying line: (512,-256) -> (512,0) = -1
+[0;39m[0;92mAdded line to BACK side (count: 2)
+[0;39m[0;94mClassifying line: (128,384) -> (0,384) = 2
+[0;39m[0;92mAdded line to FRONT side (count: 2)
+[0;39m[0;94mClassifying line: (-256,-256) -> (-256,-64) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 3)
+[0;39m[0;94mClassifying line: (256,0) -> (256,-256) = -1
+[0;39m[0;92mAdded line to BACK side (count: 3)
+[0;39m[0;94mClassifying line: (0,256) -> (128,256) = 2
+[0;39m[0;92mAdded line to FRONT side (count: 4)
+[0;39m[0;94mClassifying line: (-256,-64) -> (-512,-64) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 5)
+[0;39m[0;94mClassifying line: (128,-128) -> (256,-256) = -1
+[0;39m[0;92mAdded line to BACK side (count: 4)
+[0;39m[0;94mClassifying line: (128,256) -> (128,384) = 2
+[0;39m[0;92mAdded line to FRONT side (count: 6)
+[0;39m[0;94mClassifying line: (-512,-64) -> (-512,-256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 7)
+[0;39m[0;94mClassifying line: (640,384) -> (-640,384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 8)
+[0;39m[0;94mClassifying line: (0,384) -> (0,256) = 2
+[0;39m[0;92mAdded line to FRONT side (count: 9)
+[0;39m[0;94mClassifying line: (-640,-384) -> (640,-384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 10)
+[0;39m[0;94mClassifying line: (128,64) -> (-128,64) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 11)
+[0;39m[0;94mClassifying line: (256,-256) -> (512,-256) = -1
+[0;39m[0;92mAdded line to BACK side (count: 5)
+[0;39m[0;94mClassifying line: (-512,-256) -> (-256,-256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 12)
+[0;39m[0;94mClassifying line: (128,-128) -> (128,64) = -1
+[0;39m[0;92mAdded line to BACK side (count: 6)
+[0;39m[0;94mClassifying line: (640,-384) -> (640,384) = 2
+[0;39m[0;92mAdded line to FRONT side (count: 13)
+[0;39m[0;94mClassifying line: (-640,384) -> (-640,-384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 14)
+[0;39m[0;94mClassifying line: (-128,64) -> (-128,-128) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 15)
+[0;39m[0;96mBuilding front subtree with 15 lines
+[0;39mdepth 1, linesize 1089461941
+Seed search completed using 8 threads
+Selected partition with score 13
+[0;94mClassifying line: (-256,-256) -> (-256,-64) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 1)
+[0;39m[0;94mClassifying line: (-512,-256) -> (-256,-256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 2)
+[0;39m[0;94mClassifying line: (0,384) -> (0,256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 3)
+[0;39m[0;94mClassifying line: (128,64) -> (-128,64) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 4)
+[0;39m[0;94mClassifying line: (-640,384) -> (-640,-384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 5)
+[0;39m[0;94mClassifying line: (-640,-384) -> (640,-384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 6)
+[0;39m[0;94mClassifying line: (128,256) -> (128,384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 7)
+[0;39m[0;94mClassifying line: (512,0) -> (256,0) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 8)
+[0;39m[0;94mClassifying line: (-256,-64) -> (-512,-64) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 9)
+[0;39m[0;94mClassifying line: (128,384) -> (0,384) = 2
+[0;39m[0;92mAdded line to FRONT side (count: 10)
+[0;39m[0;94mClassifying line: (640,-384) -> (640,384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 11)
+[0;39m[0;94mClassifying line: (-512,-64) -> (-512,-256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 12)
+[0;39m[0;94mClassifying line: (0,256) -> (128,256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 13)
+[0;39m[0;94mClassifying line: (-128,64) -> (-128,-128) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 14)
+[0;39m[0;96mBuilding front subtree with 14 lines
+[0;39mdepth 2, linesize 14671990
+Seed search completed using 8 threads
+Selected partition with score 13
+[0;94mClassifying line: (-640,384) -> (-640,-384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 1)
+[0;39m[0;94mClassifying line: (512,0) -> (256,0) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 2)
+[0;39m[0;94mClassifying line: (-256,-64) -> (-512,-64) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 3)
+[0;39m[0;94mClassifying line: (128,256) -> (128,384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 4)
+[0;39m[0;94mClassifying line: (128,384) -> (0,384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 5)
+[0;39m[0;94mClassifying line: (128,64) -> (-128,64) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 6)
+[0;39m[0;94mClassifying line: (0,256) -> (128,256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 7)
+[0;39m[0;94mClassifying line: (640,-384) -> (640,384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 8)
+[0;39m[0;94mClassifying line: (-512,-256) -> (-256,-256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 9)
+[0;39m[0;94mClassifying line: (-128,64) -> (-128,-128) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 10)
+[0;39m[0;94mClassifying line: (-256,-256) -> (-256,-64) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 11)
+[0;39m[0;94mClassifying line: (0,384) -> (0,256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 12)
+[0;39m[0;94mClassifying line: (-512,-64) -> (-512,-256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 13)
+[0;39m[0;96mBuilding front subtree with 13 lines
+[0;39mdepth 3, linesize 1060117961
+Seed search completed using 8 threads
+Selected partition with score 2
+[0;94mClassifying line: (-512,-64) -> (-512,-256) = -1
+[0;39m[0;92mAdded line to BACK side (count: 1)
+[0;39m[0;94mClassifying line: (-512,-256) -> (-256,-256) = -1
+[0;39m[0;92mAdded line to BACK side (count: 2)
+[0;39m[0;94mClassifying line: (128,384) -> (0,384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 1)
+[0;39m[0;94mClassifying line: (512,0) -> (256,0) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 2)
+[0;39m[0;94mClassifying line: (-640,384) -> (-640,-384) = -1
+[0;39m[0;92mAdded line to BACK side (count: 3)
+[0;39m[0;94mClassifying line: (128,64) -> (-128,64) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 3)
+[0;39m[0;94mClassifying line: (0,384) -> (0,256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 4)
+[0;39m[0;94mClassifying line: (-256,-64) -> (-512,-64) = -1
+[0;39m[0;92mAdded line to BACK side (count: 4)
+[0;39m[0;94mClassifying line: (-256,-256) -> (-256,-64) = -1
+[0;39m[0;92mAdded line to BACK side (count: 5)
+[0;39m[0;94mClassifying line: (128,256) -> (128,384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 5)
+[0;39m[0;94mClassifying line: (0,256) -> (128,256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 6)
+[0;39m[0;94mClassifying line: (640,-384) -> (640,384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 7)
+[0;39m[0;96mBuilding front subtree with 7 lines
+[0;39mdepth 4, linesize 1081076925
+Seed search completed using 8 threads
+Selected partition with score 6
+[0;94mClassifying line: (0,384) -> (0,256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 1)
+[0;39m[0;94mClassifying line: (512,0) -> (256,0) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 2)
+[0;39m[0;94mClassifying line: (128,64) -> (-128,64) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 3)
+[0;39m[0;94mClassifying line: (128,256) -> (128,384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 4)
+[0;39m[0;94mClassifying line: (0,256) -> (128,256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 5)
+[0;39m[0;94mClassifying line: (128,384) -> (0,384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 6)
+[0;39m[0;96mBuilding front subtree with 6 lines
+[0;39mdepth 5, linesize 6286974
+Seed search completed using 8 threads
+Selected partition with score 1
+[0;94mClassifying line: (128,64) -> (-128,64) = -1
+[0;39m[0;92mAdded line to BACK side (count: 1)
+[0;39m[0;94mClassifying line: (128,256) -> (128,384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 1)
+[0;39m[0;94mClassifying line: (0,384) -> (0,256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 2)
+[0;39m[0;94mClassifying line: (128,384) -> (0,384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 3)
+[0;39m[0;94mClassifying line: (512,0) -> (256,0) = -1
+[0;39m[0;92mAdded line to BACK side (count: 2)
+[0;39m[0;96mBuilding front subtree with 3 lines
+[0;39mdepth 6, linesize 1613755776
+Seed search completed using 8 threads
+Selected partition with score 2
+[0;94mClassifying line: (128,384) -> (0,384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 1)
+[0;39m[0;94mClassifying line: (128,256) -> (128,384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 2)
+[0;39m[0;96mBuilding front subtree with 2 lines
+[0;39mdepth 7, linesize 1075837184
+Seed search completed using 8 threads
+Selected partition with score 1
+[0;94mClassifying line: (128,256) -> (128,384) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 1)
+[0;39m[0;96mBuilding front subtree with 1 lines
+[0;39mdepth 8, linesize 537918592
+Seed search completed using 8 threads
+Selected partition with score 0
+No front lines
+No back lines
+No back lines
+No back lines
+[0;96mBuilding back subtree with 2 lines
+[0;39mdepth 6, linesize 2145387394
+Seed search completed using 8 threads
+Selected partition with score 1
+[0;94mClassifying line: (512,0) -> (256,0) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 1)
+[0;39m[0;96mBuilding front subtree with 1 lines
+[0;39mdepth 7, linesize 1074789951
+Seed search completed using 8 threads
+Selected partition with score 0
+No front lines
+No back lines
+No back lines
+No back lines
+[0;96mBuilding back subtree with 5 lines
+[0;39mdepth 4, linesize 1078982459
+Seed search completed using 8 threads
+Selected partition with score 2
+[0;94mClassifying line: (-256,-64) -> (-512,-64) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 1)
+[0;39m[0;94mClassifying line: (-512,-256) -> (-256,-256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 2)
+[0;39m[0;94mClassifying line: (-256,-256) -> (-256,-64) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 3)
+[0;39m[0;94mClassifying line: (-640,384) -> (-640,-384) = -1
+[0;39m[0;92mAdded line to BACK side (count: 1)
+[0;39m[0;96mBuilding front subtree with 3 lines
+[0;39mdepth 5, linesize 1070597443
+Seed search completed using 8 threads
+Selected partition with score 2
+[0;94mClassifying line: (-256,-256) -> (-256,-64) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 1)
+[0;39m[0;94mClassifying line: (-256,-64) -> (-512,-64) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 2)
+[0;39m[0;96mBuilding front subtree with 2 lines
+[0;39mdepth 6, linesize 2145387394
+Seed search completed using 8 threads
+Selected partition with score 1
+[0;94mClassifying line: (-256,-64) -> (-512,-64) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 1)
+[0;39m[0;96mBuilding front subtree with 1 lines
+[0;39mdepth 7, linesize 1074789951
+Seed search completed using 8 threads
+Selected partition with score 0
+No front lines
+No back lines
+No back lines
+No back lines
+[0;96mBuilding back subtree with 1 lines
+[0;39mdepth 5, linesize 1074789951
+Seed search completed using 8 threads
+Selected partition with score 0
+No front lines
+No back lines
+No back lines
+No back lines
+[0;96mBuilding back subtree with 6 lines
+[0;39mdepth 1, linesize 2141194886
+Seed search completed using 8 threads
+Selected partition with score 1
+[0;94mClassifying line: (512,-256) -> (512,0) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 1)
+[0;39m[0;94mClassifying line: (128,-128) -> (128,64) = -1
+[0;39m[0;92mAdded line to BACK side (count: 1)
+[0;39m[0;94mClassifying line: (-128,-128) -> (128,-128) = -1
+[0;39m[0;92mAdded line to BACK side (count: 2)
+[0;39m[0;94mClassifying line: (256,-256) -> (512,-256) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 2)
+[0;39m[0;94mClassifying line: (128,-128) -> (256,-256) = -1
+[0;39m[0;92mAdded line to BACK side (count: 3)
+[0;39m[0;96mBuilding front subtree with 2 lines
+[0;39mdepth 2, linesize 2145387394
+Seed search completed using 8 threads
+Selected partition with score 1
+[0;94mClassifying line: (512,-256) -> (512,0) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 1)
+[0;39m[0;96mBuilding front subtree with 1 lines
+[0;39mdepth 3, linesize 1074789951
+Seed search completed using 8 threads
+Selected partition with score 0
+No front lines
+No back lines
+No back lines
+[0;96mBuilding back subtree with 3 lines
+[0;39mdepth 2, linesize 1070597443
+Seed search completed using 8 threads
+Selected partition with score 0
+[0;94mClassifying line: (128,-128) -> (256,-256) = -1
+[0;39m[0;92mAdded line to BACK side (count: 1)
+[0;39m[0;94mClassifying line: (-128,-128) -> (128,-128) = 1
+[0;39m[0;92mAdded line to FRONT side (count: 1)
+[0;39m[0;96mBuilding front subtree with 1 lines
+[0;39mdepth 3, linesize 1074789951
+Seed search completed using 8 threads
+Selected partition with score 0
+No front lines
+No back lines
+[0;96mBuilding back subtree with 1 lines
+[0;39mdepth 3, linesize 1074789951
+Seed search completed using 8 threads
+Selected partition with score 0
+No front lines
+No back lines
+
+=== Starting Debug Render Frame ===
+
+Processing node 0x55889035f690
+Number of lines in node: 22
+Partition side classification: 2
+
+Processing node 0x558890361030
+Number of lines in node: 6
+Partition side classification: -1
+
+Processing node 0x558890360f70
+Number of lines in node: 2
+Partition side classification: 1

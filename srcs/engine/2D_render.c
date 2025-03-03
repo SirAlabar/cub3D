@@ -158,82 +158,74 @@ static void draw_player(t_game *game)
 }
 
 
-static bool is_line_visible(t_game *game, t_bsp_line *line)
-{
-    t_fixed_vec32 to_start, to_end;
-    t_fixed32 dot_start, dot_end;
-    t_fixed32 angle_cos, angle_sin;
+// static bool is_line_visible(t_game *game, t_bsp_line *line)
+// {
+//     t_fixed_vec32 to_start, to_end;
+//     t_fixed32 dot_start, dot_end;
+//     t_fixed32 angle_cos, angle_sin;
     
-    // Vector from player to line endpoints
-    to_start.x = fixed32_sub(line->start.x, game->p1.pos.x);
-    to_start.y = fixed32_sub(line->start.y, game->p1.pos.y);
-    to_end.x = fixed32_sub(line->end.x, game->p1.pos.x);
-    to_end.y = fixed32_sub(line->end.y, game->p1.pos.y);
+//     // Vector from player to line endpoints
+//     to_start.x = fixed32_sub(line->start.x, game->p1.pos.x);
+//     to_start.y = fixed32_sub(line->start.y, game->p1.pos.y);
+//     to_end.x = fixed32_sub(line->end.x, game->p1.pos.x);
+//     to_end.y = fixed32_sub(line->end.y, game->p1.pos.y);
     
-    // Get player's viewing direction using lookup tables
-    angle_cos = get_cos_8192(game->fixed_tables, game->p1.angle);
-    angle_sin = get_sin_8192(game->fixed_tables, game->p1.angle);
+//     // Get player's viewing direction using lookup tables
+//     angle_cos = get_cos_8192(game->fixed_tables, game->p1.angle);
+//     angle_sin = get_sin_8192(game->fixed_tables, game->p1.angle);
         
-    // ft_printf("Visibility check - angle: %d, cos: %d, sin: %d\n",
-    //     (game->p1.angle >> ANGLETOFINESHIFT) & FINEMASK,
-    //     fixed32_to_int(angle_cos),
-    //     fixed32_to_int(angle_sin));
+//     // ft_printf("Visibility check - angle: %d, cos: %d, sin: %d\n",
+//     //     (game->p1.angle >> ANGLETOFINESHIFT) & FINEMASK,
+//     //     fixed32_to_int(angle_cos),
+//     //     fixed32_to_int(angle_sin));
     
-    // Calculate dot products
-    dot_start = fixed32_add(
-        fixed32_mul(to_start.x, angle_cos),
-        fixed32_mul(to_start.y, angle_sin)
-    );
-    dot_end = fixed32_add(
-        fixed32_mul(to_end.x, angle_cos),
-        fixed32_mul(to_end.y, angle_sin)
-    );
+//     // Calculate dot products
+//     dot_start = fixed32_add(
+//         fixed32_mul(to_start.x, angle_cos),
+//         fixed32_mul(to_start.y, angle_sin)
+//     );
+//     dot_end = fixed32_add(
+//         fixed32_mul(to_end.x, angle_cos),
+//         fixed32_mul(to_end.y, angle_sin)
+//     );
     
-    // Line is potentially visible if at least one endpoint is in front
-    return (dot_start > 0 || dot_end > 0);
-}
+//     // Line is potentially visible if at least one endpoint is in front
+//     return (dot_start > 0 || dot_end > 0);
+// }
 
 
-static void draw_bsp_line(t_game *game, t_bsp_line *line)
+static void draw_bsp_line(t_game *game, t_bsp_line *line, int color)
 {
     t_vector_i start = world_to_screen(line->start);
     t_vector_i end = world_to_screen(line->end);
-    int color;
-
-    bool visible = is_line_visible(game, line);
-    color = visible ? DEBUG_WALL_VISIBLE : DEBUG_WALL_HIDDEN;
-
-        // ft_printf("Drawing BSP line: (%d,%d) -> (%d,%d) [%s]\n",
-        // fixed32_to_int(line->start.x), fixed32_to_int(line->start.y),
-        // fixed32_to_int(line->end.x), fixed32_to_int(line->end.y),
-        // visible ? "visible" : "hidden");
 
     draw_line(game, start, end, color);
 }
 
 
-static void draw_bsp_node(t_game *game, t_bsp_node *node)
-{
-    if (!node)
-        return;
 
-    // Draw lines in this node
-    for (int i = 0; i < node->num_lines; i++)
-    {
-        if (node->lines[i])
-            draw_bsp_line(game, node->lines[i]);
-    }
+// static void draw_bsp_node(t_game *game, t_bsp_node *node)
+// {
+//     if (!node)
+//         return;
 
-    // Draw partition line if it exists
-    if (node->partition)
-        draw_bsp_line(game, node->partition);
+//     // Draw lines in this node
+//     for (int i = 0; i < node->num_lines; i++)
+//     {
+//         if (node->lines[i])
+//             draw_bsp_line(game, node->lines[i]);
+//     }
 
-    // Recursively draw child nodes
-    if (node->front)
-        draw_bsp_node(game, node->front);
-    if (node->back)
-        draw_bsp_node(game, node->back);
-}
+//     // Draw partition line if it exists
+//     if (node->partition)
+//         draw_bsp_line(game, node->partition);
+
+//     // Recursively draw child nodes
+//     if (node->front)
+//         draw_bsp_node(game, node->front);
+//     if (node->back)
+//         draw_bsp_node(game, node->back);
+// }
 
 
 static void get_map_bounds(t_doom_map *map, t_fixed32 *min_x, t_fixed32 *max_x, 
@@ -310,35 +302,203 @@ static void draw_grid(t_game *game)
 }
 
 
+void debug_print_bsp_tree_details(t_bsp_node *node, int depth)
+{
+    int i;
+
+    // Indent based on depth
+    for (i = 0; i < depth; i++)
+        printf("  ");
+    
+    printf("BSP Node at Depth %d:\n", depth);
+
+    // Indent for node details
+    for (i = 0; i < depth + 1; i++)
+        printf("  ");
+    
+    // Adiciona verificações de segurança
+    if (!node)
+    {
+        printf("NULL Node\n");
+        return;
+    }
+
+    printf("Num Lines: %d\n", node->num_lines);
+
+    // Verificação de segurança para linhas
+    if (node->num_lines > 0)
+    {
+        if (node->lines)
+        {
+            for (i = 0; i < node->num_lines; i++)
+            {
+                // Verificação adicional para cada linha
+                if (node->lines[i])
+                {
+                    for (int j = 0; j < depth + 2; j++)
+                        printf("  ");
+                    // if(node->lines[i])
+                    //     {printf("Line %d: (%d,%d) -> (%d,%d)\n", 
+                    //     i,
+                    //     fixed32_to_int(node->lines[i]->start.x), 
+                    //     fixed32_to_int(node->lines[i]->start.y),
+                    //     fixed32_to_int(node->lines[i]->end.x), 
+                    //     fixed32_to_int(node->lines[i]->end.y));}
+                }
+                else
+                {
+                    for (int j = 0; j < depth + 2; j++)
+                        printf("  ");
+                    printf("Line %d: NULL pointer\n", i);
+                }
+            }
+        }
+        else
+        {
+            // Se num_lines > 0 mas lines é NULL, isso é um erro
+            for (i = 0; i < depth + 1; i++)
+                printf("  ");
+            printf("ERROR: num_lines = %d but lines is NULL\n", node->num_lines);
+        }
+    }
+    else
+    {
+        for (i = 0; i < depth + 1; i++)
+            printf("  ");
+        printf("No Lines\n");
+    }
+    if (node->partition)
+    {
+        for (i = 0; i < depth + 1; i++)
+            printf("  ");
+        printf("Partition Line: (%d,%d) -> (%d,%d)\n", 
+            fixed32_to_int(node->partition->start.x), 
+            fixed32_to_int(node->partition->start.y),
+            fixed32_to_int(node->partition->end.x), 
+            fixed32_to_int(node->partition->end.y));
+    }
+    else
+    {
+        for (i = 0; i < depth + 1; i++)
+            printf("  ");
+        printf("No Partition Line\n");
+    }
+
+    // Recursivamente print child nodes
+    if (node->front)
+    {
+        for (i = 0; i < depth + 1; i++)
+            printf("  ");
+        printf("Front Child:\n");
+        debug_print_bsp_tree_details(node->front, depth + 1);
+    }
+
+    if (node->back)
+    {
+        for (i = 0; i < depth + 1; i++)
+            printf("  ");
+        printf("Back Child:\n");
+        debug_print_bsp_tree_details(node->back, depth + 1);
+    }
+}
+
+// Simple wrapper to add a header and footer to the debug print
+void print_detailed_bsp_tree(t_bsp_node *root)
+{
+    printf("\n===== BSP Tree Detailed Debug =====\n");
+    if (!root)
+    {
+        printf("Empty BSP Tree\n");
+        return;
+    }
+    debug_print_bsp_tree_details(root, 0);
+    printf("===== End of BSP Tree Debug =====\n\n");
+}
+
 int render_frame(t_game *game)
 {
-    ft_printf("\nplayer position %d, e %d:", game->p1.pos.x, game->p1.pos.y);
     ft_printf("\n=== Starting Debug Render Frame ===\n");
 
-    // Clear the buffer
+    // Inicializar estrutura de linhas visíveis
+    t_visible_lines visible_lines;
+    visible_lines.count = 0;
+    print_detailed_bsp_tree(game->bsp_tree->root);
+    // Limpar o buffer
     draw_background(game);
     
-    // Draw grid first so it's behind everything
+    // Desenhar grid primeiro para ficar atrás de tudo
     draw_grid(game);
     
-    // Draw BSP tree if it exists
+    // Usar a travessia BSP existente para determinar linhas visíveis
     if (game->bsp_tree && game->bsp_tree->root)
     {
-       // ft_printf("Drawing BSP tree...\n");
-        draw_bsp_node(game, game->bsp_tree->root);
+        // Encontrar linhas visíveis usando sua função de travessia
+        mark_visible_bsp_lines(game->bsp_tree->root, game, &visible_lines);
+        
+        // Criar um array para rastrear quais linhas são visíveis
+        bool *is_visible = calloc(MAX_LINEDEFS, sizeof(bool));
+        if (is_visible)
+        {
+            // Marcar quais linhas são visíveis
+            for (int i = 0; i < visible_lines.count; i++)
+            {
+                int linedef_index = visible_lines.line_ids[i];
+                is_visible[linedef_index] = true;
+            }
+            
+            // Função de processamento para desenhar nós
+            // Esta será passada para sua função de travessia
+            void draw_node_lines(t_bsp_node *node)
+            {
+                // Desenhar linhas deste nó
+                for (int i = 0; i < node->num_lines; i++)
+                {
+                    if (node->lines[i])
+                    {
+                        int color = is_visible[node->lines[i]->linedef_index] ? 
+                                    DEBUG_WALL_VISIBLE : DEBUG_WALL_HIDDEN;
+                        draw_bsp_line(game, node->lines[i], color);
+                    }
+                }
+                
+                // Desenhar a partição
+                if (node->partition)
+                {
+                    int color = is_visible[node->partition->linedef_index] ? 
+                                DEBUG_WALL_VISIBLE : DEBUG_WALL_HIDDEN;
+                    draw_bsp_line(game, node->partition, color);
+                }
+            }
+            
+            // Usar sua função de travessia existente com nossa função de desenho
+            traverse_front_to_back(game->bsp_tree->root, game->p1.pos, draw_node_lines);
+            
+            free(is_visible);
+        }
+        else
+        {
+            // Fallback caso a alocação falhe
+            for (int i = 0; i < visible_lines.count; i++)
+            {
+                int linedef_index = visible_lines.line_ids[i];
+                t_bsp_line *line = find_line_by_linedef_index(game->bsp_tree->root, linedef_index);
+                if (line)
+                    draw_bsp_line(game, line, DEBUG_WALL_VISIBLE);
+            }
+        }
     }
     else
     {
         ft_printf("Warning: No BSP tree to render!\n");
     }
 
-    // Draw player last so it's always visible
+    // Desenhar o jogador por último para sempre ficar visível
     draw_player(game);
 
-    // Handle player movement
+    // Tratar movimento do jogador
     move_player(game);
 
-    // Swap buffers
+    // Trocar buffers
     swap_buffers(game);
 
     ft_printf("=== Debug Render Frame Complete ===\n\n");

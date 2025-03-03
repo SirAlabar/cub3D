@@ -131,6 +131,11 @@ typedef struct s_seed_data
 	pthread_mutex_t		*mutex;
 }						t_seed_data;
 
+typedef struct s_visible_lines {
+    int line_ids[2048];
+    int count;
+} t_visible_lines;
+
 typedef struct s_view_data {
     t_fixed_vec32 t1;
     t_fixed_vec32 t2;
@@ -146,17 +151,33 @@ typedef struct s_portal_item {
 } t_portal_item;
 
 /*
+** Portal queue structure implementation
+** Queue manages a list of portals to process during rendering 
+** Uses ring buffer design for efficient add/remove operations
+*/
+typedef struct s_portal_queue
+{
+    t_portal_item   items[MAX_PORTAL_QUEUE];
+    int             head;
+    int             tail;
+    int             count;
+} t_portal_queue;
+
+
+/*
 ** Function prototypes
 */
 void debug_print_lines(t_bsp_line **lines, int num_lines);
 /* bsp_build.c */
-t_bsp_node	*build_bsp_tree(t_bsp_line **lines, int num_lines, int depth);
-t_bsp_node	*build_subtrees(t_bsp_node *node, t_bsp_data *data);
-t_bsp_line				*choose_partition(t_bsp_line **lines, int num_lines);
+t_bsp_node *build_bsp_tree(t_bsp_line **lines, int num_lines, int depth, t_thread_pool *pool);
+t_bsp_node *build_subtrees(t_bsp_node *node, t_bsp_data *data, t_thread_pool *pool);
+t_bsp_line				*choose_partition(t_bsp_line **lines, int num_lines, t_thread_pool *pool);
 t_fixed32	eval_partition(t_bsp_line *partition, t_bsp_line **lines,
 		int num_lines, int depth);
 		void	count_line_sides(t_bsp_line *line, t_bsp_line *partition,
 		t_count_data *count);
+t_fixed32 calculate_lines_size(t_bsp_line **lines, int num_lines);
+
 
 /* bsp_classify.c */
 t_bsp_side				bsp_classify_line(t_bsp_line *line,
@@ -179,9 +200,16 @@ void	traverse_front_to_back(t_bsp_node *node, t_fixed_vec32 viewpoint,
 void	traverse_front_nodes(t_bsp_node *node, t_fixed_vec32 viewpoint,
 		void (*process_node)(t_bsp_node *));
 int	count_front_nodes(t_bsp_node *node, t_fixed_vec32 viewpoint);
+bool	is_segment_visible(t_fixed_vec32 v1, t_fixed_vec32 v2);
+
+void mark_visible_bsp_lines(t_bsp_node *node, t_game *game, t_visible_lines *visible_lines);
+t_bsp_line *find_line_by_linedef_index(t_bsp_node *node, int linedef_index);
+void free_visible_lines(t_visible_lines *visible_lines);
+void add_visible_line(t_visible_lines *visible_lines, int line_id);
+bool is_line_in_fov(t_game *game, t_bsp_line *line);
 
 /* bsp_utils.c */
-t_bsp_tree				*init_bsp_build(t_doom_map *map);
+t_bsp_tree				*init_bsp_build(t_doom_map *map, t_thread_pool *pool);
 void					*free_and_return(void *ptr, void *ret);
 t_bsp_node				*create_bsp_node(void);
 t_bsp_line				*create_bsp_line(t_fixed_vec32 start, t_fixed_vec32 end,
@@ -208,17 +236,31 @@ void	print_bsp_tree_recursive(t_bsp_node *node, int depth, char *prefix);
 
 void	count_line_sides(t_bsp_line *line, t_bsp_line *partition,
 		t_count_data *count);
-t_bsp_node	*build_subtrees(t_bsp_node *node, t_bsp_data *data);
+// t_bsp_node	*build_subtrees(t_bsp_node *node, t_bsp_data *data, t_thread_pool *pool);
 
 
 unsigned int	generate_random_seed(void);
 void	shuffle_lines(t_bsp_line **lines, int count, unsigned int seed);
 t_fixed32	evaluate_seed_quality(t_bsp_line **lines, int count,
 		unsigned int seed, int depth);
-unsigned int	find_best_seed(t_bsp_line **lines, int count, int depth);		
+unsigned int	find_best_seed(t_bsp_line **lines, int count, int depth, t_thread_pool *pool);
 void	init_count_data(t_count_data *count);
 
 t_bsp_node	*init_node(t_bsp_line **lines, int num_lines);
 void	free_bsp_node(t_bsp_node *node);
+
+/* bsp_portals.c */
+void			init_portal_queue(t_portal_queue *queue);
+bool			is_queue_empty(t_portal_queue *queue);
+bool			is_queue_full(t_portal_queue *queue);
+bool			enqueue_portal(t_portal_queue *queue, int sector_id, int x_min, 
+					int x_max, int depth);
+bool			dequeue_portal(t_portal_queue *queue, t_portal_item *item);
+int				get_line_sector(t_bsp_line *line);
+int				get_line_neighbor(t_bsp_line *line);
+t_portal_queue	*create_portal_queue(void);
+void			free_portal_queue(t_portal_queue *queue);
+bool			is_portal(t_bsp_line *line);
+
 
 #endif

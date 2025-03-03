@@ -168,6 +168,14 @@ bool	init_game(t_game *game)
 	{
         return (false);
 	}
+    game->thread_pool = thread_pool_create(THREAD_COUNT);
+    if (!game->thread_pool)
+    {
+        ft_printf("Failed to create thread pool\n");
+        destroy_fixed_tables_8192(game->fixed_tables);
+        return (false);
+    }
+    ft_printf(GREEN"Thread pool initialized with %d threads\n"DEFAULT, THREAD_COUNT);
 	if (!init_player(game))
 		return (false);
 	if (!init_textures(game))

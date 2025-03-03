@@ -161,9 +161,8 @@ static void	seed_task_complete(void *result, void *context)
 /*
  * Finds the best seed for BSP partitioning using thread pool
  */
-unsigned int	find_best_seed(t_bsp_line **lines, int count, int depth)
+unsigned int	find_best_seed(t_bsp_line **lines, int count, int depth, t_thread_pool *pool)
 {
-	t_thread_pool	*pool;
 	t_seed_data		*tasks;
 	t_global_best	global;
 	int				i;
@@ -171,15 +170,17 @@ unsigned int	find_best_seed(t_bsp_line **lines, int count, int depth)
 
 	if (depth > 0)
 		return (generate_random_seed());
+	if (!pool)
+	{
+		ft_printf("Warning: No thread pool provided\n");
+		return generate_random_seed();
+	}
 	pthread_mutex_init(&global.mutex, NULL);
 	global.best_score = INT32_MAX;
 	global.best_seed = BSP_MIN_SEED;
-	pool = thread_pool_create(THREAD_COUNT);
-	if (!pool)
-		return (generate_random_seed());
 	tasks = ft_calloc(THREAD_COUNT, sizeof(t_seed_data));
 	if (!tasks)
-		return (thread_pool_destroy(pool), generate_random_seed());
+		return (generate_random_seed());
 	range = (BSP_MAX_SEED - BSP_MIN_SEED) / THREAD_COUNT;
 	i = -1;
 	while (++i < THREAD_COUNT)
@@ -189,7 +190,6 @@ unsigned int	find_best_seed(t_bsp_line **lines, int count, int depth)
 			seed_task_complete, &global);
 	}
 	thread_pool_wait(pool);
-	thread_pool_destroy(pool);
 	pthread_mutex_destroy(&global.mutex);
 	free(tasks);
 	ft_printf("Seed search completed using %d threads\n", THREAD_COUNT);

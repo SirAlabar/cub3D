@@ -121,12 +121,38 @@ t_bsp_side	bsp_classify_line(t_bsp_line *line, t_bsp_line *partition)
 	return (BSP_SPANNING);
 }
 
+t_fixed32 eval_partition_quality(t_bsp_line *partition, t_bsp_line **lines, 
+                                int num_lines, int depth)
+{
+    t_count_data count;
+    t_fixed32 balance_score;
+    t_fixed32 split_score;
+    t_fixed32 depth_penalty;
+    int i;
+
+    init_count_data(&count);
+    count.tree_depth = depth;
+    
+    i = -1;
+    while (++i < num_lines)
+    {
+        if (lines[i] != partition)
+            count_line_sides(lines[i], partition, &count);
+    }
+    
+    // Calcular pontuação baseado no desbalanceamento e penalidade por divisões
+    balance_score = int_to_fixed32(abs(count.front - count.back));
+    split_score = int_to_fixed32(count.split * SPLIT_PENALTY);
+    depth_penalty = int_to_fixed32((depth * depth) / BSP_MAX_DEPTH);
+
+    return fixed32_add(fixed32_add(balance_score, split_score), depth_penalty);
+}
 /*
 ** Finds best partition line using multiple random seeds
 ** Tests different configurations for optimal balance
 ** Returns line that creates most balanced tree
 */
-t_bsp_line	*choose_partition(t_bsp_line **lines, int num_lines)
+t_bsp_line *choose_partition(t_bsp_line **lines, int num_lines, t_thread_pool *pool)
 {
 	t_bsp_line	*best_line;
 	t_fixed32	best_score;
@@ -136,41 +162,41 @@ t_bsp_line	*choose_partition(t_bsp_line **lines, int num_lines)
 
 	if (!lines || num_lines <= 0)
 		return (NULL);
-	seed = find_best_seed(lines, num_lines, 0);
+	seed = find_best_seed(lines, num_lines, 0, pool);
 	shuffle_lines(lines, num_lines, seed);
 	best_line = lines[0];
-	best_score = eval_partition(best_line, lines, num_lines, 0);
-	i = 1;
-	while (i < num_lines)
+	best_score = eval_partition_quality(best_line, lines, num_lines, 0);
+	i = -1;
+	while (++i < num_lines)
 	{
-		curr_score = eval_partition(lines[i], lines, num_lines, 0);
+		curr_score = eval_partition_quality(lines[i], lines, num_lines, 0);
 		if (curr_score < best_score)
 		{
 			best_score = curr_score;
 			best_line = lines[i];
 		}
-		i++;
 	}
+	ft_printf("Selected partition with score %d\n", fixed32_to_int(best_score));
 	return (best_line);
 }
 
-t_fixed32	eval_seed(unsigned int seed, t_bsp_line **lines,
-	int num_lines)
-{
-	t_bsp_line	**shuffled;
-	t_bsp_line	*partition;
-	t_fixed32	score;
-	int			i;
+// t_fixed32	eval_seed(unsigned int seed, t_bsp_line **lines,
+// 	int num_lines)
+// {
+// 	t_bsp_line	**shuffled;
+// 	t_bsp_line	*partition;
+// 	t_fixed32	score;
+// 	int			i;
 
-	shuffled = (t_bsp_line **)malloc(sizeof(t_bsp_line *) * num_lines);
-	if (!shuffled)
-	return (INT32_MAX);
-	i = -1;
-	while (++i < num_lines)
-		shuffled[i] = lines[i];
-	shuffle_lines(shuffled, num_lines, seed);
-	partition = shuffled[0];
-	score = eval_partition(partition, shuffled, num_lines, 0);
-	free(shuffled);
-	return (score);
-}
+// 	shuffled = (t_bsp_line **)malloc(sizeof(t_bsp_line *) * num_lines);
+// 	if (!shuffled)
+// 	return (INT32_MAX);
+// 	i = -1;
+// 	while (++i < num_lines)
+// 		shuffled[i] = lines[i];
+// 	shuffle_lines(shuffled, num_lines, seed);
+// 	partition = shuffled[0];
+// 	score = eval_partition(partition, shuffled, num_lines, 0);
+// 	free(shuffled);
+// 	return (score);
+// }

@@ -165,7 +165,8 @@ typedef struct s_game
     double      mouse_sensi;
     double      fps;
     t_bsp_tree  *bsp_tree;
-    t_fixed_tables_8192     *fixed_tables;	
+    t_fixed_tables_8192     *fixed_tables;
+    t_thread_pool           *thread_pool;	
 }               t_game;
 
 // parse

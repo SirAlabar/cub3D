@@ -54,12 +54,13 @@ int main(int argc, char **argv)
     game->map = ft_calloc(1, (sizeof(t_doom_map)));
     if (!game->map || !load_map(argc, argv, game->map))
         return (cleanup_game(game), 1);
-    game->bsp_tree = init_bsp_build(game->map);
-    if (!game->bsp_tree)
-        return (cleanup_game(game), 1);
     if (!init_window(game))
         return (cleanup_game(game), 1);
-    init_game(game);
+    if (!init_game(game))
+        return (cleanup_game(game), 1);
+    game->bsp_tree = init_bsp_build(game->map, game->thread_pool);
+    if (!game->bsp_tree)
+        return (cleanup_game(game), 1);
     setup_hooks(game);
     mlx_loop(game->mlx);
     cleanup_game(game);

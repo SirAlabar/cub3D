@@ -68,32 +68,6 @@ void draw_background(t_game *game)
     }
 }*/
 
-static bool	is_segment_visible(t_fixed_vec32 v1, t_fixed_vec32 v2)
-{
-	t_fixed32	angle1;
-	t_fixed32	angle2;
-	t_fixed32	half_fov;
-
-	// Se ambos pontos estão atrás da câmera, o segmento não é visível
-	if (v1.y <= 0 && v2.y <= 0)
-		return (false);
-	
-	// Se um ponto está atrás da câmera, precisamos recortar (simplificado)
-	if (v1.y <= 0 || v2.y <= 0)
-		return (true);
-	
-	// Verificação do campo de visão horizontal
-	half_fov = FOV >> 1;
-	angle1 = fixed32_mul(v1.y, fixed32_tan(FOV >> 1));
-	angle2 = fixed32_mul(v2.y, fixed32_tan(FOV >> 1));
-	
-	// Se ambos ângulos estão fora do FOV no mesmo lado, o segmento não é visível
-	if ((angle1 > half_fov && angle2 > half_fov) || 
-		(angle1 < -half_fov && angle2 < -half_fov))
-		return (false);
-	
-	return (true);
-}
 
 static void render_leaf_node(t_game *game, t_bsp_node *node, t_scanline *buffer)
 {
@@ -178,8 +152,8 @@ void draw_skybox(t_game *game)
         pos.x = -1;
         while (++pos.x < WINDOW_WIDTH)
         {
-            screen_pos = pos.x - WINDOW_WIDTH/2;
-            angle_offset = (unsigned int)((long long)screen_pos * (FOV/2) / (WINDOW_WIDTH/2));
+            screen_pos = pos.x - (WINDOW_WIDTH >> 1);
+            angle_offset = (unsigned int)((long long)screen_pos * (FOV >> 1) / (WINDOW_WIDTH >> 1));
             view_angle = (game->p1.angle + angle_offset) & ANGLEMASK;
 			tex_x = ((view_angle * (unsigned long long)game->skybox_tex->width) / ANG360) % game->skybox_tex->width;
             tex_y = (pos.y * game->skybox_tex->height) / (WINDOW_HEIGHT >> 1);
@@ -207,7 +181,7 @@ int render_frame(t_game *game)
     }
     if (game->bsp_tree && game->bsp_tree->root)
     {
-	    // render_bsp_node(game, game->bsp_tree->root, &buffer);
+	    render_bsp_node(game, game->bsp_tree->root, &buffer);
     }
     move_player(game);
     draw_weapon(game);

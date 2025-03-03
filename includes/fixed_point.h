@@ -81,6 +81,7 @@ t_fixed32			float_to_fixed32(float value);
 t_fixed32			int_to_fixed32(int value);
 float				fixed32_to_float(t_fixed32 value);
 int					fixed32_to_int(t_fixed32 value);
+t_fixed32			bam_to_fixed32(unsigned int angle_bam);
 
 /*
 ** Basic arithmetic operations (fixed32_vec_basic_operations.c)
@@ -124,6 +125,7 @@ t_fixed_vec32		fixed32_vec_lerp(t_fixed_vec32 start, t_fixed_vec32 end,
 						t_fixed32 amt);
 t_fixed32			fixed32_vec_dist(t_fixed_vec32 v1, t_fixed_vec32 v2);
 t_fixed_vec32		fixed32_vec_limit(t_fixed_vec32 v, t_fixed32 max);
+
 
 /*
 ** Lookup table operations (fixed_tables.c)

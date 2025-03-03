@@ -264,39 +264,6 @@ t_fixed_vec32 transform_point(t_fixed_vec32 p, t_game *game)
     
     return result;
 }
-/*
-static bool clip_wall(t_fixed_vec32 *v1, t_fixed_vec32 *v2)
-{
-    // Se ambos pontos estão fora do frustum
-    if (v1->y <= NEAR_PLANE && v2->y <= NEAR_PLANE)
-        return false;
-    if (v1->y >= FAR_PLANE && v2->y >= FAR_PLANE)
-        return false;
-
-    // Clipping contra near plane
-    if (v1->y < NEAR_PLANE)
-    {
-        t_fixed32 t = fixed32_div(
-            fixed32_sub(NEAR_PLANE, v1->y),
-            fixed32_sub(v2->y, v1->y)
-        );
-        v1->x = fixed32_add(v1->x, fixed32_mul(fixed32_sub(v2->x, v1->x), t));
-        v1->y = NEAR_PLANE;
-    }
-
-    // Clipping contra far plane
-    if (v2->y > FAR_PLANE)
-    {
-        t_fixed32 t = fixed32_div(
-            fixed32_sub(FAR_PLANE, v1->y),
-            fixed32_sub(v2->y, v1->y)
-        );
-        v2->x = fixed32_add(v1->x, fixed32_mul(fixed32_sub(v2->x, v1->x), t));
-        v2->y = FAR_PLANE;
-    }
-
-    return true;
-}*/
 
 void render_wall_segment(t_game *game, t_bsp_line *line, t_scanline *buffer)
 {
@@ -305,95 +272,122 @@ void render_wall_segment(t_game *game, t_bsp_line *line, t_scanline *buffer)
 
     debug_after_wall_transform(v1, v2);
 
-    // Projeto mantendo fixed point
-    t_fixed32 z1 = fix_max(v1.y, FIXED_POINT_SCALE);
-    t_fixed32 z2 = fix_max(v2.y, FIXED_POINT_SCALE);
+    // Apply minimum z-distance to prevent extreme projections
+    t_fixed32 z1 = fix_max(v1.y, FIXED_POINT_SCALE * 4);
+    t_fixed32 z2 = fix_max(v2.y, FIXED_POINT_SCALE * 4);
 
-    // Projeção X usando FOV
-    t_fixed32 px1 = fixed32_div(fixed32_mul(v1.x, int_to_fixed32(WINDOW_WIDTH/2)), z1);
-    t_fixed32 px2 = fixed32_div(fixed32_mul(v2.x, int_to_fixed32(WINDOW_WIDTH/2)), z2);
+    // Scale down projection factor to get reasonable heights
+    t_fixed32 projection_scale = int_to_fixed32(WINDOW_HEIGHT / 2);
+    
+    // Projection calculations with better scaling
+    t_fixed32 px1 = fixed32_div(fixed32_mul(v1.x, int_to_fixed32(WINDOW_WIDTH/4)), z1);
+    t_fixed32 px2 = fixed32_div(fixed32_mul(v2.x, int_to_fixed32(WINDOW_WIDTH/4)), z2);
 
-    // Conversão para coordenadas de tela
+    // Convert to screen coordinates
     int x1 = WINDOW_WIDTH/2 + fixed32_to_int(px1);
     int x2 = WINDOW_WIDTH/2 + fixed32_to_int(px2);
 
-    // Projeção altura 
-	t_fixed32 h1 = fixed32_div(int_to_fixed32(WINDOW_HEIGHT), z1);
-	t_fixed32 h2 = fixed32_div(int_to_fixed32(WINDOW_HEIGHT), z2);	
+    // Better height calculation with scaling
+    t_fixed32 h1 = fixed32_div(projection_scale, z1);
+    t_fixed32 h2 = fixed32_div(projection_scale, z2);
 
-    // Clipping contra bordas da tela
+    // Clipping against screen borders
     if (x1 >= WINDOW_WIDTH || x2 < 0 || x1 >= x2)
         return;
 
     x1 = fix_max(x1, 0);
     x2 = fix_min(x2, WINDOW_WIDTH - 1);
+    
+    // Get the appropriate texture for this wall
+    t_texture *wall_texture = get_wall_texture(game, line->linedef_index, true, WALL_MIDDLE);
+    if (!wall_texture) {
+        // Fallback if texture isn't found
+        wall_texture = get_wall_texture(game, 0, true, WALL_MIDDLE);  // Try default texture
+    }
 
-
-    // Interpolação e renderização
+    // Calculate wall length for texture mapping
+    t_fixed32 wall_length = fixed32_vec_dist(line->start, line->end);
+    
+    // Interpolation and rendering
     for (int x = x1; x <= x2; x++)
     {
-        // Interpolação baseada em fixed point
-        t_fixed32 t = fixed32_div(
-            int_to_fixed32(x - x1),
-            int_to_fixed32(x2 - x1)
-        );
-
-        // Altura interpolada
-        int h = fixed32_to_int(
-            fixed32_add(
-                int_to_fixed32(h1),
-                fixed32_mul(int_to_fixed32(h2 - h1), t)
-            )
-        );
-
-        // Cálculo das coordenadas Y na tela
+        // Use fixed-point for interpolation coefficient
+        t_fixed32 dx = int_to_fixed32(x - x1);
+        t_fixed32 total_width = int_to_fixed32(x2 - x1 > 0 ? x2 - x1 : 1);
+        t_fixed32 t = fixed32_div(dx, total_width);
+        
+        // Calculate wall height at this point using fixed-point
+        t_fixed32 h_fixed = fixed32_add(h1, fixed32_mul(t, fixed32_sub(h2, h1)));
+        int h = fixed32_to_int(h_fixed);
+        
+        // Apply a maximum height limit to prevent extreme values
+        h = h > WINDOW_HEIGHT ? WINDOW_HEIGHT : h;
+        
+        // Calculate screen y-coordinates with proper centering
         int center_y = WINDOW_HEIGHT / 2;
-        int top = center_y - (h >> 1);
-        int bottom = center_y + (h >> 1);
+        int top = center_y - h/2;
+        int bottom = center_y + h/2;
 
-        // Clipping vertical
+        // Strong clipping for y-coordinates
         top = top < 0 ? 0 : top;
         bottom = bottom >= WINDOW_HEIGHT ? WINDOW_HEIGHT - 1 : bottom;
 
-        // Clipping contra scanline buffer
+        // Clipping against scanline buffer
         if (top < buffer->y_top[x])
             top = buffer->y_top[x];
         if (bottom > buffer->y_bottom[x])
             bottom = buffer->y_bottom[x];
 
-        // Renderiza apenas se visível
+        // Only render if visible
         if (top <= bottom)
         {
-            // Cálculo de profundidade para shading
-            t_fixed32 depth = fixed32_add(
-                v1.y,
-                fixed32_mul(
-                    fixed32_sub(v2.y, v1.y),
-                    t
-                )
-            );
-
-            // Cálculo de shading baseado em profundidade
-            int shade = fixed32_to_int(
-                fixed32_div(int_to_fixed32(255 << 6), depth)
-            );
-            shade = shade < 32 ? 32 : (shade > 255 ? 255 : shade);
-
+            // Calculate depth for shading
+            t_fixed32 depth = fixed32_add(v1.y, fixed32_mul(t, fixed32_sub(v2.y, v1.y)));
+            
+            // Calculate texture x-coordinate based on wall position
+            int tex_x;
+            if (wall_texture) {
+                // Calculate texture position based on distance along the wall
+                t_fixed32 tex_pos = fixed32_mul(t, wall_length);
+                tex_x = fixed32_to_int(fixed32_mul(tex_pos, int_to_fixed32(wall_texture->width))) % wall_texture->width;
+                
+                // Fix texture direction based on wall orientation if needed
+                if (line->type & 1) { // Assume bit 0 indicates direction
+                    tex_x = wall_texture->width - 1 - tex_x;
+                }
+            }
+            
+            // Calculate shade based on depth - create a depth scaling factor
+            t_fixed32 depth_factor = fixed32_div(int_to_fixed32(10000), depth);
+            double shade_factor = fixed32_to_float(fix_min(depth_factor, FIXED_POINT_SCALE)); // Max 1.0
+            
             debug_scanline_details(x, top, bottom, h, depth);
 
-            // Renderização da coluna vertical
+            // Render the column
             for (int y = top; y <= bottom; y++)
             {
-                // Gradiente vertical
-                float fy = (float)(y - top) / (bottom - top);
-                int gradient_shade = (int)(shade * (1.0f - fy * 0.3f));
-                gradient_shade = gradient_shade < 32 ? 32 : (gradient_shade > 255 ? 255 : gradient_shade);
+                unsigned int color;
                 
-                int color = (gradient_shade << 16) | (gradient_shade << 8) | gradient_shade;
+                if (wall_texture) {
+                    // Calculate texture y-coordinate
+                    t_fixed32 wall_y_pos = fixed32_div(int_to_fixed32(y - top), int_to_fixed32(bottom - top + 1));
+                    int tex_y = fixed32_to_int(fixed32_mul(wall_y_pos, int_to_fixed32(wall_texture->height)));
+                    tex_y = tex_y % wall_texture->height;
+                    
+                    // Get pixel from texture
+                    color = get_texture_pixel(wall_texture, tex_x, tex_y);
+                } else {
+                    // Fallback if no texture
+                    color = 0xFFFFFF;
+                }
+                
+                // Apply depth-based shading
+                color = apply_shade(color, shade_factor);
+                
                 draw_pixel(game, x, y, color);
             }
 
-            // Atualiza scanline buffer
+            // Update scanline buffer
             buffer->y_top[x] = bottom + 1;
         }
     }
