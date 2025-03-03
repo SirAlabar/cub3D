@@ -166,6 +166,10 @@ void					draw_wall(t_game *game, t_ray *ray, int x);
 void					update_ray_position(t_ray *ray);
 void					get_hit_position(t_ray *ray, t_game *game,
 							double orig_dist, double *door_hit_pos);
+
+// draw_skybox.c
+void					draw_skybox(t_game *game);
+
 // scanline_rendering.c
 void					init_scanline_buffer(t_scanline *buffer);
 void					draw_vertical_line(t_game *g, t_line line, int color);

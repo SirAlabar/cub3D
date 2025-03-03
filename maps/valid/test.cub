@@ -6,6 +6,8 @@ SO assets/texture/south.xpm
 WE assets/texture/west.xpm
 EA assets/texture/east.xpm
 
+SKYBOX
+
 111111111111
 100E00E000001111
 1000000000000001

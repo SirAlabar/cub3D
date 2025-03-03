@@ -22,18 +22,30 @@ int	draw_background(t_game *game)
 		ft_printf("Error: Game or image pointer is NULL\n");
 		return (0);
 	}
-	y = -1;
+	if (game->skybox.img)
+		draw_skybox(game);
+	else
+	{
+		y = -1;
+		while (++y < WINDOW_HEIGHT / 2)
+		{
+			x = -1;
+			while (++x < WINDOW_WIDTH)
+				draw_pixel(game, x, y, game->map.ceiling_color);
+		}
+	}
+	// if (game->floor.img)
+	// 	// draw_floor(game);
+	// else
+	// {
+	y = WINDOW_HEIGHT / 2 - 1;
 	while (++y < WINDOW_HEIGHT)
 	{
 		x = -1;
 		while (++x < WINDOW_WIDTH)
-		{
-			if (y < WINDOW_HEIGHT >> 1)
-				draw_pixel(game, x, y, game->map.ceiling_color);
-			else
-				draw_pixel(game, x, y, game->map.floor_color);
-		}
+			draw_pixel(game, x, y, game->map.floor_color);
 	}
+	// }
 	return (1);
 }
 
