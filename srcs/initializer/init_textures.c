@@ -80,16 +80,18 @@ void	init_textures(t_game *game)
 	line = get_next_line(game->fd_map);
 	while (line)
 	{
-		while (line && line[0] && !ft_istexture(line[0])
-			&& !is_skybox_line(line))
+		if (is_floor_line(line))
 		{
-			free(line);
-			line = get_next_line(game->fd_map);
+			process_floor_config(game, line);
 		}
-		if (line && is_skybox_line(line))
+		else if (is_skybox_line(line))
+		{
 			process_skybox_config(game, line);
-		else if (line && ft_istexture(line[0]))
+		}
+		else if (ft_istexture(line[0]))
+		{
 			split_textures(game, line);
+		}
 		free(line);
 		line = get_next_line(game->fd_map);
 	}

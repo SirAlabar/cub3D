@@ -101,6 +101,18 @@
 # define SKYBOX9 "./assets/texture/skybox9.xpm"
 # define SKYBOX10 "./assets/texture/skybox10.xpm"
 
+/* Floor Textures */
+# define FLOOR1 "./assets/texture/tile_floor1.xpm"
+# define FLOOR2 "./assets/texture/tile_floor2.xpm"
+# define FLOOR3 "./assets/texture/tile_floor3.xpm"
+# define FLOOR4 "./assets/texture/tile_floor4.xpm"
+# define FLOOR5 "./assets/texture/tile_floor5.xpm"
+# define FLOOR6 "./assets/texture/tile_floor6.xpm"
+# define FLOOR7 "./assets/texture/tile_floor7.xpm"
+# define FLOOR8 "./assets/texture/tile_floor8.xpm"
+# define FLOOR9 "./assets/texture/tile_floor9.xpm"
+# define FLOOR10 "./assets/texture/tile_floor10.xpm"
+
 /* Structs */
 
 typedef struct s_player
@@ -153,6 +165,8 @@ typedef struct s_game
 	int				has_skybox;
 	char			*skybox_path;
 	t_texture		skybox;
+	int				has_floor;
+	char			*floor_path;
 	t_texture		floor;
 	t_vector		last_mouse;
 	double			mouse_sensi;
@@ -181,7 +195,11 @@ void			init_map(t_game *game);
 char			**read_map(t_game *game);
 int				count_lines(t_game *game);
 void			set_grid(t_game *game);
-//initialize/init_skybox_floor.c
+//initialize/init_floor.c
+int				is_floor_line(char *line);
+void			process_floor_config(t_game *game, char *line);
+void			init_floor(t_game *game);
+//initialize/init_skybox.c
 void			init_skybox(t_game *game);
 void			process_skybox_config(t_game *game, char *line);
 int				is_skybox_line(char *line);

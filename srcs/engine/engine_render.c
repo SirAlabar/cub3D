@@ -14,21 +14,21 @@
 
 int	engine_render_frame(t_game *game)
 {
-	// // int			x;
-	// t_ray		rays[WINDOW_WIDTH];
-	// t_scanline	scanline_buffer;
+	int			x;
+	t_ray		rays[WINDOW_WIDTH];
+	t_scanline	scanline_buffer;
 
 	if (!game || !game->addr[game->current_buffer])
 		return (0);
 	update_doors(game);
 	draw_background(game);
-	// init_scanline_buffer(&scanline_buffer);
-	// cast_rays(game, rays);
-	// x = -1;
-	// while (++x < WINDOW_WIDTH)
-	// {
-	// 	draw_wall_scanline(game, &rays[x], x, &scanline_buffer);
-	// }
+	init_scanline_buffer(&scanline_buffer);
+	cast_rays(game, rays);
+	x = -1;
+	while (++x < WINDOW_WIDTH)
+	{
+		draw_wall_scanline(game, &rays[x], x, &scanline_buffer);
+	}
 	draw_enemies(game);
 	handle_movement(game);
 	update_weapon_animation(game);
