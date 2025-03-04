@@ -23,6 +23,7 @@
 
 # include <colors.h>
 # include <engine.h>
+# include <sound.h>
 # include <events.h>
 # include <minimap.h>
 # include <fcntl.h>
@@ -172,7 +173,8 @@ typedef struct s_game
 	double			mouse_sensi;
 	double			fps;
 	t_enemy_list	*enemies;
-	t_door_system	*door_system;	
+	t_door_system	*door_system;
+	t_sounds		*sounds;	
 }				t_game;
 
 void			cleanup_game(t_game *game);
