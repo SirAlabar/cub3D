@@ -123,8 +123,9 @@ typedef struct s_game
 {
 	void			*mlx;
 	void			*win;
-	void			*img;
-	char			*addr;
+	void			*img[2];
+	char			*addr[2];
+	int				current_buffer;
 	int				bits_per_pixel;
 	int				line_length;
 	int				endian;

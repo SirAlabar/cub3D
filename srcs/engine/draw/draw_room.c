@@ -17,7 +17,7 @@ int	draw_background(t_game *game)
 	int	x;
 	int	y;
 
-	if (!game || !game->img)
+	if (!game || (!game->addr[game->current_buffer]))
 	{
 		ft_printf("Error: Game or image pointer is NULL\n");
 		return (0);
@@ -28,7 +28,7 @@ int	draw_background(t_game *game)
 		x = -1;
 		while (++x < WINDOW_WIDTH)
 		{
-			if (y < WINDOW_HEIGHT / 2)
+			if (y < WINDOW_HEIGHT >> 1)
 				draw_pixel(game, x, y, game->map.ceiling_color);
 			else
 				draw_pixel(game, x, y, game->map.floor_color);

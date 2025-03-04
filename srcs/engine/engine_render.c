@@ -12,29 +12,14 @@
 
 #include <cub3d.h>
 
-void	engine_prepare_frame(t_game *game)
-{
-	if (!game || !game->mlx)
-		return ;
-	if (game->img)
-	{
-		mlx_destroy_image(game->mlx, game->img);
-		game->img = NULL;
-	}
-	game->img = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
-	if (!game->img)
-		return ;
-	game->addr = mlx_get_data_addr(game->img, &game->bits_per_pixel,
-			&game->line_length, &game->endian);
-}
-
 int	engine_render_frame(t_game *game)
 {
 	int			x;
 	t_ray		rays[WINDOW_WIDTH];
 	t_scanline	scanline_buffer;
 
-	engine_prepare_frame(game);
+	if (!game || !game->addr[game->current_buffer])
+		return (0);
 	update_doors(game);
 	draw_background(game);
 	init_scanline_buffer(&scanline_buffer);
@@ -50,6 +35,6 @@ int	engine_render_frame(t_game *game)
 	draw_weapon(game);
 	draw_minimap(game);
 	draw_health_bar(game);
-	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
+	swap_buffers(game);
 	return (0);
 }

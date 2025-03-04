@@ -16,7 +16,7 @@ static t_vector_i	get_weapon_dimensions(t_texture *gun)
 {
 	t_vector_i	dim;
 
-	dim.x = WINDOW_WIDTH / 4;
+	dim.x = WINDOW_WIDTH >> 2;
 	dim.y = (dim.x * gun->height) / gun->width;
 	return (dim);
 }
@@ -25,7 +25,7 @@ static t_vector_i	get_weapon_position(t_vector_i dim)
 {
 	t_vector_i	pos;
 
-	pos.x = (WINDOW_WIDTH - dim.x) / 2;
+	pos.x = (WINDOW_WIDTH - dim.x) >> 1;
 	pos.y = WINDOW_HEIGHT - dim.y;
 	return (pos);
 }

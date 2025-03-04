@@ -27,8 +27,8 @@ void	init_scanline_buffer(t_scanline *buffer)
 void	init_wall_drawing(t_wall *wall)
 {
 	wall->height = (int)(WINDOW_HEIGHT / wall->ray->perp_wall_dist);
-	wall->start = -wall->height / 2 + WINDOW_HEIGHT / 2;
-	wall->end = wall->height / 2 + WINDOW_HEIGHT / 2;
+	wall->start = (-wall->height >> 1) + (WINDOW_HEIGHT >> 1);
+	wall->end = (wall->height >> 1) + (WINDOW_HEIGHT >> 1);
 	if (wall->start < wall->buffer->y_top[wall->x])
 		wall->start = wall->buffer->y_top[wall->x];
 	if (wall->end > wall->buffer->y_bottom[wall->x])
@@ -36,7 +36,7 @@ void	init_wall_drawing(t_wall *wall)
 	wall->texture = get_wall_texture(wall->ray, wall->game);
 	set_wall_tex_coords(wall);
 	wall->step = 1.0 * wall->texture->height / wall->height;
-	wall->tex_pos = (wall->start - WINDOW_HEIGHT / 2 + wall->height / 2)
+	wall->tex_pos = (wall->start - (WINDOW_HEIGHT >> 1) + (wall->height >> 1))
 		* wall->step;
 }
 
@@ -60,15 +60,15 @@ void	set_wall_tex_coords(t_wall *wall)
 
 static void	put_wall_pixel(t_wall *wall, t_vector_i pos)
 {
-	int	pixel_pos;
+	int	color;
 
+	if (!wall->texture || !wall->texture->img
+		|| !wall->game->addr[wall->game->current_buffer])
+		return ;
 	wall->tex.y = (int)wall->tex_pos & (wall->texture->height - 1);
-	wall->color = get_texture_pixel(wall->texture, wall->tex.x, wall->tex.y);
-	wall->color = apply_shade(wall->color, 1.0 / (1.0
-				+ wall->ray->perp_wall_dist * 0.05));
-	pixel_pos = (pos.y * wall->game->line_length) + (pos.x
-			* (wall->game->bits_per_pixel / 8));
-	*(unsigned int *)(wall->game->addr + pixel_pos) = wall->color;
+	color = get_texture_pixel(wall->texture, wall->tex.x, wall->tex.y);
+	color = apply_shade(color, 1.0 / (1.0 + wall->ray->perp_wall_dist * 0.05));
+	draw_pixel(wall->game, pos.x, pos.y, color);
 	wall->tex_pos += wall->step;
 }
 
@@ -77,6 +77,8 @@ void	draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
 	t_wall		wall;
 	t_vector_i	pos;
 
+	if (!game || !game->addr[game->current_buffer] || !ray || !buffer)
+		return ;
 	wall.game = game;
 	wall.ray = ray;
 	wall.x = x;
