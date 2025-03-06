@@ -190,6 +190,10 @@ void					draw_wall_scanline(t_game *game, t_ray *ray, int x,
 void					init_wall_drawing(t_wall *wall);
 
 // draw_weapon
+t_vector_i				get_weapon_dimensions(t_texture *gun);
+t_vector_i				get_weapon_position(t_vector_i dim);
+void					draw_weapon_pixel(t_game *game, t_vector_i pos, t_vector_i gun_pos,
+							t_texture *gun);
 void					draw_weapon(t_game *game);
 
 // Door functions
@@ -263,5 +267,6 @@ void					handle_wall_collision(t_ray *ray);
 void					handle_door_collision(t_ray *ray, t_game *game);
 double					get_wall_x(t_ray *ray, t_game *game, double orig_dist);
 void					set_door_hit(t_ray *ray, double orig_dist);
+bool					is_within_map_bounds(t_game *game, int x, int y);
 
 #endif

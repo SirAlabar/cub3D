@@ -58,6 +58,7 @@ void	cleanup_game(t_game *game)
 	cleanup_enemies(game);
 	cleanup_door_system(game);
 	cleanup_double_buffer(game);
+	cleanup_portal_system(game);
 	if (game->win && game->mlx)
 		mlx_destroy_window(game->mlx, game->win);
 	if (game->mlx)

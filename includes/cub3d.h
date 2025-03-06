@@ -24,6 +24,7 @@
 # include <colors.h>
 # include <engine.h>
 # include <events.h>
+# include <portals.h>
 # include <minimap.h>
 # include <fcntl.h>
 # include <libft.h>
@@ -62,6 +63,7 @@
 # define KEY_S XK_s
 # define KEY_D XK_d
 # define KEY_E XK_e
+# define KEY_Q XK_q
 # define KEY_LEFT XK_Left
 # define KEY_RIGHT XK_Right
 # define KEY_UP XK_Up
@@ -172,7 +174,8 @@ typedef struct s_game
 	double			mouse_sensi;
 	double			fps;
 	t_enemy_list	*enemies;
-	t_door_system	*door_system;	
+	t_door_system	*door_system;
+	t_portal_system *portal_system;
 }				t_game;
 
 void			cleanup_game(t_game *game);

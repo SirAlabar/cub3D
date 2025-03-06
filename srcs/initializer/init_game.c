@@ -66,6 +66,9 @@ void	init_game(t_game *game)
 	init_skybox(game);
 	init_floor(game);
 	init_enemies(game);
+	printf("DEBUG: Before portal system init\n");
+	init_portal_system(game);
+	printf("DEBUG: After portal system init: %p\n", (void*)game->portal_system);
 	game->last_mouse = vector_create(-1.0, -1.0);
 	game->mouse_sensi = 0.004;
 	game->fps = 0;

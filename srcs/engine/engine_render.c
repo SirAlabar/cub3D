@@ -21,9 +21,11 @@ int	engine_render_frame(t_game *game)
 	if (!game || !game->addr[game->current_buffer])
 		return (0);
 	update_doors(game);
+	update_portals(game);
 	draw_background(game);
 	init_scanline_buffer(&scanline_buffer);
 	cast_rays(game, rays);
+
 	x = -1;
 	while (++x < WINDOW_WIDTH)
 	{
@@ -32,7 +34,12 @@ int	engine_render_frame(t_game *game)
 	draw_enemies(game);
 	handle_movement(game);
 	update_weapon_animation(game);
-	draw_weapon(game);
+	// draw_weapon(game);
+	if (game->portal_system && game->portal_system->portal_active)
+    {
+        render_portals(game, rays);
+    }
+	draw_portal_gun(game);
 	draw_minimap(game);
 	draw_health_bar(game);
 	swap_buffers(game);
