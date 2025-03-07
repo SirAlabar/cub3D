@@ -34,6 +34,18 @@ static void link_portals(t_game *game)
             ps->orange_portal.linked_portal = NULL;
     }
 }
+
+static t_cardinal get_cardinal_from_normal(t_vector normal)
+{
+    if (normal.x > 0.5)
+        return (EAST);
+    if (normal.x < -0.5)
+        return (WEST);
+    if (normal.y > 0.5)
+        return (NORTH);
+    return (SOUTH);
+}
+
 static void	set_portal_properties(t_portal_wall *portal, t_portal_hit hit, 
 									t_portal_type type)
 {
@@ -45,6 +57,7 @@ static void	set_portal_properties(t_portal_wall *portal, t_portal_hit hit,
 	portal->animation = 0.0;
 	portal->active = true;
 	portal->timer = 0.0;
+    portal->card = get_cardinal_from_normal(hit.normal);
 }
 
 // void	create_portal(t_game *game, t_portal_hit hit, t_portal_type type)

@@ -27,6 +27,14 @@
 // # define GUN_F3 "./assets/sprites/pistol/PIS2.xpm"
 // # define GUN_F4 "./assets/sprites/pistol/PISFA0.xpm"
 
+typedef enum e_cardinal
+{
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST
+}	t_cardinal;
+
 typedef enum e_portal_type
 {
 	PORTAL_BLUE,
@@ -62,6 +70,7 @@ typedef struct s_portal_wall
 	double		animation;
 	bool		active;
 	double		timer;
+	t_cardinal	card;
 	struct s_portal_wall	*linked_portal;
 }	t_portal_wall;
 
@@ -126,5 +135,7 @@ void		integrate_portal_system(t_game *game);
 bool	check_portal_hit(t_ray *ray, t_game *game, t_portal_wall *portal);
 unsigned int get_portal_color(t_portal_wall *portal, double x, double y, t_game *game);
 double	get_angle_between_normals(t_vector n1, t_vector n2);
+t_vector	get_direction_vector(t_cardinal card);
+t_cardinal	get_opposite_cardinal(t_cardinal card);
 
 #endif

@@ -12,6 +12,34 @@
 
 #include <cub3d.h>
 
+t_cardinal	get_opposite_cardinal(t_cardinal card)
+{
+	if (card == NORTH)
+		return (SOUTH);
+	if (card == SOUTH)
+		return (NORTH);
+	if (card == EAST)
+		return (WEST);
+	return (EAST);
+}
+
+t_vector	get_direction_vector(t_cardinal card)
+{
+	t_vector	dir;
+
+	dir.x = 0;
+	dir.y = 0;
+	if (card == NORTH)
+		dir.x = 1;
+	else if (card == SOUTH)
+		dir.x = -1;
+	else if (card == EAST)
+		dir.y = 1;
+	else
+		dir.y = -1;
+	return (dir);
+}
+
 double	get_angle_between_normals(t_vector n1, t_vector n2)
 {
 	double	dot;
@@ -77,26 +105,30 @@ bool	is_near_portal(t_game *game, t_portal_wall *portal)
 	return (dot > PORTAL_DOT_THRESHOLD);
 }
 
-unsigned int get_portal_color(t_portal_wall *portal, double x, double y, t_game *game)
+unsigned int	get_portal_color(t_portal_wall *portal, double x, double y,
+	t_game *game)
 {
-    t_texture *texture;
-    int tex_x, tex_y;
-    
-    if (portal->type == PORTAL_BLUE)
-        texture = game->portal_system->gun.blue_texture;
-    else
-        texture = game->portal_system->gun.orange_texture;
-    
-    tex_x = (int)(x * texture->width);
-    tex_y = (int)(y * texture->height);
-    
-    unsigned int color = get_texture_pixel(texture, tex_x, tex_y);
-    
-    // Se a cor for a cor de transparência (rosa), retornar a cor especial
-    if (color == 0xFFC0CB)
-        return 0xFFC0CB;
-    
-    return color;
+	t_texture	*texture;
+	int			tex_x;
+	int			tex_y;
+	unsigned int	color;
+
+	if (portal->type == PORTAL_BLUE)
+		texture = game->portal_system->gun.blue_texture;
+	else
+		texture = game->portal_system->gun.orange_texture;
+		tex_x = (int)(x * texture->width);
+		tex_y = (int)(y * texture->height);
+	if (tex_x < 0)
+		tex_x = 0;
+	if (tex_x >= texture->width)
+		tex_x = texture->width - 1;
+	if (tex_y < 0)
+		tex_y = 0;
+	if (tex_y >= texture->height)
+		tex_y = texture->height - 1;
+	color = get_texture_pixel(texture, tex_x, tex_y);
+	return (color);
 }
 
 // bool	check_portal_hit(t_ray *ray, t_game *game, t_portal_wall *portal)
@@ -114,35 +146,29 @@ unsigned int get_portal_color(t_portal_wall *portal, double x, double y, t_game 
 // 	return (false);
 // }
 
-bool check_portal_hit(t_ray *ray, t_game *game, t_portal_wall *portal)
+bool	check_portal_hit(t_ray *ray, t_game *game, t_portal_wall *portal)
 {
-    static int debug_counter = 0;
-    (void)game;
-    if (debug_counter++ % 600 == 0)
-    {
-        printf("DEBUG: check_portal_hit - portal pos: (%d, %d), active: %d, state: %d\n", 
-            portal->position.x, portal->position.y, portal->active, portal->state);
-        printf("DEBUG: check_portal_hit - ray pos: (%d, %d), side: %d\n", 
-            ray->map_x, ray->map_y, ray->side);
-    }
-    if (!is_within_map_bounds(game, ray->map_x, ray->map_y))
-        return false;
-    if (!portal->active || portal->state != PORTAL_OPEN)
-    {
-        // printf("DEBUG: Portal not active or not open (active=%d, state=%d)\n", 
-        //        portal->active, portal->state);
-        return (false);
-    }
-    
-    if (ray->map_x == portal->position.x && ray->map_y == portal->position.y)
-    {
-        if ((ray->side == 0 && portal->normal.x != 0) ||
-            (ray->side == 1 && portal->normal.y != 0))
-        {
-            printf("DEBUG: Portal hit found at position (%d, %d)\n", 
-                   ray->map_x, ray->map_y);
-            return (true);
-        }
-    }
-    return (false);
+	t_cardinal	ray_direction;
+
+	if (!portal->active || portal->state != PORTAL_OPEN)
+		return (false);
+	if (ray->map_x != portal->position.x || ray->map_y != portal->position.y)
+		return (false);
+	if (ray->side == 0)
+	{
+		if (ray->dir.x > 0)
+			ray_direction = NORTH;
+		else
+			ray_direction = SOUTH;
+	}
+	else
+	{
+		if (ray->dir.y > 0)
+			ray_direction = EAST;
+		else
+			ray_direction = WEST;
+	}
+	if (ray_direction == portal->card)
+		return (true);
+	return (false);
 }

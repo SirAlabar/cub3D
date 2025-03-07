@@ -104,92 +104,90 @@ void	wall_height(t_ray *ray)
 // 	else
 // 		ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
 // }
-
-void perform_dda(t_ray *ray, t_game *game)
+static void	perform_dda_step(t_ray *ray)
 {
-    ray->hit = false;
-    ray->is_door = false;
-    
-    // Limitar o número máximo de passagens por portais para evitar loops
-    int portal_pass_count = 0;
-    const int max_portal_passes = 3;
-    
-    // Verificar limites iniciais
-    if (!is_within_map_bounds(game, ray->map_x, ray->map_y))
-    {
-        ray->hit = true;
-        return;
-    }
-    
-    while (ray->hit == false && portal_pass_count < max_portal_passes)
-    {
-        // Algoritmo DDA clássico
-        while (ray->hit == false)
-        {
-            if (ray->side_dist.x < ray->side_dist.y)
-            {
-                ray->side_dist.x += ray->delta_dist.x;
-                ray->map_x += ray->step_x;
-                ray->side = 0;
-            }
-            else
-            {
-                ray->side_dist.y += ray->delta_dist.y;
-                ray->map_y += ray->step_y;
-                ray->side = 1;
-            }
-            
-            // Verificar limites do mapa
-            if (!is_within_map_bounds(game, ray->map_x, ray->map_y))
-            {
-                ray->hit = true;
-                // Definir uma distância segura para evitar artefatos visuais
-                if (ray->side == 0)
-                    ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
-                else
-                    ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
-                break;
-            }
-            
-            // Verificar se estamos em um portal
-            if (game->portal_system && game->portal_system->portal_active)
-            {
-                // Nova função para verificar e processar portais
-                if (process_portal_hit(ray, game))
-                {
-                    // Verificar novamente os limites após teleportar
-                    if (!is_within_map_bounds(game, ray->map_x, ray->map_y))
-                    {
-                        ray->hit = true;
-                        break;
-                    }
-                    
-                    portal_pass_count++;
-                    break;  // Sair do loop interno para recomeçar com o raio teleportado
-                }
-            }
-            
-            // Verificar colisão comum (parede, porta)
-            check_collisions(ray, game);
-            
-            if (!ray->hit && ray->is_door)
-                continue;
-        }
-        
-        // Se não teleportamos, saímos do loop principal
-        if (portal_pass_count == 0 || ray->hit)
-            break;
-    }
-    
-    // Calcular distância perpendicular à parede
-    if (ray->side == 0)
-        ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
-    else
-        ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
-        
-    // Garantir uma distância mínima para evitar divisão por zero
-    if (ray->perp_wall_dist <= 0.001)
-        ray->perp_wall_dist = 0.001;
+	if (ray->side_dist.x < ray->side_dist.y)
+	{
+		ray->side_dist.x += ray->delta_dist.x;
+		ray->map_x += ray->step_x;
+		ray->side = 0;
+	}
+	else
+	{
+		ray->side_dist.y += ray->delta_dist.y;
+		ray->map_y += ray->step_y;
+		ray->side = 1;
+	}
+}
+
+static void	handle_out_of_bounds(t_ray *ray)
+{
+	ray->hit = true;
+	if (ray->side == 0)
+		ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
+	else
+		ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
+}
+
+static void	perform_dda_loop(t_ray *ray, t_game *game, int *portal_pass_count)
+{
+	while (ray->hit == false)
+	{
+		perform_dda_step(ray);
+		if (!is_within_map_bounds(game, ray->map_x, ray->map_y))
+		{
+			handle_out_of_bounds(ray);
+			break ;
+		}
+		if (game->portal_system && game->portal_system->portal_active)
+		{
+			if (process_portal_hit(ray, game))
+			{
+				if (!is_within_map_bounds(game, ray->map_x, ray->map_y))
+				{
+					ray->hit = true;
+					break ;
+				}
+				(*portal_pass_count)++;
+				break ;
+			}
+		}
+		check_collisions(ray, game);
+		if (!ray->hit && ray->is_door)
+			continue ;
+	}
+}
+
+static void	calculate_perp_wall_dist(t_ray *ray)
+{
+	if (ray->side == 0)
+		ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
+	else
+		ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
+	if (ray->perp_wall_dist <= 0.001)
+		ray->perp_wall_dist = 0.001;
+}
+
+void	perform_dda(t_ray *ray, t_game *game)
+{
+	int	portal_pass_count;
+	const int	max_portal_passes = 3;
+
+	ray->hit = false;
+	ray->is_door = false;
+	portal_pass_count = 0;
+	if (!is_within_map_bounds(game, ray->map_x, ray->map_y))
+	{
+		ray->hit = true;
+		return ;
+	}
+	while (ray->hit == false && portal_pass_count < max_portal_passes)
+	{
+		perform_dda_loop(ray, game, &portal_pass_count);
+		if (portal_pass_count == 0 || ray->hit)
+			break ;
+	}
+	calculate_perp_wall_dist(ray);
 }
 
 void	cast_rays(t_game *game, t_ray *rays)

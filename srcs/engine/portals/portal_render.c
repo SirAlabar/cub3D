@@ -47,99 +47,72 @@ static t_portal_wall	*get_portal(t_ray *ray, t_game *game)
 // 		y++;
 // 	}
 // }
-
-void render_portal_wall(t_ray *ray, t_game *game, int x)
+void draw_portal_scanline(t_game *game, t_wall *wall)
 {
-    t_portal_wall *portal;
-    double wallx;
-    int tex_x, tex_y;
-    int y;
+    t_vector_i pos;
     unsigned int color;
-    t_texture *texture;
+
+    pos.x = wall->x;
+    pos.y = wall->start - 1;
     
-    portal = get_portal(ray, game);
-    if (!portal || !portal->active)
-        return;
-    if (ray->perp_wall_dist < 0.5)
-        return;
-    
-    // Verificar se estamos dentro dos limites da tela
-    if (x < 0 || x >= WINDOW_WIDTH)
-        return;
-    
-    // Selecionar a textura correta
-    if (portal->type == PORTAL_BLUE)
-        texture = game->portal_system->gun.blue_texture;
-    else if (portal->type == PORTAL_ORANGE)
-        texture = game->portal_system->gun.orange_texture;
-    else
-        return; // Tipo inválido
-    
-    // Calcular a posição exata na parede
-    if (ray->side == 0)
-        wallx = game->p1.pos.y + ray->perp_wall_dist * ray->dir.y;
-    else
-        wallx = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
-    wallx -= floor(wallx);
-    
-    // Converter para coordenada de textura
-    tex_x = (int)(wallx * texture->width);
-    
-    // Verificar limites
-    if (tex_x < 0 || tex_x >= texture->width)
-        return;
-    
-    // Verificar limites de desenho
-    if (ray->draw_start >= WINDOW_HEIGHT || ray->draw_end < 0)
-        return;
-    
-    // Ajustar limites de Y
-    int start_y = ray->draw_start < 0 ? 0 : ray->draw_start;
-    int end_y = ray->draw_end >= WINDOW_HEIGHT ? WINDOW_HEIGHT - 1 : ray->draw_end;
-    
-    // Desenhar a coluna de pixels
-    y = start_y;
-    while (y <= end_y)
+    while (++pos.y <= wall->end)
     {
-        // Calcular coordenada Y na textura
-        tex_y = (int)((double)(y - ray->draw_start) / 
-                      (ray->draw_end - ray->draw_start) * texture->height);
-        
-        // Verificar limites Y
-        if (tex_y < 0 || tex_y >= texture->height)
-        {
-            y++;
-            continue;
-        }
-        
-        // Obter a cor do pixel
-        color = get_texture_pixel(texture, tex_x, tex_y);
-        
-        // Desenhar se não for a cor transparente
+        wall->tex.y = (int)wall->tex_pos & (wall->texture->height - 1);
+        color = get_texture_pixel(wall->texture, wall->tex.x, wall->tex.y);
         if (color != 0xFFC0CB)
-            draw_pixel(game, x, y, color);
-        
-        y++;
+            draw_pixel(game, pos.x, pos.y, color);
+            
+        wall->tex_pos += wall->step;
     }
 }
 
-void render_portals(t_game *game, t_ray *rays)
+void	render_portal_wall(t_ray *ray, t_game *game, int x)
 {
-    int x;
-    
-    printf("DEBUG: Rendering portals - Blue active: %s, Orange active: %s\n", 
-           game->portal_system->blue_portal.active ? "YES" : "NO",
-           game->portal_system->orange_portal.active ? "YES" : "NO");
-    if (!game->portal_system || (!game->portal_system->blue_portal.active && 
-            !game->portal_system->orange_portal.active))
-        return;
-    
-    x = 0;
-    while (x < WINDOW_WIDTH)
-    {
-        render_portal_wall(&rays[x], game, x);
-        x++;
-    }
+	t_wall			wall;
+	t_portal_wall	*portal;
+	t_scanline		buffer;
+
+	portal = get_portal(ray, game);
+	if (!portal || !portal->active)
+		return ;
+	if (ray->perp_wall_dist < 0.5 || x < 0 || x >= WINDOW_WIDTH)
+		return ;
+	if (ray->draw_start >= WINDOW_HEIGHT || ray->draw_end < 0)
+		return ;
+	wall.game = game;
+	wall.ray = ray;
+	wall.x = x;
+	wall.buffer = &buffer;
+	if (portal->type == PORTAL_BLUE)
+		wall.texture = game->portal_system->gun.blue_texture;
+	else if (portal->type == PORTAL_ORANGE)
+		wall.texture = game->portal_system->gun.orange_texture;
+	else
+		return ;
+	init_scanline_buffer(&buffer);
+	set_wall_tex_coords(&wall);
+	wall.height = ray->line_height;
+	wall.start = ray->draw_start;
+	wall.end = ray->draw_end;
+	wall.step = 1.0 * wall.texture->height / wall.height;
+	wall.tex_pos = (wall.start - (WINDOW_HEIGHT >> 1) + (wall.height >> 1))
+		* wall.step;
+	draw_portal_scanline(game, &wall);
+}
+
+void	render_portals(t_game *game, t_ray *rays)
+{
+	int	x;
+
+	if (!game->portal_system || (!game->portal_system->blue_portal.active
+			&& !game->portal_system->orange_portal.active))
+		return ;
+	x = 0;
+	while (x < WINDOW_WIDTH)
+	{
+		render_portal_wall(&rays[x], game, x);
+		x++;
+	}
 }
 
 // void	draw_portal_gun(t_game *game)
