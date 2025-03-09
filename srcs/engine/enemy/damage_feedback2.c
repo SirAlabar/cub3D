@@ -25,8 +25,8 @@ void	apply_damage_overlay(t_game *game, double intensity)
 		x = 0;
 		while (x < WINDOW_WIDTH)
 		{
-			dst = game->addr + (y * game->line_length
-					+ x * (game->bits_per_pixel / 8));
+			dst = game->addr[game->current_buffer] + (y * game->line_length + x
+					* (game->bits_per_pixel / 8));
 			color = *(unsigned int *)dst;
 			*(unsigned int *)dst = blend_color(color, intensity);
 			x += 2;

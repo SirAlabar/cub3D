@@ -26,8 +26,8 @@ bool	is_shot_hitting_enemy(t_game *game, t_enemy *enemy)
 	distance = vector_length(to_enemy);
 	if (distance > shoot_range)
 		return (false);
-	angle = atan2(to_enemy.y, to_enemy.x)
-		- atan2(game->p1.dir.y, game->p1.dir.x);
+	angle = atan2(to_enemy.y, to_enemy.x) - atan2(game->p1.dir.y,
+			game->p1.dir.x);
 	while (angle > M_PI)
 		angle -= 2 * M_PI;
 	while (angle < -M_PI)
@@ -40,16 +40,13 @@ bool	is_shot_hitting_enemy(t_game *game, t_enemy *enemy)
 void	shoot_enemy(t_game *game)
 {
 	t_enemy_list	*current;
-	bool			hit_enemy;
 
-	hit_enemy = false;
 	current = game->enemies;
 	while (current != NULL)
 	{
-		if (current->enemy.alive
-			&& is_shot_hitting_enemy(game, &current->enemy))
+		if (current->enemy.alive && is_shot_hitting_enemy(game,
+				&current->enemy))
 		{
-			hit_enemy = true;
 			current->enemy.health--;
 			if (current->enemy.health <= 0)
 			{

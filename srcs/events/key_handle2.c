@@ -14,37 +14,8 @@
 
 void	handle_firing(t_game *game)
 {
-	if (game->p1.is_firing)
-		shoot_enemy(game);
-}
-
-void	handle_rotation(t_game *game)
-{
-	if (game->p1.keys.left)
-		rotate_player(game, -game->p1.rot_speed);
-	if (game->p1.keys.right)
-		rotate_player(game, game->p1.rot_speed);
-}
-
-void	handle_movement(t_game *game)
-{
-	double	dir_x;
-	double	dir_y;
-
-	dir_x = 0;
-	dir_y = 0;
-	if (game->p1.keys.w)
-	{
-		dir_x += game->p1.dir.x;
-		dir_y += game->p1.dir.y;
-	}
-	if (game->p1.keys.s)
-	{
-		dir_x -= game->p1.dir.x;
-		dir_y -= game->p1.dir.y;
-	}
-	keys_else(game, &dir_x, &dir_y);
-	move_player(game, dir_x, dir_y);
-	handle_rotation(game);
-	handle_firing(game);
+	game->p1.is_firing = 1;
+	shoot_enemy(game);
+	if (game->sounds && game->sounds->is_initialized)
+		play_sound(game->sounds->gun);
 }

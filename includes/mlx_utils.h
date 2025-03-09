@@ -15,6 +15,5 @@
 
 void	cleanup_mlx(void *mlx);
 void	destroy_window(void *mlx, void *win);
-void	*init_window(void *mlx, int width, int height, char *title);
 
 #endif

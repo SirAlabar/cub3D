@@ -21,8 +21,8 @@ int	parse_color_component(char *color, int *start)
 	while (color[*start] && ft_isspace(color[*start]))
 		(*start)++;
 	j = *start;
-	while (color[j] && color[j] != ','
-		&& color[j] != '\n' && !ft_isspace(color[j]))
+	while (color[j] && color[j] != ',' && color[j] != '\n'
+		&& !ft_isspace(color[j]))
 		j++;
 	subs = ft_substr(color, *start, j - *start);
 	value = ft_atoi(subs);
@@ -55,6 +55,8 @@ void	assign_color(t_game *game, char *line)
 {
 	int	color;
 
+	if (ft_strncmp(line, "FLOOR", 5) == 0 || ft_strncmp(line, "SKYBOX", 6) == 0)
+		return ;
 	if (line[0] == 'F')
 	{
 		color = rgb_to_hex(line);
@@ -77,26 +79,39 @@ void	assign_color(t_game *game, char *line)
 	}
 }
 
+static void	process_map_lines(t_game *game, char **floor, char **ceiling)
+{
+	char	*line;
+
+	line = get_next_line(game->fd_map);
+	while (line)
+	{
+		if (ft_strncmp(line, "FLOOR", 5) == 0 || ft_strncmp(line, "SKYBOX",
+				6) == 0)
+		{
+			free(line);
+			line = get_next_line(game->fd_map);
+			continue ;
+		}
+		while (line && line[0] != 'F' && line[0] != 'C')
+		{
+			free(line);
+			line = get_next_line(game->fd_map);
+		}
+		norm_norm(game, line, ceiling, floor);
+		line = get_next_line(game->fd_map);
+	}
+}
+
 void	*init_colors(t_game *game)
 {
-	char		*line;
 	static char	*floor_line = NULL;
 	static char	*ceiling_line = NULL;
 
 	game->fd_map = open(game->map_path, O_RDONLY);
 	if (game->fd_map == -1)
 		return (read_error(game), NULL);
-	line = get_next_line(game->fd_map);
-	while (line)
-	{
-		while (line && line[0] != 'F' && line[0] != 'C')
-		{
-			free(line);
-			line = get_next_line(game->fd_map);
-		}
-		norm_norm(game, line, &ceiling_line, &floor_line);
-		line = get_next_line(game->fd_map);
-	}
+	process_map_lines(game, &floor_line, &ceiling_line);
 	free(floor_line);
 	free(ceiling_line);
 	close(game->fd_map);

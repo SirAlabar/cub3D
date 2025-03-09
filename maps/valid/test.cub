@@ -6,8 +6,11 @@ SO assets/texture/south.xpm
 WE assets/texture/west.xpm
 EA assets/texture/east.xpm
 
-1111111111111111
-100M00M000000001
+SKYBOX assets/texture/skybox9.xpm
+FLOOR
+
+1111111111111
+100E00E000001111
 1000000000000001
 10001000000M0001
 1000000000000001

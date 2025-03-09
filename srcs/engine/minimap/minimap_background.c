@@ -12,37 +12,22 @@
 
 #include <cub3d.h>
 
-static unsigned int	darken_color(unsigned int original, float factor)
+static void	process_minimap_pixel(t_game *g, t_vector pos, int base_y)
 {
-	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b;
+	char			*pixel;
+	unsigned int	color;
+	int				y_pos;
+	int				offset;
 
-	r = ((original >> 16) & 0xFF) * factor;
-	g = ((original >> 8) & 0xFF) * factor;
-	b = (original & 0xFF) * factor;
-	return ((0xFF << 24) | (r << 16) | (g << 8) | b);
-}
-
-static unsigned int	get_pixel_color(t_game *game, int x, int y)
-{
-	char	*pixel;
-
-	if (x < 0 || x >= WINDOW_WIDTH || y < 0 || y >= WINDOW_HEIGHT)
-		return (0);
-	pixel = game->addr + (y * game->line_length
-			+ x * (game->bits_per_pixel / 8));
-	return (*(unsigned int *)pixel);
-}
-
-static void	process_pixel_color(t_game *game, t_vector pos, int base_y)
-{
-	unsigned int	original;
-	unsigned int	darkened;
-
-	original = get_pixel_color(game, pos.x, base_y + pos.y);
-	darkened = darken_color(original, 0.5);
-	draw_pixel(game, pos.x, base_y + pos.y, darkened);
+	y_pos = base_y + (int)pos.y;
+	if (pos.x < 0 || pos.x >= WINDOW_WIDTH || y_pos < 0
+		|| y_pos >= WINDOW_HEIGHT)
+		return ;
+	offset = (y_pos * g->line_length) + ((int)pos.x * (g->bits_per_pixel >> 3));
+	pixel = g->addr[g->current_buffer] + offset;
+	color = *(unsigned int *)pixel;
+	color = apply_shade(color, 0.5);
+	draw_pixel(g, (int)pos.x, y_pos, color);
 }
 
 void	draw_minimap_background(t_game *game)
@@ -52,8 +37,8 @@ void	draw_minimap_background(t_game *game)
 	int			base_y;
 	t_vector	pos;
 
-	width = MINIMAP_VIEW_SIZE * MINIMAP_CELL_SIZE + (MINIMAP_PADDING * 2);
-	height = MINIMAP_VIEW_SIZE * MINIMAP_CELL_SIZE + (MINIMAP_PADDING * 2);
+	width = MINIMAP_VIEW_SIZE * MINIMAP_CELL_SIZE + (MINIMAP_PADDING << 1);
+	height = MINIMAP_VIEW_SIZE * MINIMAP_CELL_SIZE + (MINIMAP_PADDING << 1);
 	base_y = WINDOW_HEIGHT - height;
 	pos.y = -1;
 	while (++pos.y < height)
@@ -64,7 +49,7 @@ void	draw_minimap_background(t_game *game)
 			if (pos.y < MINIMAP_PADDING || pos.y >= height - MINIMAP_PADDING
 				|| pos.x < MINIMAP_PADDING || pos.x >= width - MINIMAP_PADDING)
 				continue ;
-			process_pixel_color(game, pos, base_y);
+			process_minimap_pixel(game, pos, base_y);
 		}
 	}
 }

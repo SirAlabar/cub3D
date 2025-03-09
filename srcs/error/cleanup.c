@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:26:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/22 21:08:59 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/09 16:43:12 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,11 @@ void	cleanup_game(t_game *game)
 	cleanup_textures(game);
 	cleanup_enemies(game);
 	cleanup_door_system(game);
+	cleanup_double_buffer(game);
+	cleanup_sounds(game);
+	cleanup_sky_floor(game);
 	if (game->win && game->mlx)
 		mlx_destroy_window(game->mlx, game->win);
-	if (game->img && game->mlx)
-		mlx_destroy_image(game->mlx, game->img);
 	if (game->mlx)
 		cleanup_mlx(game->mlx);
 	cleanup_map(game);

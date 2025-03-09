@@ -12,28 +12,46 @@
 
 #include <cub3d.h>
 
-int	draw_background(t_game *game)
+static void	draw_ceiling(t_game *game)
 {
 	int	x;
 	int	y;
 
-	if (!game || !game->img)
-	{
-		ft_printf("Error: Game or image pointer is NULL\n");
-		return (0);
-	}
 	y = -1;
+	while (++y < (WINDOW_HEIGHT >> 1))
+	{
+		x = -1;
+		while (++x < WINDOW_WIDTH)
+			draw_pixel(game, x, y, game->map.ceiling_color);
+	}
+}
+
+static void	draw_solid_floor(t_game *game)
+{
+	int	x;
+	int	y;
+
+	y = (WINDOW_HEIGHT >> 1) - 1;
 	while (++y < WINDOW_HEIGHT)
 	{
 		x = -1;
 		while (++x < WINDOW_WIDTH)
-		{
-			if (y < WINDOW_HEIGHT / 2)
-				draw_pixel(game, x, y, game->map.ceiling_color);
-			else
-				draw_pixel(game, x, y, game->map.floor_color);
-		}
+			draw_pixel(game, x, y, game->map.floor_color);
 	}
+}
+
+int	draw_background(t_game *game)
+{
+	if (!game || (!game->addr[game->current_buffer]))
+		return (0);
+	if (game->skybox.img)
+		draw_skybox(game);
+	else
+		draw_ceiling(game);
+	if (game->floor.img)
+		draw_floor(game);
+	else
+		draw_solid_floor(game);
 	return (1);
 }
 

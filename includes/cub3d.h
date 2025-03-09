@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:34 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/27 20:48:12 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/09 16:43:40 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define CUB3D_H
 
 /* Window settings */
-# define WINDOW_WIDTH 1000
-# define WINDOW_HEIGHT 800
+# define WINDOW_WIDTH 1200
+# define WINDOW_HEIGHT 900
 # define FOV 60
 # define MOVE_SPEED 0.02
 # define ROTATION_SPEED 0.04
@@ -23,11 +23,13 @@
 
 # include <colors.h>
 # include <engine.h>
+# include <sound.h>
 # include <events.h>
 # include <minimap.h>
 # include <fcntl.h>
 # include <libft.h>
 # include <math.h>
+# include <time.h>
 # include <mlx_utils.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -88,6 +90,30 @@
 # define GUN_F3 "./assets/sprites/pistol/PIS2.xpm"
 # define GUN_F4 "./assets/sprites/pistol/PISFA0.xpm"
 
+/* Skyboxs*/
+# define SKYBOX1 "./assets/texture/skybox1.xpm"
+# define SKYBOX2 "./assets/texture/skybox2.xpm"
+# define SKYBOX3 "./assets/texture/skybox3.xpm"
+# define SKYBOX4 "./assets/texture/skybox4.xpm"
+# define SKYBOX5 "./assets/texture/skybox5.xpm"
+# define SKYBOX6 "./assets/texture/skybox6.xpm"
+# define SKYBOX7 "./assets/texture/skybox7.xpm"
+# define SKYBOX8 "./assets/texture/skybox8.xpm"
+# define SKYBOX9 "./assets/texture/skybox9.xpm"
+# define SKYBOX10 "./assets/texture/skybox10.xpm"
+
+/* Floor Textures */
+# define FLOOR1 "./assets/texture/tile_floor1.xpm"
+# define FLOOR2 "./assets/texture/tile_floor2.xpm"
+# define FLOOR3 "./assets/texture/tile_floor3.xpm"
+# define FLOOR4 "./assets/texture/tile_floor4.xpm"
+# define FLOOR5 "./assets/texture/tile_floor5.xpm"
+# define FLOOR6 "./assets/texture/tile_floor6.xpm"
+# define FLOOR7 "./assets/texture/tile_floor7.xpm"
+# define FLOOR8 "./assets/texture/tile_floor8.xpm"
+# define FLOOR9 "./assets/texture/tile_floor9.xpm"
+# define FLOOR10 "./assets/texture/tile_floor10.xpm"
+
 /* Structs */
 
 typedef struct s_damage_effect
@@ -130,8 +156,9 @@ typedef struct s_game
 {
 	void			*mlx;
 	void			*win;
-	void			*img;
-	char			*addr;
+	void			*img[2];
+	char			*addr[2];
+	int				current_buffer;
 	int				bits_per_pixel;
 	int				line_length;
 	int				endian;
@@ -145,18 +172,27 @@ typedef struct s_game
 	t_texture		south;
 	t_texture		east;
 	t_texture		west;
+	int				has_skybox;
+	char			*skybox_path;
+	t_texture		skybox;
+	int				has_floor;
+	char			*floor_path;
+	t_texture		floor;
 	t_vector		last_mouse;
 	double			mouse_sensi;
 	double			fps;
 	t_enemy_list	*enemies;
 	t_door_system	*door_system;	
 	t_damage_effect	damage_effect;
+	t_sounds		*sounds;	
 }				t_game;
 
 void			cleanup_game(t_game *game);
 // parse
 void			init_player(t_game *game);
+bool			init_window(t_game *game);
 void			init_game(t_game *game);
+
 //events/
 void			*keys_else(t_game *game, double *dir_x, double *dir_y);
 //initialize/init_colors.c
@@ -171,6 +207,14 @@ void			init_map(t_game *game);
 char			**read_map(t_game *game);
 int				count_lines(t_game *game);
 void			set_grid(t_game *game);
+//initialize/init_floor.c
+int				is_floor_line(char *line);
+void			process_floor_config(t_game *game, char *line);
+void			init_floor(t_game *game);
+//initialize/init_skybox.c
+void			init_skybox(t_game *game);
+void			process_skybox_config(t_game *game, char *line);
+int				is_skybox_line(char *line);
 //initialize/textures.c
 void			init_textures(t_game *game);
 //initialize/printers.c
@@ -183,6 +227,7 @@ void			cleanup_textures(t_game *game);
 void			cleanup_map(t_game *game);
 void			cleanup_game(t_game *game);
 void			cleanup_door_system(t_game *game);
+void			cleanup_sky_floor(t_game *game);
 
 //
 void			init_test_map(t_game *game);
@@ -191,7 +236,7 @@ void			handle_movement(t_game *game);
 int				key_release(int keycode, t_game *game);
 int				key_press(int keycode, t_game *game);
 int				key_handler(int keycode, t_game *game);
-
+void			handle_firing(t_game *game);
 void			*validate_player_count(t_game *game);
 
 #endif

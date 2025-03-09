@@ -41,8 +41,21 @@ void	draw_enemy_sprite(t_game *game, t_enemy *enemy, double screen_x,
 	t_sprite_data	s;
 	int				stripe;
 
-	set_sprite_dimensions(&s, screen_x, sprite_height);
-	clamp_sprite_boundaries(&s);
+	s.height = sprite_height;
+	s.width = sprite_height;
+	s.screen_x = screen_x;
+	s.start_y = (WINDOW_HEIGHT >> 1) - (sprite_height >> 1);
+	s.end_y = (WINDOW_HEIGHT >> 1) + (sprite_height >> 1);
+	s.start_x = screen_x - (s.width >> 1);
+	s.end_x = screen_x + (s.width >> 1);
+	if (s.start_y < 0)
+		s.start_y = 0;
+	if (s.end_y >= WINDOW_HEIGHT)
+		s.end_y = WINDOW_HEIGHT - 1;
+	if (s.start_x < 0)
+		s.start_x = 0;
+	if (s.end_x >= WINDOW_WIDTH)
+		s.end_x = WINDOW_WIDTH - 1;
 	stripe = s.start_x;
 	while (stripe < s.end_x)
 	{
