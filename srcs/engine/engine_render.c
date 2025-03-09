@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:55:14 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/02/24 20:15:23 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/03/09 11:38:31 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <cub3d.h>
@@ -35,19 +35,13 @@ int	engine_render_frame(t_game *game)
 
 	engine_prepare_frame(game);
 	update_doors(game);
-	
-	// Process enemy attacks - this will check if enemies can attack
-	// and apply damage to player if they can
 	process_enemy_attacks(game);
-	
 	draw_background(game);
 	init_scanline_buffer(&scanline_buffer);
 	cast_rays(game, rays);
 	x = -1;
 	while (++x < WINDOW_WIDTH)
-	{
 		draw_wall_scanline(game, &rays[x], x, &scanline_buffer);
-	}
 	update_enemies(game);
 	update_damage_effect(game);
 	draw_enemies(game);
