@@ -27,7 +27,7 @@ static t_bar	init_bar(void)
 void	draw_lifebar_hud(t_game *game, t_texture *image)
 {
 	t_bar		bar;
-	unsigned int			color;
+	int			color;
 	int			i;
 	int			j;
 	t_vector_i	offset;
@@ -111,6 +111,5 @@ void	draw_health_bar(t_game *game)
 	}
 	draw_health_bar_background(game);
 	draw_health_bar_fill(game);
-	draw_lifebar_hud(game, health);
 	texture_destroy(&health, game->mlx);
 }
