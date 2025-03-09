@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 17:37:02 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/26 17:50:08 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/03/09 11:22:22 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,34 +46,18 @@ void	shoot_enemy(t_game *game)
 	current = game->enemies;
 	while (current != NULL)
 	{
-		if (current->enemy.alive && is_shot_hitting_enemy(game, &current->enemy))
+		if (current->enemy.alive
+			&& is_shot_hitting_enemy(game, &current->enemy))
 		{
 			hit_enemy = true;
 			current->enemy.health--;
-			
-			// Flash the enemy or provide visual feedback
-			// (could be implemented with a temporary color change)
-			
 			if (current->enemy.health <= 0)
 			{
 				current->enemy.alive = false;
 				current->enemy.health = 0;
-				
-				// Could add score increment here
-				// game->score += 100;
-				
-				// TODO: Add death animation or sound
 			}
-			
-			// Only hit one enemy per shot
-			return;
+			return ;
 		}
 		current = current->next;
-	}
-	
-	// If no enemy was hit, could play a miss sound or show a different effect
-	if (!hit_enemy)
-	{
-		// TODO: Add miss sound or effect
 	}
 }
