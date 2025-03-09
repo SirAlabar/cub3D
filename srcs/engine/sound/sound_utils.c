@@ -12,27 +12,6 @@
 
 #include <cub3d.h>
 
-void	clear_sounds(t_game *game)
-{
-	if (!game->sounds)
-		return ;
-	if (game->sounds->door)
-		BASS_StreamFree(game->sounds->door);
-	if (game->sounds->gun)
-		BASS_StreamFree(game->sounds->gun);
-	if (game->sounds->footstep)
-		BASS_StreamFree(game->sounds->footstep);
-	if (game->sounds->ambient)
-		BASS_StreamFree(game->sounds->ambient);
-	if (game->sounds->hurt)
-		BASS_StreamFree(game->sounds->hurt);
-	if (game->sounds->enemy)
-		BASS_StreamFree(game->sounds->enemy);
-	BASS_Free();
-	free(game->sounds);
-	game->sounds = NULL;
-}
-
 void	init_sound_empty(t_game *game)
 {
 	if (!game->sounds)

@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 18:00:00 by yourname          #+#    #+#             */
-/*   Updated: 2025/03/09 12:50:40 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/09 13:14:18 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_sounds
 
 typedef struct s_game	t_game;
 
-void					clear_sounds(t_game *game);
+void					cleanup_sounds(t_game *game);
 void					init_sound_empty(t_game *game);
 int						init_sounds(t_game *game);
 

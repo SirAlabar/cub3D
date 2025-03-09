@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 11:03:49 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/03/09 12:22:48 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/09 16:23:05 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	load_sound(uint32_t *sound, char *path)
 {
-	static int	loaded;
+	static int	loaded = 0;
 
 	if (!loaded)
 		loaded = BASS_Init(-1, 44100, 0, 0, 0);
