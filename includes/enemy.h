@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:56:23 by marsoare          #+#    #+#             */
-/*   Updated: 2025/02/24 17:40:12 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/03/09 11:20:20 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,11 @@ void		init_damage_feedback(t_game *game);
 void		trigger_damage_effect(t_game *game);
 void		update_damage_effect(t_game *game);
 void		draw_damage_effect(t_game *game);
+
+void		setup_draw_params(t_draw_params *p, t_enemy *enemy,
+		t_sprite_data *s, int stripe);
+void		draw_stripe_pixels(t_draw_params *p, t_sprite_data *s);
+void		draw_enemy_stripe(t_game *game, t_enemy *enemy,
+		t_sprite_data *s, int stripe);
 
 #endif
