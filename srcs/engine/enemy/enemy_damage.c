@@ -6,64 +6,61 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:20:02 by marsoare          #+#    #+#             */
-/*   Updated: 2025/02/24 18:45:21 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/03/09 11:33:53 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-#define ENEMY_ATTACK_DAMAGE 10
-#define ENEMY_ATTACK_RANGE 2.0
-#define ENEMY_ATTACK_COOLDOWN 1000
-
-bool enemy_can_attack(t_enemy *enemy, t_game *game)
+static bool	check_enemy_status(t_enemy *enemy)
 {
-    double current_time;
-
-    if (!enemy->alive)
-        return (false);
-        
-    // Check if enemy is within attack range
-    if (enemy->dist_to_player > ENEMY_ATTACK_RANGE)
-        return (false);
-    
-    // Only allow attack if enemy is at least MIN_ENEMY_DISTANCE away
-    if (enemy->dist_to_player < MIN_ENEMY_DISTANCE)
-        return (false);
-        
-    // Check if cooldown has passed
-    current_time = get_time_ms();
-    if (current_time - enemy->last_attack < ENEMY_ATTACK_COOLDOWN)
-        return (false);
-        
-    // Check if enemy can see the player
-    if (!is_enemy_visible(game, enemy->pos))
-        return (false);
-        
-    return (true);
+	if (!enemy->alive)
+		return (false);
+	if (enemy->dist_to_player > ENEMY_ATTACK_RANGE)
+		return (false);
+	if (enemy->dist_to_player < MIN_ENEMY_DISTANCE)
+		return (false);
+	return (true);
 }
 
-void enemy_attack_player(t_enemy *enemy, t_game *game)
+static bool	check_attack_timing(t_enemy *enemy)
 {
-    double current_time;
+	double	current_time;
 
-    if (!enemy_can_attack(enemy, game))
-        return;
-    
-    // Apply damage directly to player's health
-    game->p1.health -= ENEMY_ATTACK_DAMAGE;
-    if (game->p1.health < 0)
-        game->p1.health = 0;
-    
-    // Update attack timestamp
-    current_time = get_time_ms();
-    enemy->last_attack = current_time;
-    
-    // Trigger damage effect
-    trigger_damage_effect(game);
-    
-    // Add debugging print to verify attack is happening
-    printf("Enemy attacked player! Player health: %d\n", game->p1.health);
+	current_time = get_time_ms();
+	if (current_time - enemy->last_attack < ENEMY_ATTACK_COOLDOWN)
+		return (false);
+	return (true);
+}
+
+bool	enemy_can_attack(t_enemy *enemy, t_game *game)
+{
+	if (!check_enemy_status(enemy))
+		return (false);
+	if (!check_attack_timing(enemy))
+		return (false);
+	if (!is_enemy_visible(game, enemy->pos))
+		return (false);
+	return (true);
+}
+
+static void	apply_damage_to_player(t_enemy *enemy, t_game *game)
+{
+	double	current_time;
+
+	game->p1.health -= ENEMY_ATTACK_DAMAGE;
+	if (game->p1.health < 0)
+		game->p1.health = 0;
+	current_time = get_time_ms();
+	enemy->last_attack = current_time;
+	trigger_damage_effect(game);
+}
+
+void	enemy_attack_player(t_enemy *enemy, t_game *game)
+{
+	if (!enemy_can_attack(enemy, game))
+		return ;
+	apply_damage_to_player(enemy, game);
 }
 
 void	process_enemy_attacks(t_game *game)

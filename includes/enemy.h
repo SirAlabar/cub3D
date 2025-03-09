@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:56:23 by marsoare          #+#    #+#             */
-/*   Updated: 2025/03/09 11:20:20 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/03/09 11:32:57 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define ENEMY_H
 
 # define MIN_ENEMY_DISTANCE 1.5
+# define ENEMY_ATTACK_DAMAGE 10
+# define ENEMY_ATTACK_RANGE 2.0
+# define ENEMY_ATTACK_COOLDOWN 1000
 
 typedef struct s_sprite_data
 {
