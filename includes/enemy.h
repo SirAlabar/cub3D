@@ -84,8 +84,8 @@ void			draw_enemy(t_game *game, t_enemy_list *current, double fov);
 void			draw_enemies(t_game *game);
 void			spawn_enemies_from_map(t_game *game);
 void			init_enemies(t_game *game);
-bool			c_enemy_mx(t_game *game, t_vector n_pos, t_vector dir, double padd);
-bool			c_enemy_my(t_game *game, t_vector n_pos, t_vector dir, double padd);
+bool			c_enemy_mx(t_game *g, t_vector n_ps, t_vector dir, double padd);
+bool			c_enemy_my(t_game *g, t_vector n_ps, t_vector dir, double padd);
 void			shoot_enemy(t_game *game);
 bool			is_in_bounds(t_game *game, int x, int y);
 bool			has_hit_wall(t_game *game, t_ray_data *ray);
@@ -107,20 +107,19 @@ void			update_damage_effect(t_game *game);
 void			draw_damage_effect(t_game *game);
 
 void			setup_draw_params(t_draw_params *p, t_enemy *enemy,
-			t_sprite_data *s, int stripe);
+					t_sprite_data *s, int stripe);
 void			draw_stripe_pixels(t_draw_params *p, t_sprite_data *s);
 void			draw_enemy_stripe(t_game *game, t_enemy *enemy,
-			t_sprite_data *s, int stripe);
-
+					t_sprite_data *s, int stripe);
 
 void			process_active_enemy(t_enemy_list *current, t_game *game,
-			double speed);
+					double speed);
 void			calculate_enemy_distance(t_game *game, t_enemy *enemy);
 t_vector		try_move_x(t_enemy *enemy, t_game *game,
-			double speed);
+					double speed);
 t_vector		try_move_y(t_enemy *enemy, t_game *game,
-			double speed);
-void			update_enemy_position(t_enemy *enemy, t_game *game, double speed);
+					double speed);
+void			update_enemy_position(t_enemy *enemy, t_game *g, double speed);
 
 void			init_damage_feedback(t_game *game);
 void			trigger_damage_effect(t_game *game);
@@ -136,6 +135,6 @@ void			adjust_angle_and_fov(double *angle, double *effective_fov,
 					double fov, double dist);
 int				calculate_sprite_height(double dist);
 void			draw_enemy(t_game *game, t_enemy_list *current, double fov);
-void			check_and_draw_enemy(t_game *game, t_enemy_list *current, double fov);
+void			check_and_draw_enemy(t_game *g, t_enemy_list *crnt, double fov);
 
 #endif
