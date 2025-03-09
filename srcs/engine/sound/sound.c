@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   sound.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yourname <yourname@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/04 18:00:00 by yourname          #+#    #+#             */
-/*   Updated: 2025/03/04 18:00:00 by yourname         ###   ########.fr       */
+/*   Created: 2025/03/09 11:03:49 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/03/09 12:22:48 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-
 
 int	load_sound(uint32_t *sound, char *path)
 {
@@ -25,8 +23,8 @@ int	load_sound(uint32_t *sound, char *path)
 	*sound = BASS_StreamCreateFile(FALSE, path, 0, 0, 0);
 	if (!*sound)
 	{
-		ft_printf("Error loading sound: %s (Error code: %d)\n", 
-			path, BASS_ErrorGetCode());
+		ft_printf("Error loading sound: %s (Error code: %d)\n", path,
+			BASS_ErrorGetCode());
 		return (0);
 	}
 	return (1);
@@ -44,6 +42,17 @@ void	play_sound_loop(uint32_t sound, int play, int loop)
 		BASS_ChannelPause(sound);
 }
 
+void	set_sound_volume(uint32_t sound, float volume)
+{
+	if (!sound)
+		return ;
+	if (volume < 0.0)
+		volume = 0.0;
+	if (volume > 1.0)
+		volume = 1.0;
+	BASS_ChannelSetAttribute(sound, BASS_ATTRIB_VOL, volume);
+}
+
 void	play_sound(uint32_t sound)
 {
 	if (!sound)
@@ -57,7 +66,6 @@ void	play_game_sound(t_game *game, t_sound_type sound_type)
 {
 	if (!game || !game->sounds || !game->sounds->is_initialized)
 		return ;
-		
 	if (sound_type == SOUND_DOOR)
 		play_sound(game->sounds->door);
 	else if (sound_type == SOUND_GUN)
@@ -71,4 +79,3 @@ void	play_game_sound(t_game *game, t_sound_type sound_type)
 	else if (sound_type == SOUND_ENEMY)
 		play_sound(game->sounds->enemy);
 }
-

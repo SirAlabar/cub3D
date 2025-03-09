@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   door_interact.c                                     :+:      :+:    :+:  */
+/*   door_interact.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:20:50 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/22 21:47:02 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/09 11:15:48 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,9 @@ void	interact_with_door(t_game *game)
 
 	closest_door = find_closest_door(game);
 	if (closest_door)
+	{
 		update_door_state(closest_door);
+		if (game->sounds && game->sounds->is_initialized)
+			play_sound(game->sounds->door);
+	}
 }
