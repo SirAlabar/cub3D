@@ -43,8 +43,8 @@ static int	get_line_steps(t_vector start, t_vector end)
 	return ((int)diff_y);
 }
 
-void	draw_direction_line(t_game *game, t_vector center,
-		t_vector dir, int length)
+void	draw_direction_line(t_game *game, t_vector center, t_vector dir,
+		int length)
 {
 	t_vector	end;
 	t_vector	inc;

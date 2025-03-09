@@ -16,10 +16,10 @@ static t_bar	init_bar(void)
 {
 	t_bar	bar;
 
-	bar.width = MINIMAP_VIEW_SIZE * MINIMAP_CELL_SIZE + 20;
-	bar.height = 40;
-	bar.start_x = MINIMAP_PADDING + 770;
-	bar.start_y = WINDOW_HEIGHT - MINIMAP_PADDING - bar.height - 10;
+	bar.width = (WINDOW_WIDTH * 0.15);
+	bar.height = (WINDOW_HEIGHT * 0.03);
+	bar.start_x = WINDOW_WIDTH - bar.width - (WINDOW_WIDTH * 0.03);
+	bar.start_y = WINDOW_HEIGHT - bar.height - (WINDOW_HEIGHT * 0.03);
 	bar.color = 0;
 	return (bar);
 }
@@ -102,10 +102,10 @@ void	draw_health_bar(t_game *game)
 
 	if (!game)
 		return ;
-	health = texture_create(game, "./assets/sprites/health/healthbar.xpm");
+	health = texture_create(game, HEALTHBAR);
 	if (!health)
 	{
-		printf("Error\nFalha ao carregar a textura do HUD!\n");
+		ft_printf("Error\nFailed to load the HUD texture!\n");
 		cleanup_game(game);
 		exit(1);
 	}
