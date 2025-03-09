@@ -14,6 +14,7 @@
 static t_bar	init_bar(void)
 {
 	t_bar	bar;
+
 	bar.width = MINIMAP_VIEW_SIZE * MINIMAP_CELL_SIZE + 20;
 	bar.height = 40;
 	bar.start_x = MINIMAP_PADDING + 770;
@@ -23,16 +24,15 @@ static t_bar	init_bar(void)
 
 void	draw_lifebar_hud(t_game *game, t_texture *image)
 {
-	t_bar	bar;
-	int		color;
-	int		i;
-	int		j;
-	int		x_offset;
-	int		y_offset;
-	
+	t_bar		bar;
+	int			color;
+	int			i;
+	int			j;
+	t_vector_i	offset;
+
 	bar = init_bar();
-	x_offset = bar.start_x + bar.width - image->width + 4;
-	y_offset = bar.start_y - image->height + bar.height;
+	offset.x = bar.start_x + bar.width - image->width + 4;
+	offset.y = bar.start_y - image->height + bar.height;
 	i = -1;
 	while (++i < image->height)
 	{
@@ -41,7 +41,7 @@ void	draw_lifebar_hud(t_game *game, t_texture *image)
 		{
 			color = get_texture_pixel(image, j, i);
 			if (color != 0xFFC0CB)
-				draw_pixel(game, x_offset + j, y_offset + i, color);
+				draw_pixel(game, offset.x + j, offset.y + i, color);
 		}
 	}
 }
@@ -51,12 +51,11 @@ static void	draw_health_bar_background(t_game *game)
 	t_bar	bar;
 	int		i;
 	int		j;
-	
+
 	bar = init_bar();
 	bar.color = 0x555555;
 	bar.width += 0;
 	bar.height += 0;
-	
 	i = -1;
 	while (++i < bar.height)
 	{
@@ -72,7 +71,7 @@ static void	draw_health_bar_fill(t_game *game)
 	int		i;
 	int		j;
 	int		fill_width;
-	
+
 	bar = init_bar();
 	fill_width = (bar.width * game->p1.health) / 100;
 	if (game->p1.health > 70)
@@ -93,7 +92,7 @@ static void	draw_health_bar_fill(t_game *game)
 void	draw_health_bar(t_game *game)
 {
 	t_texture	*health;
-	
+
 	health = texture_create(game, "./assets/sprites/health/healthbar.xpm");
 	if (!health)
 	{
