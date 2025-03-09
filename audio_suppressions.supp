@@ -1,0 +1,37 @@
+{
+   ALSA-library-leaks
+   Memcheck:Leak
+   ...
+   obj:*/libasound.so*
+   ...
+}
+{
+   PulseAudio-library-leaks
+   Memcheck:Leak
+   ...
+   obj:*/libpulse*.so*
+   ...
+}
+{
+   BASS-library-leaks
+   Memcheck:Leak
+   ...
+   obj:*/libbass.so*
+   ...
+}
+{
+   Dynamic-Loader-Reachable-Memory
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:*dl_*
+   ...
+}
+{
+   Dynamic-Loader-Reachable-Memory-2
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:*_dl_*
+   ...
+}

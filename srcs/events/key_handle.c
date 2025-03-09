@@ -6,13 +6,13 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:20:50 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/22 21:32:22 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/09 11:51:25 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	handle_movement(t_game *game)
+static void	handle_player_movement(t_game *game)
 {
 	double	dir_x;
 	double	dir_y;
@@ -31,6 +31,26 @@ void	handle_movement(t_game *game)
 	}
 	keys_else(game, &dir_x, &dir_y);
 	move_player(game, dir_x, dir_y);
+}
+
+void	handle_movement(t_game *game)
+{
+	static double	last_footstep_time = 0;
+	double			current_time;
+	int				is_moving;
+
+	handle_player_movement(game);
+	is_moving = (game->p1.keys.w || game->p1.keys.s || game->p1.keys.a
+			|| game->p1.keys.d);
+	if (is_moving && game->sounds && game->sounds->footstep)
+	{
+		current_time = get_time_ms();
+		if (current_time - last_footstep_time > 350)
+		{
+			play_sound(game->sounds->footstep);
+			last_footstep_time = current_time;
+		}
+	}
 	if (game->p1.keys.left)
 		rotate_player(game, -game->p1.rot_speed);
 	if (game->p1.keys.right)
@@ -56,8 +76,12 @@ int	key_press(int keycode, t_game *game)
 		game->p1.keys.left = 1;
 	else if (keycode == KEY_RIGHT)
 		game->p1.keys.right = 1;
-	else if (keycode == KEY_SPACE || keycode == MOUSE_LEFT)
+	else if (keycode == KEY_SPACE)
+	{
 		game->p1.is_firing = 1;
+		if (game->sounds && game->sounds->is_initialized)
+			play_sound(game->sounds->gun);
+	}
 	return (0);
 }
 

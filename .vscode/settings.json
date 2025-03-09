@@ -59,6 +59,7 @@
   "makefile.configureOnOpen": false,
   "files.associations": {
     "cub3d.h": "c",
-    "mlx_utils.h": "c"
+    "mlx_utils.h": "c",
+    "events.h": "c"
   }
 }

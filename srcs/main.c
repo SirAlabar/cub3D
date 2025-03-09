@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/11 13:48:06 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/09 13:57:02 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,6 @@ int	main(int argc, char **argv)
 		return (free(game), 1);
 	if (!checker(game, argv[1]))
 		return (1);
-	game->mlx = mlx_init();
-	if (!game->mlx)
-		return (cleanup_game(game), 1);
 	if (!init_window(game))
 	{
 		cleanup_game(game);
