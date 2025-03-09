@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:56:23 by marsoare          #+#    #+#             */
-/*   Updated: 2025/03/09 12:02:29 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/03/09 12:08:24 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,15 @@ void			trigger_damage_effect(t_game *game);
 void			update_damage_effect(t_game *game);
 double			calculate_flash_intensity(t_game *game);
 unsigned int	blend_color(unsigned int original, double intensity);
+
+bool			check_short_distance(t_game *game, t_vector enemy_pos);
+bool			ray_trace_to_enemy(t_game *game, t_ray_data *ray,
+					t_vector enemy_pos, int max_steps);
+bool			is_enemy_visible(t_game *game, t_vector enemy_pos);
+void			adjust_angle_and_fov(double *angle, double *effective_fov,
+					double fov, double dist);
+int				calculate_sprite_height(double dist);
+void			draw_enemy(t_game *game, t_enemy_list *current, double fov);
+void			check_and_draw_enemy(t_game *game, t_enemy_list *current, double fov);
 
 #endif
