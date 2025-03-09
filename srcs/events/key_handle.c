@@ -77,11 +77,7 @@ int	key_press(int keycode, t_game *game)
 	else if (keycode == KEY_RIGHT)
 		game->p1.keys.right = 1;
 	else if (keycode == KEY_SPACE)
-	{
-		game->p1.is_firing = 1;
-		if (game->sounds && game->sounds->is_initialized)
-			play_sound(game->sounds->gun);
-	}
+		handle_firing(game);
 	return (0);
 }
 

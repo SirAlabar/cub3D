@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   health.h                                           :+:      :+:    :+:   */
+/*   key_handle2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/22 17:35:41 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/25 10:48:54 by marsoare         ###   ########.fr       */
+/*   Created: 2025/03/09 12:11:37 by marsoare          #+#    #+#             */
+/*   Updated: 2025/03/09 12:11:54 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEALTH_H
-# define HEALTH_H
+#include <cub3d.h>
 
-# define HEALTHBAR "./assets/sprites/health/healthbar.xpm"
-
-typedef struct s_bar
+void	handle_firing(t_game *game)
 {
-	int	start_x;
-	int	start_y;
-	int	width;
-	int	height;
-	int	color;
-}	t_bar;
-
-void	draw_health_bar(t_game *game);
-
-#endif
+	game->p1.is_firing = 1;
+	shoot_enemy(game);
+	if (game->sounds && game->sounds->is_initialized)
+		play_sound(game->sounds->gun);
+}

@@ -116,6 +116,13 @@
 
 /* Structs */
 
+typedef struct s_damage_effect
+{
+	bool	active;
+	double	start_time;
+	double	duration;
+}	t_damage_effect;
+
 typedef struct s_player
 {
 	t_vector	pos;
@@ -158,6 +165,8 @@ typedef struct s_game
 	int				fd_map;
 	char			*map_path;
 	t_map			map;
+	t_texture		*minihud;
+	t_texture		*minihudbg;
 	t_player		p1;
 	t_texture		north;
 	t_texture		south;
@@ -173,7 +182,8 @@ typedef struct s_game
 	double			mouse_sensi;
 	double			fps;
 	t_enemy_list	*enemies;
-	t_door_system	*door_system;
+	t_door_system	*door_system;	
+	t_damage_effect	damage_effect;
 	t_sounds		*sounds;	
 }				t_game;
 
@@ -226,5 +236,7 @@ void			handle_movement(t_game *game);
 int				key_release(int keycode, t_game *game);
 int				key_press(int keycode, t_game *game);
 int				key_handler(int keycode, t_game *game);
+void			handle_firing(t_game *game);
+void			*validate_player_count(t_game *game);
 
 #endif

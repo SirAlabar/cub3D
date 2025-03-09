@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   health.h                                           :+:      :+:    :+:   */
+/*   enemy_damage2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/22 17:35:41 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/25 10:48:54 by marsoare         ###   ########.fr       */
+/*   Created: 2025/03/09 12:04:47 by marsoare          #+#    #+#             */
+/*   Updated: 2025/03/09 12:05:15 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEALTH_H
-# define HEALTH_H
+#include <cub3d.h>
 
-# define HEALTHBAR "./assets/sprites/health/healthbar.xpm"
-
-typedef struct s_bar
+void	process_enemy_attacks(t_game *game)
 {
-	int	start_x;
-	int	start_y;
-	int	width;
-	int	height;
-	int	color;
-}	t_bar;
+	t_enemy_list	*current;
 
-void	draw_health_bar(t_game *game);
-
-#endif
+	current = game->enemies;
+	while (current != NULL)
+	{
+		if (current->enemy.alive)
+			enemy_attack_player(&current->enemy, game);
+		current = current->next;
+	}
+}

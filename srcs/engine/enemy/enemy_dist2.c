@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   health.h                                           :+:      :+:    :+:   */
+/*   enemy_utils4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/22 17:35:41 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/25 10:48:54 by marsoare         ###   ########.fr       */
+/*   Created: 2025/03/09 11:50:35 by marsoare          #+#    #+#             */
+/*   Updated: 2025/03/09 11:50:59 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEALTH_H
-# define HEALTH_H
+#include <cub3d.h>
 
-# define HEALTHBAR "./assets/sprites/health/healthbar.xpm"
-
-typedef struct s_bar
+void	process_active_enemy(t_enemy_list *current, t_game *game,
+	double speed)
 {
-	int	start_x;
-	int	start_y;
-	int	width;
-	int	height;
-	int	color;
-}	t_bar;
-
-void	draw_health_bar(t_game *game);
-
-#endif
+	calculate_enemy_distance(game, &current->enemy);
+	if (current->enemy.dist_to_player <= current->enemy.detection_radius)
+	{
+		update_enemy_position(&current->enemy, game, speed);
+		if (enemy_can_attack(&current->enemy, game))
+			enemy_attack_player(&current->enemy, game);
+	}
+}

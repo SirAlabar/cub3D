@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   health.h                                           :+:      :+:    :+:   */
+/*   enemy_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/22 17:35:41 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/25 10:48:54 by marsoare         ###   ########.fr       */
+/*   Created: 2025/01/29 17:44:29 by marsoare          #+#    #+#             */
+/*   Updated: 2025/01/29 20:22:31 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEALTH_H
-# define HEALTH_H
+#include <cub3d.h>
 
-# define HEALTHBAR "./assets/sprites/health/healthbar.xpm"
-
-typedef struct s_bar
+bool	is_in_bounds(t_game *game, int x, int y)
 {
-	int	start_x;
-	int	start_y;
-	int	width;
-	int	height;
-	int	color;
-}	t_bar;
+	return (x >= 0 && x < game->map.width && y >= 0 && y < game->map.height);
+}
 
-void	draw_health_bar(t_game *game);
-
-#endif
+bool	has_hit_wall(t_game *game, t_ray_data *ray)
+{
+	return (is_in_bounds(game, ray->map_x, ray->map_y)
+		&& game->map.grid[ray->map_y][ray->map_x] == '1');
+}

@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 19:40:02 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/25 10:21:45 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:37:53 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_texture	*load_enemy_texture(t_game *game)
 	texture = texture_create(game, path);
 	if (!texture)
 	{
-		ft_printf("Error: Failed to load enemy texture: %s\n", path);
+		ft_printf("Error\nFailed to load enemy texture: %s\n", path);
 		return (NULL);
 	}
 	return (texture);
@@ -32,14 +32,16 @@ void	add_enemy(t_game *game, t_vector pos)
 	t_enemy_list	*new;
 	t_enemy_list	*temp;
 
-	new = (t_enemy_list *)malloc(sizeof(t_enemy_list));
+	new = (t_enemy_list *)ft_calloc(sizeof(t_enemy_list), 1);
 	if (!new)
 		return ;
 	new->enemy.pos = pos;
-	new->enemy.health = 100;
+	new->enemy.health = 3;
 	new->enemy.alive = true;
 	new->enemy.dir = vector_create(0, 0);
 	new->enemy.texture = load_enemy_texture(game);
+	new->enemy.detection_radius = 5.0;
+	new->enemy.last_attack = 0.0;
 	new->next = NULL;
 	if (!game->enemies)
 		game->enemies = new;
@@ -52,21 +54,34 @@ void	add_enemy(t_game *game, t_vector pos)
 	}
 }
 
-void	calculate_enemy_distance(t_game *game, t_enemy *enemy)
+bool	c_enemy_mx(t_game *game, t_vector n_pos, t_vector dir, double padd)
 {
-	enemy->dist_to_player = vector_dist(game->p1.pos, enemy->pos);
-	enemy->dir = vector_create(1, 0);
+	int	map_x;
+	int	map_y;
+
+	map_x = (int)(n_pos.x + dir.x * padd);
+	map_y = (int)(n_pos.y);
+	if (map_x >= 0 && map_x < game->map.width
+		&& map_y >= 0 && map_y < game->map.height)
+	{
+		if (game->map.grid[map_y][map_x] == '0')
+			return (true);
+	}
+	return (false);
 }
 
-void	update_enemies(t_game *game)
+bool	c_enemy_my(t_game *game, t_vector n_pos, t_vector dir, double padd)
 {
-	t_enemy_list	*current;
+	int	map_x;
+	int	map_y;
 
-	current = game->enemies;
-	while (current)
+	map_x = (int)(n_pos.x);
+	map_y = (int)(n_pos.y + dir.y * padd);
+	if (map_x >= 0 && map_x < game->map.width
+		&& map_y >= 0 && map_y < game->map.height)
 	{
-		if (current->enemy.alive)
-			calculate_enemy_distance(game, &current->enemy);
-		current = current->next;
+		if (game->map.grid[map_y][map_x] == '0')
+			return (true);
 	}
+	return (false);
 }
