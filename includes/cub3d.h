@@ -138,6 +138,8 @@ typedef struct s_game
 	int				fd_map;
 	char			*map_path;
 	t_map			map;
+	t_texture		*minihud;
+	t_texture		*minihudbg;
 	t_player		p1;
 	t_texture		north;
 	t_texture		south;

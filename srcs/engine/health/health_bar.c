@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/25 10:37:30 by marsoare          #+#    #+#             */
-/*   Updated: 2025/02/24 18:03:09 by marsoare         ###   ########.fr       */
+/*   Created: 2025/03/09 12:58:24 by marsoare          #+#    #+#             */
+/*   Updated: 2025/03/09 12:58:57 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <cub3d.h>
 
 static t_bar	init_bar(void)
@@ -19,17 +20,20 @@ static t_bar	init_bar(void)
 	bar.height = 40;
 	bar.start_x = MINIMAP_PADDING + 770;
 	bar.start_y = WINDOW_HEIGHT - MINIMAP_PADDING - bar.height - 10;
+	bar.color = 0;
 	return (bar);
 }
 
 void	draw_lifebar_hud(t_game *game, t_texture *image)
 {
 	t_bar		bar;
-	int			color;
+	unsigned int			color;
 	int			i;
 	int			j;
 	t_vector_i	offset;
 
+	if (!game || !image)
+		return ;
 	bar = init_bar();
 	offset.x = bar.start_x + bar.width - image->width + 4;
 	offset.y = bar.start_y - image->height + bar.height;
@@ -39,9 +43,12 @@ void	draw_lifebar_hud(t_game *game, t_texture *image)
 		j = -1;
 		while (++j < image->width)
 		{
-			color = get_texture_pixel(image, j, i);
-			if (color != 0xFFC0CB)
-				draw_pixel(game, offset.x + j, offset.y + i, color);
+			if (j >= 0 && j < image->width && i >= 0 && i < image->height)
+			{
+				color = get_texture_pixel(image, j, i);
+				if (color != 0xFFC0CB)
+					draw_pixel(game, offset.x + j, offset.y + i, color);
+			}
 		}
 	}
 }
@@ -93,6 +100,8 @@ void	draw_health_bar(t_game *game)
 {
 	t_texture	*health;
 
+	if (!game)
+		return ;
 	health = texture_create(game, "./assets/sprites/health/healthbar.xpm");
 	if (!health)
 	{

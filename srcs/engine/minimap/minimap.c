@@ -82,13 +82,11 @@ void	draw_minihud(t_game *game, t_texture *image)
 
 void	draw_minimap(t_game *game)
 {
-	t_texture		*minihud;
-	t_texture		*minihudbg;
 	t_minimap_data	data;
 
-	(minihud = texture_create(game, "./assets/sprites/minihud.xpm"));
-	(minihudbg = texture_create(game, "./assets/sprites/minihudbg.xpm"));
-	if (!minihud)
+	(game->minihud = texture_create(game, "./assets/sprites/minihud.xpm"));
+	(game->minihudbg = texture_create(game, "./assets/sprites/minihudbg.xpm"));
+	if (!game->minihud)
 	{
 		printf("Error\nFalha ao carregar a textura do HUD!\n");
 		cleanup_game(game);
@@ -97,9 +95,11 @@ void	draw_minimap(t_game *game)
 	data.player_map_x = (int)game->p1.pos.x;
 	data.player_map_y = (int)game->p1.pos.y;
 	data.view_radius = MINIMAP_VIEW_SIZE / 2;
-	draw_minihud(game, minihudbg);
+	draw_minihud(game, game->minihudbg);
 	draw_minimap_background(game);
 	draw_map_grid(game, &data);
 	draw_player_dot(game);
-	draw_minihud(game, minihud);
+	draw_minihud(game, game->minihud);
+	texture_destroy(&game->minihud, game->mlx);
+	texture_destroy(&game->minihudbg, game->mlx);
 }

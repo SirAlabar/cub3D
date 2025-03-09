@@ -32,7 +32,7 @@ void	add_enemy(t_game *game, t_vector pos)
 	t_enemy_list	*new;
 	t_enemy_list	*temp;
 
-	new = (t_enemy_list *)malloc(sizeof(t_enemy_list));
+	new = (t_enemy_list *)ft_calloc(sizeof(t_enemy_list), 1);
 	if (!new)
 		return ;
 	new->enemy.pos = pos;
