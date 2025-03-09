@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:56:23 by marsoare          #+#    #+#             */
-/*   Updated: 2025/03/09 11:32:57 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/03/09 11:35:42 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # define ENEMY_ATTACK_DAMAGE 10
 # define ENEMY_ATTACK_RANGE 2.0
 # define ENEMY_ATTACK_COOLDOWN 1000
+# define DAMAGE_FLASH_DURATION 200
+# define DAMAGE_FLASH_COLOR 0xFF0000
+# define DAMAGE_FLASH_ALPHA 0.4
 
 typedef struct s_sprite_data
 {
