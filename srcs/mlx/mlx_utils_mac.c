@@ -23,10 +23,10 @@ void	destroy_window(void *mlx, void *win)
 	mlx_destroy_window(mlx, win);
 }
 
-void	*init_window(void *mlx, int width, int height, char *title)
-{
-	void	*win;
+// void	*init_window(void *mlx, int width, int height, char *title)
+// {
+// 	void	*win;
 
-	win = mlx_new_window(mlx, width, height, title);
-	return (win);
-}
+// 	win = mlx_new_window(mlx, width, height, title);
+// 	return (win);
+// }

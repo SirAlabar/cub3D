@@ -96,6 +96,14 @@ typedef struct s_wall
 	int					x;
 }						t_wall;
 
+typedef struct s_floor_data
+{
+	t_vector	ray_dir0;
+	t_vector	ray_dir1;
+	t_vector	floor_pos;
+	t_vector	floor_step;
+}				t_floor_data;
+
 typedef enum e_door_state
 {
 	DOOR_CLOSED = 0,
@@ -166,6 +174,13 @@ void					draw_wall(t_game *game, t_ray *ray, int x);
 void					update_ray_position(t_ray *ray);
 void					get_hit_position(t_ray *ray, t_game *game,
 							double orig_dist, double *door_hit_pos);
+
+// draw_skybox.c
+void					draw_skybox(t_game *game);
+
+// draw_floor.c
+void					draw_floor(t_game *game);
+
 // scanline_rendering.c
 void					init_scanline_buffer(t_scanline *buffer);
 void					draw_vertical_line(t_game *g, t_line line, int color);
