@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:56:23 by marsoare          #+#    #+#             */
-/*   Updated: 2025/03/09 11:35:42 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/03/09 12:02:29 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,48 +68,64 @@ typedef struct s_enemy_list
 	struct s_enemy_list	*next;
 }				t_enemy_list;
 
-void		init_enemies(t_game *game);
-void		update_enemies(t_game *game);
-void		draw_enemies(t_game *game);
-void		add_enemy(t_game *game, t_vector pos);
-void		draw_stripe_color(t_draw_params *p);
-void		draw_enemy_stripe(t_game *game, t_enemy *enemy,
-				t_sprite_data *s, int stripe);
-void		draw_enemy_sprite(t_game *game, t_enemy *enemy,
-				double screen_x, int sprite_height);
-void		calculate_ray_step(t_ray_data *ray, t_vector ray_dir);
-t_ray_data	init_ray_data(t_game *game, t_vector enemy_pos);
-bool		is_enemy_visible(t_game *game, t_vector enemy_pos);
-void		draw_enemy(t_game *game, t_enemy_list *current, double fov);
-void		draw_enemies(t_game *game);
-void		spawn_enemies_from_map(t_game *game);
-void		init_enemies(t_game *game);
-bool		c_enemy_mx(t_game *game, t_vector n_pos, t_vector dir, double padd);
-bool		c_enemy_my(t_game *game, t_vector n_pos, t_vector dir, double padd);
-void		shoot_enemy(t_game *game);
-bool		is_in_bounds(t_game *game, int x, int y);
-bool		has_hit_wall(t_game *game, t_ray_data *ray);
+void			init_enemies(t_game *game);
+void			update_enemies(t_game *game);
+void			draw_enemies(t_game *game);
+void			add_enemy(t_game *game, t_vector pos);
+void			draw_stripe_color(t_draw_params *p);
+void			draw_enemy_stripe(t_game *game, t_enemy *enemy,
+					t_sprite_data *s, int stripe);
+void			draw_enemy_sprite(t_game *game, t_enemy *enemy,
+					double screen_x, int sprite_height);
+void			calculate_ray_step(t_ray_data *ray, t_vector ray_dir);
+t_ray_data		init_ray_data(t_game *game, t_vector enemy_pos);
+bool			is_enemy_visible(t_game *game, t_vector enemy_pos);
+void			draw_enemy(t_game *game, t_enemy_list *current, double fov);
+void			draw_enemies(t_game *game);
+void			spawn_enemies_from_map(t_game *game);
+void			init_enemies(t_game *game);
+bool			c_enemy_mx(t_game *game, t_vector n_pos, t_vector dir, double padd);
+bool			c_enemy_my(t_game *game, t_vector n_pos, t_vector dir, double padd);
+void			shoot_enemy(t_game *game);
+bool			is_in_bounds(t_game *game, int x, int y);
+bool			has_hit_wall(t_game *game, t_ray_data *ray);
 
 //add now
-t_ray_data	init_ray_data(t_game *game, t_vector enemy_pos);
-void		draw_enemy_stripe(t_game *game, t_enemy *enemy,
-				t_sprite_data *s, int stripe);
-void		calculate_ray_step(t_ray_data *ray, t_vector ray_dir);
-void		draw_stripe_color(t_draw_params *p);
-bool		enemy_can_attack(t_enemy *enemy, t_game *game);
-void		enemy_attack_player(t_enemy *enemy, t_game *game);
-void		process_enemy_attacks(t_game *game);
-void		player_take_damage(t_game *game, int damage);
+t_ray_data		init_ray_data(t_game *game, t_vector enemy_pos);
+void			draw_enemy_stripe(t_game *game, t_enemy *enemy,
+					t_sprite_data *s, int stripe);
+void			calculate_ray_step(t_ray_data *ray, t_vector ray_dir);
+void			draw_stripe_color(t_draw_params *p);
+bool			enemy_can_attack(t_enemy *enemy, t_game *game);
+void			enemy_attack_player(t_enemy *enemy, t_game *game);
+void			process_enemy_attacks(t_game *game);
+void			player_take_damage(t_game *game, int damage);
 
-void		init_damage_feedback(t_game *game);
-void		trigger_damage_effect(t_game *game);
-void		update_damage_effect(t_game *game);
-void		draw_damage_effect(t_game *game);
+void			init_damage_feedback(t_game *game);
+void			trigger_damage_effect(t_game *game);
+void			update_damage_effect(t_game *game);
+void			draw_damage_effect(t_game *game);
 
-void		setup_draw_params(t_draw_params *p, t_enemy *enemy,
-		t_sprite_data *s, int stripe);
-void		draw_stripe_pixels(t_draw_params *p, t_sprite_data *s);
-void		draw_enemy_stripe(t_game *game, t_enemy *enemy,
-		t_sprite_data *s, int stripe);
+void			setup_draw_params(t_draw_params *p, t_enemy *enemy,
+			t_sprite_data *s, int stripe);
+void			draw_stripe_pixels(t_draw_params *p, t_sprite_data *s);
+void			draw_enemy_stripe(t_game *game, t_enemy *enemy,
+			t_sprite_data *s, int stripe);
+
+
+void			process_active_enemy(t_enemy_list *current, t_game *game,
+			double speed);
+void			calculate_enemy_distance(t_game *game, t_enemy *enemy);
+t_vector		try_move_x(t_enemy *enemy, t_game *game,
+			double speed);
+t_vector		try_move_y(t_enemy *enemy, t_game *game,
+			double speed);
+void			update_enemy_position(t_enemy *enemy, t_game *game, double speed);
+
+void			init_damage_feedback(t_game *game);
+void			trigger_damage_effect(t_game *game);
+void			update_damage_effect(t_game *game);
+double			calculate_flash_intensity(t_game *game);
+unsigned int	blend_color(unsigned int original, double intensity);
 
 #endif

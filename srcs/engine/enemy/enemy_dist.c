@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 16:14:58 by marsoare          #+#    #+#             */
-/*   Updated: 2025/03/09 11:49:17 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/03/09 11:58:12 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	calculate_enemy_distance(t_game *game, t_enemy *enemy)
 	enemy->dist_to_player = length;
 }
 
-static t_vector	try_move_x(t_enemy *enemy, t_game *game,
+t_vector	try_move_x(t_enemy *enemy, t_game *game,
 	double speed)
 {
 	t_vector	movement;
@@ -40,7 +40,7 @@ static t_vector	try_move_x(t_enemy *enemy, t_game *game,
 	return (enemy->pos);
 }
 
-static t_vector	try_move_y(t_enemy *enemy, t_game *game,
+t_vector	try_move_y(t_enemy *enemy, t_game *game,
 	double speed)
 {
 	t_vector	movement;
@@ -60,18 +60,6 @@ void	update_enemy_position(t_enemy *enemy, t_game *game, double speed)
 		return ;
 	enemy->pos = try_move_x(enemy, game, speed);
 	enemy->pos = try_move_y(enemy, game, speed);
-}
-
-static void	process_active_enemy(t_enemy_list *current, t_game *game, 
-	double speed)
-{
-	calculate_enemy_distance(game, &current->enemy);
-	if (current->enemy.dist_to_player <= current->enemy.detection_radius)
-	{
-		update_enemy_position(&current->enemy, game, speed);
-		if (enemy_can_attack(&current->enemy, game))
-			enemy_attack_player(&current->enemy, game);
-	}
 }
 
 void	update_enemies(t_game *game)

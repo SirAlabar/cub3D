@@ -39,7 +39,7 @@ void	update_damage_effect(t_game *game)
 	}
 }
 
-static double	calculate_flash_intensity(t_game *game)
+double	calculate_flash_intensity(t_game *game)
 {
 	double	elapsed;
 	double	intensity;
@@ -53,7 +53,7 @@ static double	calculate_flash_intensity(t_game *game)
 	return (intensity);
 }
 
-static unsigned int	blend_color(unsigned int original, double intensity)
+unsigned int	blend_color(unsigned int original, double intensity)
 {
 	unsigned char	r;
 	unsigned char	g;
@@ -66,45 +66,4 @@ static unsigned int	blend_color(unsigned int original, double intensity)
 	g = (unsigned char)(g * (1.0 - DAMAGE_FLASH_ALPHA * intensity));
 	b = (unsigned char)(b * (1.0 - DAMAGE_FLASH_ALPHA * intensity));
 	return ((0xFF << 24) | (r << 16) | (g << 8) | b);
-}
-
-static void	apply_damage_overlay(t_game *game, double intensity)
-{
-	int				x;
-	int				y;
-	char			*dst;
-	unsigned int	color;
-
-	y = 0;
-	while (y < WINDOW_HEIGHT)
-	{
-		x = 0;
-		while (x < WINDOW_WIDTH)
-		{
-			dst = game->addr + (y * game->line_length
-					+ x * (game->bits_per_pixel / 8));
-			color = *(unsigned int *)dst;
-			*(unsigned int *)dst = blend_color(color, intensity);
-			x += 2;
-		}
-		y += 2;
-	}
-}
-
-void	draw_damage_effect(t_game *game)
-{
-	double	intensity;
-
-	if (!game->damage_effect.active)
-		return ;
-	intensity = calculate_flash_intensity(game);
-	apply_damage_overlay(game, intensity);
-}
-
-void	player_take_damage(t_game *game, int damage)
-{
-	game->p1.health -= damage;
-	if (game->p1.health < 0)
-		game->p1.health = 0;
-	trigger_damage_effect(game);
 }

@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 18:20:02 by marsoare          #+#    #+#             */
-/*   Updated: 2025/03/09 11:33:53 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/03/09 12:05:11 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,4 @@ void	enemy_attack_player(t_enemy *enemy, t_game *game)
 	if (!enemy_can_attack(enemy, game))
 		return ;
 	apply_damage_to_player(enemy, game);
-}
-
-void	process_enemy_attacks(t_game *game)
-{
-	t_enemy_list	*current;
-
-	current = game->enemies;
-	while (current != NULL)
-	{
-		if (current->enemy.alive)
-			enemy_attack_player(&current->enemy, game);
-		current = current->next;
-	}
 }
