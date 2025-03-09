@@ -6,7 +6,7 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 16:14:58 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/26 17:52:44 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/03/09 11:37:23 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,52 @@ void	calculate_enemy_distance(t_game *game, t_enemy *enemy)
 	enemy->dist_to_player = length;
 }
 
-void	update_enemy_position(t_enemy *enemy, t_game *game, double speed)
+static t_vector	try_move_x(t_enemy *enemy, t_game *game, 
+	double speed)
 {
-	t_vector movement;
-	t_vector new_position;
-	if (enemy->dist_to_player <= MIN_ENEMY_DISTANCE)
-		return;
+	t_vector	movement;
+	t_vector	new_position;
+
 	movement = vector_mult(enemy->dir, speed);
 	new_position = enemy->pos;
 	new_position.x += movement.x;
 	if (c_enemy_mx(game, new_position, enemy->dir, 0.5))
 		enemy->pos.x = new_position.x;
+	return (enemy->pos);
+}
+
+static t_vector	try_move_y(t_enemy *enemy, t_game *game, 
+	double speed)
+{
+	t_vector	movement;
+	t_vector	new_position;
+
+	movement = vector_mult(enemy->dir, speed);
 	new_position = enemy->pos;
 	new_position.y += movement.y;
 	if (c_enemy_my(game, new_position, enemy->dir, 0.5))
 		enemy->pos.y = new_position.y;
+	return (enemy->pos);
+}
+
+void	update_enemy_position(t_enemy *enemy, t_game *game, double speed)
+{
+	if (enemy->dist_to_player <= MIN_ENEMY_DISTANCE)
+		return ;
+	enemy->pos = try_move_x(enemy, game, speed);
+	enemy->pos = try_move_y(enemy, game, speed);
+}
+
+static void	process_active_enemy(t_enemy_list *current, t_game *game, 
+	double speed)
+{
+	calculate_enemy_distance(game, &current->enemy);
+	if (current->enemy.dist_to_player <= current->enemy.detection_radius)
+	{
+		update_enemy_position(&current->enemy, game, speed);
+		if (enemy_can_attack(&current->enemy, game))
+			enemy_attack_player(&current->enemy, game);
+	}
 }
 
 void	update_enemies(t_game *game)
@@ -53,23 +84,7 @@ void	update_enemies(t_game *game)
 	while (current != NULL)
 	{
 		if (current->enemy.alive)
-		{
-			calculate_enemy_distance(game, &current->enemy);
-			if (current->enemy.dist_to_player <= current->enemy.detection_radius)
-			{
-				update_enemy_position(&current->enemy, game, speed);
-				
-				// Check if enemy can attack player
-				if (enemy_can_attack(&current->enemy, game))
-				{
-					enemy_attack_player(&current->enemy, game);
-				}
-			}
-		}
-		else
-		{
-			// Handle dead enemy (could add animation, despawn timer, etc.)
-		}
+			process_active_enemy(current, game, speed);
 		current = current->next;
 	}
 }
