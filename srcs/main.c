@@ -20,7 +20,7 @@ int	close_window(t_game *game)
 
 int mouse_press(int button, int x, int y, t_game *game)
 {
-    (void)x; // Para evitar warnings de variáveis não utilizadas
+    (void)x;
     (void)y;
     
     printf("Mouse button pressed: %d at position (%d, %d)\n", button, x, y);

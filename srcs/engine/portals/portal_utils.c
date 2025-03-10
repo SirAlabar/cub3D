@@ -117,8 +117,8 @@ unsigned int	get_portal_color(t_portal_wall *portal, double x, double y,
 		texture = game->portal_system->gun.blue_texture;
 	else
 		texture = game->portal_system->gun.orange_texture;
-		tex_x = (int)(x * texture->width);
-		tex_y = (int)(y * texture->height);
+	tex_x = (int)(x * texture->width);
+	tex_y = (int)(y * texture->height);
 	if (tex_x < 0)
 		tex_x = 0;
 	if (tex_x >= texture->width)
@@ -150,6 +150,7 @@ bool	check_portal_hit(t_ray *ray, t_game *game, t_portal_wall *portal)
 {
 	t_cardinal	ray_direction;
 
+	(void)game;	
 	if (!portal->active || portal->state != PORTAL_OPEN)
 		return (false);
 	if (ray->map_x != portal->position.x || ray->map_y != portal->position.y)

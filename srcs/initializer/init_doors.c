@@ -54,9 +54,26 @@ static void	scan_map_for_doors(t_game *game)
 	}
 }
 
+static char	*get_random_door(void)
+{
+	int	random_num;
+
+	random_num = rand() % 5 + 1;
+	if (random_num == 1)
+		return ((DOOR1));
+	if (random_num == 2)
+		return ((DOOR2));
+	if (random_num == 3)
+		return ((DOOR3));
+	if (random_num == 4)
+		return ((DOOR4));
+	return ((DOOR5));
+}
+
 void	init_door_system(t_game *game)
 {
 	t_texture	*door_tex;
+	char		*door_path;
 
 	game->door_system = ft_calloc(1, sizeof(t_door_system));
 	if (!game->door_system)
@@ -66,7 +83,8 @@ void	init_door_system(t_game *game)
 	}
 	game->door_system->doors = NULL;
 	game->door_system->door_count = 0;
-	door_tex = texture_create(game, DOOR1);
+	door_path = get_random_door();
+	door_tex = texture_create(game, door_path);
 	if (!door_tex)
 	{
 		ft_printf("Error: Failed to load door texture\n");
@@ -78,6 +96,7 @@ void	init_door_system(t_game *game)
 	free(door_tex);
 	scan_map_for_doors(game);
 }
+
 
 void	add_door(t_game *game, int x, int y)
 {

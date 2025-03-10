@@ -140,6 +140,10 @@ typedef struct s_door_system
 }						t_door_system;
 
 # define DOOR1 "assets/texture/doorlab.xpm"
+# define DOOR2 "assets/texture/skulldoor.xpm"
+# define DOOR3 "assets/texture/irondoor.xpm"
+# define DOOR4 "assets/texture/door4.xpm"
+# define DOOR5 "assets/texture/irondoor2.xpm"
 # define DOOR_SPEED 0.5
 # define DOOR_STAY_OPEN_TIME 4.0
 # define DOOR_INTERACTION_DISTANCE 1.9
