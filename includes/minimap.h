@@ -18,6 +18,9 @@
 # define PLAYER_DOT_SIZE 6
 # define MINIMAP_VIEW_SIZE 11
 
+# define MINIHUD	"./assets/sprites/minihud.xpm"
+# define MINIHUDBG	"./assets/sprites/minihudbg.xpm"
+
 typedef struct s_minimap_data
 {
 	int	player_map_x;

@@ -12,6 +12,11 @@
 
 #include <cub3d.h>
 
+double	vector_length(t_vector v)
+{
+	return (sqrt((v.x * v.x) + (v.y * v.y)));
+}
+
 t_vector	vector_add(t_vector v1, t_vector v2)
 {
 	return (vector_create((v1.x + v2.x), (v1.y + v2.y)));

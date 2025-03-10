@@ -228,6 +228,7 @@ void					process_door_texture(t_wall *wall, t_door *door,
 t_vector				vector_create(double x, double y);
 
 // Basic operations
+double					vector_length(t_vector v);
 t_vector				vector_add(t_vector v1, t_vector v2);
 t_vector				vector_sub(t_vector v1, t_vector v2);
 t_vector				vector_mult(t_vector v, double n);

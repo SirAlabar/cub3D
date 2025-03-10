@@ -13,6 +13,8 @@
 #ifndef HEALTH_H
 # define HEALTH_H
 
+# define HEALTHBAR "./assets/sprites/health/healthbar.xpm"
+
 typedef struct s_bar
 {
 	int	start_x;

@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:34 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/27 20:48:12 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/09 16:43:40 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 # include <colors.h>
 # include <engine.h>
+# include <sound.h>
 # include <events.h>
 # include <portals.h>
 # include <minimap.h>
@@ -117,6 +118,13 @@
 
 /* Structs */
 
+typedef struct s_damage_effect
+{
+	bool	active;
+	double	start_time;
+	double	duration;
+}	t_damage_effect;
+
 typedef struct s_player
 {
 	t_vector	pos;
@@ -159,6 +167,8 @@ typedef struct s_game
 	int				fd_map;
 	char			*map_path;
 	t_map			map;
+	t_texture		*minihud;
+	t_texture		*minihudbg;
 	t_player		p1;
 	t_texture		north;
 	t_texture		south;
@@ -176,6 +186,8 @@ typedef struct s_game
 	t_enemy_list	*enemies;
 	t_door_system	*door_system;
 	t_portal_system *portal_system;
+	t_damage_effect	damage_effect;
+	t_sounds		*sounds;	
 }				t_game;
 
 void			cleanup_game(t_game *game);
@@ -218,6 +230,7 @@ void			cleanup_textures(t_game *game);
 void			cleanup_map(t_game *game);
 void			cleanup_game(t_game *game);
 void			cleanup_door_system(t_game *game);
+void			cleanup_sky_floor(t_game *game);
 
 //
 void			init_test_map(t_game *game);
@@ -226,5 +239,7 @@ void			handle_movement(t_game *game);
 int				key_release(int keycode, t_game *game);
 int				key_press(int keycode, t_game *game);
 int				key_handler(int keycode, t_game *game);
+void			handle_firing(t_game *game);
+void			*validate_player_count(t_game *game);
 
 #endif

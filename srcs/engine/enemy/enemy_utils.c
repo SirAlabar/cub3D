@@ -6,49 +6,37 @@
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:58:19 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/25 10:22:10 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:06:18 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	draw_stripe_color(t_draw_params *p)
+void	set_sprite_dimensions(t_sprite_data *s, double screen_x, int height)
 {
-	int	color;
-
-	color = get_texture_pixel(p->enemy->texture, p->tex.x, p->tex.y);
-	if ((color & 0x00FFFFFF) != 0)
-		draw_pixel(p->game, p->pos.x, p->pos.y,
-			apply_shade(color, 1.0 / (1.0 + p->enemy->dist_to_player * 0.04)));
+	s->height = height;
+	s->width = height;
+	s->screen_x = screen_x;
+	s->start_y = WINDOW_HEIGHT / 2 - height / 2;
+	s->end_y = WINDOW_HEIGHT / 2 + height / 2;
+	s->start_x = (int)(screen_x - s->width / 2);
+	s->end_x = (int)(screen_x + s->width / 2);
 }
 
-void	draw_enemy_stripe(t_game *game, t_enemy *enemy,
-	t_sprite_data *s, int stripe)
+void	clamp_sprite_boundaries(t_sprite_data *s)
 {
-	t_draw_params	p;
-	int				d;
-
-	p.game = game;
-	p.enemy = enemy;
-	p.pos.x = stripe;
-	p.tex.x = (int)(256 * (stripe - (-s->width / 2 + s->screen_x))
-			* enemy->texture->width / s->width) / 256;
-	if (p.tex.x >= 0 && p.tex.x < enemy->texture->width)
-	{
-		p.pos.y = s->start_y;
-		while (p.pos.y < s->end_y)
-		{
-			d = (p.pos.y) * 256 - WINDOW_HEIGHT * 128 + s->height * 128;
-			p.tex.y = ((d * enemy->texture->height) / s->height) / 256;
-			if (p.tex.y >= 0 && p.tex.y < enemy->texture->height)
-				draw_stripe_color(&p);
-			p.pos.y++;
-		}
-	}
+	if (s->start_y < 0)
+		s->start_y = 0;
+	if (s->end_y >= WINDOW_HEIGHT)
+		s->end_y = WINDOW_HEIGHT - 1;
+	if (s->start_x < 0)
+		s->start_x = 0;
+	if (s->end_x >= WINDOW_WIDTH)
+		s->end_x = WINDOW_WIDTH - 1;
 }
 
-void	draw_enemy_sprite(t_game *game, t_enemy *enemy,
-				double screen_x, int sprite_height)
+void	draw_enemy_sprite(t_game *game, t_enemy *enemy, double screen_x,
+	int sprite_height)
 {
 	t_sprite_data	s;
 	int				stripe;
@@ -76,41 +64,33 @@ void	draw_enemy_sprite(t_game *game, t_enemy *enemy,
 	}
 }
 
-void	calculate_ray_step(t_ray_data *ray, t_vector ray_dir)
+double	calculate_angle(t_vector to_enemy, t_vector player_dir)
 {
-	if (ray_dir.x < 0)
-	{
-		ray->step.x = -1;
-		ray->side_dist.x = (ray->pos.x - ray->map_x) * ray->delta_dist.x;
-	}
-	else
-	{
-		ray->step.x = 1;
-		ray->side_dist.x = (ray->map_x + 1.0 - ray->pos.x) * ray->delta_dist.x;
-	}
-	if (ray_dir.y < 0)
-	{
-		ray->step.y = -1;
-		ray->side_dist.y = (ray->pos.y - ray->map_y) * ray->delta_dist.y;
-	}
-	else
-	{
-		ray->step.y = 1;
-		ray->side_dist.y = (ray->map_y + 1.0 - ray->pos.y) * ray->delta_dist.y;
-	}
+	double	dot_product;
+	double	mag_to_enemy;
+	double	mag_player_dir;
+	double	cos_angle;
+
+	dot_product = to_enemy.x * player_dir.x + to_enemy.y * player_dir.y;
+	mag_to_enemy = sqrt(to_enemy.x * to_enemy.x + to_enemy.y * to_enemy.y);
+	mag_player_dir = sqrt(player_dir.x * player_dir.x + player_dir.y
+			* player_dir.y);
+	cos_angle = dot_product / (mag_to_enemy * mag_player_dir);
+	return (acos(cos_angle));
 }
 
-t_ray_data	init_ray_data(t_game *game, t_vector enemy_pos)
+bool	should_render_enemy(t_game *game, t_enemy *enemy)
 {
-	t_ray_data	ray;
-	t_vector	ray_dir;
+	t_vector	to_enemy;
+	t_vector	player_dir;
+	double		angle_rad;
+	double		fov_rad;
 
-	ray_dir = vector_normalize(vector_sub(enemy_pos, game->p1.pos));
-	ray.pos = game->p1.pos;
-	ray.map_x = (int)ray.pos.x;
-	ray.map_y = (int)ray.pos.y;
-	ray.delta_dist.x = fabs(1 / ray_dir.x);
-	ray.delta_dist.y = fabs(1 / ray_dir.y);
-	calculate_ray_step(&ray, ray_dir);
-	return (ray);
+	if (enemy->dist_to_player < 2.0)
+		return (true);
+	to_enemy = vector_sub(enemy->pos, game->p1.pos);
+	player_dir = game->p1.dir;
+	angle_rad = calculate_angle(to_enemy, player_dir);
+	fov_rad = 2 * atan2(vector_mag(game->p1.plane), 1.0) * 1.2;
+	return (angle_rad <= fov_rad / 2);
 }

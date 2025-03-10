@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:27:36 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/01 18:30:19 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/09 13:38:51 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	cleanup_mlx(void *mlx)
 {
+	if (!mlx)
+		return ;
 	mlx_destroy_display(mlx);
 	free(mlx);
 }

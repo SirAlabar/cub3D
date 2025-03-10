@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 21:46:24 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/22 21:46:26 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:44:19 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ void	init_player(t_game *game)
 	game->p1.is_firing = 0;
 	game->p1.last_step = get_time_ms();
 	game->p1.last_fire = 0;
+	game->p1.health = 100;
 	set_gun(game);
 }
