@@ -40,22 +40,57 @@ void	init_wall_drawing(t_wall *wall)
 		* wall->step;
 }
 
-void	set_wall_tex_coords(t_wall *wall)
+// void	set_wall_tex_coords(t_wall *wall)
+// {
+// 	if (wall->ray->side == 0)
+// 		wall->pos.x = wall->game->p1.pos.y + wall->ray->perp_wall_dist
+// 			* wall->ray->dir.y;
+// 	else
+// 		wall->pos.x = wall->game->p1.pos.x + wall->ray->perp_wall_dist
+// 			* wall->ray->dir.x;
+// 	wall->pos.x -= floor(wall->pos.x);
+// 	wall->tex.x = (int)(wall->pos.x * wall->texture->width);
+// 	if (wall->ray->is_door)
+// 		adjust_door_texture(wall);
+// 	if (wall->ray->side == 0 && wall->ray->dir.x < 0)
+// 		wall->tex.x = wall->texture->width - wall->tex.x - 1;
+// 	if (wall->ray->side == 1 && wall->ray->dir.y > 0)
+// 		wall->tex.x = wall->texture->width - wall->tex.x - 1;
+// }
+
+void set_wall_tex_coords(t_wall *wall)
 {
-	if (wall->ray->side == 0)
-		wall->pos.x = wall->game->p1.pos.y + wall->ray->perp_wall_dist
-			* wall->ray->dir.y;
-	else
-		wall->pos.x = wall->game->p1.pos.x + wall->ray->perp_wall_dist
-			* wall->ray->dir.x;
-	wall->pos.x -= floor(wall->pos.x);
-	wall->tex.x = (int)(wall->pos.x * wall->texture->width);
-	if (wall->ray->is_door)
-		adjust_door_texture(wall);
-	if (wall->ray->side == 0 && wall->ray->dir.x < 0)
-		wall->tex.x = wall->texture->width - wall->tex.x - 1;
-	if (wall->ray->side == 1 && wall->ray->dir.y > 0)
-		wall->tex.x = wall->texture->width - wall->tex.x - 1;
+	static int debug_counter = 0;
+
+    if (debug_counter++ % 60000 == 0){
+		printf("DEBUG: Setting wall tex coords for pos (%d,%d)\n", 
+			wall->ray->map_x, wall->ray->map_y);}
+    
+    if (wall->ray->side == 0)
+        wall->pos.x = wall->game->p1.pos.y + wall->ray->perp_wall_dist
+            * wall->ray->dir.y;
+    else
+        wall->pos.x = wall->game->p1.pos.x + wall->ray->perp_wall_dist
+            * wall->ray->dir.x;
+    
+    wall->pos.x -= floor(wall->pos.x);
+    wall->tex.x = (int)(wall->pos.x * wall->texture->width);
+    
+    if (debug_counter++ % 60000 == 0){
+		printf("DEBUG: Wall tex.x = %f, pos.x = %.2f, texture width = %d\n", 
+			wall->tex.x, wall->pos.x, wall->texture->width);}
+    
+    if (wall->ray->is_door)
+        adjust_door_texture(wall);
+    if (wall->ray->side == 0 && wall->ray->dir.x < 0)
+        wall->tex.x = wall->texture->width - wall->tex.x - 1;
+    if (wall->ray->side == 1 && wall->ray->dir.y > 0){
+        wall->tex.x = wall->texture->width - wall->tex.x - 1;}
+        
+	if (debug_counter++ % 60000 == 0)
+	{
+		printf("DEBUG: Final wall tex.x = %f\n", wall->tex.x);
+	}
 }
 
 static void	put_wall_pixel(t_wall *wall, t_vector_i pos)

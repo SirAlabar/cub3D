@@ -59,7 +59,7 @@ void	handle_movement(t_game *game)
 
 int	key_press(int keycode, t_game *game)
 {
-	printf("Key pressed: %d\n", keycode);
+	// printf("Key pressed: %d\n", keycode);
 	if (keycode == KEY_ESC)
 		close_window(game);
 	else if (keycode == KEY_E)

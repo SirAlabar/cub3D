@@ -41,20 +41,29 @@ void	update_door_state(t_door *door, double delta_time)
 	}
 }
 
-void	update_doors(t_game *game)
+void update_doors(t_game *game)
 {
-	t_door_system	*ds;
-	double			delta_time;
-	int				i;
-
-	ds = game->door_system;
-	delta_time = 1.0 / 60.0;
-	i = 0;
-	while (i < ds->door_count)
-	{
-		update_door_state(&ds->doors[i], delta_time);
-		i++;
-	}
+    t_door_system *ds;
+    double delta_time;
+    int i;
+    
+    if (!game)
+        return;
+    ds = game->door_system;
+    if (!ds)
+        return;
+    if (!ds->door_count)
+        return;
+    delta_time = 1.0 / 60.0;
+    i = 0;
+    while (i < ds->door_count)
+    {
+        if (ds->doors && i < ds->door_count)
+        {
+            update_door_state(&ds->doors[i], delta_time);
+        }
+        i++;
+    }
 }
 
 // static void	process_door_animation(t_ray *ray, double door_hit_pos,

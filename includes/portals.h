@@ -117,8 +117,8 @@ void		close_portals(t_game *game);
 void		check_portal_teleport(t_game *game);
 
 /* portal_render.c */
-void		render_portal_wall(t_ray *ray, t_game *game, int x);
-void		render_portals(t_game *game, t_ray *rays);
+void		render_portal_wall(t_ray *ray, t_game *game, int x, t_scanline *buffer);
+void		render_portals(t_game *game, t_ray *rays, t_scanline *buffer);
 void		draw_portal_gun(t_game *game);
 
 /* portal_raycasting.c */

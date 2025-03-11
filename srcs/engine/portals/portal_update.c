@@ -19,15 +19,15 @@ static void	update_portal_state(t_portal_wall *portal, double delta_time)
 	if (!portal->active)
 		return ;
 		
-	if (portal->state == PORTAL_OPENING)
-	{
-		portal->animation += animation_speed * delta_time;
-		if (portal->animation >= 1.0)
-		{
-			portal->animation = 1.0;
-			portal->state = PORTAL_OPEN;
-		}
-	}
+    if (portal->state == PORTAL_OPENING)
+    {
+        portal->animation += animation_speed * delta_time;
+        if (portal->animation >= 1.0)
+        {
+            portal->animation = 1.0;
+            portal->state = PORTAL_OPEN;
+        }
+    }
 	else if (portal->state == PORTAL_CLOSING)
 	{
 		portal->animation -= animation_speed * delta_time;
