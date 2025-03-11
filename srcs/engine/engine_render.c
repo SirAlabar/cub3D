@@ -37,7 +37,7 @@ int	engine_render_frame(t_game *game)
 	// draw_weapon(game);
 	if (game->portal_system && game->portal_system->portal_active)
     {
-        render_portals(game, rays);
+        render_portals(game, rays, &scanline_buffer);
     }
 	draw_portal_gun(game);
 	draw_minimap(game);

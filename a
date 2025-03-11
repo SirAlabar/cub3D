@@ -1,0 +1,180 @@
+Error: Failed to load texture: assets/texture/irondoor2.xpm
+Error: Failed to load door texture
+Warning: Failed to load door sound
+Warning: Failed to load gun sound
+Warning: Failed to load footstep sound
+Warning: Failed to load ambient sound
+Warning: Failed to load hurt sound
+Warning: Failed to load enemy sound
+[assets/texture/north.xpm]
+[assets/texture/south.xpm]
+[assets/texture/west.xpm]
+[assets/texture/east.xpm]
+DEBUG: Before portal system init
+DEBUG: Initializing portal system
+DEBUG: Portal system initialized successfully
+DEBUG: After portal system init: 0x55a7b50c0420
+DEBUG: Updating portals - Blue: inactive (closed), Orange: inactive (closed)
+DEBUG: Setting wall tex coords for pos (5,0)
+DEBUG: Setting wall tex coords for pos (3,4)
+DEBUG: Setting wall tex coords for pos (4,0)
+DEBUG: Setting wall tex coords for pos (2,0)
+DEBUG: Setting wall tex coords for pos (4,0)
+DEBUG: Setting wall tex coords for pos (2,0)
+Mouse button pressed: 1 at position (654, 524)
+DEBUG: game pointer = 0x55a7b507b550
+DEBUG: portal_system pointer = 0x55a7b50c0420
+DEBUG: Firing portal gun
+DEBUG: Starting wall detection for portal
+DEBUG: Checking position (2, 1) - tile: 0
+DEBUG: Checking position (3, 1) - tile: 0
+DEBUG: Checking position (3, 0) - tile: 1
+DEBUG: Wall found
+DEBUG: Portal hit found: YES
+DEBUG: Wall position: (3, 0)
+DEBUG: Hit position: (3.42, 1.00)
+DEBUG: Normal: (0.00, 1.00)
+DEBUG: Distance: 2.03
+DEBUG: Checking if surface is valid
+DEBUG: Creating portal of type: BLUE
+DEBUG: Creating portal
+DEBUG: Setting blue portal properties
+DEBUG: Portals linked: YES
+DEBUG: Portal gun fired successfully
+DEBUG: Updating portals - Blue: active (opening), Orange: inactive (closed)
+DEBUG: Checking portal hit at pos (2,1) - Portal pos (3,0)
+DEBUG: Portal active: 1, state: 1, card: 0
+DEBUG: Setting wall tex coords for pos (2,0)
+DEBUG: Rendering portal at x=429 (3,0) - line_height=504, start=198, end=702
+DEBUG: Rendering portal at x=471 (3,0) - line_height=498, start=201, end=699
+DEBUG: Rendering portal at x=499 (3,0) - line_height=498, start=201, end=699
+DEBUG: Rendering portal at x=519 (3,0) - line_height=491, start=205, end=695
+DEBUG: Rendering portal at x=539 (3,0) - line_height=483, start=209, end=691
+DEBUG: Checking portal hit at pos (3,0) - Portal pos (3,0)
+DEBUG: Portal active: 1, state: 1, card: 0
+DEBUG: Rendering portal at x=559 (3,0) - line_height=476, start=212, end=688
+DEBUG: Rendering portal at x=579 (3,0) - line_height=468, start=216, end=684
+DEBUG: Rendering portal at x=599 (3,0) - line_height=461, start=220, end=680
+DEBUG: Setting wall tex coords for pos (4,0)
+DEBUG: Rendering portal at x=619 (3,0) - line_height=453, start=224, end=676
+DEBUG: Checking portal hit at pos (2,0) - Portal pos (3,0)
+DEBUG: Portal active: 1, state: 1, card: 0
+DEBUG: Rendering portal at x=639 (3,0) - line_height=446, start=227, end=673
+DEBUG: Rendering portal at x=659 (3,0) - line_height=438, start=231, end=669
+DEBUG: Rendering portal at x=679 (3,0) - line_height=431, start=235, end=665
+DEBUG: Rendering portal at x=684 (3,0) - line_height=425, start=238, end=662
+DEBUG: Checking portal hit at pos (6,1) - Portal pos (3,0)
+DEBUG: Portal active: 1, state: 1, card: 0
+DEBUG: Rendering portal at x=682 (3,0) - line_height=421, start=240, end=660
+DEBUG: Rendering portal at x=673 (3,0) - line_height=420, start=240, end=660
+DEBUG: Rendering portal at x=657 (3,0) - line_height=422, start=239, end=661
+DEBUG: Rendering portal at x=630 (3,0) - line_height=432, start=234, end=666
+DEBUG: Setting wall tex coords for pos (3,0)
+DEBUG: Rendering portal at x=584 (3,0) - line_height=454, start=223, end=677
+DEBUG: Checking portal hit at pos (3,0) - Portal pos (3,0)
+DEBUG: Portal active: 1, state: 2, card: 0
+DEBUG: Rendering portal at x=545 (3,0) - line_height=484, start=208, end=692
+DEBUG: Rendering portal at x=500 (3,0) - line_height=519, start=191, end=709
+DEBUG: Rendering portal at x=418 (3,0) - line_height=560, start=170, end=730
+DEBUG: Rendering portal at x=738 (3,0) - line_height=471, start=215, end=685
+DEBUG: Rendering portal at x=596 (3,0) - line_height=526, start=187, end=713
+DEBUG: Checking portal hit at pos (2,1) - Portal pos (3,0)
+DEBUG: Portal active: 1, state: 2, card: 0
+DEBUG: Rendering portal at x=432 (3,0) - line_height=590, start=155, end=745
+DEBUG: Rendering portal at x=717 (3,0) - line_height=507, start=197, end=703
+DEBUG: Rendering portal at x=520 (3,0) - line_height=583, start=159, end=741
+DEBUG: Rendering portal at x=788 (3,0) - line_height=502, start=199, end=701
+DEBUG: Setting wall tex coords for pos (2,0)
+DEBUG: Rendering portal at x=557 (3,0) - line_height=593, start=154, end=746
+DEBUG: Rendering portal at x=807 (3,0) - line_height=515, start=193, end=707
+DEBUG: Checking portal hit at pos (5,0) - Portal pos (3,0)
+DEBUG: Portal active: 1, state: 2, card: 0
+DEBUG: Rendering portal at x=538 (3,0) - line_height=624, start=138, end=762
+DEBUG: Rendering portal at x=768 (3,0) - line_height=550, start=175, end=725
+DEBUG: Rendering portal at x=457 (3,0) - line_height=680, start=110, end=790
+DEBUG: Rendering portal at x=665 (3,0) - line_height=612, start=144, end=756
+DEBUG: Rendering portal at x=866 (3,0) - line_height=545, start=178, end=722
+DEBUG: Rendering portal at x=494 (3,0) - line_height=705, start=98, end=802
+DEBUG: Rendering portal at x=670 (3,0) - line_height=647, start=127, end=773
+DEBUG: Checking portal hit at pos (3,0) - Portal pos (3,0)
+DEBUG: Portal active: 1, state: 2, card: 0
+DEBUG: Rendering portal at x=838 (3,0) - line_height=589, start=156, end=744
+DEBUG: Rendering portal at x=397 (3,0) - line_height=790, start=55, end=845
+DEBUG: Setting wall tex coords for pos (3,0)
+DEBUG: Rendering portal at x=537 (3,0) - line_height=744, start=78, end=822
+DEBUG: Rendering portal at x=668 (3,0) - line_height=700, start=100, end=800
+DEBUG: Rendering portal at x=789 (3,0) - line_height=659, start=121, end=779
+DEBUG: Rendering portal at x=899 (3,0) - line_height=622, start=139, end=761
+DEBUG: Rendering portal at x=336 (3,0) - line_height=900, start=0, end=899
+DEBUG: Checking portal hit at pos (2,1) - Portal pos (3,0)
+DEBUG: Portal active: 1, state: 2, card: 0
+DEBUG: Rendering portal at x=412 (3,0) - line_height=880, start=10, end=890
+DEBUG: Rendering portal at x=477 (3,0) - line_height=865, start=18, end=882
+DEBUG: Rendering portal at x=530 (3,0) - line_height=856, start=22, end=878
+DEBUG: Rendering portal at x=570 (3,0) - line_height=852, start=24, end=876
+DEBUG: Rendering portal at x=595 (3,0) - line_height=856, start=22, end=878
+DEBUG: Rendering portal at x=607 (3,0) - line_height=866, start=17, end=883
+DEBUG: Rendering portal at x=605 (3,0) - line_height=885, start=8, end=892
+DEBUG: Rendering portal at x=587 (3,0) - line_height=912, start=0, end=899
+DEBUG: Rendering portal at x=553 (3,0) - line_height=949, start=0, end=899
+DEBUG: Rendering portal at x=503 (3,0) - line_height=996, start=0, end=899
+DEBUG: Rendering portal at x=436 (3,0) - line_height=1055, start=0, end=899
+DEBUG: Setting wall tex coords for pos (3,0)
+DEBUG: Rendering portal at x=350 (3,0) - line_height=1128, start=0, end=899
+DEBUG: Rendering portal at x=246 (3,0) - line_height=1214, start=0, end=899
+DEBUG: Checking portal hit at pos (3,0) - Portal pos (3,0)
+DEBUG: Portal active: 1, state: 2, card: 0
+DEBUG: Rendering portal at x=996 (3,0) - line_height=774, start=63, end=837
+DEBUG: Rendering portal at x=871 (3,0) - line_height=866, start=17, end=883
+DEBUG: Rendering portal at x=726 (3,0) - line_height=976, start=0, end=899
+DEBUG: Rendering portal at x=558 (3,0) - line_height=1105, start=0, end=899
+DEBUG: Rendering portal at x=367 (3,0) - line_height=1256, start=0, end=899
+DEBUG: Rendering portal at x=152 (3,0) - line_height=1430, start=0, end=899
+DEBUG: Rendering portal at x=902 (3,0) - line_height=933, start=0, end=899
+DEBUG: Rendering portal at x=661 (3,0) - line_height=1121, start=0, end=899
+DEBUG: Rendering portal at x=392 (3,0) - line_height=1338, start=0, end=899
+DEBUG: Rendering portal at x=93 (3,0) - line_height=1589, start=0, end=899
+DEBUG: Rendering portal at x=843 (3,0) - line_height=1052, start=0, end=899
+DEBUG: Rendering portal at x=516 (3,0) - line_height=1322, start=0, end=899
+DEBUG: Rendering portal at x=179 (3,0) - line_height=1615, start=0, end=899
+DEBUG: Rendering portal at x=929 (3,0) - line_height=1047, start=0, end=899
+DEBUG: Rendering portal at x=582 (3,0) - line_height=1349, start=0, end=899
+DEBUG: Rendering portal at x=225 (3,0) - line_height=1677, start=0, end=899
+DEBUG: Rendering portal at x=975 (3,0) - line_height=1075, start=0, end=899
+DEBUG: Rendering portal at x=607 (3,0) - line_height=1413, start=0, end=899
+DEBUG: Rendering portal at x=228 (3,0) - line_height=1784, start=0, end=899
+DEBUG: Rendering portal at x=978 (3,0) - line_height=1142, start=0, end=899
+DEBUG: Rendering portal at x=587 (3,0) - line_height=1526, start=0, end=899
+DEBUG: Updating portals - Blue: active (open), Orange: inactive (closed)
+DEBUG: Setting wall tex coords for pos (3,0)
+DEBUG: Rendering portal at x=184 (3,0) - line_height=1948, start=0, end=899
+DEBUG: Rendering portal at x=934 (3,0) - line_height=1262, start=0, end=899
+DEBUG: Checking portal hit at pos (3,0) - Portal pos (3,0)
+DEBUG: Portal active: 1, state: 2, card: 0
+DEBUG: Rendering portal at x=518 (3,0) - line_height=1643, start=0, end=899
+DEBUG: Rendering portal at x=108 (3,0) - line_height=2018, start=0, end=899
+DEBUG: Rendering portal at x=858 (3,0) - line_height=1332, start=0, end=899
+DEBUG: Rendering portal at x=454 (3,0) - line_height=1701, start=0, end=899
+DEBUG: Rendering portal at x=56 (3,0) - line_height=2066, start=0, end=899
+DEBUG: Rendering portal at x=806 (3,0) - line_height=1379, start=0, end=899
+DEBUG: Rendering portal at x=414 (3,0) - line_height=1738, start=0, end=899
+DEBUG: Rendering portal at x=22 (3,0) - line_height=2097, start=0, end=899
+DEBUG: Rendering portal at x=772 (3,0) - line_height=1410, start=0, end=899
+DEBUG: Rendering portal at x=380 (3,0) - line_height=1769, start=0, end=899
+DEBUG: Rendering portal at x=1130 (3,0) - line_height=1083, start=0, end=899
+DEBUG: Rendering portal at x=738 (3,0) - line_height=1441, start=0, end=899
+DEBUG: Rendering portal at x=346 (3,0) - line_height=1800, start=0, end=899
+DEBUG: Rendering portal at x=1096 (3,0) - line_height=1114, start=0, end=899
+DEBUG: Rendering portal at x=704 (3,0) - line_height=1473, start=0, end=899
+DEBUG: Rendering portal at x=312 (3,0) - line_height=1831, start=0, end=899
+DEBUG: Rendering portal at x=1062 (3,0) - line_height=1145, start=0, end=899
+DEBUG: Rendering portal at x=670 (3,0) - line_height=1504, start=0, end=899
+DEBUG: Rendering portal at x=278 (3,0) - line_height=1862, start=0, end=899
+DEBUG: Rendering portal at x=1028 (3,0) - line_height=1176, start=0, end=899
+DEBUG: Rendering portal at x=636 (3,0) - line_height=1535, start=0, end=899
+DEBUG: Rendering portal at x=244 (3,0) - line_height=1894, start=0, end=899
+DEBUG: Rendering portal at x=994 (3,0) - line_height=1207, start=0, end=899
+DEBUG: Setting wall tex coords for pos (3,0)
+DEBUG: Rendering portal at x=602 (3,0) - line_height=1566, start=0, end=899
+DEBUG: Rendering portal at x=210 (3,0) - line_height=1925, start=0, end=899
+DEBUG: Rendering portal at x=960 (3,0) - line_height=1238, start=0, end=899

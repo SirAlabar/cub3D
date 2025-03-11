@@ -21,66 +21,42 @@ static t_portal_wall	*get_portal(t_ray *ray, t_game *game)
 	return (NULL);
 }
 
-// void	render_portal_wall(t_ray *ray, t_game *game, int x)
-// {
-// 	t_portal_wall	*portal;
-// 	double			tex_x;
-// 	double			tex_y;
-// 	int				y;
-// 	unsigned int	color;
 
-// 	portal = get_portal(ray, game);
-// 	if (!portal)
-// 		return ;
-// 	if (ray->side == 0)
-// 		tex_x = game->p1.pos.y + ray->perp_wall_dist * ray->dir.y;
-// 	else
-// 		tex_x = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
-// 	tex_x -= floor(tex_x);
-// 	y = ray->draw_start;
-// 	while (y < ray->draw_end)
-// 	{
-// 		tex_y = (double)(y - ray->draw_start) / (ray->draw_end - ray->draw_start);
-//         color = get_portal_color(portal, tex_x, tex_y, game);
-// 		if (color != 0xFFC0CB)
-// 			draw_pixel(game, x, y, color);
-// 		y++;
-// 	}
-// }
-void draw_portal_scanline(t_game *game, t_wall *wall)
+static void draw_portal_scanline(t_game *game, t_wall *wall)
 {
     t_vector_i pos;
     unsigned int color;
-    static int debug_counter3 = 0;
+    double y_ratio;
+    int tex_y;
     
+	(void)game;
+    if (!wall->texture || !wall->texture->img || !wall->game->addr[wall->game->current_buffer])
+        return;
+    
+    if (wall->end <= wall->start)
+        return;
     pos.x = wall->x;
     pos.y = wall->start - 1;
-    
-    // Limitar a quantidade de debug para não sobrecarregar
-    if (debug_counter3++ % 90000 == 0)
-        printf("DEBUG: Drawing portal scanline at x=%d from y=%d to y=%d\n", 
-               wall->x, wall->start, wall->end);
-    
     while (++pos.y <= wall->end)
     {
-        wall->tex.y = (int)wall->tex_pos & (wall->texture->height - 1);
-        
-        if (debug_counter3 % 90000 == 0)
-            printf("DEBUG: Portal pixel at (%d,%d) tex=(%f,%f) tex_pos=%.2f step=%.2f\n", 
-                   pos.x, pos.y, wall->tex.x, wall->tex.y, wall->tex_pos, wall->step);
-        
-        color = get_texture_pixel(wall->texture, wall->tex.x, wall->tex.y);
+        y_ratio = (double)(pos.y - wall->start) / (double)(wall->end - wall->start);
+        tex_y = (int)(y_ratio * wall->texture->height);
+        if (tex_y < 0)
+            tex_y = 0;
+        if (tex_y >= wall->texture->height)
+            tex_y = wall->texture->height - 1;
+        color = get_texture_pixel(wall->texture, (int)wall->tex.x, tex_y);
         if (color != 0xFFC0CB)
-            draw_pixel(game, pos.x, pos.y, color);
-            
-        wall->tex_pos += wall->step;
+            draw_pixel(wall->game, pos.x, pos.y, color);
     }
 }
+
 
 void render_portal_wall(t_ray *ray, t_game *game, int x, t_scanline *buffer)
 {
     t_wall wall;
     t_portal_wall *portal;
+	double perp_wall_dist;
 	static int debug_counter = 0;
     
     portal = get_portal(ray, game);
@@ -92,6 +68,10 @@ void render_portal_wall(t_ray *ray, t_game *game, int x, t_scanline *buffer)
 	if (debug_counter++ % 3000 == 0)
 		printf("DEBUG: Rendering portal at x=%d (%d,%d) - line_height=%d, start=%d, end=%d\n", 
 			x, ray->map_x, ray->map_y, ray->line_height, ray->draw_start, ray->draw_end);
+		
+	perp_wall_dist = ray->perp_wall_dist;
+	if (perp_wall_dist < 0.5)
+		perp_wall_dist = 0.5;
 	 
     // Usar a mesma altura e posição que a parede teria
     wall.game = game;
@@ -115,17 +95,19 @@ void render_portal_wall(t_ray *ray, t_game *game, int x, t_scanline *buffer)
 				x, buffer->y_top[x], buffer->y_bottom[x]);}
 
     // Aqui está a parte importante: usar as mesmas dimensões da parede
+    // wall.height = ray->line_height;
+    // wall.start = ray->draw_start;
+    // wall.end = ray->draw_end;
     wall.height = ray->line_height;
-    wall.start = ray->draw_start;
-    wall.end = ray->draw_end;
-    
-    // Respeitar os limites da tela
-    if (wall.start < 0)
-        wall.start = 0;
-    if (wall.end >= WINDOW_HEIGHT)
-	{
-        wall.end = WINDOW_HEIGHT - 1;
-	}
+    wall.start = (-wall.height / 2) + (WINDOW_HEIGHT / 2);
+    wall.end = (wall.height / 2) + (WINDOW_HEIGHT / 2);
+    // // Respeitar os limites da tela
+    // if (wall.start < 0)
+    //     wall.start = 0;
+    // if (wall.end >= WINDOW_HEIGHT)
+	// {
+    //     wall.end = WINDOW_HEIGHT - 1;
+	// }
     
 	if (debug_counter++ % 3000 == 0)
 		printf("DEBUG: Final portal dimensions: height=%d, start=%d, end=%d\n", 
@@ -134,11 +116,19 @@ void render_portal_wall(t_ray *ray, t_game *game, int x, t_scanline *buffer)
     set_wall_tex_coords(&wall);
     
     // Cálculo do passo de textura com base na altura real da parede
+    // wall.step = 1.0 * wall.texture->height / wall.height;
+	// wall.tex_pos = (wall.start - (WINDOW_HEIGHT >> 1) + (wall.height >> 1))
+	// 	* wall.step;
     wall.step = 1.0 * wall.texture->height / wall.height;
     wall.tex_pos = (wall.start - (WINDOW_HEIGHT / 2 - wall.height / 2)) * wall.step;
-    
+
+	if (debug_counter++ % 3000 == 0)
+		printf("++++++++DEBUG: Rendering portal at x=%d (%d,%d) - line_height=%d, start=%d, end=%d\n", 
+			x, ray->map_x, ray->map_y, ray->line_height, ray->draw_start, ray->draw_end);
     draw_portal_scanline(game, &wall);
 }
+
+
 
 void render_portals(t_game *game, t_ray *rays, t_scanline *buffer)
 {
