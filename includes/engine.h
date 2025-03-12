@@ -75,6 +75,7 @@ typedef struct s_ray
 	int					draw_start;
 	int					draw_end;
 	bool				is_door;
+	bool				is_doorwall;	
 }						t_ray;
 
 typedef struct s_wall
@@ -136,11 +137,13 @@ typedef struct s_door_system
 {
 	t_door				*doors;
 	int					door_count;
-	t_texture			door_texture;	
+	t_texture			door_texture;
+	t_texture			doorwall_texture;	
 }						t_door_system;
 
 # define DOOR1 "assets/texture/doorlab.xpm"
-# define DOOR_SPEED 0.5
+# define DOORWALL "assets/texture/doorwall.xpm"
+# define DOOR_SPEED 0.65
 # define DOOR_STAY_OPEN_TIME 4.0
 # define DOOR_INTERACTION_DISTANCE 1.9
 

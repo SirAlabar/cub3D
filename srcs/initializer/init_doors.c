@@ -54,29 +54,72 @@ static void	scan_map_for_doors(t_game *game)
 	}
 }
 
-void	init_door_system(t_game *game)
-{
-	t_texture	*door_tex;
+// void	init_door_system(t_game *game)
+// {
+// 	t_texture	*door_tex;
 
-	game->door_system = ft_calloc(1, sizeof(t_door_system));
-	if (!game->door_system)
-	{
-		ft_printf("Error: Failed to allocate door system\n");
-		return ;
-	}
-	game->door_system->doors = NULL;
-	game->door_system->door_count = 0;
-	door_tex = texture_create(game, DOOR1);
-	if (!door_tex)
-	{
-		ft_printf("Error: Failed to load door texture\n");
-		free(game->door_system);
-		game->door_system = NULL;
-		return ;
-	}
-	game->door_system->door_texture = *door_tex;
-	free(door_tex);
-	scan_map_for_doors(game);
+// 	game->door_system = ft_calloc(1, sizeof(t_door_system));
+// 	if (!game->door_system)
+// 	{
+// 		ft_printf("Error: Failed to allocate door system\n");
+// 		return ;
+// 	}
+// 	game->door_system->doors = NULL;
+// 	game->door_system->door_count = 0;
+// 	door_tex = texture_create(game, DOOR1);
+// 	if (!door_tex)
+// 	{
+// 		ft_printf("Error: Failed to load door texture\n");
+// 		free(game->door_system);
+// 		game->door_system = NULL;
+// 		return ;
+// 	}
+// 	game->door_system->door_texture = *door_tex;
+// 	free(door_tex);
+// 	scan_map_for_doors(game);
+// }
+
+void init_door_system(t_game *game)
+{
+    t_texture *door_tex;
+    t_texture *doorwall_tex;
+
+    game->door_system = ft_calloc(1, sizeof(t_door_system));
+    if (!game->door_system)
+    {
+        ft_printf("Error: Failed to allocate door system\n");
+        return;
+    }
+    
+    game->door_system->doors = NULL;
+    game->door_system->door_count = 0;
+    
+    // Carregar a textura da porta
+    door_tex = texture_create(game, DOOR1);
+    if (!door_tex)
+    {
+        ft_printf("Error: Failed to load door texture\n");
+        free(game->door_system);
+        game->door_system = NULL;
+        return;
+    }
+    game->door_system->door_texture = *door_tex;
+    free(door_tex);
+    
+    // Carregar a textura da moldura da porta
+    doorwall_tex = texture_create(game, DOORWALL);
+    if (!doorwall_tex)
+    {
+        ft_printf("Error: Failed to load doorwall texture\n");
+        mlx_destroy_image(game->mlx, game->door_system->door_texture.img);
+        free(game->door_system);
+        game->door_system = NULL;
+        return;
+    }
+    game->door_system->doorwall_texture = *doorwall_tex;
+    free(doorwall_tex);
+    
+    scan_map_for_doors(game);
 }
 
 void	add_door(t_game *game, int x, int y)

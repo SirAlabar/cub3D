@@ -25,6 +25,7 @@ void	init_ray(t_ray *ray, t_game *game, int x)
 	ray->delta_dist.y = fabs(1 / ray->dir.y);
 	ray->hit = false;
 	ray->is_door = false;
+	ray->is_doorwall = false;	
 }
 
 void	step_side_dist(t_ray *ray, t_game *g)
