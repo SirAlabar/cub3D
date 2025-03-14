@@ -123,7 +123,8 @@ void		draw_portal_gun(t_game *game);
 
 /* portal_raycasting.c */
 bool process_portal_hit(t_ray *ray, t_game *game);
-void teleport_ray(t_ray *ray, t_game *game, t_portal_wall *entry, t_portal_wall *exit);
+void translate_portal_ray(t_ray *ray, t_game *game, t_portal_wall *entry,
+	t_portal_wall *exit);
 
 /* portal_integration.c */
 void		check_ray_portal_collision(t_ray *ray, t_game *game);

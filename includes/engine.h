@@ -19,6 +19,7 @@
 # include <sys/time.h>
 
 typedef struct s_game	t_game;
+typedef struct s_portal_wall	t_portal_wall;
 
 typedef struct s_vector_i
 {
@@ -75,6 +76,7 @@ typedef struct s_ray
 	int					draw_start;
 	int					draw_end;
 	bool				is_door;
+	t_portal_wall       *hit_portal;
 }						t_ray;
 
 typedef struct s_wall

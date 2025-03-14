@@ -89,10 +89,10 @@ void render_portal_wall(t_ray *ray, t_game *game, int x, t_scanline *buffer)
         return;
 	}
 	
-	if (debug_counter++ % 3000 == 0){
-		printf("DEBUG: Portal texture size: %dx%d\n", wall.texture->width, wall.texture->height);
-		printf("DEBUG: Scanline buffer limits for x=%d: top=%d, bottom=%d\n", 
-				x, buffer->y_top[x], buffer->y_bottom[x]);}
+	// if (debug_counter++ % 3000 == 0){
+	// 	printf("DEBUG: Portal texture size: %dx%d\n", wall.texture->width, wall.texture->height);
+	// 	printf("DEBUG: Scanline buffer limits for x=%d: top=%d, bottom=%d\n", 
+	// 			x, buffer->y_top[x], buffer->y_bottom[x]);}
 
     // Aqui está a parte importante: usar as mesmas dimensões da parede
     // wall.height = ray->line_height;
@@ -109,9 +109,9 @@ void render_portal_wall(t_ray *ray, t_game *game, int x, t_scanline *buffer)
     //     wall.end = WINDOW_HEIGHT - 1;
 	// }
     
-	if (debug_counter++ % 3000 == 0)
-		printf("DEBUG: Final portal dimensions: height=%d, start=%d, end=%d\n", 
-			wall.height, wall.start, wall.end);
+	// if (debug_counter++ % 3000 == 0)
+	// 	printf("DEBUG: Final portal dimensions: height=%d, start=%d, end=%d\n", 
+	// 		wall.height, wall.start, wall.end);
     // Calcular as coordenadas de textura exatamente como faria para a parede
     set_wall_tex_coords(&wall);
     
@@ -122,9 +122,9 @@ void render_portal_wall(t_ray *ray, t_game *game, int x, t_scanline *buffer)
     wall.step = 1.0 * wall.texture->height / wall.height;
     wall.tex_pos = (wall.start - (WINDOW_HEIGHT / 2 - wall.height / 2)) * wall.step;
 
-	if (debug_counter++ % 3000 == 0)
-		printf("++++++++DEBUG: Rendering portal at x=%d (%d,%d) - line_height=%d, start=%d, end=%d\n", 
-			x, ray->map_x, ray->map_y, ray->line_height, ray->draw_start, ray->draw_end);
+	// if (debug_counter++ % 3000 == 0)
+	// 	printf("++++++++DEBUG: Rendering portal at x=%d (%d,%d) - line_height=%d, start=%d, end=%d\n", 
+	// 		x, ray->map_x, ray->map_y, ray->line_height, ray->draw_start, ray->draw_end);
     draw_portal_scanline(game, &wall);
 }
 

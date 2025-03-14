@@ -149,14 +149,14 @@ unsigned int	get_portal_color(t_portal_wall *portal, double x, double y,
 bool	check_portal_hit(t_ray *ray, t_game *game, t_portal_wall *portal)
 {
 	t_cardinal	ray_direction;
-	static int debug_counter2 = 0;
+	// static int debug_counter2 = 0;
 
 	(void)game;
-	if (debug_counter2++ % 90000 == 0){
-	printf("DEBUG: Checking portal hit at pos (%d,%d) - Portal pos (%d,%d)\n", 
-		ray->map_x, ray->map_y, portal->position.x, portal->position.y);
- 	printf("DEBUG: Portal active: %d, state: %d, card: %d\n", 
-		portal->active, portal->state, portal->card);}	
+	// if (debug_counter2++ % 90000 == 0){
+	// printf("DEBUG: Checking portal hit at pos (%d,%d) - Portal pos (%d,%d)\n", 
+	// 	ray->map_x, ray->map_y, portal->position.x, portal->position.y);
+ 	// printf("DEBUG: Portal active: %d, state: %d, card: %d\n", 
+	// 	portal->active, portal->state, portal->card);}	
 	if (!portal->active || (portal->state != PORTAL_OPEN && portal->state != PORTAL_OPENING))
 		return (false);
 	if (ray->map_x != portal->position.x || ray->map_y != portal->position.y)
@@ -175,10 +175,11 @@ bool	check_portal_hit(t_ray *ray, t_game *game, t_portal_wall *portal)
 		else
 			ray_direction = NORTH;
 	}
-	if (debug_counter2++ % 90000 == 0){
-	printf("DEBUG: Ray direction = %d, Portal card = %d, Match = %d\n", 
-		ray_direction, portal->card, (ray_direction == portal->card));}
+	// if (debug_counter2++ % 90000 == 0){
+	// printf("DEBUG: Ray direction = %d, Portal card = %d, Match = %d\n", 
+	// 	ray_direction, portal->card, (ray_direction == portal->card));}
 	if (ray_direction == portal->card)
 		return (true);
 	return (false);
 }
+
