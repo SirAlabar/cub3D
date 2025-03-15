@@ -20,6 +20,7 @@
 # define PORTAL_ORANGE_TEX "./assets/texture/portal_orange.xpm"
 # define PORTAL_DIST_THRESHOLD 1.0
 # define PORTAL_DOT_THRESHOLD 0.5
+# define MAX_PORTAL_DEPTH 3
 
 // /* PORTAL Gun Frames*/
 # define PORTAL_GUN "./assets/sprites/plasma/portal_gun.xpm"

@@ -61,6 +61,7 @@ typedef struct s_line
 typedef struct s_ray
 {
 	t_vector			dir;
+	t_vector            original_dir;	
 	t_vector			side_dist;
 	t_vector			delta_dist;
 	double				perp_wall_dist;
@@ -77,6 +78,7 @@ typedef struct s_ray
 	int					draw_end;
 	bool				is_door;
 	t_portal_wall       *hit_portal;
+	int                 portal_depth; 
 }						t_ray;
 
 typedef struct s_wall

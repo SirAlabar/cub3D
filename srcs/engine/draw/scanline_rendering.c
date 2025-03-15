@@ -156,7 +156,8 @@ void draw_portal_strip(t_game *game, t_wall *wall, t_portal_wall *portal)
         color = get_texture_pixel(texture, (int)wall->tex.x, tex_y);
        
         // Se não for o pixel transparente específico (0x000001), então desenha
-        if (color == 0x000001)
+        // if (color == 0x000001)
+		if (color == 0x000001)
         {
             draw_pixel(game, pos.x, pos.y, color);
         }

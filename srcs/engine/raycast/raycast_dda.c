@@ -26,6 +26,8 @@ void	init_ray(t_ray *ray, t_game *game, int x)
 	ray->hit = false;
 	ray->is_door = false;
 	ray->hit_portal = NULL;
+    ray->portal_depth = 0;
+    ray->original_dir = ray->dir;
 }
 
 void	step_side_dist(t_ray *ray, t_game *g)
@@ -194,6 +196,7 @@ void	perform_dda(t_ray *ray, t_game *game)
 void	cast_rays(t_game *game, t_ray *rays)
 {
 	int	i;
+	static int debug_counter = 0;
 
 	i = -1;
 	while (++i < WINDOW_WIDTH)
@@ -202,5 +205,11 @@ void	cast_rays(t_game *game, t_ray *rays)
 		step_side_dist(&rays[i], game);
 		perform_dda(&rays[i], game);
 		wall_height(&rays[i]);
+		if (debug_counter++ % 20000 == 0)
+		{
+			printf("DEBUG: Ray %d - hit=%d, hit_portal=%p, depth=%d, dist=%.2f\n", 
+				i, rays[i].hit, (void*)rays[i].hit_portal, 
+				rays[i].portal_depth, rays[i].perp_wall_dist);
+		}
 	}
 }
