@@ -117,76 +117,57 @@ void draw_regular_wall(t_wall *wall)
         put_wall_pixel(wall, pos);
 }
 
-void draw_portal_strip(t_wall *wall, t_portal_wall *portal)
+void draw_portal_strip(t_game *game, t_wall *wall, t_portal_wall *portal)
 {
     t_vector_i pos;
     t_texture *texture;
-    int tex_x, tex_y;
     unsigned int color;
-    double step, tex_pos;
-    static int debug_counter = 0;
-    
-	if (wall->start < 0)
-		wall->start = 0;
-	if (wall->end >= WINDOW_HEIGHT)
-		wall->end = WINDOW_HEIGHT - 1;
-    /* Selecionar textura do portal */
-	if (wall->end <= wall->start)
-		return;
-    texture = (portal->type == PORTAL_BLUE) ? 
-        wall->game->portal_system->gun.blue_texture : 
-        wall->game->portal_system->gun.orange_texture;
-    
-    /* Calcular coordenada x da textura do portal */
-    tex_x = (int)(wall->pos.x * texture->width);
-    if (wall->ray->side == 0 && wall->ray->dir.x > 0)
-        tex_x = texture->width - tex_x - 1;
-    if (wall->ray->side == 1 && wall->ray->dir.y > 0)
-        tex_x = texture->width - tex_x - 1;
-    
-    /* Limitar a valores válidos */
-    if (tex_x < 0) tex_x = 0;
-    if (tex_x >= texture->width) tex_x = texture->width - 1;
-    
-    /* Configurar passo de textura */
-    step = 1.0 * texture->height / wall->height;
-    tex_pos = (wall->start - (WINDOW_HEIGHT / 2) + (wall->height / 2)) * step;
-    
-    /* Iniciar posição de desenho */
+    int tex_y;
+    // double y_ratio;
+   
+    // Limites de segurança
+    if (wall->start < 0)
+        wall->start = 0;
+    if (wall->end >= WINDOW_HEIGHT)
+        wall->end = WINDOW_HEIGHT - 1;
+   
+    if (wall->end <= wall->start)
+        return;
+    // Obter a textura do portal que já foi calculada
+    texture = (portal->type == PORTAL_BLUE) ?
+        game->portal_system->gun.blue_texture :
+        game->portal_system->gun.orange_texture;
+   
+    // Para cada pixel vertical
     pos.x = wall->x;
     pos.y = wall->start - 1;
-    
-    if (debug_counter++ % 10000 == 0)
-        printf("DEBUG: Portal strip at x=%d, tex_x=%d, start=%d, end=%d\n", 
-            pos.x, tex_x, wall->start, wall->end);
-    
-    /* Loop para cada pixel vertical */
+   
     while (++pos.y <= wall->end)
     {
-        /* Calcular coordenada y da textura */
-        tex_y = (int)tex_pos & (texture->height - 1);
-        tex_pos += step;
-        
-        /* Obter cor do pixel na textura */
-        color = get_texture_pixel(texture, tex_x, tex_y);
-        
-        /* Se o pixel for preto (transparente), não desenhar */
-	/* Verificação mais rigorosa de transparência */
-		if (color == 0x000001 || (color & 0xFFFFFF) == 0 || 
-			((color >> 24) & 0xFF) == 0) // Verifica canal alfa se presente
-			continue;
-        
-        /* Ajustar cor para sombreamento baseado na distância */
-        color = apply_shade(color, 1.0 / (1.0 + wall->ray->perp_wall_dist * 0.05));
-        
-        /* Desenhar pixel na tela */
-        draw_pixel(wall->game, pos.x, pos.y, color);
+        // Mapear coordenadas da tela para coordenadas da textura
+        // y_ratio = (double)(pos.y - wall->start) / (double)(wall->end - wall->start);
+        tex_y = texture->height;
+       
+        // Limitar a valores válidos
+        if (tex_y < 0) tex_y = 0;
+        if (tex_y >= texture->height) tex_y = texture->height - 1;
+       
+        // Obter a cor do pixel da textura
+        color = get_texture_pixel(texture, (int)wall->tex.x, tex_y);
+       
+        // Se não for o pixel transparente específico (0x000001), então desenha
+        if (color == 0x000001)
+        {
+            draw_pixel(game, pos.x, pos.y, color);
+        }
+        // Se for 0x000001, não fazemos nada - já está renderizado pelo raycasting
     }
 }
 
 // void	draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
 // {
 // 	t_wall		wall;
+
 
 // 	if (!game || !game->addr[game->current_buffer] || !ray || !buffer)
 // 		return ;
@@ -224,21 +205,23 @@ void draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
     
     /* Inicializar parede para desenho */
     init_wall_drawing(&wall);
-    
+	if (debug_counter++ % 10000 == 0)
+	printf("DEBUG: Drawing regular wall at x=%d for position (%d,%d)\n", 
+		x, ray->map_x, ray->map_y);
+	draw_regular_wall(&wall);
     /* Se o raio atingiu um portal */
     if (ray->hit_portal)
     {
         if (debug_counter++ % 10000 == 0)
-            printf("DEBUG: Rendering portal strip at x=%d\n", x);
+		printf("DEBUG: Overlaying portal at x=%d, type=%s\n", x,
+			ray->hit_portal->type == PORTAL_BLUE ? "BLUE" : "ORANGE");
         
         /* Desenhar com verificação pixel a pixel */
-        draw_portal_strip(&wall, ray->hit_portal);
+        draw_portal_strip(game, &wall, ray->hit_portal);
     }
-    else
-    {
-        /* Desenho normal de parede não-portal */
-        draw_regular_wall(&wall);
-    }
+
+
+
     
     /* Atualizar buffer de scanline */
     buffer->y_top[x] = wall.end + 1;
