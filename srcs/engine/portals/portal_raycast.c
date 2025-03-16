@@ -63,54 +63,182 @@ t_portal_wall	*find_portal_at_position(t_game *game, int x, int y, t_cardinal ca
 	return (NULL);
 }
 
+// bool process_portal_hit(t_ray *ray, t_game *game)
+// {
+//     t_portal_wall *portal;
+//     t_cardinal card;
+//     static int teleport_count = 0;
+//     static int debug_counter = 0;
+    
+//     /* Limitar recursão */
+//     if (teleport_count > 5)
+//     {
+//         if (debug_counter++ % 10000 == 0)
+//             printf("DEBUG: Maximum portal recursion depth reached\n");
+//         return (false);
+//     }
+    
+//     /* Determinar direção cardinal */
+//     card = ray->side == 0 ? 
+//         (ray->dir.x > 0 ? WEST : EAST) : 
+//         (ray->dir.y > 0 ? SOUTH : NORTH);
+    
+//     /* Buscar portal na posição atual */
+//     portal = find_portal_at_position(game, ray->map_x, ray->map_y, card);
+    
+//     /* Se encontrou portal ativo e vinculado */
+//     if (portal && portal->linked_portal && portal->linked_portal->active)
+//     {
+//         /* Registrar portal no raio para renderização posterior */
+//         ray->hit_portal = portal;
+        
+//         if (debug_counter++ % 10000 == 0)
+//             printf("DEBUG: Ray hit portal at (%d,%d), side=%d\n", 
+//                 ray->map_x, ray->map_y, ray->side);
+        
+//         /* Traduzir raio para continuar raycasting */
+//         teleport_count++;
+//         translate_portal_ray(ray, game, portal, portal->linked_portal);
+//         teleport_count--;
+        
+//         return (true);
+//     }
+    
+//     return (false);
+// }
+/*
+** Verifica se o raio atingiu um portal e trata a teleportação
+** Salva informações do hit para renderização da parede do portal
+*/
+/*
+** Verifica se o raio atingiu um portal e trata a teleportação
+** Salva informações do hit para renderização da parede do portal
+*/
+// bool	process_portal_hit(t_ray *ray, t_game *game)
+// {
+// 	t_portal_wall	*entry;
+// 	t_portal_wall	*exit;
+// 	static int		debug_counter = 0;
+
+// 	/* Verifica se o raio atingiu um portal e trata a teleportação */
+// 	if (check_portal_hit(ray, game, &game->portal_system->blue_portal))
+// 	{
+// 		entry = &game->portal_system->blue_portal;
+// 		if (entry->linked_portal && entry->linked_portal->active)
+// 		{
+// 			/* IMPORTANTE: Salvar as informações originais do hit para renderização */
+// 			ray->portal.map_x = ray->map_x;
+// 			ray->portal.map_y = ray->map_y;
+// 			ray->portal.perp_wall_dist = ray->perp_wall_dist;
+// 			ray->portal.side = ray->side;
+// 			ray->hit_portal = entry;
+
+// 			if (debug_counter++ % 5000 == 0)
+// 				printf("DEBUG: Ray hit BLUE portal at (%d,%d), saved hit info\n",
+// 					ray->map_x, ray->map_y);
+
+// 			exit = entry->linked_portal;
+
+// 			/* Se estamos visualizando o portal (e não teleportando através dele),
+// 			   apenas marque o portal e retorne */
+// 			if (ray->portal_depth == 0)
+// 			{
+// 				if (debug_counter % 5000 == 0)
+// 					printf("DEBUG: First ray hit - marking for visualization only\n");
+// 				return (false);
+// 			}
+
+// 			/* Limitar profundidade recursiva de portais */
+// 			if (ray->portal_depth > MAX_PORTAL_DEPTH)
+// 			{
+// 				if (debug_counter % 5000 == 0)
+// 					printf("DEBUG: Max portal depth reached (%d), stopping recursion\n",
+// 						ray->portal_depth);
+// 				return (false);
+// 			}
+
+// 			/* Teleportar o raio */
+// 			translate_portal_ray(ray, game, entry, exit);
+// 			ray->portal_depth++;
+
+// 			if (debug_counter % 5000 == 0)
+// 				printf("DEBUG: Teleported ray through BLUE portal to exit at (%d,%d), depth=%d\n",
+// 					ray->map_x, ray->map_y, ray->portal_depth);
+
+// 			return (true);
+// 		}
+// 	}
+// 	else if (check_portal_hit(ray, game, &game->portal_system->orange_portal))
+// 	{
+// 		entry = &game->portal_system->orange_portal;
+// 		if (entry->linked_portal && entry->linked_portal->active)
+// 		{
+// 			/* IMPORTANTE: Salvar as informações originais do hit para renderização */
+// 			ray->portal.map_x = ray->map_x;
+// 			ray->portal.map_y = ray->map_y;
+// 			ray->portal.perp_wall_dist = ray->perp_wall_dist;
+// 			ray->portal.side = ray->side;
+// 			ray->hit_portal = entry;
+
+// 			if (debug_counter % 5000 == 0)
+// 				printf("DEBUG: Ray hit ORANGE portal at (%d,%d), saved hit info\n",
+// 					ray->map_x, ray->map_y);
+
+// 			exit = entry->linked_portal;
+
+// 			/* Se estamos visualizando o portal (e não teleportando através dele),
+// 			   apenas marque o portal e retorne */
+// 			if (ray->portal_depth == 0)
+// 			{
+// 				if (debug_counter % 5000 == 0)
+// 					printf("DEBUG: First ray hit - marking for visualization only\n");
+// 				return (false);
+// 			}
+
+// 			/* Limitar profundidade recursiva de portais */
+// 			if (ray->portal_depth > MAX_PORTAL_DEPTH)
+// 			{
+// 				if (debug_counter % 5000 == 0)
+// 					printf("DEBUG: Max portal depth reached (%d), stopping recursion\n",
+// 						ray->portal_depth);
+// 				return (false);
+// 			}
+
+// 			/* Teleportar o raio */
+// 			translate_portal_ray(ray, game, entry, exit);
+// 			ray->portal_depth++;
+
+// 			if (debug_counter % 5000 == 0)
+// 				printf("DEBUG: Teleported ray through ORANGE portal to exit at (%d,%d), depth=%d\n",
+// 					ray->map_x, ray->map_y, ray->portal_depth);
+
+// 			return (true);
+// 		}
+// 	}
+// 	return (false);
+// }
 bool process_portal_hit(t_ray *ray, t_game *game)
 {
     t_portal_wall *entry;
-    t_portal_wall *exit;
-    static int debug_counter = 0;
-
-    /* Verifica se o raio atingiu um portal e trata a teleportação */
+    
+    /* Verifica se o raio atingiu um portal */
     if (check_portal_hit(ray, game, &game->portal_system->blue_portal))
     {
         entry = &game->portal_system->blue_portal;
         if (entry->linked_portal && entry->linked_portal->active)
         {
-            /* IMPORTANTE: Marcar o raio como tendo atingido um portal */
+            /* Marcar o hit do portal e salvar informações originais */
             ray->hit_portal = entry;
-            
-            if (debug_counter++ % 5000 == 0)
-                printf("DEBUG: Ray hit BLUE portal at (%d,%d), marking hit_portal\n",
-                      ray->map_x, ray->map_y);
-            
-            exit = entry->linked_portal;
-            
-            /* Se estamos visualizando o portal (e não teleportando através dele),
-               apenas marque o portal e retorne */
-            if (ray->portal_depth == 0)
-            {
-                if (debug_counter % 5000 == 0)
-                    printf("DEBUG: First ray hit - marking for visualization only\n");
-                return false;
-            }
-            
-            /* Limitar profundidade recursiva de portais */
-            if (ray->portal_depth > MAX_PORTAL_DEPTH)
-            {
-                if (debug_counter % 5000 == 0)
-                    printf("DEBUG: Max portal depth reached (%d), stopping recursion\n",
-                          ray->portal_depth);
-                return false;
-            }
+            ray->portal.map_x = ray->map_x;
+            ray->portal.map_y = ray->map_y;
+            ray->portal.perp_wall_dist = ray->perp_wall_dist;
+            ray->portal.side = ray->side;
             
             /* Teleportar o raio */
-            translate_portal_ray(ray, game, entry, exit);
             ray->portal_depth++;
+            translate_portal_ray(ray, game, entry, entry->linked_portal);
             
-            if (debug_counter % 5000 == 0)
-                printf("DEBUG: Teleported ray through BLUE portal to exit at (%d,%d), depth=%d\n",
-                      ray->map_x, ray->map_y, ray->portal_depth);
-            
-            return true;
+            return (true);
         }
     }
     else if (check_portal_hit(ray, game, &game->portal_system->orange_portal))
@@ -118,45 +246,22 @@ bool process_portal_hit(t_ray *ray, t_game *game)
         entry = &game->portal_system->orange_portal;
         if (entry->linked_portal && entry->linked_portal->active)
         {
-            /* IMPORTANTE: Marcar o raio como tendo atingido um portal */
+            /* Marcar o hit do portal e salvar informações originais */
             ray->hit_portal = entry;
-            
-            if (debug_counter % 5000 == 0)
-                printf("DEBUG: Ray hit ORANGE portal at (%d,%d), marking hit_portal\n",
-                      ray->map_x, ray->map_y);
-            
-            exit = entry->linked_portal;
-            
-            /* Se estamos visualizando o portal (e não teleportando através dele),
-               apenas marque o portal e retorne */
-            if (ray->portal_depth == 0)
-            {
-                if (debug_counter % 5000 == 0)
-                    printf("DEBUG: First ray hit - marking for visualization only\n");
-                return false;
-            }
-            
-            /* Limitar profundidade recursiva de portais */
-            if (ray->portal_depth > MAX_PORTAL_DEPTH)
-            {
-                if (debug_counter % 5000 == 0)
-                    printf("DEBUG: Max portal depth reached (%d), stopping recursion\n",
-                          ray->portal_depth);
-                return false;
-            }
+            ray->portal.map_x = ray->map_x;
+            ray->portal.map_y = ray->map_y;
+            ray->portal.perp_wall_dist = ray->perp_wall_dist;
+            ray->portal.side = ray->side;
             
             /* Teleportar o raio */
-            translate_portal_ray(ray, game, entry, exit);
             ray->portal_depth++;
+            translate_portal_ray(ray, game, entry, entry->linked_portal);
             
-            if (debug_counter % 5000 == 0)
-                printf("DEBUG: Teleported ray through ORANGE portal to exit at (%d,%d), depth=%d\n",
-                      ray->map_x, ray->map_y, ray->portal_depth);
-            
-            return true;
+            return (true);
         }
     }
-    return false;
+    
+    return (false);
 }
 ///////////////////////////////////////////////////////////////
 

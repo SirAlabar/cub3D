@@ -25,9 +25,6 @@ void	init_ray(t_ray *ray, t_game *game, int x)
 	ray->delta_dist.y = fabs(1 / ray->dir.y);
 	ray->hit = false;
 	ray->is_door = false;
-	ray->hit_portal = NULL;
-    ray->portal_depth = 0;
-    ray->original_dir = ray->dir;
 }
 
 void	step_side_dist(t_ray *ray, t_game *g)
@@ -65,138 +62,37 @@ void	wall_height(t_ray *ray)
 		ray->draw_end = WINDOW_HEIGHT - 1;
 }
 
-// void	perform_dda(t_ray *ray, t_game *game)
-// {
-// 	ray->hit = false;
-// 	ray->is_door = false;
-// 	while (ray->hit == false)
-// 	{
-// 		if (ray->side_dist.x < ray->side_dist.y)
-// 		{
-// 			ray->side_dist.x += ray->delta_dist.x;
-// 			ray->map_x += ray->step_x;
-// 			ray->side = 0;
-// 		}
-// 		else
-// 		{
-// 			ray->side_dist.y += ray->delta_dist.y;
-// 			ray->map_y += ray->step_y;
-// 			ray->side = 1;
-// 		}
-// 		if (!is_within_map_bounds(game, ray->map_x, ray->map_y))
-// 		{
-// 			ray->hit = true;
-// 			break;
-// 		}
-		
-// 		// Verificar se estamos em um portal
-// 		if (game->portal_system && game->portal_system->portal_active)
-// 		{
-// 			// Nova função para verificar e processar portais
-// 			if (process_portal_hit(ray, game))
-// 			{
-// 				break;  // Sair do loop interno para recomeçar com o raio teleportado
-// 			}
-// 		}
-// 		check_collisions(ray, game);
-// 		if (!ray->hit && ray->is_door)
-// 			continue ;
-// 	}
-// 	if (ray->side == 0)
-// 		ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
-// 	else
-// 		ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
-// }
-static void	perform_dda_step(t_ray *ray)
+void	perform_dda(t_ray *ray, t_game *game)
 {
-	if (ray->side_dist.x < ray->side_dist.y)
-	{
-		ray->side_dist.x += ray->delta_dist.x;
-		ray->map_x += ray->step_x;
-		ray->side = 0;
-	}
-	else
-	{
-		ray->side_dist.y += ray->delta_dist.y;
-		ray->map_y += ray->step_y;
-		ray->side = 1;
-	}
-}
-
-static void	handle_out_of_bounds(t_ray *ray)
-{
-	ray->hit = true;
-	if (ray->side == 0)
-		ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
-	else
-		ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
-}
-
-static void	perform_dda_loop(t_ray *ray, t_game *game, int *portal_pass_count)
-{
+	ray->hit = false;
+	ray->is_door = false;
 	while (ray->hit == false)
 	{
-		perform_dda_step(ray);
-		if (!is_within_map_bounds(game, ray->map_x, ray->map_y))
+		if (ray->side_dist.x < ray->side_dist.y)
 		{
-			handle_out_of_bounds(ray);
-			break ;
+			ray->side_dist.x += ray->delta_dist.x;
+			ray->map_x += ray->step_x;
+			ray->side = 0;
 		}
-		if (game->portal_system && game->portal_system->portal_active)
+		else
 		{
-			if (process_portal_hit(ray, game))
-			{
-				if (!is_within_map_bounds(game, ray->map_x, ray->map_y))
-				{
-					ray->hit = true;
-					break ;
-				}
-				(*portal_pass_count)++;
-				break ;
-			}
+			ray->side_dist.y += ray->delta_dist.y;
+			ray->map_y += ray->step_y;
+			ray->side = 1;
 		}
 		check_collisions(ray, game);
 		if (!ray->hit && ray->is_door)
 			continue ;
 	}
-}
-
-static void	calculate_perp_wall_dist(t_ray *ray)
-{
 	if (ray->side == 0)
 		ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
 	else
 		ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
-	if (ray->perp_wall_dist <= 0.001)
-		ray->perp_wall_dist = 0.001;
-}
-
-void	perform_dda(t_ray *ray, t_game *game)
-{
-	int	portal_pass_count;
-	const int	max_portal_passes = 3;
-
-	ray->hit = false;
-	ray->is_door = false;
-	portal_pass_count = 0;
-	if (!is_within_map_bounds(game, ray->map_x, ray->map_y))
-	{
-		ray->hit = true;
-		return ;
-	}
-	while (ray->hit == false && portal_pass_count < max_portal_passes)
-	{
-		perform_dda_loop(ray, game, &portal_pass_count);
-		if (portal_pass_count == 0 || ray->hit)
-			break ;
-	}
-	calculate_perp_wall_dist(ray);
 }
 
 void	cast_rays(t_game *game, t_ray *rays)
 {
 	int	i;
-	static int debug_counter = 0;
 
 	i = -1;
 	while (++i < WINDOW_WIDTH)
@@ -205,11 +101,5 @@ void	cast_rays(t_game *game, t_ray *rays)
 		step_side_dist(&rays[i], game);
 		perform_dda(&rays[i], game);
 		wall_height(&rays[i]);
-		if (debug_counter++ % 20000 == 0)
-		{
-			printf("DEBUG: Ray %d - hit=%d, hit_portal=%p, depth=%d, dist=%.2f\n", 
-				i, rays[i].hit, (void*)rays[i].hit_portal, 
-				rays[i].portal_depth, rays[i].perp_wall_dist);
-		}
 	}
 }

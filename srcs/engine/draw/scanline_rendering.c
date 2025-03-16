@@ -106,125 +106,23 @@ static void	put_wall_pixel(t_wall *wall, t_vector_i pos)
 	draw_pixel(wall->game, pos.x, pos.y, color);
 	wall->tex_pos += wall->step;
 }
-void draw_regular_wall(t_wall *wall)
+
+void	draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
 {
-    t_vector_i pos;
-    
-    pos.x = wall->x;
-    pos.y = wall->start - 1;
-    
-    while (++pos.y <= wall->end)
-        put_wall_pixel(wall, pos);
-}
+	t_wall		wall;
+	t_vector_i	pos;
 
-void draw_portal_strip(t_game *game, t_wall *wall, t_portal_wall *portal)
-{
-    t_vector_i pos;
-    t_texture *texture;
-    unsigned int color;
-    int tex_y;
-    // double y_ratio;
-   
-    // Limites de segurança
-    if (wall->start < 0)
-        wall->start = 0;
-    if (wall->end >= WINDOW_HEIGHT)
-        wall->end = WINDOW_HEIGHT - 1;
-   
-    if (wall->end <= wall->start)
-        return;
-    // Obter a textura do portal que já foi calculada
-    texture = (portal->type == PORTAL_BLUE) ?
-        game->portal_system->gun.blue_texture :
-        game->portal_system->gun.orange_texture;
-   
-    // Para cada pixel vertical
-    pos.x = wall->x;
-    pos.y = wall->start - 1;
-   
-    while (++pos.y <= wall->end)
-    {
-        // Mapear coordenadas da tela para coordenadas da textura
-        // y_ratio = (double)(pos.y - wall->start) / (double)(wall->end - wall->start);
-        tex_y = texture->height;
-       
-        // Limitar a valores válidos
-        if (tex_y < 0) tex_y = 0;
-        if (tex_y >= texture->height) tex_y = texture->height - 1;
-       
-        // Obter a cor do pixel da textura
-        color = get_texture_pixel(texture, (int)wall->tex.x, tex_y);
-       
-        // Se não for o pixel transparente específico (0x000001), então desenha
-        // if (color == 0x000001)
-		if (color == 0x000001)
-        {
-            draw_pixel(game, pos.x, pos.y, color);
-        }
-        // Se for 0x000001, não fazemos nada - já está renderizado pelo raycasting
-    }
-}
-
-// void	draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
-// {
-// 	t_wall		wall;
-
-
-// 	if (!game || !game->addr[game->current_buffer] || !ray || !buffer)
-// 		return ;
-// 	wall.game = game;
-// 	wall.ray = ray;
-// 	wall.x = x;
-// 	wall.buffer = buffer;
-// 	init_wall_drawing(&wall);
-//     if (ray->hit_portal)
-//     {
-//         /* Desenhar com verificação pixel a pixel */
-//         draw_portal_strip(&wall, ray->hit_portal);
-//     }
-//     else
-//     {
-//         /* Desenho normal de parede não-portal */
-//         draw_regular_wall(&wall);
-//     }
-// 	buffer->y_top[x] = wall.end + 1;
-// 	buffer->y_bottom[x] = wall.start - 1;
-// }
-
-void draw_wall_scanline(t_game *game, t_ray *ray, int x, t_scanline *buffer)
-{
-    t_wall wall;
-    static int debug_counter = 0;
-    
-    if (!game || !ray || !buffer)
-        return;
-        
-    wall.game = game;
-    wall.ray = ray;
-    wall.x = x;
-    wall.buffer = buffer;
-    
-    /* Inicializar parede para desenho */
-    init_wall_drawing(&wall);
-	if (debug_counter++ % 10000 == 0)
-	printf("DEBUG: Drawing regular wall at x=%d for position (%d,%d)\n", 
-		x, ray->map_x, ray->map_y);
-	draw_regular_wall(&wall);
-    /* Se o raio atingiu um portal */
-    if (ray->hit_portal)
-    {
-        if (debug_counter++ % 10000 == 0)
-		printf("DEBUG: Overlaying portal at x=%d, type=%s\n", x,
-			ray->hit_portal->type == PORTAL_BLUE ? "BLUE" : "ORANGE");
-        
-        /* Desenhar com verificação pixel a pixel */
-        draw_portal_strip(game, &wall, ray->hit_portal);
-    }
-
-
-
-    
-    /* Atualizar buffer de scanline */
-    buffer->y_top[x] = wall.end + 1;
-    buffer->y_bottom[x] = wall.start - 1;
+	if (!game || !game->addr[game->current_buffer] || !ray || !buffer)
+		return ;
+	wall.game = game;
+	wall.ray = ray;
+	wall.x = x;
+	wall.buffer = buffer;
+	init_wall_drawing(&wall);
+	pos.x = x;
+	pos.y = wall.start - 1;
+	while (++pos.y <= wall.end)
+		put_wall_pixel(&wall, pos);
+	buffer->y_top[x] = wall.end + 1;
+	buffer->y_bottom[x] = wall.start - 1;
 }
