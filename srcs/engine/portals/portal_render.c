@@ -51,88 +51,112 @@ static void draw_portal_scanline(t_game *game, t_wall *wall)
     }
 }
 
-void draw_portal_strip(t_game *game, t_wall *wall, t_portal_wall *portal)
+void draw_portal_strip(t_game *game, t_ray *ray, int x)
 {
     t_vector_i pos;
     t_texture *texture;
     unsigned int color;
     int tex_y;
-   
-    printf("DEBUG [draw_portal_strip]: Iniciando com wall start=%d, end=%d\n", wall->start, wall->end);
+    int start, end;
+    t_portal_wall *portal;
+    
+    /* Verificar se o raio tem um hit_portal */
+    if (!ray->hit_portal)
+        return;
+    
+    portal = ray->hit_portal;
     
     /* Verificar se o portal está linkado */
     if (!portal->linked_portal || !portal->linked_portal->active)
-    {
-        printf("DEBUG [draw_portal_strip]: Portal não está linkado, retornando\n");
         return;
-    }
     
-    if (wall->start < 0)
-        wall->start = 0;
-    if (wall->end >= WINDOW_HEIGHT)
-        wall->end = WINDOW_HEIGHT - 1;
-   
-    if (wall->end <= wall->start)
-    {
-        printf("DEBUG [draw_portal_strip]: wall->end <= wall->start, retornando\n");
+    /* Calcular altura e limites da linha de portal usando os dados salvos */
+    double saved_dist = ray->portal.perp_wall_dist;
+    if (saved_dist < 0.5)
+        saved_dist = 0.5;
+    
+    int line_height = (int)(WINDOW_HEIGHT / saved_dist);
+    start = -line_height / 2 + WINDOW_HEIGHT / 2;
+    end = line_height / 2 + WINDOW_HEIGHT / 2;
+    
+    /* Ajustar limites da tela */
+    if (start < 0)
+        start = 0;
+    if (end >= WINDOW_HEIGHT)
+        end = WINDOW_HEIGHT - 1;
+    
+    if (end <= start)
         return;
-    }
-   
+    
+    /* Obter a textura do portal */
     texture = (portal->type == PORTAL_BLUE) ?
         game->portal_system->gun.blue_texture :
         game->portal_system->gun.orange_texture;
-   
-    printf("DEBUG [draw_portal_strip]: Textura do portal: %p, size=%dx%d\n",
-        (void*)texture, texture->width, texture->height);
     
-    pos.x = wall->x;
-    pos.y = wall->start - 1;
-   
-    printf("DEBUG [draw_portal_strip]: Iniciando loop com pos.x=%d, pos.y=%d\n", pos.x, pos.y);
-   
-    int pixels_processed = 0;
-    int transparent_pixels = 0;
-   
-    while (++pos.y <= wall->end)
+    /* Calcular coordenada x de textura para o portal */
+    double wall_x;
+    if (ray->portal.side == 0)
+        wall_x = game->p1.pos.y + saved_dist * ray->dir.y;
+    else
+        wall_x = game->p1.pos.x + saved_dist * ray->dir.x;
+    wall_x -= floor(wall_x);
+    
+    int tex_x = (int)(wall_x * texture->width);
+    if (ray->portal.side == 0 && ray->dir.x < 0)
+        tex_x = texture->width - tex_x - 1;
+    if (ray->portal.side == 1 && ray->dir.y > 0)
+        tex_x = texture->width - tex_x - 1;
+    
+    /* Desenhar a tira vertical */
+    pos.x = x;
+    pos.y = start - 1;
+    
+    /* Obter a textura da parede atual (após teleporte) */
+    t_texture *current_texture = get_wall_texture(ray, game);
+    
+    while (++pos.y <= end)
     {
-        tex_y = (pos.y - wall->start) * texture->height / (wall->end - wall->start);
+        tex_y = (pos.y - start) * texture->height / (end - start);
         if (tex_y < 0) tex_y = 0;
         if (tex_y >= texture->height) tex_y = texture->height - 1;
-       
-        color = get_texture_pixel(texture, (int)wall->tex.x, tex_y);
-       
-        pixels_processed++;
+        
+        color = get_texture_pixel(texture, tex_x, tex_y);
+        
+        /* Se a cor é transparente, desenhar o raio atual (após teleporte) */
         if (color == 0x000001)
         {
-            transparent_pixels++;
-            
-            /* Verificar se temos informações do outro lado do portal */
-            if (wall->ray->hit_portal && wall->ray->portal_depth > 0)
+            /* Usar a textura e as informações do raio atual */
+            if (current_texture)
             {
-                /* Calcular o que desenhar do outro lado do portal */
-                /* Usar os dados armazenados em wall->ray->portal */
+                /* Calcular a coordenada de textura para o raio atual */
+                int current_tex_x = ray->tex_x;
                 
-                /* Por agora, apenas desenhar uma cor diferente para garantir que
-                   estamos identificando corretamente os pixels transparentes */
-                draw_pixel(game, pos.x, pos.y, 0x0000FF); /* Azul */
+                /* Calcular a coordenada y proporcionalmente */
+                int line_pos = pos.y - start;
+                int current_tex_y = (line_pos * ray->line_height) / line_height;
+                current_tex_y = ray->draw_start + current_tex_y;
+                
+                /* Obter a cor da textura atual */
+                unsigned int current_color = get_texture_pixel(current_texture, current_tex_x, current_tex_y);
+                
+                /* Desenhar o pixel com a cor da textura atual */
+                draw_pixel(game, pos.x, pos.y, current_color);
             }
             else
             {
-                /* Se não tivermos dados do outro lado, usar alguma cor de placeholder */
-                draw_pixel(game, pos.x, pos.y, 0xFF0000); /* Vermelho */
-            }
-            
-            if (pixels_processed % 50 == 0)
-            {
-                printf("DEBUG [draw_portal_strip]: Desenhando pixel transparente em (%d,%d), tex_y=%d\n",
-                    pos.x, pos.y, tex_y);
+                /* Fallback para cores simples */
+                if (portal->type == PORTAL_BLUE)
+                    draw_pixel(game, pos.x, pos.y, 0x0000AA);
+                else
+                    draw_pixel(game, pos.x, pos.y, 0xAA5500);
             }
         }
+        else if (color != 0xFFC0CB) /* Ignorar a cor rosa */
+        {
+            /* Desenhar a borda do portal */
+            draw_pixel(game, pos.x, pos.y, apply_shade(color, 1.0 / (1.0 + saved_dist * 0.05)));
+        }
     }
-   
-    printf("DEBUG [draw_portal_strip]: Loop concluído. Processados %d pixels, %d transparentes\n",
-        pixels_processed, transparent_pixels);
-    printf("DEBUG [draw_portal_strip]: Última posição: pos.x=%d, pos.y=%d\n", pos.x, pos.y);
 }
 
 void render_portal_wall(t_ray *ray, t_game *game, int x, t_scanline *buffer)
@@ -140,78 +164,95 @@ void render_portal_wall(t_ray *ray, t_game *game, int x, t_scanline *buffer)
     t_wall wall;
     t_portal_wall *portal;
     double perp_wall_dist;
-    // static int debug_counter = 0;
+    static int debug_counter = 0;
    
+	if (debug_counter++ % 10000 == 0)
+	{
     printf("DEBUG [render_portal_wall]: Iniciando para raio x=%d, map_pos=(%d,%d)\n", 
-        x, ray->map_x, ray->map_y);
+        x, ray->map_x, ray->map_y);}
     
     portal = get_portal(ray, game);
     if (!portal || !portal->active)
     {
-        printf("DEBUG [render_portal_wall]: Nenhum portal ativo encontrado\n");
+		if (debug_counter++ % 10000 == 0)
+		{
+        printf("DEBUG [render_portal_wall]: Nenhum portal ativo encontrado\n");}
         return;
     }
    
+	if (debug_counter++ % 10000 == 0)
+	{
     printf("DEBUG [render_portal_wall]: Portal encontrado do tipo %s na posição (%d,%d)\n", 
         portal->type == PORTAL_BLUE ? "AZUL" : "LARANJA", 
-        portal->position.x, portal->position.y);
+        portal->position.x, portal->position.y);}
     
-    perp_wall_dist = ray->perp_wall_dist;
-    if (perp_wall_dist < 0.5)
-    {
-        perp_wall_dist = 0.5;
-        printf("DEBUG [render_portal_wall]: Ajustando perp_wall_dist para 0.5\n");
-    }
+    perp_wall_dist = ray->portal.perp_wall_dist;
+    // if (perp_wall_dist < 0.5)
+    // {
+    //     perp_wall_dist = 0.5;
+    //     printf("DEBUG [render_portal_wall]: Ajustando perp_wall_dist para 0.5\n");
+    // }
    
-    printf("DEBUG [render_portal_wall]: perp_wall_dist = %.2f\n", perp_wall_dist);
+	if (debug_counter++ % 10000 == 0)
+	{
+    printf("DEBUG [render_portal_wall]: perp_wall_dist = %.2f\n", perp_wall_dist);}
     
     wall.game = game;
     wall.ray = ray;
     wall.x = x;
     wall.buffer = buffer;
-    
-    printf("DEBUG [render_portal_wall]: Configurando textura do portal\n");
+	if (debug_counter++ % 10000 == 0)
+	{
+    printf("DEBUG [render_portal_wall]: Configurando textura do portal\n");}
     
     if (portal->type == PORTAL_BLUE)
     {
         wall.texture = game->portal_system->gun.blue_texture;
-        printf("DEBUG [render_portal_wall]: Usando textura do portal AZUL: %p\n", (void*)wall.texture);
+		if (debug_counter++ % 10000 == 0)
+        {
+        printf("DEBUG [render_portal_wall]: Usando textura do portal AZUL: %p\n", (void*)wall.texture);}
     }
     else if (portal->type == PORTAL_ORANGE)
     {
         wall.texture = game->portal_system->gun.orange_texture;
-        printf("DEBUG [render_portal_wall]: Usando textura do portal LARANJA: %p\n", (void*)wall.texture);
+		if (debug_counter++ % 10000 == 0)
+        {
+        printf("DEBUG [render_portal_wall]: Usando textura do portal LARANJA: %p\n", (void*)wall.texture);}
     }
     else
     {
-        printf("DEBUG [render_portal_wall]: Tipo de portal desconhecido, retornando\n");
+		if (debug_counter++ % 10000 == 0)
+        {
+        printf("DEBUG [render_portal_wall]: Tipo de portal desconhecido, retornando\n");}
         return;
     }
     
     wall.height = ray->line_height;
     wall.start = (-wall.height / 2) + (WINDOW_HEIGHT / 2);
     wall.end = (wall.height / 2) + (WINDOW_HEIGHT / 2);
-    
+	if (debug_counter++ % 10000 == 0)
+	{
     printf("DEBUG [render_portal_wall]: Dimensões da parede: height=%d, start=%d, end=%d\n", 
-        wall.height, wall.start, wall.end);
+        wall.height, wall.start, wall.end);}
     
     set_wall_tex_coords(&wall);
-    
-    printf("DEBUG [render_portal_wall]: Coordenadas de textura: tex.x=%.2f\n", wall.tex.x);
+	if (debug_counter++ % 10000 == 0)
+	{
+    printf("DEBUG [render_portal_wall]: Coordenadas de textura: tex.x=%.2f\n", wall.tex.x);}
     
     wall.step = 1.0 * wall.texture->height / wall.height;
     wall.tex_pos = (wall.start - (WINDOW_HEIGHT / 2 - wall.height / 2)) * wall.step;
-    
+	if (debug_counter++ % 10000 == 0)
+	{
     printf("DEBUG [render_portal_wall]: Parâmetros de textura: step=%.2f, tex_pos=%.2f\n", 
-        wall.step, wall.tex_pos);
-    
-    printf("DEBUG [render_portal_wall]: Chamando draw_portal_scanline\n");
+        wall.step, wall.tex_pos);}
+	if (debug_counter++ % 10000 == 0)
+        {
+    printf("DEBUG [render_portal_wall]: Chamando draw_portal_scanline\n");}
     draw_portal_scanline(game, &wall);
-    
-    printf("DEBUG [render_portal_wall]: Chamando draw_portal_strip\n");
-    draw_portal_strip(game, &wall, portal);
-    
-    printf("DEBUG [render_portal_wall]: Finalizado para raio x=%d\n", x);
+	if (debug_counter++ % 10000 == 0)
+	{
+    printf("DEBUG [render_portal_wall]: Finalizado para raio x=%d\n", x);}
 }
 
 
@@ -226,7 +267,8 @@ void render_portals(t_game *game, t_ray *rays, t_scanline *buffer)
     x = 0;
     while (x < WINDOW_WIDTH)
     {
-        render_portal_wall(&rays[x], game, x, buffer);
+		render_portal_wall(&rays[x], game, x, buffer);
+		// draw_portal_strip(game, &rays[x], x);
         x++;
     }
 }
