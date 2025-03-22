@@ -28,8 +28,8 @@ static void	draw_map_cell(t_game *game, int screen_x, int screen_y,
 	int	map_x;
 	int	map_y;
 
-    map_x = data->player_map_x + (screen_x - data->view_radius);
-    map_y = data->player_map_y + (screen_y - data->view_radius);
+	map_x = data->player_map_x + (screen_x - data->view_radius);
+	map_y = data->player_map_y + (screen_y - data->view_radius);
 	if (!is_valid_map_position(game, map_y, map_x))
 		return ;
 	if (game->map.grid[map_x][map_y] == '1')

@@ -19,9 +19,9 @@ void	draw_minimap_cell(t_game *game, int screen_x, int screen_y, int color)
 	int	i;
 	int	j;
 
-    start_x = MINIMAP_PADDING + (screen_x * MINIMAP_CELL_SIZE);
-    start_y = WINDOW_HEIGHT - MINIMAP_PADDING - ((MINIMAP_VIEW_SIZE - screen_y)
-            * MINIMAP_CELL_SIZE);
+	start_x = MINIMAP_PADDING + (screen_x * MINIMAP_CELL_SIZE);
+	start_y = WINDOW_HEIGHT - MINIMAP_PADDING - ((MINIMAP_VIEW_SIZE - screen_y)
+			* MINIMAP_CELL_SIZE);
 	i = -1;
 	while (++i < MINIMAP_CELL_SIZE)
 	{
