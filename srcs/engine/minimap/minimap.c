@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:20:40 by marsoare          #+#    #+#             */
-/*   Updated: 2025/03/22 20:10:09 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:19:25 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static void	draw_map_cell(t_game *game, int screen_x, int screen_y,
 	int	map_x;
 	int	map_y;
 
-	map_x = data->player_map_x + (screen_x - data->view_radius);
-	map_y = data->player_map_y + (screen_y - data->view_radius);
-	if (!is_valid_map_position(game, map_y, map_x))
+	map_x = data->player_map_x + (screen_y - data->view_radius);
+	map_y = data->player_map_y + (screen_x - data->view_radius);
+	if (!is_valid_map_position(game, map_x, map_y))
 		return ;
 	if (game->map.grid[map_x][map_y] == '1')
 		draw_minimap_cell(game, screen_x, screen_y, 0xFFFFFF);
