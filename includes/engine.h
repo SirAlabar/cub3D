@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/03/22 19:39:44 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/22 20:48:43 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,8 @@ typedef struct s_door_system
 }						t_door_system;
 
 # define DOOR1 "assets/texture/doorlab.xpm"
+# define DOOR2 "assets/texture/iron_door.xpm"
+# define DOOR3 "assets/texture/iron_door2.xpm"
 # define DOOR_SPEED 0.5
 # define DOOR_STAY_OPEN_TIME 4.0
 # define DOOR_INTERACTION_DISTANCE 1.9
