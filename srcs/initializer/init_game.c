@@ -56,6 +56,13 @@ void	init_textures_game(t_game *game)
 
 void	init_game(t_game *game)
 {
+	if (!init_menu(game))
+	{
+		ft_printf("Error\nFailed to initialize menu\n");
+		cleanup_game(game);
+		exit(1);
+	}
+	setup_menu_hooks(game);
 	init_map(game);
 	if (!is_map_valid(game))
 		(printf(RED "Error\ninvalid map\n" DEFAULT));

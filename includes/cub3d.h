@@ -23,6 +23,7 @@
 
 # include <colors.h>
 # include <engine.h>
+# include <menu.h>
 # include <sound.h>
 # include <events.h>
 # include <minimap.h>
@@ -68,6 +69,7 @@
 # define KEY_UP XK_Up
 # define KEY_DOWN XK_Down
 # define KEY_SPACE XK_space
+# define KEY_ENTER XK_Return
 # define MOUSE_LEFT 1
 # define MOUSE_RIGHT 3
 //# endif
@@ -184,7 +186,8 @@ typedef struct s_game
 	t_enemy_list	*enemies;
 	t_door_system	*door_system;	
 	t_damage_effect	damage_effect;
-	t_sounds		*sounds;	
+	t_sounds		*sounds;
+	t_menu			*menu;	
 }				t_game;
 
 void			cleanup_game(t_game *game);
@@ -192,6 +195,7 @@ void			cleanup_game(t_game *game);
 void			init_player(t_game *game);
 bool			init_window(t_game *game);
 void			init_game(t_game *game);
+void			setup_hooks(t_game *game);
 
 //events/
 void			*keys_else(t_game *game, double *dir_x, double *dir_y);

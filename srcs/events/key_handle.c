@@ -97,3 +97,24 @@ int	key_release(int keycode, t_game *game)
 		game->p1.keys.right = 0;
 	return (0);
 }
+
+int	menu_key_press(int keycode, t_game *game)
+{
+	if (!game->menu->active)
+		return (0);
+	if (keycode == KEY_UP || keycode == KEY_W)
+		game->menu->selected_option = 0;
+	else if (keycode == KEY_DOWN || keycode == KEY_S)
+		game->menu->selected_option = 1;
+	else if (keycode == KEY_ENTER || keycode == KEY_SPACE)
+	{
+		if (game->menu->selected_option == 0)
+		{
+			game->menu->active = 0;
+			setup_hooks(game);
+		}
+		else
+			close_window(game);
+	}
+	return (0);
+}

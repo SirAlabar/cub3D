@@ -32,7 +32,8 @@ bool	init_window(t_game *game)
 	return (true);
 }
 
-static void	setup_hooks(t_game *game)
+
+void	setup_hooks(t_game *game)
 {
 	mlx_hook(game->win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->win, 3, 1L << 1, key_release, game);

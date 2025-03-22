@@ -29,6 +29,36 @@ void	cleanup_map(t_game *game)
 	}
 }
 
+void	cleanup_animation(t_game *game, t_animation *anim)
+{
+	int	i;
+
+	i = -1;
+	while (++i < anim->frame_count)
+	{
+		if (anim->frames[i].img)
+		{
+			mlx_destroy_image(game->mlx, anim->frames[i].img);
+			anim->frames[i].img = NULL;
+		}
+	}
+	anim->frame_count = 0;
+	anim->active = 0;
+}
+
+void	cleanup_menu(t_game *game)
+{
+	if (!game || !game->menu)
+		return ;
+	cleanup_animation(game, &game->menu->background);
+	cleanup_animation(game, &game->menu->cube);
+	cleanup_animation(game, &game->menu->start_btn.anim);
+	cleanup_animation(game, &game->menu->exit_btn.anim);
+	cleanup_animation(game, &game->menu->select_gun);
+	free(game->menu);
+	game->menu = NULL;
+}
+
 void	cleanup_enemies(t_game *game)
 {
 	t_enemy_list	*current;
