@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2025/03/09 13:57:02 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/22 17:51:52 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,25 @@ bool	init_window(t_game *game)
 	return (true);
 }
 
-
 void	setup_hooks(t_game *game)
 {
-	mlx_hook(game->win, 2, 1L << 0, key_press, game);
-	mlx_hook(game->win, 3, 1L << 1, key_release, game);
+	mlx_hook(game->win, 2, 1L << 0, NULL, NULL);
+	mlx_hook(game->win, 3, 1L << 1, NULL, NULL);
+	mlx_hook(game->win, 6, 1L << 6, NULL, NULL);
+	mlx_loop_hook(game->mlx, NULL, NULL);
 	mlx_hook(game->win, 17, 0, close_window, game);
-	mlx_hook(game->win, 6, 1L << 6, mouse_wrapper, game);
-	mlx_loop_hook(game->mlx, engine_render_frame, game);
+	if (game->menu && game->menu->active)
+	{
+		mlx_hook(game->win, 2, 1L << 0, menu_key_press, game);
+		mlx_loop_hook(game->mlx, menu_render_frame, game);
+	}
+	else
+	{
+		mlx_hook(game->win, 2, 1L << 0, key_press, game);
+		mlx_hook(game->win, 3, 1L << 1, key_release, game);
+		mlx_hook(game->win, 6, 1L << 6, mouse_wrapper, game);
+		mlx_loop_hook(game->mlx, engine_render_frame, game);
+	}
 }
 
 int	main(int argc, char **argv)
@@ -59,8 +70,7 @@ int	main(int argc, char **argv)
 		cleanup_game(game);
 		return (1);
 	}
-	init_game(game);
-	setup_hooks(game);
+	init_start_menu(game);
 	mlx_loop(game->mlx);
 	cleanup_game(game);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:20:50 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/03/09 11:51:25 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/22 20:01:39 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	handle_movement(t_game *game)
 
 int	key_press(int keycode, t_game *game)
 {
-	printf("Key pressed: %d\n", keycode);
 	if (keycode == KEY_ESC)
 		close_window(game);
 	else if (keycode == KEY_E)
@@ -95,26 +94,5 @@ int	key_release(int keycode, t_game *game)
 		game->p1.keys.left = 0;
 	else if (keycode == KEY_RIGHT)
 		game->p1.keys.right = 0;
-	return (0);
-}
-
-int	menu_key_press(int keycode, t_game *game)
-{
-	if (!game->menu->active)
-		return (0);
-	if (keycode == KEY_UP || keycode == KEY_W)
-		game->menu->selected_option = 0;
-	else if (keycode == KEY_DOWN || keycode == KEY_S)
-		game->menu->selected_option = 1;
-	else if (keycode == KEY_ENTER || keycode == KEY_SPACE)
-	{
-		if (game->menu->selected_option == 0)
-		{
-			game->menu->active = 0;
-			setup_hooks(game);
-		}
-		else
-			close_window(game);
-	}
 	return (0);
 }

@@ -1,43 +1,53 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   menu_animation.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/22 18:37:35 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/03/22 18:57:38 by hluiz-ma         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	update_menu_animations(t_game *game)
+void	update_menu_animations(t_game *g)
 {
 	double	current_time;
 
 	current_time = get_time_ms();
-	if (game->menu->background.active && game->menu->background.frame_count > 1)
+	if (g->menu->bg.active && g->menu->bg.frame_count > 1)
 	{
-		if (current_time - game->menu->background.last_update
-			>= game->menu->background.frame_duration)
+		if (current_time
+			- g->menu->bg.last_update >= g->menu->bg.frame_duration)
 		{
-			game->menu->background.current_frame
-				= (game->menu->background.current_frame + 1)
-				% game->menu->background.frame_count;
-			game->menu->background.last_update = current_time;
+			g->menu->bg.current_frame = (g->menu->bg.current_frame + 1)
+				% g->menu->bg.frame_count;
+			g->menu->bg.last_update = current_time;
 		}
 	}
-	update_cube_exit_animations(game, current_time);
+	update_cube_exit_animations(g, current_time);
 }
 
-void	update_cube_exit_animations(t_game *game, double current_time)
+void	update_cube_exit_animations(t_game *g, double current_time)
 {
-	if (game->menu->cube.active && game->menu->cube.frame_count > 1)
+	if (g->menu->cube.active && g->menu->cube.frame_count > 1)
 	{
-		if (current_time - game->menu->cube.last_update
-			>= game->menu->cube.frame_duration)
+		if (current_time
+			- g->menu->cube.last_update >= g->menu->cube.frame_duration)
 		{
-			game->menu->cube.current_frame = (game->menu->cube.current_frame + 1)
-				% game->menu->cube.frame_count;
-			game->menu->cube.last_update = current_time;
+			g->menu->cube.current_frame = (g->menu->cube.current_frame + 1)
+				% g->menu->cube.frame_count;
+			g->menu->cube.last_update = current_time;
 		}
 	}
-	update_start_exit_animations(game, current_time);
+	update_start_exit_animations(g, current_time);
 }
 
 void	update_start_exit_animations(t_game *game, double current_time)
 {
-	if (game->menu->start_btn.selected)
+	if (game->menu->selected_option == 0)
 	{
 		update_button_animation(&game->menu->start_btn.anim, current_time);
 		game->menu->exit_btn.anim.current_frame = 0;

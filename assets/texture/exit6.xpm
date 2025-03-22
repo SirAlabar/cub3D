@@ -1,7 +1,7 @@
 /* XPM */
 static char * exit6_xpm[] = {
 "1024 1024 241 2",
-"  	c None",
+"  	c FFC0CB",
 ". 	c #000000",
 "+ 	c #140707",
 "@ 	c #1F0607",

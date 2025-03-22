@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:34 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/03/09 16:43:40 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/22 15:08:09 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,6 +232,7 @@ void			cleanup_map(t_game *game);
 void			cleanup_game(t_game *game);
 void			cleanup_door_system(t_game *game);
 void			cleanup_sky_floor(t_game *game);
+void			cleanup_menu(t_game *game);
 
 //
 void			init_test_map(t_game *game);

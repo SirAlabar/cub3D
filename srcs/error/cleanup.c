@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:26:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/03/09 16:43:12 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/22 19:54:45 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,36 +27,6 @@ void	cleanup_map(t_game *game)
 		}
 		free(game->map.grid);
 	}
-}
-
-void	cleanup_animation(t_game *game, t_animation *anim)
-{
-	int	i;
-
-	i = -1;
-	while (++i < anim->frame_count)
-	{
-		if (anim->frames[i].img)
-		{
-			mlx_destroy_image(game->mlx, anim->frames[i].img);
-			anim->frames[i].img = NULL;
-		}
-	}
-	anim->frame_count = 0;
-	anim->active = 0;
-}
-
-void	cleanup_menu(t_game *game)
-{
-	if (!game || !game->menu)
-		return ;
-	cleanup_animation(game, &game->menu->background);
-	cleanup_animation(game, &game->menu->cube);
-	cleanup_animation(game, &game->menu->start_btn.anim);
-	cleanup_animation(game, &game->menu->exit_btn.anim);
-	cleanup_animation(game, &game->menu->select_gun);
-	free(game->menu);
-	game->menu = NULL;
 }
 
 void	cleanup_enemies(t_game *game)
@@ -84,6 +54,7 @@ void	cleanup_game(t_game *game)
 {
 	if (!game)
 		return ;
+	cleanup_menu(game);
 	cleanup_textures(game);
 	cleanup_enemies(game);
 	cleanup_door_system(game);

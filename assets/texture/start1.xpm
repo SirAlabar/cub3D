@@ -1,7 +1,7 @@
 /* XPM */
 static char * start1_xpm[] = {
 "1024 1024 18595 3",
-"   	c None",
+"   	c FFC0CB",
 ".  	c #6D7981",
 "+  	c #606A71",
 "@  	c #606970",

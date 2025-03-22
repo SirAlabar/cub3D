@@ -5,15 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/11 13:49:34 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/03/09 16:43:40 by hluiz-ma         ###   ########.fr       */
+/*   Created: 2025/03/22 18:37:56 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/03/22 18:37:56 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MENU_H
 # define MENU_H
 
-typedef struct s_texture    t_texture;
+typedef struct s_texture	t_texture;
 
 # define MAX_FRAMES 10
 
@@ -44,45 +44,50 @@ typedef struct s_texture    t_texture;
 
 # define SELECT_GUN "./assets/texture/select_gun.xpm"
 
-
 typedef struct s_animation
 {
-	t_texture	frames[MAX_FRAMES];
-	int			frame_count;
-	int			current_frame;
-	double		frame_duration;
-	double		last_update;  
-	int			active;
-}				t_animation;
+	t_texture				frames[MAX_FRAMES];
+	int						frame_count;
+	int						current_frame;
+	double					frame_duration;
+	double					last_update;
+	int						active;
+}							t_animation;
 
 typedef struct s_menu_item
 {
-	t_animation	anim;
-	int			selected;
-}				t_menu_item;
+	t_animation				anim;
+	int						selected;
+}							t_menu_item;
 
 typedef struct s_menu
 {
-	int			active;
-	t_animation	background;
-	t_animation	cube;
-	t_menu_item	start_btn;
-	t_menu_item	exit_btn;
-	t_animation	select_gun;
-	int			selected_option;
-}				t_menu;
+	int						active;
+	t_animation				bg;
+	t_animation				cube;
+	t_menu_item				start_btn;
+	t_menu_item				exit_btn;
+	t_animation				select_gun;
+	int						selected_option;
+}							t_menu;
 
+void						setup_menu_hooks(t_game *game);
+void						init_start_menu(t_game *game);
+int							init_menu(t_game *game);
+int							menu_render_frame(t_game *game);
 
-void        setup_menu_hooks(t_game *game);
-int         init_menu(t_game *game);
-int         menu_render_frame(t_game *game);
+int							init_menu_background(t_game *game);
+int							init_menu_cube(t_game *game);
+int							init_menu_start(t_game *game);
+int							init_menu_exit(t_game *game);
+int							init_select_gun(t_game *game);
 
-int         init_menu_background(t_game *game);
-int         init_menu_cube(t_game *game);
-int         init_menu_start(t_game *game);
-int         init_menu_start(t_game *game);
-int         init_select_gun(t_game *game);
-
-
+void						update_menu_animations(t_game *game);
+void						update_cube_exit_animations(t_game *game,
+								double current_time);
+void						update_start_exit_animations(t_game *game,
+								double current_time);
+void						update_button_animation(t_animation *anim,
+								double current_time);
 
 #endif

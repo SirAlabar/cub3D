@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/27 20:45:30 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/22 18:46:02 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	init_textures_game(t_game *game)
 	free_texture_ptrs(north, south, east, west);
 }
 
-void	init_game(t_game *game)
+void	init_start_menu(t_game *game)
 {
 	if (!init_menu(game))
 	{
@@ -62,7 +62,12 @@ void	init_game(t_game *game)
 		cleanup_game(game);
 		exit(1);
 	}
-	setup_menu_hooks(game);
+	game->menu->active = 1;
+	setup_hooks(game);
+}
+
+void	init_game(t_game *game)
+{
 	init_map(game);
 	if (!is_map_valid(game))
 		(printf(RED "Error\ninvalid map\n" DEFAULT));
