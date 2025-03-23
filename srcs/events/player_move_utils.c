@@ -27,7 +27,7 @@ static int	get_offset(double dir)
 	return (-1);
 }
 
-static bool	check_wall_collision(t_game *g, int x, int y)
+bool	check_wall_collision(t_game *g, int x, int y)
 {
 	char	tile;
 	t_door	*door;

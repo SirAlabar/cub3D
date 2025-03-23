@@ -23,6 +23,7 @@ typedef struct s_keys
 	int	d;
 	int	left;
 	int	right;
+	int	shift;	
 }		t_keys;
 
 /*
@@ -40,6 +41,7 @@ void	move_player(t_game *game, double dir_x, double dir_y);
 void	rotate_player(t_game *game, double angle);
 bool	can_move_x(t_game *game, t_vector new, t_vector dir, double buff);
 bool	can_move_y(t_game *game, t_vector new, t_vector dir, double buff);
+bool	check_wall_collision(t_game *g, int x, int y);
 
 /*
  * Mouse Event Functions
@@ -62,5 +64,6 @@ void	init_door(t_door *door, int x, int y, t_door_orientation orient);
  * Utility Functions
  */
 void	*keys_else(t_game *game, double *dir_x, double *dir_y);
+void	switch_weapon(t_game *game);
 
 #endif

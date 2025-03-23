@@ -18,6 +18,27 @@ int	close_window(t_game *game)
 	return (0);
 }
 
+int	mouse_press(int button, int x, int y, t_game *game)
+{
+	(void)x;
+	(void)y;
+	if (!game)
+		return (0);
+	if (button == MOUSE_LEFT)
+	{
+		if (game->active_weapon == 0)
+			game->p1.is_firing = 1;
+		else if (game->portal_system)
+			handle_portal_gun_input(game, button);
+	}
+	else if (button == MOUSE_RIGHT)
+	{
+		if (game->portal_system && game->active_weapon == 1)
+			handle_portal_gun_input(game, button);
+	}
+	return (0);
+}
+
 bool	init_window(t_game *game)
 {
 	game->mlx = mlx_init();
@@ -37,6 +58,7 @@ void	setup_hooks(t_game *game)
 	mlx_hook(game->win, 2, 1L << 0, NULL, NULL);
 	mlx_hook(game->win, 3, 1L << 1, NULL, NULL);
 	mlx_hook(game->win, 6, 1L << 6, NULL, NULL);
+	mlx_hook(game->win, 4, 1L << 2, NULL, NULL);
 	mlx_loop_hook(game->mlx, NULL, NULL);
 	mlx_hook(game->win, 17, 0, close_window, game);
 	if (game->menu && game->menu->active)
@@ -49,6 +71,7 @@ void	setup_hooks(t_game *game)
 		mlx_hook(game->win, 2, 1L << 0, key_press, game);
 		mlx_hook(game->win, 3, 1L << 1, key_release, game);
 		mlx_hook(game->win, 6, 1L << 6, mouse_wrapper, game);
+		mlx_hook(game->win, 4, 1L << 2, mouse_press, game);
 		mlx_loop_hook(game->mlx, engine_render_frame, game);
 	}
 }

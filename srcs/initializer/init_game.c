@@ -91,8 +91,10 @@ void	init_game(t_game *game)
 	init_floor(game);
 	init_sounds(game);
 	init_enemies(game);
+	init_portal_system(game);
 	init_damage_feedback(game);
 	game->last_mouse = vector_create(-1.0, -1.0);
 	game->mouse_sensi = 0.004;
 	game->fps = 0;
+	game->active_weapon = 0;
 }
