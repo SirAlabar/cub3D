@@ -186,7 +186,7 @@ typedef struct s_game
 	int				active_weapon;
 	t_enemy_list	*enemies;
 	t_door_system	*door_system;
-	t_portal_system *portal_system;
+	t_portal_system	*portal_system;
 	t_damage_effect	damage_effect;
 	t_sounds		*sounds;	
 }				t_game;

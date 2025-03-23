@@ -15,10 +15,10 @@
 t_texture	*texture_create(t_game *game, char *texture_path)
 {
 	t_texture	*texture;
-	
-    if (!game || !game->mlx || !texture_path)
+
+	if (!game || !game->mlx || !texture_path)
 	{
-        return (NULL);
+		return (NULL);
 	}
 	texture = (t_texture *)ft_calloc(1, sizeof(t_texture));
 	if (!texture)

@@ -12,21 +12,10 @@
 
 #include <cub3d.h>
 
-
-bool is_within_map_bounds(t_game *game, int x, int y)
-{
-    return (x >= 0 && y >= 0 && x < game->map.height && y < game->map.width);
-}
-
 void	check_collisions(t_ray *ray, t_game *game)
 {
 	char	tile;
 
-    if (!is_within_map_bounds(game, ray->map_x, ray->map_y))
-    {
-        ray->hit = true;
-        return;
-    }
 	tile = game->map.grid[ray->map_x][ray->map_y];
 	if (tile == '1')
 	{

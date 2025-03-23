@@ -59,7 +59,6 @@ void	handle_movement(t_game *game)
 
 int	key_press(int keycode, t_game *game)
 {
-	// printf("Key pressed: %d\n", keycode);
 	if (keycode == KEY_ESC)
 		close_window(game);
 	else if (keycode == KEY_E)
@@ -77,10 +76,10 @@ int	key_press(int keycode, t_game *game)
 	else if (keycode == KEY_RIGHT)
 		game->p1.keys.right = 1;
 	else if (keycode == KEY_SPACE)
-    {
-        if (game->active_weapon == 0)
-            game->p1.is_firing = 1;
-    }
+	{
+		if (game->active_weapon == 0)
+			game->p1.is_firing = 1;
+	}
 	else if (keycode == KEY_Q)
 		switch_weapon(game);
 	return (0);

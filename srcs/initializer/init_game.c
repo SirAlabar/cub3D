@@ -25,6 +25,18 @@ static void	free_texture_ptrs(t_texture *n, t_texture *s, t_texture *e,
 		free(w);
 }
 
+void	init_door(t_door *door, int x, int y, t_door_orientation orient)
+{
+	door->position = (t_vector_i){y, x};
+	door->state = DOOR_CLOSED;
+	door->orient = orient;
+	door->animation = 0.0;
+	door->active = true;
+	door->timer = 0.0;
+	door->locked = false;
+	door->key_type = 0;
+}
+
 void	init_textures_game(t_game *game)
 {
 	t_texture	*north;
@@ -67,12 +79,10 @@ void	init_game(t_game *game)
 	init_floor(game);
 	init_sounds(game);
 	init_enemies(game);
-	printf("DEBUG: Before portal system init\n");
 	init_portal_system(game);
-	printf("DEBUG: After portal system init: %p\n", (void*)game->portal_system);
 	init_damage_feedback(game);
 	game->last_mouse = vector_create(-1.0, -1.0);
 	game->mouse_sensi = 0.004;
 	game->fps = 0;
-    game->active_weapon = 0;	
+	game->active_weapon = 0;
 }

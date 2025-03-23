@@ -6,23 +6,11 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/27 20:33:56 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/22 20:56:24 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-void	init_door(t_door *door, int x, int y, t_door_orientation orient)
-{
-	door->position = (t_vector_i){y, x};
-	door->state = DOOR_CLOSED;
-	door->orient = orient;
-	door->animation = 0.0;
-	door->active = true;
-	door->timer = 0.0;
-	door->locked = false;
-	door->key_type = 0;
-}
 
 static t_door_orientation	get_door_orientation(t_game *game, int x, int y)
 {
@@ -58,16 +46,12 @@ static char	*get_random_door(void)
 {
 	int	random_num;
 
-	random_num = rand() % 5 + 1;
+	random_num = rand() % 3 + 1;
 	if (random_num == 1)
 		return ((DOOR1));
 	if (random_num == 2)
 		return ((DOOR2));
-	if (random_num == 3)
-		return ((DOOR3));
-	if (random_num == 4)
-		return ((DOOR4));
-	return ((DOOR5));
+	return ((DOOR3));
 }
 
 void	init_door_system(t_game *game)
@@ -96,7 +80,6 @@ void	init_door_system(t_game *game)
 	free(door_tex);
 	scan_map_for_doors(game);
 }
-
 
 void	add_door(t_game *game, int x, int y)
 {

@@ -29,6 +29,44 @@ void	cleanup_map(t_game *game)
 	}
 }
 
+static void	cleanup_portal_gun(t_game *game)
+{
+	int	i;
+
+	if (game->portal_system->gun.blue_texture)
+	{
+		mlx_destroy_image(game->mlx,
+			game->portal_system->gun.blue_texture->img);
+		free(game->portal_system->gun.blue_texture);
+	}
+	if (game->portal_system->gun.orange_texture)
+	{
+		mlx_destroy_image(game->mlx,
+			game->portal_system->gun.orange_texture->img);
+		free(game->portal_system->gun.orange_texture);
+	}
+	if (game->portal_system->gun.gun_anim)
+	{
+		i = -1;
+		while (++i < 4)
+		{
+			if (game->portal_system->gun.gun_anim[i].img)
+				mlx_destroy_image(game->mlx,
+					game->portal_system->gun.gun_anim[i].img);
+		}
+		free(game->portal_system->gun.gun_anim);
+	}
+}
+
+void	cleanup_portal_system(t_game *game)
+{
+	if (!game || !game->portal_system)
+		return ;
+	cleanup_portal_gun(game);
+	free(game->portal_system);
+	game->portal_system = NULL;
+}
+
 void	cleanup_enemies(t_game *game)
 {
 	t_enemy_list	*current;

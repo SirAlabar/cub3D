@@ -56,10 +56,10 @@ static void	set_portal_gun_anim(t_game *game)
 
 static void	init_portal_gun(t_game *game)
 {
-	game->portal_system->gun.blue_texture = load_portal_texture(game, 
-		PORTAL_BLUE_TEX);
-	game->portal_system->gun.orange_texture = load_portal_texture(game, 
-		PORTAL_ORANGE_TEX);
+	game->portal_system->gun.blue_texture = load_portal_texture(game,
+			PORTAL_BLUE_TEX);
+	game->portal_system->gun.orange_texture = load_portal_texture(game,
+			PORTAL_ORANGE_TEX);
 	set_portal_gun_anim(game);
 	game->portal_system->gun.last_fire_time = 0;
 	game->portal_system->gun.cooldown = 500.0;
@@ -97,35 +97,4 @@ void	init_portal_system(t_game *game)
 	game->portal_system->orange_portal.type = PORTAL_ORANGE;
 	game->portal_system->portal_active = false;
 	game->portal_system->last_teleport_time = 0;
-}
-
-void	cleanup_portal_system(t_game *game)
-{
-	int	i;
-
-	if (!game || !game->portal_system)
-		return ;
-	if (game->portal_system->gun.blue_texture)
-	{
-		mlx_destroy_image(game->mlx, game->portal_system->gun.blue_texture->img);
-		free(game->portal_system->gun.blue_texture);
-	}
-	if (game->portal_system->gun.orange_texture)
-	{
-		mlx_destroy_image(game->mlx, game->portal_system->gun.orange_texture->img);
-		free(game->portal_system->gun.orange_texture);
-	}
-	if (game->portal_system->gun.gun_anim)
-	{
-		i = 0;
-		while (i < 4)
-		{
-			if (game->portal_system->gun.gun_anim[i].img)
-				mlx_destroy_image(game->mlx, game->portal_system->gun.gun_anim[i].img);
-			i++;
-		}
-		free(game->portal_system->gun.gun_anim);
-	}
-	free(game->portal_system);
-	game->portal_system = NULL;
 }

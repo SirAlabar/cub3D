@@ -18,26 +18,25 @@ int	close_window(t_game *game)
 	return (0);
 }
 
-int mouse_press(int button, int x, int y, t_game *game)
+int	mouse_press(int button, int x, int y, t_game *game)
 {
-    (void)x;
-    (void)y;
-    
-    if (!game)
-        return (0);
-    if (button == MOUSE_LEFT)
-    {
-        if (game->active_weapon == 0)
-            game->p1.is_firing = 1;
-        else if (game->portal_system)
-            handle_portal_gun_input(game, button);
-    }
-    else if (button == MOUSE_RIGHT)
-    {
-        if (game->portal_system && game->active_weapon == 1)
-            handle_portal_gun_input(game, button);
-    }
-    return (0);
+	(void)x;
+	(void)y;
+	if (!game)
+		return (0);
+	if (button == MOUSE_LEFT)
+	{
+		if (game->active_weapon == 0)
+			game->p1.is_firing = 1;
+		else if (game->portal_system)
+			handle_portal_gun_input(game, button);
+	}
+	else if (button == MOUSE_RIGHT)
+	{
+		if (game->portal_system && game->active_weapon == 1)
+			handle_portal_gun_input(game, button);
+	}
+	return (0);
 }
 
 bool	init_window(t_game *game)

@@ -34,39 +34,45 @@ static t_vector	get_wall_normal(int side, t_ray *ray)
 	return (normal);
 }
 
-static void	init_hit(t_portal_hit *hit)
-{
-	hit->found = false;
-	hit->wall_pos = vector_i_create(0, 0);
-	hit->hit_pos = vector_create(0, 0);
-	hit->normal = vector_create(0, 0);
-	hit->offset = 0.0;
-	hit->distance = 0.0;
-}
-
 static void	get_wall_info(t_ray *ray, t_game *game, t_portal_hit *hit)
 {
 	double	wall_x;
-	
+
 	if (ray->side == 0)
-		wall_x = game->p1.pos.y + ((ray->map_x - game->p1.pos.x + 
-			(1 - ray->step_x) / 2) / ray->dir.x) * ray->dir.y;
+		wall_x = game->p1.pos.y + ((ray->map_x - game->p1.pos.x + (1
+						- ray->step_x) / 2) / ray->dir.x) * ray->dir.y;
 	else
-		wall_x = game->p1.pos.x + ((ray->map_y - game->p1.pos.y + 
-			(1 - ray->step_y) / 2) / ray->dir.y) * ray->dir.x;
+		wall_x = game->p1.pos.x + ((ray->map_y - game->p1.pos.y + (1
+						- ray->step_y) / 2) / ray->dir.y) * ray->dir.x;
 	wall_x -= floor(wall_x);
 	hit->found = true;
 	hit->wall_pos = vector_i_create(ray->map_x, ray->map_y);
 	hit->normal = get_wall_normal(ray->side, ray);
 	hit->offset = wall_x;
 	if (ray->side == 0)
-		hit->distance = (ray->map_x - game->p1.pos.x + 
-			(1 - ray->step_x) / 2) / ray->dir.x;
+		hit->distance = (ray->map_x - game->p1.pos.x + (1 - ray->step_x) / 2)
+			/ ray->dir.x;
 	else
-		hit->distance = (ray->map_y - game->p1.pos.y + 
-			(1 - ray->step_y) / 2) / ray->dir.y;
+		hit->distance = (ray->map_y - game->p1.pos.y + (1 - ray->step_y) / 2)
+			/ ray->dir.y;
 	hit->hit_pos.x = game->p1.pos.x + ray->dir.x * hit->distance;
 	hit->hit_pos.y = game->p1.pos.y + ray->dir.y * hit->distance;
+}
+
+static void	process_ray_step(t_ray *ray)
+{
+	if (ray->side_dist.x < ray->side_dist.y)
+	{
+		ray->side_dist.x += ray->delta_dist.x;
+		ray->map_x += ray->step_x;
+		ray->side = 0;
+	}
+	else
+	{
+		ray->side_dist.y += ray->delta_dist.y;
+		ray->map_y += ray->step_y;
+		ray->side = 1;
+	}
 }
 
 t_portal_hit	detect_wall_for_portal(t_game *game)
@@ -76,29 +82,18 @@ t_portal_hit	detect_wall_for_portal(t_game *game)
 	int				max_dist;
 
 	init_hit(&hit);
-	init_ray(&ray, game, WINDOW_WIDTH / 2);
+	init_ray(&ray, game, WINDOW_WIDTH >> 1);
 	step_side_dist(&ray, game);
 	max_dist = 10;
 	while (max_dist > 0 && !hit.found)
 	{
-		if (ray.side_dist.x < ray.side_dist.y)
-		{
-			ray.side_dist.x += ray.delta_dist.x;
-			ray.map_x += ray.step_x;
-			ray.side = 0;
-		}
-		else
-		{
-			ray.side_dist.y += ray.delta_dist.y;
-			ray.map_y += ray.step_y;
-			ray.side = 1;
-		}
-        if (!is_within_map_bounds(game, ray.map_x, ray.map_y))
-            break;
+		process_ray_step(&ray);
+		if (!is_within_map_bounds(game, ray.map_x, ray.map_y))
+			break ;
 		if (game->map.grid[ray.map_x][ray.map_y] == '1')
-        {
-            get_wall_info(&ray, game, &hit);
-        }
+		{
+			get_wall_info(&ray, game, &hit);
+		}
 		max_dist--;
 	}
 	return (hit);
@@ -107,7 +102,7 @@ t_portal_hit	detect_wall_for_portal(t_game *game)
 bool	is_valid_portal_surface(t_game *game, t_portal_hit hit)
 {
 	char	tile;
-	
+
 	if (!hit.found || hit.distance > 8.0)
 		return (false);
 	tile = game->map.grid[hit.wall_pos.x][hit.wall_pos.y];
