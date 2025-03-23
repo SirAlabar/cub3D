@@ -72,6 +72,8 @@
 # define KEY_DOWN XK_Down
 # define KEY_SPACE XK_space
 # define KEY_ENTER XK_Return
+# define KEY_LSHIFT XK_Shift_L
+# define KEY_RSHIFT XK_Shift_R
 # define MOUSE_LEFT 1
 # define MOUSE_RIGHT 3
 //# endif

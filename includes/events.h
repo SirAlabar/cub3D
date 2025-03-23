@@ -23,6 +23,7 @@ typedef struct s_keys
 	int	d;
 	int	left;
 	int	right;
+	int	shift;	
 }		t_keys;
 
 /*
