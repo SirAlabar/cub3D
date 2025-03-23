@@ -34,6 +34,8 @@ int	init_sounds(t_game *game)
 		ft_printf("Warning: Failed to load door sound\n");
 	if (!load_sound(&game->sounds->gun, SOUND_FILE_GUN))
 		ft_printf("Warning: Failed to load gun sound\n");
+	if (!load_sound(&game->sounds->gun, SOUND_FILE_PORTAL))
+		ft_printf("Warning: Failed to load portal sound\n");
 	if (!load_sound(&game->sounds->footstep, SOUND_FILE_FOOTSTEP))
 		ft_printf("Warning: Failed to load footstep sound\n");
 	if (!load_sound(&game->sounds->ambient, SOUND_FILE_AMBIENT))

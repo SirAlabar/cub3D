@@ -85,6 +85,7 @@ void	fire_portal_gun(t_game *game)
 
 	if (!check_portal_cooldown(game))
 		return ;
+	play_game_sound(game, SOUND_PORTAL);
 	portal_type = game->portal_system->gun.active_portal;
 	hit = detect_wall_for_portal(game);
 	hit_cardinal = get_cardinal_from_normal(hit.normal);

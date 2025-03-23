@@ -21,6 +21,7 @@ typedef enum e_sound_type
 {
 	SOUND_DOOR,
 	SOUND_GUN,
+	SOUND_PORTAL,
 	SOUND_FOOTSTEP,
 	SOUND_AMBIENT,
 	SOUND_HURT,
@@ -40,6 +41,7 @@ typedef struct s_sounds
 {
 	uint32_t			door;
 	uint32_t			gun;
+	uint32_t			portal;
 	uint32_t			footstep;
 	uint32_t			ambient;
 	uint32_t			hurt;

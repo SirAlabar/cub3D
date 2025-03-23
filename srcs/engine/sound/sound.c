@@ -70,6 +70,8 @@ void	play_game_sound(t_game *game, t_sound_type sound_type)
 		play_sound(game->sounds->door);
 	else if (sound_type == SOUND_GUN)
 		play_sound(game->sounds->gun);
+	else if (sound_type == SOUND_PORTAL)
+		play_sound(game->sounds->portal);
 	else if (sound_type == SOUND_FOOTSTEP)
 		play_sound(game->sounds->footstep);
 	else if (sound_type == SOUND_AMBIENT)
