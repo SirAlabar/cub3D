@@ -46,30 +46,26 @@ void	calculate_ray_step(t_ray_data *ray, t_vector ray_dir)
 	calculate_ray_step_y(ray, ray_dir);
 }
 
-t_ray_data init_ray_data(t_game *game, t_vector enemy_pos)
+t_ray_data	init_ray_data(t_game *game, t_vector enemy_pos)
 {
-    t_ray_data ray;
-    t_vector ray_dir;
-    
-    // Calculate direction from player to enemy
-    ray_dir = vector_sub(enemy_pos, game->p1.pos);
-    
-    // Normalize the direction vector
-    ray_dir = vector_normalize(ray_dir);
-    
-    // Set up ray starting point (player position)
-    ray.pos = game->p1.pos;
-    ray.map_x = (int)ray.pos.x;
-    ray.map_y = (int)ray.pos.y;
-    
-    // Handle potential division by zero
-    ray.delta_dist.x = (ray_dir.x == 0) ? 1e30 : fabs(1 / ray_dir.x);
-    ray.delta_dist.y = (ray_dir.y == 0) ? 1e30 : fabs(1 / ray_dir.y);
-    
-    // Calculate step and initial side_dist
-    calculate_ray_step(&ray, ray_dir);
-    
-    return ray;
+	t_ray_data	ray;
+	t_vector	ray_dir;
+
+	ray_dir = vector_sub(enemy_pos, game->p1.pos);
+	ray_dir = vector_normalize(ray_dir);
+	ray.pos = game->p1.pos;
+	ray.map_x = (int)ray.pos.x;
+	ray.map_y = (int)ray.pos.y;
+	if (ray_dir.x == 0)
+		ray.delta_dist.x = 1e30;
+	else
+		ray.delta_dist.x = fabs(1 / ray_dir.x);
+	if (ray_dir.y == 0)
+		ray.delta_dist.y = 1e30;
+	else
+		ray.delta_dist.y = fabs(1 / ray_dir.y);
+	calculate_ray_step(&ray, ray_dir);
+	return (ray);
 }
 
 void	draw_stripe_color(t_draw_params *p)

@@ -9,11 +9,28 @@
 /*   Updated: 2025/03/09 11:38:31 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <cub3d.h>
+
+int	render_game_world(t_game *game, t_ray *rays, t_scanline *scanline_buffer)
+{
+	int	x;
+
+	draw_background(game);
+	init_scanline_buffer(scanline_buffer);
+	cast_rays(game, rays);
+	x = -1;
+	while (++x < WINDOW_WIDTH)
+		draw_wall_scanline(game, &rays[x], x, scanline_buffer);
+	update_enemies(game);
+	update_enemy_animations(game);
+	update_damage_effect(game);
+	draw_enemies(game);
+	return (0);
+}
 
 int	engine_render_frame(t_game *game)
 {
-	int			x;
 	t_ray		rays[WINDOW_WIDTH];
 	t_scanline	scanline_buffer;
 
@@ -21,16 +38,7 @@ int	engine_render_frame(t_game *game)
 		return (0);
 	update_doors(game);
 	process_enemy_attacks(game);
-	draw_background(game);
-	init_scanline_buffer(&scanline_buffer);
-	cast_rays(game, rays);
-	x = -1;
-	while (++x < WINDOW_WIDTH)
-		draw_wall_scanline(game, &rays[x], x, &scanline_buffer);
-	update_enemies(game);
-	update_enemy_animations(game); /* Add this line to update animations */
-	update_damage_effect(game);
-	draw_enemies(game);
+	render_game_world(game, rays, &scanline_buffer);
 	handle_movement(game);
 	update_weapon_animation(game);
 	draw_weapon(game);

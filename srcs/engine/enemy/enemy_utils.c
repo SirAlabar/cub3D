@@ -79,26 +79,18 @@ double	calculate_angle(t_vector to_enemy, t_vector player_dir)
 	return (acos(cos_angle));
 }
 
-bool should_render_enemy(t_game *game, t_enemy *enemy)
+bool	should_render_enemy(t_game *game, t_enemy *enemy)
 {
-    t_vector to_enemy;
-    t_vector player_dir;
-    double angle_rad;
-    double fov_rad;
+	t_vector	to_enemy;
+	t_vector	player_dir;
+	double		angle_rad;
+	double		fov_rad;
 
-    // Always render enemies that are very close regardless of view angle
-    if (enemy->dist_to_player < 2.5)
-        return true;
-    
-    to_enemy = vector_sub(enemy->pos, game->p1.pos);
-    player_dir = game->p1.dir;
-    
-    // Calculate the angle between player's direction and enemy direction
-    angle_rad = calculate_angle(to_enemy, player_dir);
-    
-    // Expand the FOV by a factor to ensure enemies don't pop in/out at edges
-    fov_rad = 2 * atan2(vector_mag(game->p1.plane), 1.0) * 1.5; // Increased from 1.2
-    
-    // Return true if the enemy is within the player's expanded field of view
-    return (angle_rad <= fov_rad / 2);
+	if (enemy->dist_to_player < 2.5)
+		return (true);
+	to_enemy = vector_sub(enemy->pos, game->p1.pos);
+	player_dir = game->p1.dir;
+	angle_rad = calculate_angle(to_enemy, player_dir);
+	fov_rad = 2 * atan2(vector_mag(game->p1.plane), 1.0) * 1.5;
+	return (angle_rad <= fov_rad / 2);
 }

@@ -30,48 +30,41 @@ void	draw_enemy(t_game *game, t_enemy_list *current, double fov)
 		calculate_sprite_height(dist));
 }
 
-void check_and_draw_enemy(t_game *game, t_enemy_list *current, double fov)
+void	check_and_draw_enemy(t_game *game, t_enemy_list *current, double fov)
 {
-    double distance = vector_dist(game->p1.pos, current->enemy.pos);
-    
-    // Always draw very close enemies
-    if (distance < 2.5) {
-        draw_enemy(game, current, fov);
-        return;
-    }
-    
-    // If enemy should be rendered based on FOV and is visible, draw it
-    if (should_render_enemy(game, &current->enemy) && 
-        is_enemy_visible(game, current->enemy.pos)) {
-        draw_enemy(game, current, fov);
-    }
+	double	distance;
+
+	distance = vector_dist(game->p1.pos, current->enemy.pos);
+	if (distance < 2.5)
+	{
+		draw_enemy(game, current, fov);
+		return ;
+	}
+	if (should_render_enemy(game, &current->enemy)
+		&& is_enemy_visible(game, current->enemy.pos))
+	{
+		draw_enemy(game, current, fov);
+	}
 }
 
-void draw_enemies(t_game *game)
+void	draw_enemies(t_game *game)
 {
-    t_enemy_list *current;
-    double fov;
-    
-    if (!game || !game->enemies)
-        return;
-    
-    current = game->enemies;
-    // Calculate field of view
-    fov = 2 * atan2(vector_mag(game->p1.plane), 1.0);
-    
-    // Process each enemy
-    while (current != NULL)
-    {
-        if (current->enemy.alive)
-        {
-            // Update enemy distance to player
-            calculate_enemy_distance(game, &current->enemy);
-            
-            // Attempt to draw the enemy if visible
-            check_and_draw_enemy(game, current, fov);
-        }
-        current = current->next;
-    }
+	t_enemy_list	*current;
+	double			fov;
+
+	if (!game || !game->enemies)
+		return ;
+	current = game->enemies;
+	fov = 2 * atan2(vector_mag(game->p1.plane), 1.0);
+	while (current != NULL)
+	{
+		if (current->enemy.alive)
+		{
+			calculate_enemy_distance(game, &current->enemy);
+			check_and_draw_enemy(game, current, fov);
+		}
+		current = current->next;
+	}
 }
 
 void	spawn_enemies_from_map(t_game *game)

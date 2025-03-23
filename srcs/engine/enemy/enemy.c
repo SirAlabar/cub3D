@@ -12,9 +12,6 @@
 
 #include <cub3d.h>
 
-/* Update only the add_enemy function in your enemy.c file */
-
-/* Replace your current t_texture *load_enemy_texture with this: */
 t_texture	*load_enemy_texture_original(t_game *game)
 {
 	t_texture	*texture;
@@ -30,7 +27,6 @@ t_texture	*load_enemy_texture_original(t_game *game)
 	return (texture);
 }
 
-/* Update your add_enemy function to initialize animation fields */
 void	add_enemy(t_game *game, t_vector pos)
 {
 	t_enemy_list	*new;
@@ -46,11 +42,8 @@ void	add_enemy(t_game *game, t_vector pos)
 	new->enemy.texture = load_enemy_texture_original(game);
 	new->enemy.detection_radius = 5.0;
 	new->enemy.last_attack = 0.0;
-	
-	/* Initialize animation fields */
 	new->enemy.current_frame = 0;
 	new->enemy.last_frame_change = get_time_ms();
-	
 	new->next = NULL;
 	if (!game->enemies)
 		game->enemies = new;
