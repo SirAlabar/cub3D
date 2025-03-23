@@ -5,14 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/22 19:40:02 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/26 17:37:53 by marsoare         ###   ########.fr       */
+/*   Created: 2025/03/23 14:02:16 by marsoare          #+#    #+#             */
+/*   Updated: 2025/03/23 14:02:27 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include <cub3d.h>
 
-t_texture	*load_enemy_texture(t_game *game)
+/* Update only the add_enemy function in your enemy.c file */
+
+/* Replace your current t_texture *load_enemy_texture with this: */
+t_texture	*load_enemy_texture_original(t_game *game)
 {
 	t_texture	*texture;
 	char		*path;
@@ -27,6 +30,7 @@ t_texture	*load_enemy_texture(t_game *game)
 	return (texture);
 }
 
+/* Update your add_enemy function to initialize animation fields */
 void	add_enemy(t_game *game, t_vector pos)
 {
 	t_enemy_list	*new;
@@ -39,9 +43,14 @@ void	add_enemy(t_game *game, t_vector pos)
 	new->enemy.health = 3;
 	new->enemy.alive = true;
 	new->enemy.dir = vector_create(0, 0);
-	new->enemy.texture = load_enemy_texture(game);
+	new->enemy.texture = load_enemy_texture_original(game);
 	new->enemy.detection_radius = 5.0;
 	new->enemy.last_attack = 0.0;
+	
+	/* Initialize animation fields */
+	new->enemy.current_frame = 0;
+	new->enemy.last_frame_change = get_time_ms();
+	
 	new->next = NULL;
 	if (!game->enemies)
 		game->enemies = new;
@@ -52,36 +61,4 @@ void	add_enemy(t_game *game, t_vector pos)
 			temp = temp->next;
 		temp->next = new;
 	}
-}
-
-bool	c_enemy_mx(t_game *game, t_vector n_pos, t_vector dir, double padd)
-{
-	int	map_x;
-	int	map_y;
-
-	map_x = (int)(n_pos.x + dir.x * padd);
-	map_y = (int)(n_pos.y);
-	if (map_x >= 0 && map_x < game->map.width
-		&& map_y >= 0 && map_y < game->map.height)
-	{
-		if (game->map.grid[map_y][map_x] == '0')
-			return (true);
-	}
-	return (false);
-}
-
-bool	c_enemy_my(t_game *game, t_vector n_pos, t_vector dir, double padd)
-{
-	int	map_x;
-	int	map_y;
-
-	map_x = (int)(n_pos.x);
-	map_y = (int)(n_pos.y + dir.y * padd);
-	if (map_x >= 0 && map_x < game->map.width
-		&& map_y >= 0 && map_y < game->map.height)
-	{
-		if (game->map.grid[map_y][map_x] == '0')
-			return (true);
-	}
-	return (false);
 }

@@ -28,6 +28,7 @@ int	engine_render_frame(t_game *game)
 	while (++x < WINDOW_WIDTH)
 		draw_wall_scanline(game, &rays[x], x, &scanline_buffer);
 	update_enemies(game);
+	update_enemy_animations(game); /* Add this line to update animations */
 	update_damage_effect(game);
 	draw_enemies(game);
 	handle_movement(game);

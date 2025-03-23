@@ -24,48 +24,66 @@ bool	check_short_distance(t_game *game, t_vector enemy_pos)
 	return (false);
 }
 
-bool	ray_trace_to_enemy(t_game *game, t_ray_data *ray,
-	t_vector enemy_pos, int max_steps)
+bool ray_trace_to_enemy(t_game *game, t_ray_data *ray,
+    t_vector enemy_pos, int max_steps)
 {
-	int	step_count;
-
-	step_count = 0;
-	while (step_count < max_steps)
-	{
-		step_count++;
-		if ((int)ray->map_x == (int)enemy_pos.x
-			&& (int)ray->map_y == (int)enemy_pos.y)
-			return (true);
-		if (has_hit_wall(game, ray))
-			return (false);
-		if (!is_in_bounds(game, ray->map_x, ray->map_y))
-			return (false);
-		if (ray->side_dist.x < ray->side_dist.y)
-		{
-			ray->side_dist.x += ray->delta_dist.x;
-			ray->map_x += ray->step.x;
-		}
-		else
-		{
-			ray->side_dist.y += ray->delta_dist.y;
-			ray->map_y += ray->step.y;
-		}
-	}
-	return (false);
+    int step_count;
+    
+    step_count = 0;
+    while (step_count < max_steps)
+    {
+        step_count++;
+        
+        // Check if we've reached the enemy's position
+        if ((int)ray->map_x == (int)enemy_pos.x
+            && (int)ray->map_y == (int)enemy_pos.y)
+            return true;
+        
+        // Check if we hit a wall
+        if (has_hit_wall(game, ray))
+            return false;
+        
+        // Check if we're out of bounds
+        if (!is_in_bounds(game, ray->map_x, ray->map_y))
+            return false;
+        
+        // DDA algorithm - move to next cell
+        if (ray->side_dist.x < ray->side_dist.y)
+        {
+            ray->side_dist.x += ray->delta_dist.x;
+            ray->map_x += ray->step.x;
+        }
+        else
+        {
+            ray->side_dist.y += ray->delta_dist.y;
+            ray->map_y += ray->step.y;
+        }
+    }
+    
+    // If we've reached max steps without finding the enemy or hitting a wall
+    // Consider the path free - this prevents enemies from disappearing
+    return true;
 }
 
-bool	is_enemy_visible(t_game *game, t_vector enemy_pos)
+bool is_enemy_visible(t_game *game, t_vector enemy_pos)
 {
-	t_ray_data	ray;
-	int			max_steps;
-	double		distance;
-
-	if (check_short_distance(game, enemy_pos))
-		return (true);
-	distance = vector_dist(game->p1.pos, enemy_pos);
-	ray = init_ray_data(game, enemy_pos);
-	max_steps = (int)(distance * 2) + 10;
-	return (ray_trace_to_enemy(game, &ray, enemy_pos, max_steps));
+    t_ray_data ray;
+    int max_steps;
+    double distance;
+    
+    // Short distance check - always visible if very close
+    distance = vector_dist(game->p1.pos, enemy_pos);
+    if (distance < 2.0)
+        return true;
+    
+    // Initialize ray for ray casting
+    ray = init_ray_data(game, enemy_pos);
+    
+    // Increase max steps for more accurate ray tracing
+    max_steps = (int)(distance * 4) + 20; // Increased from distance*2+10
+    
+    // Perform ray tracing to check if there's a wall between player and enemy
+    return ray_trace_to_enemy(game, &ray, enemy_pos, max_steps);
 }
 
 void	adjust_angle_and_fov(double *angle, double *effective_fov,
