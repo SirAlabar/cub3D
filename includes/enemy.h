@@ -42,6 +42,10 @@ typedef struct s_ray_data
 	int			map_y;
 }				t_ray_data;
 
+#define NUM_ENEMY_FRAMES 2
+#define ENEMY_ANIM_SPEED 200 // milliseconds between frames
+
+/* Update your t_enemy structure */
 typedef struct s_enemy
 {
 	t_vector	pos;
@@ -49,11 +53,19 @@ typedef struct s_enemy
 	int			health;
 	bool		alive;
 	double		dist_to_player;
-	t_texture	*texture;
+	t_texture	*texture;        /* Keep original texture pointer */
 	double		detection_radius;
 	double		last_attack;
+	
+	/* Animation fields */
+	int			current_frame;     /* Current animation frame */
+	double		last_frame_change; /* When the last frame change occurred */
 }				t_enemy;
 
+/* Add these function prototypes at the end of your enemy.h file */
+void	load_enemy_texture(t_game *game, t_enemy *enemy, int frame);
+void	update_enemy_animation(t_enemy *enemy, t_game *game);
+void	update_enemy_animations(t_game *game);
 typedef struct s_draw_params
 {
 	t_game		*game;
@@ -136,5 +148,6 @@ void			adjust_angle_and_fov(double *angle, double *effective_fov,
 int				calculate_sprite_height(double dist);
 void			draw_enemy(t_game *game, t_enemy_list *current, double fov);
 void			check_and_draw_enemy(t_game *g, t_enemy_list *crnt, double fov);
+bool			should_render_enemy(t_game *game, t_enemy *enemy);
 
 #endif
