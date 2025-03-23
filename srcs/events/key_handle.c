@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:20:50 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/03/09 11:51:25 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/22 20:01:39 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	handle_movement(t_game *game)
 
 int	key_press(int keycode, t_game *game)
 {
-	printf("Key pressed: %d\n", keycode);
 	if (keycode == KEY_ESC)
 		close_window(game);
 	else if (keycode == KEY_E)

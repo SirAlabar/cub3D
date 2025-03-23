@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/27 20:45:30 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/22 20:55:12 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ static void	free_texture_ptrs(t_texture *n, t_texture *s, t_texture *e,
 		free(e);
 	if (w)
 		free(w);
+}
+
+void	init_door(t_door *door, int x, int y, t_door_orientation orient)
+{
+	door->position = (t_vector_i){y, x};
+	door->state = DOOR_CLOSED;
+	door->orient = orient;
+	door->animation = 0.0;
+	door->active = true;
+	door->timer = 0.0;
+	door->locked = false;
+	door->key_type = 0;
 }
 
 void	init_textures_game(t_game *game)
@@ -52,6 +64,18 @@ void	init_textures_game(t_game *game)
 	game->east = *east;
 	game->west = *west;
 	free_texture_ptrs(north, south, east, west);
+}
+
+void	init_start_menu(t_game *game)
+{
+	if (!init_menu(game))
+	{
+		ft_printf("Error\nFailed to initialize menu\n");
+		cleanup_game(game);
+		exit(1);
+	}
+	game->menu->active = 1;
+	setup_hooks(game);
 }
 
 void	init_game(t_game *game)

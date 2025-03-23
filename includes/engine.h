@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/27 20:34:11 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/22 20:48:43 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 # include <stdbool.h>
 # include <sys/time.h>
 
-typedef struct s_game	t_game;
+typedef struct s_game		t_game;
+typedef struct s_animation	t_animation;
 
 typedef struct s_vector_i
 {
@@ -140,6 +141,8 @@ typedef struct s_door_system
 }						t_door_system;
 
 # define DOOR1 "assets/texture/doorlab.xpm"
+# define DOOR2 "assets/texture/iron_door.xpm"
+# define DOOR3 "assets/texture/iron_door2.xpm"
 # define DOOR_SPEED 0.5
 # define DOOR_STAY_OPEN_TIME 4.0
 # define DOOR_INTERACTION_DISTANCE 1.9
@@ -174,6 +177,11 @@ void					draw_wall(t_game *game, t_ray *ray, int x);
 void					update_ray_position(t_ray *ray);
 void					get_hit_position(t_ray *ray, t_game *game,
 							double orig_dist, double *door_hit_pos);
+
+// draw_menu.c
+void					draw_select_gun(t_game *game, int position);
+void					draw_animation(t_game *game, t_animation *anim);
+void					draw_menu(t_game *game);
 
 // draw_skybox.c
 void					draw_skybox(t_game *game);
