@@ -61,6 +61,6 @@ void	init_door(t_door *door, int x, int y, t_door_orientation orient);
  * Utility Functions
  */
 void	*keys_else(t_game *game, double *dir_x, double *dir_y);
-void	toggle_weapon(t_game *game);
+void	switch_weapon(t_game *game);
 
 #endif

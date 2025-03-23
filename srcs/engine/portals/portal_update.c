@@ -40,50 +40,17 @@ static void	update_portal_state(t_portal_wall *portal, double delta_time)
 	}
 }
 
-// void	update_portals(t_game *game)
-// {
-// 	t_portal_system	*ps;
-// 	double			delta_time;
-	
-// 	ps = game->portal_system;
-// 	delta_time = 1.0 / 60.0;
-	
-// 	if (!ps)
-// 		return ;
-		
-// 	update_portal_state(&ps->blue_portal, delta_time);
-// 	update_portal_state(&ps->orange_portal, delta_time);
-	
-// 	check_portal_teleport(game);
-// }
-
 void update_portals(t_game *game)
 {
     t_portal_system *ps;
     double delta_time;
-    static int debug_counter = 0;
-    
 
     ps = game->portal_system;
     delta_time = 1.0 / 60.0;
     if (!ps)
     return;
-    if (debug_counter++ % 100 == 0)
-    {
-        printf("DEBUG: Updating portals - Blue: %s (%s), Orange: %s (%s)\n", 
-               ps->blue_portal.active ? "active" : "inactive",
-               ps->blue_portal.state == PORTAL_OPEN ? "open" : 
-               (ps->blue_portal.state == PORTAL_OPENING ? "opening" : 
-               (ps->blue_portal.state == PORTAL_CLOSING ? "closing" : "closed")),
-               ps->orange_portal.active ? "active" : "inactive",
-               ps->orange_portal.state == PORTAL_OPEN ? "open" : 
-               (ps->orange_portal.state == PORTAL_OPENING ? "opening" : 
-               (ps->orange_portal.state == PORTAL_CLOSING ? "closing" : "closed")));
-    }
-
     update_portal_state(&ps->blue_portal, delta_time);
     update_portal_state(&ps->orange_portal, delta_time);
-    
     check_portal_teleport(game);
 }
 
@@ -91,7 +58,6 @@ void handle_portal_gun_input(t_game *game, int keycode)
 {
     if (!game || !game->portal_system)
         return;
-        
     if (keycode == MOUSE_LEFT)
     {
         game->portal_system->gun.active_portal = PORTAL_BLUE;
@@ -104,7 +70,7 @@ void handle_portal_gun_input(t_game *game, int keycode)
     }
     else if (keycode == KEY_Q)
     {
-        toggle_weapon(game);
+        switch_weapon(game);
     }
 }
 

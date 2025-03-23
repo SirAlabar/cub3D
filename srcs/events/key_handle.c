@@ -82,7 +82,7 @@ int	key_press(int keycode, t_game *game)
             game->p1.is_firing = 1;
     }
 	else if (keycode == KEY_Q)
-		toggle_weapon(game);
+		switch_weapon(game);
 	return (0);
 }
 

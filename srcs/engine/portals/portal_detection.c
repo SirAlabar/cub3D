@@ -74,7 +74,7 @@ t_portal_hit	detect_wall_for_portal(t_game *game)
 	t_ray			ray;
 	t_portal_hit	hit;
 	int				max_dist;
-    printf("DEBUG: Starting wall detection for portal\n");
+
 	init_hit(&hit);
 	init_ray(&ray, game, WINDOW_WIDTH / 2);
 	step_side_dist(&ray, game);
@@ -95,12 +95,8 @@ t_portal_hit	detect_wall_for_portal(t_game *game)
 		}
         if (!is_within_map_bounds(game, ray.map_x, ray.map_y))
             break;
-        printf("DEBUG: Checking position (%d, %d) - tile: %c\n", 
-            ray.map_x, ray.map_y, game->map.grid[ray.map_x][ray.map_y]);
-
 		if (game->map.grid[ray.map_x][ray.map_y] == '1')
         {
-            printf("DEBUG: Wall found\n");
             get_wall_info(&ray, game, &hit);
         }
 		max_dist--;

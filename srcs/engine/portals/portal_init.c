@@ -84,7 +84,6 @@ static void	init_portal_wall(t_portal_wall *portal)
 
 void	init_portal_system(t_game *game)
 {
-    printf("DEBUG: Initializing portal system\n");
 	game->portal_system = ft_calloc(1, sizeof(t_portal_system));
 	if (!game->portal_system)
 	{
@@ -98,7 +97,6 @@ void	init_portal_system(t_game *game)
 	game->portal_system->orange_portal.type = PORTAL_ORANGE;
 	game->portal_system->portal_active = false;
 	game->portal_system->last_teleport_time = 0;
-    printf("DEBUG: Portal system initialized successfully\n");
 }
 
 void	cleanup_portal_system(t_game *game)
