@@ -33,8 +33,8 @@ static void	handle_menu_selection(t_game *game)
 	}
 	else
 	{
-		cleanup_menu(game);
 		close_window(game);
+		cleanup_menu(game);
 	}
 }
 

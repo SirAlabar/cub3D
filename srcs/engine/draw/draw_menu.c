@@ -50,48 +50,58 @@ void	draw_select_gun(t_game *game, int position)
 	}
 }
 
-static void	set_animation_position(t_texture *frame, t_vector *pos)
+static void	process_animation_pixels(t_game *game, t_texture *frame,
+		t_vector pos)
 {
-	pos->x = (WINDOW_WIDTH - frame->width) >> 1;
-	pos->y = (WINDOW_HEIGHT - frame->height) >> 1;
-}
+	t_vector_i	pixel;
+	int			color;
 
-void	draw_animation(t_game *game, t_animation *anim)
-{
-	t_texture		*current_frame;
-	t_vector		pos;
-	t_vector_i		pixel;
-	unsigned int	color;
-
-	if (!anim->active || anim->frame_count == 0)
-		return ;
-	current_frame = &anim->frames[anim->current_frame];
-	if (!current_frame->img)
-		return ;
-	set_animation_position(current_frame, &pos);
 	pixel.y = -1;
-	while (++pixel.y < current_frame->height)
+	while (++pixel.y < frame->height)
 	{
 		pixel.x = -1;
-		while (++pixel.x < current_frame->width)
+		while (++pixel.x < frame->width)
 		{
 			if (pos.x + pixel.x < 0 || pos.x + pixel.x >= WINDOW_WIDTH || pos.y
 				+ pixel.y < 0 || pos.y + pixel.y >= WINDOW_HEIGHT)
 				continue ;
-			color = get_texture_pixel(current_frame, pixel.x, pixel.y);
+			color = get_texture_pixel(frame, pixel.x, pixel.y);
 			if ((color & 0xFFC0CB) != 0)
 				draw_pixel(game, pos.x + pixel.x, pos.y + pixel.y, color);
 		}
 	}
 }
 
+void	draw_animation(t_game *game, t_animation *anim)
+{
+	t_texture	*current_frame;
+	t_vector	pos;
+
+	if (!anim)
+		return ;
+	if (!anim->active || anim->frame_count == 0)
+		return ;
+	current_frame = &anim->frames[anim->current_frame];
+	if (!current_frame->img)
+		return ;
+	pos.x = (WINDOW_WIDTH - current_frame->width) >> 1;
+	pos.y = (WINDOW_HEIGHT - current_frame->height) >> 1;
+	process_animation_pixels(game, current_frame, pos);
+}
+
 void	draw_menu(t_game *game)
 {
+	if (!game || !game->menu)
+		return ;
 	update_menu_animations(game);
-	draw_animation(game, &game->menu->bg);
-	draw_animation(game, &game->menu->cube);
-	draw_animation(game, &game->menu->start_btn.anim);
-	draw_animation(game, &game->menu->exit_btn.anim);
+	if (game->menu->bg.active)
+		draw_animation(game, &game->menu->bg);
+	if (game->menu->cube.active)
+		draw_animation(game, &game->menu->cube);
+	if (game->menu->start_btn.anim.active)
+		draw_animation(game, &game->menu->start_btn.anim);
+	if (game->menu->exit_btn.anim.active)
+		draw_animation(game, &game->menu->exit_btn.anim);
 	if (game->menu->selected_option == 0)
 		draw_select_gun(game, 1);
 	else

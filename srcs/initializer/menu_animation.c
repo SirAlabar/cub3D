@@ -16,6 +16,8 @@ void	update_menu_animations(t_game *g)
 {
 	double	current_time;
 
+	if (!g || !g->menu)
+		return ;
 	current_time = get_time_ms();
 	if (g->menu->bg.active && g->menu->bg.frame_count > 1)
 	{
@@ -32,6 +34,8 @@ void	update_menu_animations(t_game *g)
 
 void	update_cube_exit_animations(t_game *g, double current_time)
 {
+	if (!g || !g->menu)
+		return ;
 	if (g->menu->cube.active && g->menu->cube.frame_count > 1)
 	{
 		if (current_time
@@ -47,20 +51,26 @@ void	update_cube_exit_animations(t_game *g, double current_time)
 
 void	update_start_exit_animations(t_game *game, double current_time)
 {
+	if (!game || !game->menu)
+		return ;
 	if (game->menu->selected_option == 0)
 	{
 		update_button_animation(&game->menu->start_btn.anim, current_time);
-		game->menu->exit_btn.anim.current_frame = 0;
+		if (game->menu->exit_btn.anim.frame_count > 0)
+			game->menu->exit_btn.anim.current_frame = 0;
 	}
 	else
 	{
 		update_button_animation(&game->menu->exit_btn.anim, current_time);
-		game->menu->start_btn.anim.current_frame = 0;
+		if (game->menu->start_btn.anim.frame_count > 0)
+			game->menu->start_btn.anim.current_frame = 0;
 	}
 }
 
 void	update_button_animation(t_animation *anim, double current_time)
 {
+	if (!anim)
+		return ;
 	if (anim->active && anim->frame_count > 1)
 	{
 		if (current_time - anim->last_update >= anim->frame_duration)
