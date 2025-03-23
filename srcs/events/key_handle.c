@@ -77,10 +77,12 @@ int	key_press(int keycode, t_game *game)
 	else if (keycode == KEY_RIGHT)
 		game->p1.keys.right = 1;
 	else if (keycode == KEY_SPACE)
-		game->p1.is_firing = 1;
+    {
+        if (game->active_weapon == 0)
+            game->p1.is_firing = 1;
+    }
 	else if (keycode == KEY_Q)
-        handle_portal_gun_input(game, keycode);
-		handle_firing(game);
+		toggle_weapon(game);
 	return (0);
 }
 

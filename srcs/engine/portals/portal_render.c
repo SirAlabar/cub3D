@@ -304,23 +304,23 @@ void render_portals(t_game *game, t_ray *rays, t_scanline *buffer)
 // 	}
 // }
 
-void	draw_portal_gun(t_game *game)
+void    draw_portal_gun(t_game *game)
 {
-	t_texture	*gun;
-	t_vector_i	dim;
-	t_vector_i	gun_pos;
-	t_vector_i	pos;
+    t_texture   *current_gun;
+    t_vector_i  dim;
+    t_vector_i  gun_pos;
+    t_vector_i  pos;
 
-	gun = game->portal_system->gun.gun_texture;
-	if (!gun || !gun->img)
-		return ;
-	dim = get_weapon_dimensions(gun);
-	gun_pos = get_weapon_position(dim);
-	pos.y = gun_pos.y - 1;
-	while (++pos.y < gun_pos.y + dim.y)
-	{
-		pos.x = gun_pos.x - 1;
-		while (++pos.x < gun_pos.x + dim.x)
-			draw_weapon_pixel(game, pos, gun_pos, gun);
-	}
+    current_gun = &game->portal_system->gun.gun_anim[game->portal_system->gun.current_frame];
+    if (!current_gun || !current_gun->img)
+        return ;
+    dim = get_weapon_dimensions(current_gun);
+    gun_pos = get_weapon_position(dim);
+    pos.y = gun_pos.y - 1;
+    while (++pos.y < gun_pos.y + dim.y)
+    {
+        pos.x = gun_pos.x - 1;
+        while (++pos.x < gun_pos.x + dim.x)
+            draw_weapon_pixel(game, pos, gun_pos, current_gun);
+    }
 }

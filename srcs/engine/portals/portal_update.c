@@ -80,9 +80,7 @@ void update_portals(t_game *game)
                (ps->orange_portal.state == PORTAL_OPENING ? "opening" : 
                (ps->orange_portal.state == PORTAL_CLOSING ? "closing" : "closed")));
     }
-    
 
-    
     update_portal_state(&ps->blue_portal, delta_time);
     update_portal_state(&ps->orange_portal, delta_time);
     
@@ -106,7 +104,7 @@ void handle_portal_gun_input(t_game *game, int keycode)
     }
     else if (keycode == KEY_Q)
     {
-        toggle_portal_gun(game);
+        toggle_weapon(game);
     }
 }
 

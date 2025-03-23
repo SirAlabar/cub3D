@@ -183,6 +183,7 @@ typedef struct s_game
 	t_vector		last_mouse;
 	double			mouse_sensi;
 	double			fps;
+	int				active_weapon;
 	t_enemy_list	*enemies;
 	t_door_system	*door_system;
 	t_portal_system *portal_system;

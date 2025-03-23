@@ -9,6 +9,7 @@
 /*   Updated: 2025/03/09 11:38:31 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <cub3d.h>
 
 int	engine_render_frame(t_game *game)
@@ -33,13 +34,26 @@ int	engine_render_frame(t_game *game)
 	update_damage_effect(game);
 	draw_enemies(game);
 	handle_movement(game);
-	update_weapon_animation(game);
-	// draw_weapon(game);
+    if (game->active_weapon == 0)
+	{
+        update_weapon_animation(game);
+	}
+    else if (game->portal_system)
+	{
+        update_portal_gun_animation(game);
+	}
 	if (game->portal_system && game->portal_system->portal_active)
     {
         render_portals(game, rays, &scanline_buffer);
     }
-	draw_portal_gun(game);
+    if (game->active_weapon == 0)
+	{
+        draw_weapon(game);
+	}
+    else if (game->portal_system)
+	{
+        draw_portal_gun(game);
+	}
 	draw_minimap(game);
 	draw_health_bar(game);
 	draw_damage_effect(game);

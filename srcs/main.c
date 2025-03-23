@@ -25,16 +25,22 @@ int mouse_press(int button, int x, int y, t_game *game)
     
     printf("Mouse button pressed: %d at position (%d, %d)\n", button, x, y);
     
-    if (!game || !game->portal_system)
+    if (!game)
         return (0);
         
-	else if (button == MOUSE_LEFT || button == MOUSE_RIGHT)
-	{
-		printf("DEBUG: game pointer = %p\n", (void*)game);
-		printf("DEBUG: portal_system pointer = %p\n", (void*)game->portal_system);
-		if (game->portal_system)
-			handle_portal_gun_input(game, button);
-	}
+    if (button == MOUSE_LEFT)
+    {
+        if (game->active_weapon == 0)
+            game->p1.is_firing = 1;
+        else if (game->portal_system)
+            handle_portal_gun_input(game, button);
+    }
+    else if (button == MOUSE_RIGHT)
+    {
+        if (game->portal_system && game->active_weapon == 1)
+            handle_portal_gun_input(game, button);
+    }
+    
     return (0);
 }
 

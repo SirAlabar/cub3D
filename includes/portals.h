@@ -24,9 +24,9 @@
 
 // /* PORTAL Gun Frames*/
 # define PORTAL_GUN "./assets/sprites/plasma/portal_gun.xpm"
-// # define GUN_F2 "./assets/sprites/pistol/PIS1.xpm"
-// # define GUN_F3 "./assets/sprites/pistol/PIS2.xpm"
-// # define GUN_F4 "./assets/sprites/pistol/PISFA0.xpm"
+# define PORTAL_GUN2 "./assets/sprites/plasma/portal_gun2.xpm"
+# define PORTAL_GUN3 "./assets/sprites/plasma/portal_gun3.xpm"
+# define PORTAL_GUN4 "./assets/sprites/plasma/portal_gun4.xpm"
 
 typedef enum e_cardinal
 {
@@ -55,10 +55,12 @@ typedef struct s_portal_gun
 {
 	t_texture	*blue_texture;
 	t_texture	*orange_texture;
-	t_texture	*gun_texture;
+    t_texture   *gun_anim;
 	double		last_fire_time;
 	double		cooldown;
 	int			active_portal;
+    int         current_frame;
+    int         is_firing;	
 }	t_portal_gun;
 
 typedef struct s_portal_wall
@@ -106,8 +108,8 @@ bool		is_valid_portal_surface(t_game *game, t_portal_hit hit);
 
 /* portal_creation.c */
 void		create_portal(t_game *game, t_portal_hit hit, t_portal_type type);
-void		toggle_portal_gun(t_game *game);
 void		fire_portal_gun(t_game *game);
+void		update_portal_gun_animation(t_game *game);
 
 /* portal_update.c */
 void		update_portals(t_game *game);

@@ -30,6 +30,7 @@ typedef enum e_sound_type
 
 # define SOUND_FILE_DOOR "./assets/sound/door.wav"
 # define SOUND_FILE_GUN "./assets/sound/gun_shot.wav"
+# define SOUND_FILE_PORTAL "./assets/sound/portal_effect.wav"
 # define SOUND_FILE_FOOTSTEP "./assets/sound/footstep.wav"
 # define SOUND_FILE_AMBIENT "./assets/sound/ambient.wav"
 # define SOUND_FILE_HURT "./assets/sound/hurt.wav"
