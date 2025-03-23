@@ -31,6 +31,7 @@ typedef struct s_keys
 int		key_press(int keycode, t_game *game);
 int		key_release(int keycode, t_game *game);
 void	handle_movement(t_game *game);
+int		menu_key_press(int keycode, t_game *game);
 
 /*
  * Player Movement Functions

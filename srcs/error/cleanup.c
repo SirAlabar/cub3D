@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:26:53 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/03/09 16:43:12 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/22 19:54:45 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	cleanup_game(t_game *game)
 {
 	if (!game)
 		return ;
+	cleanup_menu(game);
 	cleanup_textures(game);
 	cleanup_enemies(game);
 	cleanup_door_system(game);

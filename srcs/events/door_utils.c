@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:20:50 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/22 21:47:02 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/22 19:15:30 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_door	*find_door(t_game *game, int x, int y)
 {
 	int	i;
 
+	if (!game || !game->door_system || !game->door_system->doors)
+		return (NULL);
 	i = 0;
 	while (i < game->door_system->door_count)
 	{
