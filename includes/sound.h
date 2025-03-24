@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 18:00:00 by yourname          #+#    #+#             */
-/*   Updated: 2025/03/09 13:14:18 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:03:19 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef enum e_sound_type
 # define SOUND_FILE_GUN "./assets/sound/gun_shot.wav"
 # define SOUND_FILE_PORTAL "./assets/sound/portal_effect.wav"
 # define SOUND_FILE_FOOTSTEP "./assets/sound/footstep.wav"
-# define SOUND_FILE_AMBIENT "./assets/sound/ambient.wav"
+# define SOUND_FILE_AMBIENT "./assets/sound/ambient2.wav"
 # define SOUND_FILE_HURT "./assets/sound/hurt.wav"
 # define SOUND_FILE_ENEMY "./assets/sound/enemy.wav"
 

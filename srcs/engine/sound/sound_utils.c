@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sound.c                                            :+:      :+:    :+:   */
+/*   sound_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yourname <yourname@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 18:00:00 by yourname          #+#    #+#             */
-/*   Updated: 2025/03/04 18:00:00 by yourname         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:10:21 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_sound_empty(t_game *game)
 		return ;
 	game->sounds->door = 0;
 	game->sounds->gun = 0;
+	game->sounds->portal = 0;
 	game->sounds->footstep = 0;
 	game->sounds->ambient = 0;
 	game->sounds->hurt = 0;
@@ -34,7 +35,7 @@ int	init_sounds(t_game *game)
 		ft_printf("Warning: Failed to load door sound\n");
 	if (!load_sound(&game->sounds->gun, SOUND_FILE_GUN))
 		ft_printf("Warning: Failed to load gun sound\n");
-	if (!load_sound(&game->sounds->gun, SOUND_FILE_PORTAL))
+	if (!load_sound(&game->sounds->portal, SOUND_FILE_PORTAL))
 		ft_printf("Warning: Failed to load portal sound\n");
 	if (!load_sound(&game->sounds->footstep, SOUND_FILE_FOOTSTEP))
 		ft_printf("Warning: Failed to load footstep sound\n");
