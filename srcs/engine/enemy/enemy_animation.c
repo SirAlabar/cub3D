@@ -15,6 +15,7 @@
 void	load_enemy_texture(t_game *game, t_enemy *enemy, int frame)
 {
 	char	*path;
+	(void)	frame;
 
 	path = ft_calloc(50, sizeof(char));
 	if (!path)
