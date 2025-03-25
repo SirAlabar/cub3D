@@ -21,7 +21,7 @@ t_texture	*load_enemy_texture_original(t_game *game)
 	texture = texture_create(game, path);
 	if (!texture)
 	{
-		ft_printf("Error\nFailed to load enemy texture: %s\n", path);
+		ft_printf(RED"Error\nFailed to load enemy texture: %s\n", path);
 		return (NULL);
 	}
 	return (texture);

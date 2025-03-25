@@ -26,6 +26,7 @@
 # include <menu.h>
 # include <sound.h>
 # include <events.h>
+# include <portals.h>
 # include <minimap.h>
 # include <fcntl.h>
 # include <libft.h>
@@ -64,12 +65,15 @@
 # define KEY_S XK_s
 # define KEY_D XK_d
 # define KEY_E XK_e
+# define KEY_Q XK_q
 # define KEY_LEFT XK_Left
 # define KEY_RIGHT XK_Right
 # define KEY_UP XK_Up
 # define KEY_DOWN XK_Down
 # define KEY_SPACE XK_space
 # define KEY_ENTER XK_Return
+# define KEY_LSHIFT XK_Shift_L
+# define KEY_RSHIFT XK_Shift_R
 # define MOUSE_LEFT 1
 # define MOUSE_RIGHT 3
 //# endif
@@ -183,8 +187,10 @@ typedef struct s_game
 	t_vector		last_mouse;
 	double			mouse_sensi;
 	double			fps;
+	int				active_weapon;
 	t_enemy_list	*enemies;
-	t_door_system	*door_system;	
+	t_door_system	*door_system;
+	t_portal_system	*portal_system;
 	t_damage_effect	damage_effect;
 	t_sounds		*sounds;
 	t_menu			*menu;	

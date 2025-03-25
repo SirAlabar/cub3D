@@ -1,0 +1,37 @@
+(lldb) target create "./cub3D"
+Current executable set to '/home/marsoare/CommonCore/cub3D/cub3D' (x86_64).
+(lldb) settings set -- target.run-args  "./maps/valid/valid1.cub"
+Process 15198 launched: '/home/marsoare/CommonCore/cub3D/cub3D' (x86_64)
+[assets/texture/north.xpm]
+[assets/texture/south.xpm]
+[assets/texture/west.xpm]
+[assets/texture/east.xpm]
+Warning: Failed to load portal sound
+Error loading sound: ./assets/sound/enemy.wav (Error code: 2)
+Warning: Failed to load enemy sound
+Error: Failed to load texture: 
+Error
+Failed to load enemy texture: 
+Error: Failed to load texture: 
+Error
+Failed to load enemy texture: 
+Error: Failed to load texture: 
+Error
+Failed to load enemy texture: 
+Error: Failed to load texture: 
+Error
+Failed to load enemy texture: 
+Error: Failed to load texture: 
+Error
+Failed to load enemy texture: 
+Process 15198 stopped
+* thread #1, name = 'cub3D', stop reason = signal SIGSEGV: invalid address (fault address: 0x10)
+    frame #0: 0x000000000040c362 cub3D`draw_enemy_stripe(game=0x00000000004254c0, enemy=0x00000000004f88c0, s=0x00007ffffffc2d00, stripe=618) at enemy_draw2.c:52:32
+   49  	
+   50  		p.game = game;
+   51  		setup_draw_params(&p, enemy, s, stripe);
+-> 52  		if (p.tex.x >= 0 && p.tex.x < enemy->texture->width)
+    		                              ^
+   53  			draw_stripe_pixels(&p, s);
+   54  	}
+

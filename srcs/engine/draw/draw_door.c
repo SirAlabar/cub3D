@@ -47,12 +47,19 @@ void	update_doors(t_game *game)
 	double			delta_time;
 	int				i;
 
+	if (!game)
+		return ;
 	ds = game->door_system;
+	if (!ds)
+		return ;
 	delta_time = 1.0 / 60.0;
 	i = 0;
 	while (i < ds->door_count)
 	{
-		update_door_state(&ds->doors[i], delta_time);
+		if (ds->doors && i < ds->door_count)
+		{
+			update_door_state(&ds->doors[i], delta_time);
+		}
 		i++;
 	}
 }

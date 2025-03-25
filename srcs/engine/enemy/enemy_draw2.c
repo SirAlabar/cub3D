@@ -17,6 +17,12 @@ void	setup_draw_params(t_draw_params *p, t_enemy *enemy,
 {
 	p->enemy = enemy;
 	p->pos.x = stripe;
+
+	if (!enemy->texture)
+	{
+		p->tex.x = 0;
+		return ;
+	}
 	p->tex.x = (int)(256 * (stripe - (-s->width / 2 + s->screen_x))
 			* enemy->texture->width / s->width) / 256;
 }
@@ -43,6 +49,9 @@ void	draw_enemy_stripe(t_game *game, t_enemy *enemy,
 
 	p.game = game;
 	setup_draw_params(&p, enemy, s, stripe);
+	if (!enemy || !enemy->texture) {
+		return;
+	}
 	if (p.tex.x >= 0 && p.tex.x < enemy->texture->width)
 		draw_stripe_pixels(&p, s);
 }

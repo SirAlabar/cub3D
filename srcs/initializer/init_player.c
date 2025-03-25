@@ -74,7 +74,7 @@ void	init_player(t_game *game)
 	set_player_orientation(game);
 	game->p1.move_speed = MOVE_SPEED;
 	game->p1.rot_speed = ROTATION_SPEED;
-	game->p1.keys = (t_keys){0, 0, 0, 0, 0, 0};
+	game->p1.keys = (t_keys){0, 0, 0, 0, 0, 0, 0};
 	game->p1.current_frame = 0;
 	game->p1.is_firing = 0;
 	game->p1.last_step = get_time_ms();

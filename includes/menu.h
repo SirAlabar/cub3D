@@ -29,11 +29,11 @@ typedef struct s_texture	t_texture;
 # define CUBE5 "./assets/texture/cube5.xpm"
 
 # define START1 "./assets/texture/start1.xpm"
-# define START2 "./assets/texture/start1.xpm"
-# define START3 "./assets/texture/start1.xpm"
-# define START4 "./assets/texture/start1.xpm"
-# define START5 "./assets/texture/start1.xpm"
-# define START6 "./assets/texture/start1.xpm"
+# define START2 "./assets/texture/start2.xpm"
+# define START3 "./assets/texture/start3.xpm"
+# define START4 "./assets/texture/start4.xpm"
+# define START5 "./assets/texture/start5.xpm"
+# define START6 "./assets/texture/start6.xpm"
 
 # define EXIT1 "./assets/texture/exit1.xpm"
 # define EXIT2 "./assets/texture/exit2.xpm"
