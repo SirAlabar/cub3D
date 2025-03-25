@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 21:20:50 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/03/22 20:01:39 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:49:27 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static int	handle_key_weapons(int keycode, t_game *game)
 	{
 		if (game->active_weapon == 0)
 			game->p1.is_firing = 1;
+		if (game->sounds && game->sounds->is_initialized)
+			play_sound(game->sounds->gun);
 		return (1);
 	}
 	else if (keycode == KEY_Q)

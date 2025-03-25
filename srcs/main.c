@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 16:37:53 by marsoare          #+#    #+#             */
-/*   Updated: 2025/03/22 17:51:52 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:13:09 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,25 @@ int	mouse_press(int button, int x, int y, t_game *game)
 	(void)y;
 	if (!game)
 		return (0);
-	if (button == MOUSE_LEFT)
+	if (button == MOUSE_LEFT && game->active_weapon == 0)
 	{
-		if (game->active_weapon == 0)
-			game->p1.is_firing = 1;
-		else if (game->portal_system)
-			handle_portal_gun_input(game, button);
+		game->p1.is_firing = 1;
+		if (game->sounds && game->sounds->is_initialized)
+			play_sound(game->sounds->gun);
 	}
-	else if (button == MOUSE_RIGHT)
+	else if (button == MOUSE_LEFT && game->active_weapon == 1
+		&& game->portal_system)
 	{
-		if (game->portal_system && game->active_weapon == 1)
-			handle_portal_gun_input(game, button);
+		handle_portal_gun_input(game, button);
+		if (game->sounds && game->sounds->is_initialized)
+			play_sound(game->sounds->portal);
+	}
+	else if (button == MOUSE_RIGHT && game->portal_system
+		&& game->active_weapon == 1)
+	{
+		handle_portal_gun_input(game, button);
+		if (game->sounds && game->sounds->is_initialized)
+			play_sound(game->sounds->portal);
 	}
 	return (0);
 }
