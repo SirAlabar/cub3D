@@ -63,7 +63,7 @@ typedef struct s_enemy
 }				t_enemy;
 
 /* Add these function prototypes at the end of your enemy.h file */
-void	load_enemy_texture(t_game *game, t_enemy *enemy, int frame);
+void	load_enemy_texture(t_game *game, t_enemy *enemy, char *path);
 void	update_enemy_animation(t_enemy *enemy, t_game *game);
 void	update_enemy_animations(t_game *game);
 typedef struct s_draw_params
