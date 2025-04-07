@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_colors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 18:10:02 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/11 19:08:10 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/04/07 20:29:00 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ void	assign_color(t_game *game, char *line)
 {
 	int	color;
 
-	if (ft_strncmp(line, "FLOOR", 5) == 0 || ft_strncmp(line, "SKYBOX", 6) == 0)
-		return ;
 	if (line[0] == 'F')
 	{
 		color = rgb_to_hex(line);
@@ -86,13 +84,6 @@ static void	process_map_lines(t_game *game, char **floor, char **ceiling)
 	line = get_next_line(game->fd_map);
 	while (line)
 	{
-		if (ft_strncmp(line, "FLOOR", 5) == 0 || ft_strncmp(line, "SKYBOX",
-				6) == 0)
-		{
-			free(line);
-			line = get_next_line(game->fd_map);
-			continue ;
-		}
 		while (line && line[0] != 'F' && line[0] != 'C')
 		{
 			free(line);

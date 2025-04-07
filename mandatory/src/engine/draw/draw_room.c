@@ -3,86 +3,85 @@
 /*                                                        :::      ::::::::   */
 /*   draw_room.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:54:33 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/03/24 19:47:03 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/15 20:27:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-static void	draw_ceiling(t_game *game)
+int	draw_background(t_game *game)
 {
 	int	x;
 	int	y;
 
-	y = -1;
-	while (++y < (WINDOW_HEIGHT >> 1))
+	if (!game || !game->img)
 	{
-		x = -1;
-		while (++x < WINDOW_WIDTH)
-			draw_pixel(game, x, y, game->map.ceiling_color);
+		ft_printf("Error: Game or image pointer is NULL\n");
+		return (0);
 	}
-}
-
-static void	draw_solid_floor(t_game *game)
-{
-	int	x;
-	int	y;
-
-	y = (WINDOW_HEIGHT >> 1) - 1;
+	y = -1;
 	while (++y < WINDOW_HEIGHT)
 	{
 		x = -1;
 		while (++x < WINDOW_WIDTH)
-			draw_pixel(game, x, y, game->map.floor_color);
+		{
+			if (y < WINDOW_HEIGHT / 2)
+				draw_pixel(game, x, y, game->map.ceiling_color);
+			else
+				draw_pixel(game, x, y, game->map.floor_color);
+		}
 	}
-}
-
-int	draw_background(t_game *game)
-{
-	if (!game || (!game->addr[game->current_buffer]))
-		return (0);
-	if (game->skybox.img)
-		draw_skybox(game);
-	else
-		draw_ceiling(game);
-	if (game->floor.img)
-		draw_floor(game);
-	else
-		draw_solid_floor(game);
 	return (1);
 }
 
-void	update_ray_position(t_ray *ray)
+static void	draw_wall_segment(t_game *game, t_ray *ray, double tex_pos, int x)
 {
-	if (ray->side == 0)
+	int			y;
+	int			tex_y;
+	double		shade;
+	t_texture	*tex;
+	int			color;
+
+	tex = get_wall_texture(ray, game);
+	y = ray->draw_start;
+	while (y < ray->draw_end)
 	{
-		ray->side_dist.x += ray->delta_dist.x;
-		ray->map_x += ray->step_x;
+		tex_y = (int)tex_pos & (tex->height - 1);
+		shade = 1.0 / (1.0 + ray->perp_wall_dist * 0.04);
+		color = get_texture_pixel(tex, ray->tex_x, tex_y);
+		color = apply_shade(color, shade);
+		draw_pixel(game, x, y, color);
+		tex_pos += ray->step;
+		y++;
 	}
-	else
-	{
-		ray->side_dist.y += ray->delta_dist.y;
-		ray->map_y += ray->step_y;
-	}
-	ray->hit = false;
-	ray->is_door = false;
 }
 
-void	get_hit_position(t_ray *ray, t_game *game, double orig_dist,
-		double *door_hit_pos)
+void	draw_wall(t_game *game, t_ray *ray, int x)
 {
-	t_vector	hit_pos;
+	double		wallx;
+	double		tex_pos;
+	t_texture	*tex;
 
-	hit_pos = vector_create(ray->dir.x, ray->dir.y);
-	hit_pos = vector_mult(hit_pos, orig_dist);
-	hit_pos = vector_add(vector_create(game->p1.pos.x, game->p1.pos.y),
-			hit_pos);
+	tex = get_wall_texture(ray, game);
 	if (ray->side == 0)
-		*door_hit_pos = hit_pos.y;
+		wallx = game->p1.pos.y + ray->perp_wall_dist * ray->dir.y;
 	else
-		*door_hit_pos = hit_pos.x;
-	*door_hit_pos -= floor(*door_hit_pos);
+		wallx = game->p1.pos.x + ray->perp_wall_dist * ray->dir.x;
+	wallx -= floor(wallx);
+	ray->tex_x = (int)(wallx * tex->width);
+	if (ray->side == 0 && ray->dir.x < 0)
+	{
+		ray->tex_x = tex->width - ray->tex_x - 1;
+	}
+	if (ray->side == 1 && ray->dir.y > 0)
+	{
+		ray->tex_x = tex->width - ray->tex_x - 1;
+	}
+	ray->step = 1.0 * tex->height / ray->line_height;
+	tex_pos = (ray->draw_start - WINDOW_HEIGHT / 2 + ray->line_height / 2)
+		* ray->step;
+	draw_wall_segment(game, ray, tex_pos, x);
 }

@@ -25,42 +25,46 @@ NAME_BONUS = cub3D_bonus
 CC      = cc
 FLAGS   = -Wall -Wextra -Werror -g
 IFLAGS  = -Iincludes/ -I$(LIBFT_DIR)/src -I$(MLX_DIR)
-IFLAGS_BONUS = -Iincludes/ -I$(LIBFT_DIR)/src -I$(MLX_DIR) -I$(BASS_DIR)/includes
+IFLAGS_BONUS = -Iincludes_bonus/ -I$(LIBFT_DIR)/src -I$(MLX_DIR) -I$(BASS_DIR)/includes
 LIBFT   = ${LIBFT_DIR}/src/libft.a
 MLX     = ${MLX_DIR}/libmlx.a
 BASS    = ${BASS_DIR}/libbass.a
 
 # Source files
-MAND_SRCS = mandatory/src/main.c \
-            mandatory/src/checker/checker.c \
-            mandatory/src/checker/flood_fill.c \
-            mandatory/src/checker/flood_utils.c \
-            mandatory/src/engine/double_buffer.c \
-            mandatory/src/engine/engine_render.c \
-            mandatory/src/engine/timer.c \
-            mandatory/src/engine/draw/draw_basic.c \
-            mandatory/src/engine/draw/draw_room.c \
-            mandatory/src/engine/raycast/raycast_dda.c \
-            mandatory/src/engine/raycast/raycast_utils.c \
-            mandatory/src/engine/texture/texture_manager.c \
-            mandatory/src/engine/texture/texture_clear.c \
-            mandatory/src/engine/vector/vector_basic_operations.c \
-            mandatory/src/engine/vector/vector_constructor.c \
-            mandatory/src/engine/vector/vector_operations.c \
-            mandatory/src/error/cleanup.c \
-            mandatory/src/error/error.c \
-            mandatory/src/events/key_handle.c \
-            mandatory/src/events/mouse_move.c \
-            mandatory/src/events/player_move.c \
-            mandatory/src/events/player_move_utils.c \
-            mandatory/src/initializer/init_colors.c \
-            mandatory/src/initializer/init_game.c \
-            mandatory/src/initializer/init_map.c \
-            mandatory/src/initializer/init_map2.c \
-            mandatory/src/initializer/init_player.c \
-            mandatory/src/initializer/init_textures.c \
-            mandatory/src/parse/validate_map.c
-
+MAND_SRCS = mandatory/src/checker/checker.c \
+			mandatory/src/checker/flood_fill.c \
+			mandatory/src/checker/flood_utils.c \
+			mandatory/src/engine/engine_render.c \
+			mandatory/src/engine/timer.c \
+			mandatory/src/engine/draw/draw_basic.c \
+			mandatory/src/engine/draw/draw_room.c \
+			mandatory/src/engine/draw/draw_weapon.c \
+			mandatory/src/engine/draw/scanline_rendering.c \
+			mandatory/src/engine/raycast/raycast_dda.c \
+			mandatory/src/engine/texture/texture_animation.c \
+			mandatory/src/engine/texture/texture_clear.c \
+			mandatory/src/engine/texture/texture_manager.c \
+			mandatory/src/engine/vector/vector_angular_operations.c \
+			mandatory/src/engine/vector/vector_basic_operations.c \
+			mandatory/src/engine/vector/vector_constructor.c \
+			mandatory/src/engine/vector/vector_int_operations.c \
+			mandatory/src/engine/vector/vector_operations.c \
+			mandatory/src/error/cleanup.c \
+			mandatory/src/error/error.c \
+			mandatory/src/events/key_handle.c \
+			mandatory/src/events/mouse_move.c \
+			mandatory/src/events/player_move.c \
+			mandatory/src/events/utils.c \
+			mandatory/src/initializer/init_colors.c \
+			mandatory/src/initializer/init_colors2.c \
+			mandatory/src/initializer/init_game.c \
+			mandatory/src/initializer/init_map.c \
+			mandatory/src/initializer/init_player.c \
+			mandatory/src/initializer/init_textures.c \
+			mandatory/src/initializer/printers.c \
+			mandatory/src/initializer/read_error.c \
+			mandatory/src/main.c \
+			mandatory/src/parse/validate_map.c
 
 # Bonus source files
 BONUS_SRCS = bonus/srcs/main.c \
@@ -153,7 +157,7 @@ BONUS_SRCS = bonus/srcs/main.c \
 
 INCLUDE = -Iincludes/ -I${LIBFT_DIR}/src -L${LIBFT_DIR}/src -I${MLX_DIR} ${MLXINC}
 
-INCLUDE_BONUS = -Iincludes/ -I${LIBFT_DIR}/src -L${LIBFT_DIR}/src -I${MLX_DIR} ${MLXINC} -I${BASS_DIR}/includes
+INCLUDE_BONUS = -Iincludes_bonus/ -I${LIBFT_DIR}/src -L${LIBFT_DIR}/src -I${MLX_DIR} ${MLXINC} -I${BASS_DIR}/includes
 
 MAND_OBJS = ${MAND_SRCS:.c=.o}
 BONUS_OBJS = ${BONUS_SRCS:.c=.o}
@@ -309,16 +313,14 @@ clean:
 	@echo
 
 fclean: clean
-	@rm -f ${NAME} ${NAME_BONUS}
-	@if [ -d "${LIBFT_DIR}" ] && [ -f "${LIBFT_DIR}/src/Makefile" ]; then \
-		${MAKE} --silent -C ${LIBFT_DIR}/src fclean; \
-	fi
-	@if [ -d "${MLX_DIR}" ] && [ -f "${MLX_DIR}/Makefile" ]; then \
-		${MAKE} --silent -C ${MLX_DIR} clean; \
-	fi
+	@rm -rf ${LIBFT_DIR}
+	@rm -rf ${MLX_DIR}
+	@rm -rf ${BASS_DIR}
+	@rm -f ${NAME} $(NAME_BONUS)
 	@if [ -d "${BASS_DIR}" ] && [ -f "${BASS_DIR}/Makefile" ]; then \
 		${MAKE} --silent -C ${BASS_DIR} fclean; \
 	fi
+	@git submodule deinit -f --all 2>/dev/null || true
 	@clear
 	@echo
 	@echo "$(RED)┏┓┓ ┏┓┏┓┳┓┏┓┳┓"
@@ -326,17 +328,6 @@ fclean: clean
 	@echo "┗┛┗┛┗┛┛┗┛┗┗┛┻┛"
 	@echo
 
-deep_clean: fclean
-	@rm -rf ${LIBFT_DIR}
-	@rm -rf ${MLX_DIR}
-	@rm -rf ${BASS_DIR}
-	@git submodule deinit -f --all 2>/dev/null || true
-	@clear
-	@echo
-	@echo "$(RED)┏┓┓ ┏┓┏┓┳┓┏┓┳┓ (DEEP CLEAN)"
-	@echo "┃ ┃ ┣ ┣┫┃┃┣ ┃┃"
-	@echo "┗┛┗┛┗┛┛┗┛┗┗┛┻┛"
-	@echo
 
 # Memory leak check based on OS
 leak: ${NAME}
@@ -351,7 +342,7 @@ endif
 leak_bonus: ${NAME_BONUS}
 ifeq ($(UNAME_S),Linux)
 	@echo "$(YELLOW)Running Valgrind for leak check (bonus)...$(RESET)"
-	@$(VALGRIND) ./${NAME_BONUS} maps/valid/valid1.cub
+	@$(VALGRIND) --suppressions=audio_suppressions.supp ./${NAME_BONUS} maps/valid/valid1.cub
 else ifeq ($(UNAME_S),Darwin)
 	@echo "$(YELLOW)Running leak check for macOS (bonus)...$(RESET)"
 	@leaks --atExit -- ./${NAME_BONUS} maps/valid/valid1.cub

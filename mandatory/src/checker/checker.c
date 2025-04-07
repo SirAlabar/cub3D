@@ -28,18 +28,22 @@ bool	ft_iscolor(char c)
 	return (false);
 }
 
-void	validate_color(char *line, int *color_count)
+int	count_color(int flag)
 {
-	int	i;
+	static int	count = 0;
 
-	i = 0;
-	while (line && line[i] && ft_isspace(line[i]))
-		i++;
-	if (line && line[i])
+	if (flag)
+		count++;
+	return (count);
+}
+
+void	validate_color(char *line, int *i)
+{
+	while (line && line[*i] && ft_isspace(line[*i]))
+		(*i)++;
+	if (line && line[*i] && ft_iscolor(line[*i]))
 	{
-		if ((line[i] == 'F' || line[i] == 'C') && (line[i + 1] == ' '
-				|| ft_isspace(line[i + 1])))
-			(*color_count)++;
+		count_color(1);
 	}
 	free(line);
 }
@@ -47,20 +51,21 @@ void	validate_color(char *line, int *color_count)
 bool	check_colors(t_game *game)
 {
 	char	*line;
-	int		color_count;
+	int		i;
 
-	color_count = 0;
+	i = 0;
 	game->fd_map = open(game->map_path, O_RDONLY);
 	if (game->fd_map == -1)
 		return (read_error(game), exit(1), false);
 	line = get_next_line(game->fd_map);
 	while (line)
 	{
-		validate_color(line, &color_count);
+		validate_color(line, &i);
+		i = 0;
 		line = get_next_line(game->fd_map);
 	}
 	close(game->fd_map);
-	if (color_count != 2)
+	if (count_color(0) != 2)
 		return (ft_putendl_fd("Error\ncolors", 2), false);
 	return (true);
 }

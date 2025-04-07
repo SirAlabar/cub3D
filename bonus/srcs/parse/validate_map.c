@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 17:15:56 by marsoare          #+#    #+#             */
-/*   Updated: 2024/12/22 13:57:31 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/04/07 19:02:01 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ bool	valid_extension(char *map)
 {
 	const char	*dot = ft_strrchr(map, '.');
 
-	if (!dot)
+	if (!dot || dot == map)
 		return (false);
 	if (ft_strcmp((char *)dot, ".cub") == 0)
 		return (true);

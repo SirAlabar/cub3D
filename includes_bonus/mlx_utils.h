@@ -1,32 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_utils_mac.c                                    :+:      :+:    :+:   */
+/*   mlx_utils.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/01 18:30:01 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/01 18:30:17 by hluiz-ma         ###   ########.fr       */
+/*   Created: 2025/01/01 18:27:55 by hluiz-ma          #+#    #+#             */
+/*   Updated: 2025/01/01 18:35:30 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#ifndef MLX_UTILS_H
+# define MLX_UTILS_H
 
-void	cleanup_mlx(void *mlx)
-{
-	free(mlx);
-}
+void	cleanup_mlx(void *mlx);
+void	destroy_window(void *mlx, void *win);
 
-void	destroy_window(void *mlx, void *win)
-{
-	mlx_clear_window(mlx, win);
-	mlx_destroy_window(mlx, win);
-}
-
-// void	*init_window(void *mlx, int width, int height, char *title)
-// {
-// 	void	*win;
-
-// 	win = mlx_new_window(mlx, width, height, title);
-// 	return (win);
-// }
+#endif

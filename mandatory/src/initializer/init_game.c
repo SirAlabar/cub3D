@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:03:35 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/03/22 20:55:12 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/01/14 22:08:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,6 @@ static void	free_texture_ptrs(t_texture *n, t_texture *s, t_texture *e,
 		free(e);
 	if (w)
 		free(w);
-}
-
-void	init_door(t_door *door, int x, int y, t_door_orientation orient)
-{
-	door->position = (t_vector_i){y, x};
-	door->state = DOOR_CLOSED;
-	door->orient = orient;
-	door->animation = 0.0;
-	door->active = true;
-	door->timer = 0.0;
-	door->locked = false;
-	door->key_type = 0;
 }
 
 void	init_textures_game(t_game *game)
@@ -66,35 +54,15 @@ void	init_textures_game(t_game *game)
 	free_texture_ptrs(north, south, east, west);
 }
 
-void	init_start_menu(t_game *game)
-{
-	if (!init_menu(game))
-	{
-		ft_printf("Error\nFailed to initialize menu\n");
-		cleanup_game(game);
-		exit(1);
-	}
-	game->menu->active = 1;
-	setup_hooks(game);
-}
-
 void	init_game(t_game *game)
 {
 	init_map(game);
 	if (!is_map_valid(game))
-		(printf(RED "Error\ninvalid map\n" DEFAULT));
+		(printf(RED"Error\ninvalid map\n"DEFAULT));
 	init_player(game);
-	init_door_system(game);
 	init_textures(game);
 	init_textures_game(game);
-	init_skybox(game);
-	init_floor(game);
-	init_sounds(game);
-	init_enemies(game);
-	init_portal_system(game);
-	init_damage_feedback(game);
 	game->last_mouse = vector_create(-1.0, -1.0);
-	game->mouse_sensi = 0.004;
+	game->mouse_sensi = 0.003;
 	game->fps = 0;
-	game->active_weapon = 0;
 }
