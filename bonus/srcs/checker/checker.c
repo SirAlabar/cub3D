@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 19:45:38 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/12 14:20:40 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:44:51 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,14 @@ bool	check_colors(t_game *game)
 bool	checker(t_game *game, char *path)
 {
 	game->map_path = path;
+	game->map.grid = NULL;
+	game->map.width = 0;
+	game->map.height = 0;
+	game->map.floor_color = 9134906;
+	game->map.ceiling_color = 11272191;
+	game->map.player_start = '\0';
+	game->map.player_pos = vector_create(0, 0);
+	init_colors(game);
 	if (!check_colors(game))
 		return (cleanup_game(game), false);
 	return (true);

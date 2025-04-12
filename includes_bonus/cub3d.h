@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:49:34 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/03/22 15:08:09 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:32:09 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,7 @@ void			assign_color(t_game *game, char *line);
 int				get_number(int flag);
 void			norm_norm(t_game *game, char *line, char **c, char **f);
 int				rgb_to_hex(char *color);
+void			handle_color_error(t_game *game, char *message);
 //initialize/init_map.c
 void			init_map(t_game *game);
 char			**read_map(t_game *game);

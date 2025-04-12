@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_colors2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 19:03:17 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/11 19:06:16 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:30:18 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,11 @@ void	norm_norm(t_game *game, char *line, char **c, char **f)
 		*c = line;
 		assign_color(game, line);
 	}
+}
+
+void	handle_color_error(t_game *game, char *message)
+{
+	ft_putendl_fd(message, 2);
+	cleanup_game(game);
+	exit(1);
 }
