@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:53:43 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/01/11 13:53:46 by hluiz-ma         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:50:55 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ void	init_map(t_game *game)
 	game->map.player_start = '\0';
 	game->map.player_pos = vector_create(0, 0);
 	read_map(game);
+	if (!contains_valid_characters(game))
+	{
+		printf("Map contains invalid characters\n");
+		cleanup_game(game);
+		exit(1);
+	}
 }
 
 int	get_map_width(t_game *game)

@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   flood_utils.c                                      :+:      :+:    :+:   */
+/*   valid_chars.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/12 17:34:50 by marsoare          #+#    #+#             */
-/*   Updated: 2025/04/12 15:56:58 by marsoare         ###   ########.fr       */
+/*   Created: 2025/04/12 15:31:22 by marsoare          #+#    #+#             */
+/*   Updated: 2025/04/12 15:57:18 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-char	**copy_map(char **original, int height)
+bool	contains_valid_characters(t_game *game)
 {
-	char	**copy;
-	int		i;
+	int	i;
+	int	j;
+	int	current_line_length;
 
-	copy = (char **)ft_calloc(sizeof(char *), height);
-	if (!copy)
-		return (NULL);
 	i = -1;
-	while (++i < height)
+	while (++i < game->map.height)
 	{
-		if (original[i])
-			copy[i] = ft_strdup(original[i]);
-		if (!copy[i])
+		j = -1;
+		current_line_length = 0;
+		while (game->map.grid[i][current_line_length] != '\0')
+			current_line_length++;
+		while (++j < current_line_length)
 		{
-			while (--i >= 0)
-				free(copy[i]);
-			free(copy);
-			return (NULL);
+			if (!ft_strchr(VALID_MAP_CHARS, game->map.grid[i][j])
+					&& game->map.grid[i][j] != '\n')
+			{
+				return (false);
+			}
 		}
 	}
-	return (copy);
+	return (true);
 }

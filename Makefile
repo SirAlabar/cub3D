@@ -34,6 +34,7 @@ BASS    = ${BASS_DIR}/libbass.a
 MAND_SRCS = mandatory/src/checker/checker.c \
 			mandatory/src/checker/flood_fill.c \
 			mandatory/src/checker/flood_utils.c \
+			mandatory/src/checker/valid_chars.c \
 			mandatory/src/engine/engine_render.c \
 			mandatory/src/engine/timer.c \
 			mandatory/src/engine/draw/draw_basic.c \
