@@ -6,7 +6,7 @@
 /*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:53:43 by hluiz-ma          #+#    #+#             */
-/*   Updated: 2025/04/12 15:50:55 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/04/12 16:01:43 by marsoare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	init_map(t_game *game)
 	read_map(game);
 	if (!contains_valid_characters(game))
 	{
-		printf("Map contains invalid characters\n");
+		printf("Error\nMap contains invalid characters\n");
 		cleanup_game(game);
 		exit(1);
 	}
