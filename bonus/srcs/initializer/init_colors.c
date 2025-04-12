@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_colors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marsoare <marsoare@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: hluiz-ma <hluiz-ma@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 18:10:02 by marsoare          #+#    #+#             */
-/*   Updated: 2025/01/11 19:08:10 by marsoare         ###   ########.fr       */
+/*   Updated: 2025/04/12 15:48:24 by hluiz-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ void	assign_color(t_game *game, char *line)
 		color = rgb_to_hex(line);
 		if (color == -1)
 		{
-			ft_putendl_fd("Error\nfloor)", 2);
-			get_number(42);
+			handle_color_error(game, "Error\nInvalid floor color");
 		}
 		game->map.floor_color = color;
 	}
@@ -72,8 +71,7 @@ void	assign_color(t_game *game, char *line)
 		color = rgb_to_hex(line);
 		if (color == -1)
 		{
-			ft_putendl_fd("Error\nceiling", 2);
-			get_number(42);
+			handle_color_error(game, "Error\nInvalid ceiling color");
 		}
 		game->map.ceiling_color = color;
 	}
